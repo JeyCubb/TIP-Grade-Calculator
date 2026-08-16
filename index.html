@@ -1502,13 +1502,15 @@
         neededExam50 = (targetPct - prevPercent * PREV_WEIGHT - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
       }
 
-      const examMin = 50;
-      const examMax = 100;
+      const rawUserScore = examScoreEl.value.trim();
+      const hasUserTypedScore = rawUserScore !== '';
 
       if (neededExam50 <= examMin) {
-        examScoreEl.value = '0.00';
-        examScoreEl.classList.add('green');
-        recomputeAll();
+        if (!hasUserTypedScore) {
+          examScoreEl.value = '0.00';
+          examScoreEl.classList.add('green');
+          recomputeAll();
+        }
         summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score (0.00 / ${total.toFixed(0)}).`;
         saveUserData();
         return;
@@ -1521,6 +1523,13 @@
 
       const neededScore = ((neededExam50 - 50) / 50) * total;
       const clampedScore = Math.min(Math.max(neededScore, 0), total);
+
+      if (hasUserTypedScore) {
+        const userScore = parseFloat(rawUserScore) || 0;
+        summaryEl.textContent = `💡 Minimum score needed for ${targetEq}: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\n(Your typed score: ${userScore.toFixed(2)} / ${total.toFixed(0)}).`;
+        saveUserData();
+        return;
+      }
 
       examScoreEl.value = clampedScore.toFixed(2);
       examScoreEl.classList.add('green');
