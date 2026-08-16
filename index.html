@@ -10,25 +10,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* ==========================================================================
-       Design System & Design Tokens (Dark / Light Theme)
+       Design System & Design Tokens (Coppery Orange Dark / Light Theme)
        ========================================================================== */
     :root {
-      --bg-main: #0b0f19;
-      --bg-header: rgba(15, 23, 42, 0.9);
-      --bg-card: #151d30;
-      --bg-card-hover: #1c2740;
-      --bg-input: #0f172a;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --border-color-hover: rgba(255, 255, 255, 0.2);
+      --bg-main: #0d0c0b;
+      --bg-header: rgba(24, 18, 14, 0.9);
+      --bg-card: #1c1511;
+      --bg-card-hover: #261e18;
+      --bg-input: #120e0b;
+      --border-color: rgba(249, 115, 22, 0.12);
+      --border-color-hover: rgba(249, 115, 22, 0.25);
 
-      --text-primary: #f1f5f9;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
+      --text-primary: #fcf6f2;
+      --text-secondary: #a39287;
+      --text-muted: #6e5e54;
 
-      --accent-primary: #3b82f6;
-      --accent-primary-hover: #2563eb;
-      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-      --accent-glow: rgba(59, 130, 246, 0.25);
+      --accent-primary: #f97316;
+      --accent-primary-hover: #ea580c;
+      --accent-gradient: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
+      --accent-glow: rgba(249, 115, 22, 0.3);
 
       --color-success: #10b981;
       --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -37,9 +37,9 @@
       --color-warning: #f59e0b;
       --color-warning-bg: rgba(245, 158, 11, 0.15);
 
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.5);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.6);
 
       --radius-sm: 8px;
       --radius-md: 12px;
@@ -50,21 +50,21 @@
     }
 
     [data-theme="light"] {
-      --bg-main: #f8fafc;
+      --bg-main: #fdfaf8;
       --bg-header: rgba(255, 255, 255, 0.9);
       --bg-card: #ffffff;
-      --bg-card-hover: #f1f5f9;
-      --bg-input: #f1f5f9;
-      --border-color: #e2e8f0;
-      --border-color-hover: #cbd5e1;
+      --bg-card-hover: #fcf1eb;
+      --bg-input: #f8ece5;
+      --border-color: #e5d5cb;
+      --border-color-hover: #d6bfae;
 
-      --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --text-primary: #1c130d;
+      --text-secondary: #594539;
+      --text-muted: #8c7365;
 
-      --accent-primary: #2563eb;
-      --accent-primary-hover: #1d4ed8;
-      --accent-glow: rgba(37, 99, 235, 0.15);
+      --accent-primary: #ea580c;
+      --accent-primary-hover: #c2410c;
+      --accent-glow: rgba(234, 88, 12, 0.2);
 
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -349,7 +349,7 @@
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      background: linear-gradient(135deg, #ea580c 0%, #9a3412 100%);
       box-shadow: 0 6px 18px var(--accent-glow);
     }
 
@@ -380,8 +380,8 @@
       align-items: center;
       padding: 0.25rem 0.75rem;
       border-radius: var(--radius-full);
-      background: rgba(59, 130, 246, 0.12);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.25);
       color: var(--accent-primary);
       font-weight: 700;
       font-size: 0.75rem;
@@ -521,7 +521,7 @@
     }
 
     .final-grade-card {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(29, 78, 216, 0.12) 100%);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(194, 65, 12, 0.12) 100%);
       border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
       padding: 1rem;
@@ -642,7 +642,7 @@
         </div>
 
         <!-- Subject Selector -->
-        <div class="user-profile-bar" style="border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.08);" title="Active Subject">
+        <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
           <select id="subject-selector" title="Select Subject"></select>
           <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.2rem 0.45rem; font-size: 0.8rem;" title="Add New Subject">+</button>
