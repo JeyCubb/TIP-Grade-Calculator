@@ -581,136 +581,145 @@
        Mobile Responsive Layout ( <= 768px )
        ========================================================================== */
     @media (max-width: 768px) {
+      html, body {
+        overflow-x: hidden;
+        width: 100%;
+      }
+
       body {
-        padding: 0.4rem 0.4rem 0.6rem 0.4rem;
+        padding: 0.5rem 0.5rem 1rem 0.5rem;
       }
 
       .app-container {
-        gap: 0.5rem;
+        gap: 0.65rem;
+        width: 100%;
+        max-width: 100%;
       }
 
+      /* Stack into 1 clean vertical column on mobile phone */
       .main-grid {
         order: 1;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
       }
 
       .mode-card {
         order: 2;
-        padding: 0.4rem 0.65rem;
+        padding: 0.5rem 0.75rem;
         border-radius: var(--radius-md);
-        gap: 0.4rem;
+        gap: 0.5rem;
       }
 
       .app-header {
         order: 3;
-        padding: 0.5rem 0.75rem;
+        padding: 0.6rem 0.85rem;
         border-radius: var(--radius-md);
-        gap: 0.4rem;
+        gap: 0.5rem;
       }
 
       .brand-title {
-        font-size: 0.95rem;
+        font-size: 1rem;
       }
 
       .brand-icon {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
       }
 
       .user-profile-bar {
-        padding: 0.2rem 0.45rem;
+        padding: 0.25rem 0.55rem;
       }
 
       .user-profile-bar select {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
       }
 
       .theme-toggle-btn {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
       }
 
       .segmented-label {
-        padding: 0.3rem 0.55rem;
-        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        font-size: 0.775rem;
       }
 
       .prev-term-row input {
-        width: 55px;
+        width: 60px;
       }
 
       .card {
-        padding: 0.65rem;
+        padding: 0.85rem;
         border-radius: var(--radius-md);
       }
 
       .card-header {
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.5rem;
       }
 
       .card-title {
-        font-size: 0.875rem;
-        gap: 0.3rem;
-      }
-
-      .category {
-        padding: 0.5rem;
-        margin-top: 0.4rem;
+        font-size: 0.95rem;
         gap: 0.4rem;
       }
 
+      .category {
+        padding: 0.6rem;
+        margin-top: 0.5rem;
+        gap: 0.45rem;
+      }
+
       .cat-name {
-        min-width: 60px;
-        font-size: 0.775rem;
-        padding: 0.35rem 0.45rem;
+        flex: 2;
+        min-width: 90px;
+        font-size: 0.825rem;
+        padding: 0.45rem 0.55rem;
       }
 
       .cat-weight-wrapper {
-        min-width: 45px;
+        min-width: 55px;
       }
 
       .cat-weight {
-        font-size: 0.775rem;
-        padding: 0.35rem 0.35rem;
+        font-size: 0.825rem;
+        padding: 0.45rem 0.45rem;
       }
 
       .item-row {
-        padding: 0.3rem 0.35rem;
-        gap: 0.25rem;
+        padding: 0.4rem 0.5rem;
+        gap: 0.4rem;
       }
 
       .item-inputs input {
-        width: 52px;
-        padding: 0.25rem 0.35rem;
-        font-size: 0.75rem;
+        width: 64px;
+        padding: 0.35rem 0.45rem;
+        font-size: 0.8rem;
       }
 
       .item-50 {
-        font-size: 0.675rem;
-        padding: 0.15rem 0.25rem;
+        font-size: 0.725rem;
+        padding: 0.2rem 0.35rem;
       }
 
       .result-dashboard {
-        padding: 0.6rem;
-        gap: 0.35rem;
+        padding: 0.75rem;
+        gap: 0.45rem;
       }
 
       .stat-row {
-        font-size: 0.725rem;
+        font-size: 0.775rem;
       }
 
       .final-grade-card {
-        padding: 0.45rem;
+        padding: 0.6rem;
       }
 
       .final-val {
-        font-size: 1.45rem;
+        font-size: 1.55rem;
       }
 
       .eq-badge {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.7rem;
+        font-size: 0.8rem;
+        padding: 0.225rem 0.85rem;
       }
     }
   </style>
@@ -741,7 +750,7 @@
       <section class="card" id="card-exam-section">
         <div class="card-header">
           <div class="card-title">
-            <span>Exam & Computation</span>
+            <span>Exam & Solver</span>
             <span class="pill" id="pill-exam">50%</span>
           </div>
         </div>
@@ -765,7 +774,7 @@
 
         <div style="display: flex; flex-direction: column; gap: 0.55rem;">
           <label>
-            Target Equivalence
+            Target Grade
             <select id="target-eq">
               <option value="3.00" selected>3.00 (75% Pass)</option>
               <option value="2.75">2.75 (78%)</option>
