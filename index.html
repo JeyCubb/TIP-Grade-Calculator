@@ -624,24 +624,29 @@
       }
 
       .cat-header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
         gap: 0.2rem;
       }
 
       .cat-name {
-        flex: 2;
-        min-width: 50px;
-        font-size: 0.725rem;
-        padding: 0.2rem 0.3rem;
+        width: 100%;
+        flex: 1 0 100%;
+        font-size: 0.775rem;
+        padding: 0.25rem 0.35rem;
       }
 
       .cat-weight-wrapper {
-        min-width: 35px;
+        min-width: 40px;
+        margin-top: 0.1rem;
       }
 
       .cat-weight {
         font-size: 0.725rem;
         padding: 0.2rem 0.2rem;
-        width: 32px;
+        width: 36px;
       }
 
       .item-row {
