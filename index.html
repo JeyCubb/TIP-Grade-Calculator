@@ -1529,7 +1529,7 @@
       const mode = currentMode();
 
       if (mode === 'term' && prevPercentVal === null) {
-        summaryEl.textContent = 'Enter Prev Term Average to compute.';
+        summaryEl.textContent = '⚠️ Enter Prev Term Average % to compute.';
         return;
       }
 
@@ -1652,6 +1652,10 @@
 
     examScoreEl.addEventListener('input', () => {
       examScoreEl.classList.remove('green');
+      if (currentMode() === 'term' && prevGradeEl.value.trim() === '') {
+        getPrevPercent(true);
+        summaryEl.textContent = '⚠️ Enter Prev Term Average % for Midterms/Finals.';
+      }
       recomputeAll();
       saveUserData();
     });
