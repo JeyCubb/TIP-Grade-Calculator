@@ -1584,11 +1584,17 @@
       recomputeAll();
       saveUserData();
     });
+    examScoreEl.addEventListener('blur', () => {
+      computeMinimumExamNeeded();
+    });
     examTotalEl.addEventListener('input', () => {
       examScoreEl.classList.remove('green');
       examTotalEl.classList.remove('error-input');
       recomputeAll();
       saveUserData();
+    });
+    examTotalEl.addEventListener('blur', () => {
+      computeMinimumExamNeeded();
     });
     prevGradeEl.addEventListener('input', () => {
       prevGradeEl.classList.remove('error-input');
@@ -1597,6 +1603,7 @@
       saveUserData();
     });
     targetEqEl.addEventListener('change', () => {
+      computeMinimumExamNeeded();
       saveUserData();
     });
 
