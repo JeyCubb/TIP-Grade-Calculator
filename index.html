@@ -791,7 +791,6 @@
             <span style="font-weight: 700; color: var(--text-muted);">/</span>
             <input type="number" id="exam-total" placeholder="Total" value="50" min="0" style="flex: 1;" title="Exam Total" />
           </div>
-          <span id="exam-avg" class="avg">Exam Avg: 0.00%</span>
         </div>
 
         <div class="hr"></div>
@@ -1431,7 +1430,6 @@
         percent50 = (score / total) * 50 + 50;
       }
 
-      examAvgEl.textContent = `Exam Avg: ${percent50.toFixed(2)}% (${score.toFixed(0)}/${total.toFixed(0)})`;
       return percent50;
     }
 
