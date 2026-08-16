@@ -916,8 +916,8 @@
     const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v2';
     const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
     
-    let activeUser = 'Unknown';
-    let userProfiles = ['Unknown'];
+    let activeUser = 'No Profile';
+    let userProfiles = ['No Profile'];
 
     let activeSubject = '';
     let userSubjects = [];
@@ -926,7 +926,7 @@
     const saveIndicatorEl = document.getElementById('save-indicator');
 
     function triggerSaveToast() {
-      if (!saveIndicatorEl || activeUser === 'Unknown') return;
+      if (!saveIndicatorEl || activeUser === 'No Profile') return;
       saveIndicatorEl.classList.add('visible');
       clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
@@ -945,17 +945,17 @@
         } catch (e) {}
       }
 
-      if (!userProfiles.includes('Unknown')) {
-        userProfiles.unshift('Unknown');
+      if (!userProfiles.includes('No Profile')) {
+        userProfiles.unshift('No Profile');
       }
 
-      activeUser = 'Unknown';
+      activeUser = 'No Profile';
       renderUserProfileDropdown();
       initSubjectProfilesForActiveUser();
     }
 
     function initSubjectProfilesForActiveUser() {
-      if (activeUser === 'Unknown') {
+      if (activeUser === 'No Profile') {
         userSubjects = [];
         activeSubject = '';
         renderSubjectDropdown();
@@ -1020,8 +1020,8 @@
     }
 
     function saveUserData() {
-      if (!activeUser || activeUser === 'Unknown') return;
-      const validProfiles = userProfiles.filter(u => u !== 'Unknown');
+      if (!activeUser || activeUser === 'No Profile') return;
+      const validProfiles = userProfiles.filter(u => u !== 'No Profile');
       localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
       localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(validProfiles));
@@ -1063,7 +1063,7 @@
       activeUser = username;
       activeSubject = subjectName || '';
 
-      if (activeUser !== 'Unknown') {
+      if (activeUser !== 'No Profile') {
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         if (activeSubject) {
           localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
@@ -1075,7 +1075,7 @@
       categoriesEl.innerHTML = '';
       categoryCount = 0;
 
-      if (activeUser === 'Unknown') {
+      if (activeUser === 'No Profile') {
         updateModeUI();
         prevGradeEl.value = '';
         examScoreEl.value = '';
@@ -1704,13 +1704,13 @@
     });
 
     document.getElementById('btn-delete-user').addEventListener('click', () => {
-      if (userProfiles.length <= 1) {
-        alert("You must keep at least one user profile.");
+      if (activeUser === 'No Profile') {
+        alert("Cannot delete the default 'No Profile' guest state.");
         return;
       }
       if (confirm(`Delete user profile "${activeUser}" and all its subjects?`)) {
         userProfiles = userProfiles.filter(u => u !== activeUser);
-        activeUser = userProfiles[0];
+        activeUser = 'No Profile';
         renderUserProfileDropdown();
         initSubjectProfilesForActiveUser();
         loadUserData(activeUser, activeSubject);
@@ -1725,6 +1725,14 @@
     });
 
     document.getElementById('btn-add-subject').addEventListener('click', () => {
+      if (activeUser === 'No Profile') {
+        const createNow = confirm("You are currently using 'No Profile'.\n\nPlease create a User Profile first to store and manage your subjects! Would you like to create a profile now?");
+        if (createNow) {
+          document.getElementById('btn-add-user').click();
+        }
+        return;
+      }
+
       const name = prompt(`Enter new subject name for ${activeUser}:`);
       if (name && name.trim()) {
         const cleanName = name.trim();
