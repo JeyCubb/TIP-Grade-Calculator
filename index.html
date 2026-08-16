@@ -140,14 +140,14 @@
       color: var(--accent-primary);
     }
 
-    /* User Profile Bar */
+    /* User Profile & Subject Bar */
     .user-profile-bar {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.7rem;
       border-radius: var(--radius-full);
       box-shadow: var(--shadow-sm);
     }
@@ -155,8 +155,8 @@
     .user-profile-bar select {
       border: none;
       background: transparent;
-      padding: 0.2rem 0.4rem;
-      font-size: 0.875rem;
+      padding: 0.15rem 0.3rem;
+      font-size: 0.85rem;
       font-weight: 700;
       color: var(--accent-primary);
       width: auto;
@@ -631,18 +631,29 @@
         </div>
       </div>
 
-      <!-- User Profile & Options -->
-      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
-        <div class="user-profile-bar">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <!-- User Profile & Subject Selector Bar -->
+      <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <!-- User Profile Selector -->
+        <div class="user-profile-bar" title="Active User Profile">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <select id="user-selector" title="Select User Profile"></select>
-          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;" title="Add New User Profile">+</button>
-          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.2rem 0.5rem; font-size: 0.85rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
+          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.2rem 0.45rem; font-size: 0.8rem;" title="Add New User Profile">+</button>
+          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.2rem 0.45rem; font-size: 0.8rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
+
+        <!-- Subject Selector -->
+        <div class="user-profile-bar" style="border-color: rgba(59, 130, 246, 0.3); background: rgba(59, 130, 246, 0.08);" title="Active Subject">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <select id="subject-selector" title="Select Subject"></select>
+          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.2rem 0.45rem; font-size: 0.8rem;" title="Add New Subject">+</button>
+          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.2rem 0.45rem; font-size: 0.8rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
+        </div>
+
         <span class="save-indicator" id="save-indicator">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
           Saved
         </span>
+
         <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
           <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/>
@@ -788,11 +799,15 @@
   </div>
 
   <script>
-    // ----- USER PROFILES & PERSISTENCE -----
-    const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v1';
-    const STORAGE_KEY_ACTIVE = 'tip_gc_active_profile_v1';
+    // ----- USER PROFILES, SUBJECTS & PERSISTENCE -----
+    const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v2';
+    const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
+    
     let activeUser = 'Jacob';
     let userProfiles = ['Jacob'];
+
+    let activeSubject = 'General Subject';
+    let userSubjects = ['General Subject'];
 
     let saveTimeout = null;
     const saveIndicatorEl = document.getElementById('save-indicator');
@@ -806,7 +821,7 @@
       }, 1200);
     }
 
-    function initUserProfiles() {
+    function initUserProfilesAndSubjects() {
       const storedProfiles = localStorage.getItem(STORAGE_KEY_PROFILES);
       if (storedProfiles) {
         try {
@@ -817,14 +832,42 @@
         } catch (e) {}
       }
 
-      const storedActive = localStorage.getItem(STORAGE_KEY_ACTIVE);
-      if (storedActive && userProfiles.includes(storedActive)) {
-        activeUser = storedActive;
+      const storedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
+      if (storedActiveUser && userProfiles.includes(storedActiveUser)) {
+        activeUser = storedActiveUser;
       } else {
         activeUser = userProfiles[0];
       }
 
       renderUserProfileDropdown();
+      initSubjectProfilesForActiveUser();
+    }
+
+    function initSubjectProfilesForActiveUser() {
+      const storedSubjects = localStorage.getItem(`tip_gc_subjects_${activeUser}`);
+      if (storedSubjects) {
+        try {
+          const parsed = JSON.parse(storedSubjects);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            userSubjects = parsed;
+          } else {
+            userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+          }
+        } catch (e) {
+          userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+        }
+      } else {
+        userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+      }
+
+      const storedActiveSub = localStorage.getItem(`tip_gc_active_sub_${activeUser}`);
+      if (storedActiveSub && userSubjects.includes(storedActiveSub)) {
+        activeSubject = storedActiveSub;
+      } else {
+        activeSubject = userSubjects[0];
+      }
+
+      renderSubjectDropdown();
     }
 
     function renderUserProfileDropdown() {
@@ -839,8 +882,20 @@
       });
     }
 
+    function renderSubjectDropdown() {
+      const select = document.getElementById('subject-selector');
+      select.innerHTML = '';
+      userSubjects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        if (s === activeSubject) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
     function saveUserData() {
-      if (!activeUser) return;
+      if (!activeUser || !activeSubject) return;
 
       const categoryEls = [...document.querySelectorAll('.category')];
       const categoriesData = categoryEls.map(cat => {
@@ -864,25 +919,32 @@
         categories: categoriesData
       };
 
-      localStorage.setItem(`tip_gc_data_${activeUser}`, JSON.stringify(userData));
-      localStorage.setItem(STORAGE_KEY_ACTIVE, activeUser);
+      const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
+      localStorage.setItem(storageKey, JSON.stringify(userData));
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
       localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+      localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
+      localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
       triggerSaveToast();
     }
 
-    function loadUserData(username) {
+    function loadUserData(username, subjectName) {
       activeUser = username;
-      localStorage.setItem(STORAGE_KEY_ACTIVE, activeUser);
+      activeSubject = subjectName;
 
-      const raw = localStorage.getItem(`tip_gc_data_${activeUser}`);
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+      localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
+
+      const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
+      const raw = localStorage.getItem(storageKey);
       categoriesEl.innerHTML = '';
       categoryCount = 0;
 
       if (!raw) {
-        // Default initial data for new profile
+        // Default initial data for new subject
         updateModeUI();
-        addCategory('Category 1', 30);
-        addCategory('Category 2', 70);
+        addCategory('Quizzes', 30);
+        addCategory('Assignments & Exams', 70);
         recomputeAll();
         return;
       }
@@ -952,14 +1014,14 @@
             recomputeCategory(categoryEl);
           });
         } else {
-          addCategory('Category 1', 30);
-          addCategory('Category 2', 70);
+          addCategory('Quizzes', 30);
+          addCategory('Assignments & Exams', 70);
         }
 
         recomputeAll();
       } catch (e) {
-        addCategory('Category 1', 30);
-        addCategory('Category 2', 70);
+        addCategory('Quizzes', 30);
+        addCategory('Assignments & Exams', 70);
         recomputeAll();
       }
     }
@@ -1406,7 +1468,9 @@
     // Profile Switcher Events
     document.getElementById('user-selector').addEventListener('change', (e) => {
       saveUserData();
-      loadUserData(e.target.value);
+      activeUser = e.target.value;
+      initSubjectProfilesForActiveUser();
+      loadUserData(activeUser, activeSubject);
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
@@ -1419,34 +1483,69 @@
         }
         activeUser = cleanName;
         renderUserProfileDropdown();
-        loadUserData(cleanName);
+        initSubjectProfilesForActiveUser();
+        loadUserData(activeUser, activeSubject);
       }
     });
 
     document.getElementById('btn-delete-user').addEventListener('click', () => {
       if (userProfiles.length <= 1) {
-        alert("You must keep at least one profile.");
+        alert("You must keep at least one user profile.");
         return;
       }
-      if (confirm(`Delete profile "${activeUser}" and all its saved grades?`)) {
-        localStorage.removeItem(`tip_gc_data_${activeUser}`);
+      if (confirm(`Delete user profile "${activeUser}" and all its subjects?`)) {
         userProfiles = userProfiles.filter(u => u !== activeUser);
         activeUser = userProfiles[0];
         renderUserProfileDropdown();
-        loadUserData(activeUser);
+        initSubjectProfilesForActiveUser();
+        loadUserData(activeUser, activeSubject);
+      }
+    });
+
+    // Subject Switcher Events
+    document.getElementById('subject-selector').addEventListener('change', (e) => {
+      saveUserData();
+      loadUserData(activeUser, e.target.value);
+    });
+
+    document.getElementById('btn-add-subject').addEventListener('click', () => {
+      const name = prompt(`Enter new subject name for ${activeUser}:`);
+      if (name && name.trim()) {
+        const cleanName = name.trim();
+        if (!userSubjects.includes(cleanName)) {
+          userSubjects.push(cleanName);
+          saveUserData();
+        }
+        activeSubject = cleanName;
+        renderSubjectDropdown();
+        loadUserData(activeUser, activeSubject);
+      }
+    });
+
+    document.getElementById('btn-delete-subject').addEventListener('click', () => {
+      if (userSubjects.length <= 1) {
+        alert("You must keep at least one subject.");
+        return;
+      }
+      if (confirm(`Delete subject "${activeSubject}" for ${activeUser}?`)) {
+        localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
+        userSubjects = userSubjects.filter(s => s !== activeSubject);
+        activeSubject = userSubjects[0];
+        renderSubjectDropdown();
+        loadUserData(activeUser, activeSubject);
       }
     });
 
     document.getElementById('btn-reset-data').addEventListener('click', () => {
-      if (confirm(`Reset all grade data for profile "${activeUser}"?`)) {
-        localStorage.removeItem(`tip_gc_data_${activeUser}`);
-        loadUserData(activeUser);
+      if (confirm(`Reset all grade data for "${activeSubject}" (${activeUser})?`)) {
+        localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
+        loadUserData(activeUser, activeSubject);
       }
     });
 
     // ----- INIT -----
-    initUserProfiles();
-    loadUserData(activeUser);
+    initUserProfilesAndSubjects();
+    loadUserData(activeUser, activeSubject);
   </script>
 </body>
 </html>
