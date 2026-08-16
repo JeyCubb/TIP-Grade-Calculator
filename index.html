@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TIP Grade Calculator</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       Design System & Design Tokens (Dark / Light Theme)
+       ========================================================================== */
+    :root {
+      --bg-main: #0b0f19;
+      --bg-header: rgba(15, 23, 42, 0.9);
+      --bg-card: #151d30;
+      --bg-card-hover: #1c2740;
+      --bg-input: #0f172a;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-color-hover: rgba(255, 255, 255, 0.2);
+
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+
+      --accent-primary: #3b82f6;
+      --accent-primary-hover: #2563eb;
+      --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      --accent-glow: rgba(59, 130, 246, 0.25);
+
+      --color-success: #10b981;
+      --color-success-bg: rgba(16, 185, 129, 0.15);
+      --color-error: #ef4444;
+      --color-error-bg: rgba(239, 68, 68, 0.15);
+      --color-warning: #f59e0b;
+      --color-warning-bg: rgba(245, 158, 11, 0.15);
+
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.5);
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="light"] {
+      --bg-main: #f8fafc;
+      --bg-header: rgba(255, 255, 255, 0.9);
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --bg-input: #f1f5f9;
+      --border-color: #e2e8f0;
+      --border-color-hover: #cbd5e1;
+
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+
+      --accent-primary: #2563eb;
+      --accent-primary-hover: #1d4ed8;
+      --accent-glow: rgba(37, 99, 235, 0.15);
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Base Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 1.25rem 1rem 3rem 1rem;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .app-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Header */
+    .app-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--accent-gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .brand-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .brand-title span {
+      color: var(--accent-primary);
+    }
+
+    .brand-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* User Profile Bar */
+    .user-profile-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .user-profile-bar select {
+      border: none;
+      background: transparent;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      width: auto;
+      cursor: pointer;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
+      transform: scale(1.05);
+    }
+
+    /* Card System */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* Mode Selection Card */
+    .mode-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .segmented-control {
+      display: flex;
+      background: var(--bg-input);
+      padding: 5px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      gap: 4px;
+    }
+
+    .segmented-option {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .segmented-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .segmented-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .segmented-option input[type="radio"]:checked + .segmented-label {
+      background: var(--bg-card);
+      color: var(--accent-primary);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color-hover);
+    }
+
+    .prev-term-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.1rem;
+      animation: fadeIn 0.25s ease;
+    }
+
+    /* Form Controls */
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select {
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      outline: none;
+      transition: var(--transition);
+      width: 100%;
+    }
+
+    input[type="number"]:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: var(--accent-gradient);
+      border-color: transparent;
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      box-shadow: 0 6px 18px var(--accent-glow);
+    }
+
+    .btn-sm {
+      padding: 0.45rem 0.85rem;
+      font-size: 0.825rem;
+      border-radius: var(--radius-md);
+    }
+
+    .btn-icon-only {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: var(--radius-md);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--color-error);
+      color: var(--color-error);
+    }
+
+    .btn-icon-only:hover {
+      background: var(--color-error);
+      color: #fff;
+    }
+
+    /* Pill Badges */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: var(--accent-primary);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* Save Indicator Toast */
+    .save-indicator {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--color-success);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .save-indicator.visible {
+      opacity: 1;
+    }
+
+    /* Grid Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    /* Category Box */
+    .category {
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .cat-name {
+      flex: 2;
+      min-width: 140px;
+    }
+
+    .cat-weight-wrapper {
+      flex: 1;
+      min-width: 90px;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 0.65rem;
+      border-radius: var(--radius-md);
+      flex-wrap: flex;
+    }
+
+    .item-inputs {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex: 1;
+    }
+
+    .item-inputs input {
+      width: 70px;
+    }
+
+    .item-50 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      background: var(--bg-input);
+      padding: 0.35rem 0.6rem;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    .avg {
+      font-size: 0.825rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .warn {
+      color: var(--color-warning);
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .hr {
+      height: 1px;
+      background: var(--border-color);
+      margin: 1rem 0;
+    }
+
+    /* Result Dashboard Box */
+    .result-dashboard {
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      font-family: inherit;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .stat-row strong {
+      color: var(--text-primary);
+    }
+
+    .final-grade-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(29, 78, 216, 0.12) 100%);
+      border: 1.5px solid var(--accent-primary);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.5rem;
+    }
+
+    .final-val {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--accent-primary);
+      line-height: 1.1;
+    }
+
+    .eq-badge {
+      display: inline-block;
+      align-self: center;
+      font-size: 1rem;
+      font-weight: 800;
+      padding: 0.35rem 1.2rem;
+      border-radius: var(--radius-full);
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .green {
+      border-color: var(--color-success) !important;
+      background: var(--color-success-bg) !important;
+      color: var(--color-success) !important;
+    }
+
+    .error-input {
+      border-color: var(--color-error) !important;
+      background: var(--color-error-bg) !important;
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      body {
+        padding: 0.85rem 0.75rem 2rem 0.75rem;
+      }
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      .app-header {
+        padding: 0.85rem 1rem;
+      }
+      .brand-title {
+        font-size: 1.15rem;
+      }
+      .card {
+        padding: 1.15rem;
+      }
+      .item-row {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.4rem;
+      }
+      .item-inputs input {
+        width: 60px;
+      }
+      .item-50 {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.45rem;
+      }
+      .final-val {
+        font-size: 1.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Top Bar / App Header -->
+    <header class="app-header">
+      <div class="brand-group">
+        <div class="brand-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="16" height="20" x="4" y="2" rx="2"/>
+            <line x1="8" x2="16" y1="6" y2="6"/>
+            <line x1="16" x2="16" y1="14" y2="18"/>
+            <path d="M16 10h.01"/>
+            <path d="M12 10h.01"/>
+            <path d="M8 10h.01"/>
+            <path d="M12 14h.01"/>
+            <path d="M8 14h.01"/>
+            <path d="M12 18h.01"/>
+            <path d="M8 18h.01"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Grade <span>Calculator</span></h1>
+          <div class="brand-subtitle">Technological Institute of the Philippines</div>
+        </div>
+      </div>
+
+      <!-- User Profile & Options -->
+      <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+        <div class="user-profile-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <select id="user-selector" title="Select User Profile"></select>
+          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;" title="Add New User Profile">+</button>
+          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.2rem 0.5rem; font-size: 0.85rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
+        </div>
+        <span class="save-indicator" id="save-indicator">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          Saved
+        </span>
+        <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
+          <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="m4.93 4.93 1.41 1.41"/>
+            <path d="m17.66 17.66 1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="m6.34 17.66-1.41 1.41"/>
+            <path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mode selection Card -->
+    <section class="card mode-card">
+      <div class="card-header" style="margin-bottom: 0;">
+        <div class="card-title">
+          <span>Mode Selection</span>
+        </div>
+        <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.75rem; color: var(--text-secondary);" title="Reset current profile data">Reset Data</button>
+      </div>
+      <div class="segmented-control">
+        <div class="segmented-option">
+          <input type="radio" name="mode" id="mode-prelim" value="prelim" />
+          <label for="mode-prelim" class="segmented-label">
+            Prelims
+          </label>
+        </div>
+        <div class="segmented-option">
+          <input type="radio" name="mode" id="mode-term" value="term" checked />
+          <label for="mode-term" class="segmented-label">
+            Midterms / Finals
+          </label>
+        </div>
+      </div>
+      <div class="prev-term-row" id="prev-grade-row" style="display: none;">
+        <label style="flex: 1; flex-direction: row; align-items: center; justify-content: space-between;">
+          <span>Previous Term Average %</span>
+          <input type="number" id="prev-grade" placeholder="e.g. 86" min="0" max="100" style="max-width: 130px;" />
+        </label>
+        <span id="prev-error" class="warn"></span>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <!-- Class Standing Card -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Class Standing</span>
+            <span class="pill" id="pill-cs">50%</span>
+          </div>
+          <span id="weight-warning" class="muted"></span>
+        </div>
+        <div id="categories"></div>
+        <div style="margin-top: 1rem;">
+          <button id="add-category" class="btn btn-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Add Category
+          </button>
+        </div>
+      </section>
+
+      <!-- Exam & Target Solver Card -->
+      <section class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Exam & Computation</span>
+            <span class="pill" id="pill-exam">50%</span>
+          </div>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: flex-end;">
+            <label style="flex: 1;">
+              Exam Score
+              <input type="number" id="exam-score" placeholder="e.g. 45" min="0" />
+            </label>
+            <span style="font-weight: 700; padding-bottom: 0.65rem; color: var(--text-muted);">/</span>
+            <label style="flex: 1;">
+              Exam Total
+              <input type="number" id="exam-total" placeholder="e.g. 50" min="0" />
+            </label>
+          </div>
+          <span id="exam-avg" class="avg">Exam Average: 0.00% (50-base)</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+          <label>
+            Target Equivalence
+            <select id="target-eq">
+              <option value="3.00" selected>3.00 (75% Minimum Pass)</option>
+              <option value="2.75">2.75 (78%)</option>
+              <option value="2.50">2.50 (81%)</option>
+              <option value="2.25">2.25 (84%)</option>
+              <option value="2.00">2.00 (87%)</option>
+              <option value="1.75">1.75 (90%)</option>
+              <option value="1.50">1.50 (93%)</option>
+              <option value="1.25">1.25 (96%)</option>
+              <option value="1.00">1.00 (99% Highest)</option>
+            </select>
+          </label>
+          <button id="compute" class="btn btn-primary" style="width: 100%;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Compute Minimum Score
+          </button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem;">
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Weight Mix:</span>
+          <span class="pill" id="mix-cs">CS 50%</span>
+          <span class="pill" id="mix-exam">Exam 50%</span>
+          <span class="pill" id="mix-prev" style="display: none;">Prev 33.3%</span>
+        </div>
+
+        <!-- Styled Results Dashboard -->
+        <div class="result-dashboard">
+          <div class="stat-row">
+            <span>Previous Term Average:</span>
+            <strong id="res-prev">0.00%</strong>
+          </div>
+          <div class="stat-row">
+            <span>Class Standing Average:</span>
+            <strong id="res-cs">0.00%</strong>
+          </div>
+          <div class="stat-row">
+            <span>Exam Average:</span>
+            <strong id="res-exam">0.00%</strong>
+          </div>
+
+          <div class="final-grade-card">
+            <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Calculated Final Grade</span>
+            <div class="final-val" id="res-final">0.00%</div>
+            <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
+          </div>
+          
+          <div id="summary" style="font-size: 0.825rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.25rem;"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // ----- USER PROFILES & PERSISTENCE -----
+    const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v1';
+    const STORAGE_KEY_ACTIVE = 'tip_gc_active_profile_v1';
+    let activeUser = 'Jacob';
+    let userProfiles = ['Jacob'];
+
+    let saveTimeout = null;
+    const saveIndicatorEl = document.getElementById('save-indicator');
+
+    function triggerSaveToast() {
+      if (!saveIndicatorEl) return;
+      saveIndicatorEl.classList.add('visible');
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        saveIndicatorEl.classList.remove('visible');
+      }, 1200);
+    }
+
+    function initUserProfiles() {
+      const storedProfiles = localStorage.getItem(STORAGE_KEY_PROFILES);
+      if (storedProfiles) {
+        try {
+          const parsed = JSON.parse(storedProfiles);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            userProfiles = parsed;
+          }
+        } catch (e) {}
+      }
+
+      const storedActive = localStorage.getItem(STORAGE_KEY_ACTIVE);
+      if (storedActive && userProfiles.includes(storedActive)) {
+        activeUser = storedActive;
+      } else {
+        activeUser = userProfiles[0];
+      }
+
+      renderUserProfileDropdown();
+    }
+
+    function renderUserProfileDropdown() {
+      const select = document.getElementById('user-selector');
+      select.innerHTML = '';
+      userProfiles.forEach(u => {
+        const opt = document.createElement('option');
+        opt.value = u;
+        opt.textContent = u;
+        if (u === activeUser) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function saveUserData() {
+      if (!activeUser) return;
+
+      const categoryEls = [...document.querySelectorAll('.category')];
+      const categoriesData = categoryEls.map(cat => {
+        const name = cat.querySelector('.cat-name').value;
+        const weight = parseFloat(cat.querySelector('.cat-weight').value) || 0;
+        const items = [...cat.querySelectorAll('.item-row')].map(row => {
+          return {
+            score: row.querySelector('.item-score').value,
+            total: row.querySelector('.item-total').value
+          };
+        });
+        return { name, weight, items };
+      });
+
+      const userData = {
+        mode: currentMode(),
+        prevGrade: prevGradeEl.value,
+        examScore: examScoreEl.value,
+        examTotal: examTotalEl.value,
+        targetEq: targetEqEl.value,
+        categories: categoriesData
+      };
+
+      localStorage.setItem(`tip_gc_data_${activeUser}`, JSON.stringify(userData));
+      localStorage.setItem(STORAGE_KEY_ACTIVE, activeUser);
+      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+      triggerSaveToast();
+    }
+
+    function loadUserData(username) {
+      activeUser = username;
+      localStorage.setItem(STORAGE_KEY_ACTIVE, activeUser);
+
+      const raw = localStorage.getItem(`tip_gc_data_${activeUser}`);
+      categoriesEl.innerHTML = '';
+      categoryCount = 0;
+
+      if (!raw) {
+        // Default initial data for new profile
+        updateModeUI();
+        addCategory('Category 1', 30);
+        addCategory('Category 2', 70);
+        recomputeAll();
+        return;
+      }
+
+      try {
+        const data = JSON.parse(raw);
+        if (data.mode === 'prelim') {
+          document.getElementById('mode-prelim').checked = true;
+        } else {
+          document.getElementById('mode-term').checked = true;
+        }
+        updateModeUI();
+
+        prevGradeEl.value = data.prevGrade || '';
+        examScoreEl.value = data.examScore || '';
+        examTotalEl.value = data.examTotal || '';
+        if (data.targetEq) targetEqEl.value = data.targetEq;
+
+        if (Array.isArray(data.categories) && data.categories.length > 0) {
+          data.categories.forEach(c => {
+            categoryCount++;
+            const categoryEl = document.createElement('div');
+            categoryEl.className = 'category';
+            categoryEl.innerHTML = `
+              <div class="cat-header">
+                <input type="text" class="cat-name" placeholder="Category" value="${c.name || 'Category ' + categoryCount}">
+                <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.3rem;">
+                  <input type="number" class="cat-weight" value="${c.weight}" min="0" max="100" placeholder="Weight">
+                  <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
+                </div>
+                <button class="btn btn-icon-only remove-category" title="Remove Category">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                </button>
+              </div>
+              <div class="avg">Category Average: 0.00%</div>
+              <div class="items" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              <div>
+                <button class="btn btn-sm add-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                  Add Item
+                </button>
+              </div>
+            `;
+            categoriesEl.appendChild(categoryEl);
+            const itemsContainer = categoryEl.querySelector('.items');
+
+            if (Array.isArray(c.items) && c.items.length > 0) {
+              c.items.forEach(it => {
+                const row = document.createElement('div');
+                row.className = 'item-row';
+                row.innerHTML = `
+                  <div class="item-inputs">
+                    <input type="number" class="item-score" placeholder="Score" value="${it.score || ''}" min="0">
+                    <span style="font-weight: 700; color: var(--text-muted);">/</span>
+                    <input type="number" class="item-total" placeholder="Total" value="${it.total || ''}" min="0">
+                  </div>
+                  <span class="item-50">0.00%</span>
+                  <button class="btn btn-icon-only remove-item" style="width: 32px; height: 32px;" title="Remove Item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  </button>
+                `;
+                itemsContainer.appendChild(row);
+              });
+            } else {
+              addItem(categoryEl);
+            }
+            recomputeCategory(categoryEl);
+          });
+        } else {
+          addCategory('Category 1', 30);
+          addCategory('Category 2', 70);
+        }
+
+        recomputeAll();
+      } catch (e) {
+        addCategory('Category 1', 30);
+        addCategory('Category 2', 70);
+        recomputeAll();
+      }
+    }
+
+    // ----- STATE -----
+    let CS_WEIGHT = 0.5;
+    let EXAM_WEIGHT = 0.5;
+    let PREV_WEIGHT = 0.0;
+    let categoryCount = 0;
+
+    const categoriesEl = document.getElementById('categories');
+    const weightWarningEl = document.getElementById('weight-warning');
+    const examScoreEl = document.getElementById('exam-score');
+    const examTotalEl = document.getElementById('exam-total');
+    const examAvgEl = document.getElementById('exam-avg');
+    const prevGradeRowEl = document.getElementById('prev-grade-row');
+    const prevGradeEl = document.getElementById('prev-grade');
+    const prevErrorEl = document.getElementById('prev-error');
+    const pillCsEl = document.getElementById('pill-cs');
+    const pillExamEl = document.getElementById('pill-exam');
+    const mixCsEl = document.getElementById('mix-cs');
+    const mixExamEl = document.getElementById('mix-exam');
+    const mixPrevEl = document.getElementById('mix-prev');
+    const summaryEl = document.getElementById('summary');
+    const targetEqEl = document.getElementById('target-eq');
+
+    const resPrevEl = document.getElementById('res-prev');
+    const resCsEl = document.getElementById('res-cs');
+    const resExamEl = document.getElementById('res-exam');
+    const resFinalEl = document.getElementById('res-final');
+    const resEqEl = document.getElementById('res-eq');
+
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const htmlEl = document.documentElement;
+
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      htmlEl.setAttribute('data-theme', newTheme);
+    });
+
+    function currentMode() {
+      const checked = document.querySelector('input[name="mode"]:checked');
+      return checked ? checked.value : 'term';
+    }
+
+    function updateModeUI() {
+      const mode = currentMode();
+      if (mode === 'prelim') {
+        CS_WEIGHT = 0.5;
+        EXAM_WEIGHT = 0.5;
+        PREV_WEIGHT = 0.0;
+        prevGradeRowEl.style.display = 'none';
+        mixPrevEl.style.display = 'none';
+
+        pillCsEl.textContent = '50%';
+        pillExamEl.textContent = '50%';
+        mixCsEl.textContent = 'CS 50%';
+        mixExamEl.textContent = 'Exam 50%';
+        prevErrorEl.textContent = '';
+        prevGradeEl.classList.remove('error-input');
+      } else {
+        CS_WEIGHT = 1 / 3;
+        EXAM_WEIGHT = 1 / 3;
+        PREV_WEIGHT = 1 / 3;
+        prevGradeRowEl.style.display = 'flex';
+        mixPrevEl.style.display = 'inline-flex';
+
+        pillCsEl.textContent = '33.3%';
+        pillExamEl.textContent = '33.3%';
+        mixCsEl.textContent = 'CS 33.3%';
+        mixExamEl.textContent = 'Exam 33.3%';
+        mixPrevEl.textContent = 'Prev 33.3%';
+      }
+    }
+
+    function getPrevPercent(requireFilledForTerm) {
+      const mode = currentMode();
+      if (mode !== 'term') {
+        prevErrorEl.textContent = '';
+        prevGradeEl.classList.remove('error-input');
+        return 0;
+      }
+
+      const raw = prevGradeEl.value.trim();
+      if (raw === '' || isNaN(parseFloat(raw))) {
+        if (requireFilledForTerm) {
+          prevErrorEl.textContent = 'Previous term average is required for Midterms/Finals mode.';
+          prevGradeEl.classList.add('error-input');
+          return null;
+        }
+        return 0;
+      }
+
+      let val = parseFloat(raw);
+      if (val < 0) val = 0;
+      if (val > 100) val = 100;
+
+      prevErrorEl.textContent = '';
+      prevGradeEl.classList.remove('error-input');
+      return val;
+    }
+
+    // ----- CATEGORY / ITEMS -----
+    function addCategory(name = '', weight = 0) {
+      categoryCount++;
+      const categoryEl = document.createElement('div');
+      categoryEl.className = 'category';
+      categoryEl.innerHTML = `
+        <div class="cat-header">
+          <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}">
+          <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.3rem;">
+            <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="Weight">
+            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
+          </div>
+          <button class="btn btn-icon-only remove-category" title="Remove Category">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          </button>
+        </div>
+        <div class="avg">Category Average: 0.00%</div>
+        <div class="items" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+        <div>
+          <button class="btn btn-sm add-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Add Item
+          </button>
+        </div>
+      `;
+      categoriesEl.appendChild(categoryEl);
+      addItem(categoryEl);
+      recomputeCategory(categoryEl);
+      recomputeAll();
+      saveUserData();
+    }
+
+    function addItem(categoryEl) {
+      const itemsContainer = categoryEl.querySelector('.items');
+      const row = document.createElement('div');
+      row.className = 'item-row';
+      row.innerHTML = `
+        <div class="item-inputs">
+          <input type="number" class="item-score" placeholder="Score" min="0">
+          <span style="font-weight: 700; color: var(--text-muted);">/</span>
+          <input type="number" class="item-total" placeholder="Total" min="0">
+        </div>
+        <span class="item-50">0.00%</span>
+        <button class="btn btn-icon-only remove-item" style="width: 32px; height: 32px;" title="Remove Item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      `;
+      itemsContainer.appendChild(row);
+      saveUserData();
+    }
+
+    function recomputeCategory(categoryEl) {
+      const itemRows = [...categoryEl.querySelectorAll('.item-row')];
+      let sumPercent = 0;
+      let itemCount = 0;
+
+      itemRows.forEach(row => {
+        const scoreInput = row.querySelector('.item-score');
+        const totalInput = row.querySelector('.item-total');
+        const display = row.querySelector('.item-50');
+
+        const score = parseFloat(scoreInput.value);
+        const total = parseFloat(totalInput.value);
+
+        if (!isFinite(score) || !isFinite(total) || total <= 0) {
+          if (display) display.textContent = '0.00%';
+          return;
+        }
+
+        const itemPercent = (score / total) * 50 + 50;
+
+        sumPercent += itemPercent;
+        itemCount++;
+
+        if (display) {
+          display.textContent = `${itemPercent.toFixed(2)}%`;
+        }
+      });
+
+      const finalAvg = itemCount ? (sumPercent / itemCount) : 0;
+      categoryEl.dataset.avgPercent = finalAvg.toFixed(4);
+
+      const avgLabel = categoryEl.querySelector('.avg');
+      if (avgLabel) {
+        avgLabel.textContent = `Category Average: ${finalAvg.toFixed(2)}%`;
+      }
+    }
+
+    function computeClassStanding() {
+      const categoryEls = [...document.querySelectorAll('.category')];
+      let sumWeights = 0;
+      let weightedSum = 0;
+
+      categoryEls.forEach(cat => {
+        const weightInput = cat.querySelector('.cat-weight');
+        const weight = parseFloat(weightInput.value) || 0;
+        const avgPercent = parseFloat(cat.dataset.avgPercent || '0');
+
+        sumWeights += weight;
+        weightedSum += avgPercent * (weight / 100);
+      });
+
+      if (!categoryEls.length) {
+        weightWarningEl.textContent = 'No categories yet.';
+        weightWarningEl.classList.remove('warn');
+        return 0;
+      }
+
+      if (Math.abs(sumWeights - 100) < 0.001) {
+        weightWarningEl.textContent = 'Weights sum to 100% ✓';
+        weightWarningEl.classList.remove('warn');
+      } else {
+        weightWarningEl.textContent = `Weights sum to ${sumWeights.toFixed(1)}% (should be 100%)`;
+        weightWarningEl.classList.add('warn');
+      }
+
+      return weightedSum;
+    }
+
+    function computeExam() {
+      const score = parseFloat(examScoreEl.value) || 0;
+      const total = parseFloat(examTotalEl.value) || 0;
+      let percent50 = 0;
+
+      if (total > 0) {
+        percent50 = (score / total) * 50 + 50;
+      }
+
+      examAvgEl.textContent = `Exam Average: ${percent50.toFixed(2)}% (${score.toFixed(2)} / ${total.toFixed(2)}, 50-base)`;
+      return percent50;
+    }
+
+    function percentToEquivalence(pct) {
+      if (pct >= 99) return '1.00';
+      if (pct >= 96) return '1.25';
+      if (pct >= 93) return '1.50';
+      if (pct >= 90) return '1.75';
+      if (pct >= 87) return '2.00';
+      if (pct >= 84) return '2.25';
+      if (pct >= 81) return '2.50';
+      if (pct >= 78) return '2.75';
+      if (pct >= 75) return '3.00';
+      return '4.00';
+    }
+
+    function targetEqToCutoff(eq) {
+      const e = parseFloat(eq);
+      if (e === 1.00) return 99;
+      if (e === 1.25) return 96;
+      if (e === 1.50) return 93;
+      if (e === 1.75) return 90;
+      if (e === 2.00) return 87;
+      if (e === 2.25) return 84;
+      if (e === 2.50) return 81;
+      if (e === 2.75) return 78;
+      if (e === 3.00) return 75;
+      return 75;
+    }
+
+    function computeFinal(csPercent, examPercent, prevPercent) {
+      const mode = currentMode();
+      let finalPercent = 0;
+
+      if (mode === 'prelim') {
+        finalPercent = csPercent * CS_WEIGHT + examPercent * EXAM_WEIGHT;
+      } else {
+        finalPercent = csPercent * CS_WEIGHT + examPercent * EXAM_WEIGHT + prevPercent * PREV_WEIGHT;
+      }
+
+      const eq = percentToEquivalence(finalPercent);
+      return { finalPercent, eq };
+    }
+
+    function recomputeAll() {
+      const csPercent = computeClassStanding();
+      const examPercent = computeExam();
+      const prevPercentVal = getPrevPercent(false);
+      const prevPercent = prevPercentVal == null ? 0 : prevPercentVal;
+      const mode = currentMode();
+
+      const { finalPercent, eq } = computeFinal(csPercent, examPercent, prevPercent);
+
+      resPrevEl.textContent = mode === 'term' ? `${prevPercent.toFixed(2)}%` : 'N/A';
+      resCsEl.textContent = `${csPercent.toFixed(2)}%`;
+      resExamEl.textContent = `${examPercent.toFixed(2)}%`;
+      resFinalEl.textContent = `${finalPercent.toFixed(2)}%`;
+      resEqEl.textContent = `Equivalence: ${eq}`;
+
+      if (eq === '4.00') {
+        resEqEl.style.background = 'var(--color-error-bg)';
+        resEqEl.style.color = 'var(--color-error)';
+        resEqEl.style.boxShadow = 'none';
+      } else {
+        resEqEl.style.background = 'var(--accent-gradient)';
+        resEqEl.style.color = '#fff';
+        resEqEl.style.boxShadow = '0 4px 12px var(--accent-glow)';
+      }
+    }
+
+    function computeMinimumExamNeeded() {
+      examScoreEl.classList.remove('green');
+      examTotalEl.classList.remove('error-input');
+
+      const csPercent = computeClassStanding();
+      const prevPercentVal = getPrevPercent(true);
+      const mode = currentMode();
+
+      if (mode === 'term' && prevPercentVal === null) {
+        summaryEl.textContent = 'Please enter your Previous Term Average to compute.';
+        return;
+      }
+
+      const prevPercent = mode === 'term' ? prevPercentVal : 0;
+      const targetEq = targetEqEl.value;
+      const targetPct = targetEqToCutoff(targetEq);
+      const total = parseFloat(examTotalEl.value);
+
+      if (!isFinite(total) || total <= 0) {
+        examTotalEl.classList.add('error-input');
+        summaryEl.textContent = 'Enter a valid exam total to compute the required score.';
+        return;
+      }
+
+      let neededExam50;
+      if (mode === 'prelim') {
+        neededExam50 = (targetPct - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
+      } else {
+        neededExam50 = (targetPct - prevPercent * PREV_WEIGHT - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
+      }
+
+      const examMin = 50;
+      const examMax = 100;
+
+      if (neededExam50 <= examMin) {
+        summaryEl.textContent = `✓ Target ${targetEq} met even with a 0 on the exam (50-base gives 50%).`;
+        saveUserData();
+        return;
+      }
+      if (neededExam50 > examMax) {
+        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached even with a perfect score.`;
+        saveUserData();
+        return;
+      }
+
+      const neededScore = ((neededExam50 - 50) / 50) * total;
+      const clampedScore = Math.min(Math.max(neededScore, 0), total);
+
+      examScoreEl.value = clampedScore.toFixed(2);
+      examScoreEl.classList.add('green');
+
+      const newExamPercent = computeExam();
+      const { finalPercent: suggestedFinal, eq: suggestedEq } = computeFinal(csPercent, newExamPercent, prevPercent);
+
+      summaryEl.textContent = `💡 Needed Exam Score: ${clampedScore.toFixed(2)} / ${total.toFixed(2)} (${neededExam50.toFixed(2)}% 50-base)\nWill result in Final Grade ~${suggestedFinal.toFixed(2)}% (Equivalence: ${suggestedEq}).`;
+      saveUserData();
+    }
+
+    // ----- EVENT LISTENERS -----
+    document.getElementById('add-category').addEventListener('click', () => {
+      addCategory();
+    });
+
+    categoriesEl.addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.remove-category');
+      const removeItemBtn = e.target.closest('.remove-item');
+      const addItemBtn = e.target.closest('.add-item');
+
+      if (addItemBtn) {
+        const categoryEl = addItemBtn.closest('.category');
+        if (categoryEl) {
+          addItem(categoryEl);
+          recomputeCategory(categoryEl);
+          recomputeAll();
+          saveUserData();
+        }
+      } else if (removeItemBtn) {
+        const row = removeItemBtn.closest('.item-row');
+        const categoryEl = removeItemBtn.closest('.category');
+        if (row && categoryEl) {
+          row.remove();
+          recomputeCategory(categoryEl);
+          recomputeAll();
+          saveUserData();
+        }
+      } else if (removeBtn) {
+        const categoryEl = removeBtn.closest('.category');
+        if (categoryEl) {
+          categoryEl.remove();
+          recomputeAll();
+          saveUserData();
+        }
+      }
+    });
+
+    categoriesEl.addEventListener('input', (e) => {
+      const categoryEl = e.target.closest('.category');
+      if (categoryEl) {
+        recomputeCategory(categoryEl);
+        recomputeAll();
+        saveUserData();
+      }
+    });
+
+    examScoreEl.addEventListener('input', () => {
+      examScoreEl.classList.remove('green');
+      recomputeAll();
+      saveUserData();
+    });
+    examTotalEl.addEventListener('input', () => {
+      examScoreEl.classList.remove('green');
+      examTotalEl.classList.remove('error-input');
+      recomputeAll();
+      saveUserData();
+    });
+    prevGradeEl.addEventListener('input', () => {
+      prevGradeEl.classList.remove('error-input');
+      prevErrorEl.textContent = '';
+      recomputeAll();
+      saveUserData();
+    });
+    targetEqEl.addEventListener('change', () => {
+      saveUserData();
+    });
+
+    document.getElementById('mode-prelim').addEventListener('change', () => {
+      updateModeUI();
+      recomputeAll();
+      saveUserData();
+    });
+    document.getElementById('mode-term').addEventListener('change', () => {
+      updateModeUI();
+      recomputeAll();
+      saveUserData();
+    });
+
+    document.getElementById('compute').addEventListener('click', () => {
+      computeMinimumExamNeeded();
+    });
+
+    // Profile Switcher Events
+    document.getElementById('user-selector').addEventListener('change', (e) => {
+      saveUserData();
+      loadUserData(e.target.value);
+    });
+
+    document.getElementById('btn-add-user').addEventListener('click', () => {
+      const name = prompt("Enter new profile name:");
+      if (name && name.trim()) {
+        const cleanName = name.trim();
+        if (!userProfiles.includes(cleanName)) {
+          userProfiles.push(cleanName);
+          saveUserData();
+        }
+        activeUser = cleanName;
+        renderUserProfileDropdown();
+        loadUserData(cleanName);
+      }
+    });
+
+    document.getElementById('btn-delete-user').addEventListener('click', () => {
+      if (userProfiles.length <= 1) {
+        alert("You must keep at least one profile.");
+        return;
+      }
+      if (confirm(`Delete profile "${activeUser}" and all its saved grades?`)) {
+        localStorage.removeItem(`tip_gc_data_${activeUser}`);
+        userProfiles = userProfiles.filter(u => u !== activeUser);
+        activeUser = userProfiles[0];
+        renderUserProfileDropdown();
+        loadUserData(activeUser);
+      }
+    });
+
+    document.getElementById('btn-reset-data').addEventListener('click', () => {
+      if (confirm(`Reset all grade data for profile "${activeUser}"?`)) {
+        localStorage.removeItem(`tip_gc_data_${activeUser}`);
+        loadUserData(activeUser);
+      }
+    });
+
+    // ----- INIT -----
+    initUserProfiles();
+    loadUserData(activeUser);
+  </script>
+</body>
+</html>
