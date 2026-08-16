@@ -1502,34 +1502,22 @@
         neededExam50 = (targetPct - prevPercent * PREV_WEIGHT - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
       }
 
-      const rawUserScore = examScoreEl.value.trim();
-      const hasUserTypedScore = rawUserScore !== '';
-
       if (neededExam50 <= examMin) {
-        if (!hasUserTypedScore) {
-          examScoreEl.value = '0.00';
-          examScoreEl.classList.add('green');
-          recomputeAll();
-        }
+        examScoreEl.value = '0.00';
+        examScoreEl.classList.add('green');
+        recomputeAll();
         summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score (0.00 / ${total.toFixed(0)}).`;
         saveUserData();
         return;
       }
       if (neededExam50 > examMax) {
-        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached.`;
+        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached even with 100% exam score.`;
         saveUserData();
         return;
       }
 
       const neededScore = ((neededExam50 - 50) / 50) * total;
       const clampedScore = Math.min(Math.max(neededScore, 0), total);
-
-      if (hasUserTypedScore) {
-        const userScore = parseFloat(rawUserScore) || 0;
-        summaryEl.textContent = `💡 Minimum score needed for ${targetEq}: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\n(Your typed score: ${userScore.toFixed(2)} / ${total.toFixed(0)}).`;
-        saveUserData();
-        return;
-      }
 
       examScoreEl.value = clampedScore.toFixed(2);
       examScoreEl.classList.add('green');
