@@ -1522,6 +1522,7 @@
       examScoreEl.value = clampedScore.toFixed(2);
       examScoreEl.classList.add('green');
 
+      recomputeAll();
       const newExamPercent = computeExam();
       const { finalPercent: suggestedFinal, eq: suggestedEq } = computeFinal(csPercent, newExamPercent, prevPercent);
 
