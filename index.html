@@ -1502,7 +1502,21 @@
         neededExam50 = (targetPct - prevPercent * PREV_WEIGHT - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
       }
 
+      const rawUserScore = examScoreEl.value.trim();
+      const hasUserTypedScore = rawUserScore !== '';
+
       if (neededExam50 <= examMin) {
+        if (hasUserTypedScore) {
+          const userScoreVal = parseFloat(rawUserScore) || 0;
+          const confirmOverwrite = confirm(
+            `You currently have a score of ${userScoreVal.toFixed(2)} entered.\n\nTarget ${targetEq} is already met even with 0 exam score. Do you want to set exam score to 0.00?`
+          );
+          if (!confirmOverwrite) {
+            summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score.\n(Your score kept at: ${userScoreVal.toFixed(2)} / ${total.toFixed(0)}).`;
+            saveUserData();
+            return;
+          }
+        }
         examScoreEl.value = '0.00';
         examScoreEl.classList.add('green');
         recomputeAll();
@@ -1518,6 +1532,18 @@
 
       const neededScore = ((neededExam50 - 50) / 50) * total;
       const clampedScore = Math.min(Math.max(neededScore, 0), total);
+
+      if (hasUserTypedScore) {
+        const userScoreVal = parseFloat(rawUserScore) || 0;
+        const confirmOverwrite = confirm(
+          `You currently have a score of ${userScoreVal.toFixed(2)} entered.\n\nDo you want to overwrite it with the minimum score needed (${clampedScore.toFixed(2)} / ${total.toFixed(0)}) to reach target equivalence ${targetEq}?`
+        );
+        if (!confirmOverwrite) {
+          summaryEl.textContent = `💡 Minimum score needed for ${targetEq}: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\n(Your score kept at: ${userScoreVal.toFixed(2)} / ${total.toFixed(0)}).`;
+          saveUserData();
+          return;
+        }
+      }
 
       examScoreEl.value = clampedScore.toFixed(2);
       examScoreEl.classList.add('green');
