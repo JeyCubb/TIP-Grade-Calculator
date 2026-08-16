@@ -898,8 +898,8 @@
     let activeUser = 'Jacob';
     let userProfiles = ['Jacob'];
 
-    let activeSubject = 'General Subject';
-    let userSubjects = ['General Subject'];
+    let activeSubject = '';
+    let userSubjects = [];
 
     let saveTimeout = null;
     const saveIndicatorEl = document.getElementById('save-indicator');
@@ -940,23 +940,23 @@
       if (storedSubjects) {
         try {
           const parsed = JSON.parse(storedSubjects);
-          if (Array.isArray(parsed) && parsed.length > 0) {
+          if (Array.isArray(parsed)) {
             userSubjects = parsed;
           } else {
-            userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+            userSubjects = [];
           }
         } catch (e) {
-          userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+          userSubjects = [];
         }
       } else {
-        userSubjects = ['Fluid Mechanics', 'Differential Equations'];
+        userSubjects = [];
       }
 
       const storedActiveSub = localStorage.getItem(`tip_gc_active_sub_${activeUser}`);
       if (storedActiveSub && userSubjects.includes(storedActiveSub)) {
         activeSubject = storedActiveSub;
       } else {
-        activeSubject = userSubjects[0];
+        activeSubject = userSubjects.length > 0 ? userSubjects[0] : '';
       }
 
       renderSubjectDropdown();
@@ -977,6 +977,13 @@
     function renderSubjectDropdown() {
       const select = document.getElementById('subject-selector');
       select.innerHTML = '';
+      if (userSubjects.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = '-- No Subject --';
+        select.appendChild(opt);
+        return;
+      }
       userSubjects.forEach(s => {
         const opt = document.createElement('option');
         opt.value = s;
@@ -987,7 +994,15 @@
     }
 
     function saveUserData() {
-      if (!activeUser || !activeSubject) return;
+      if (!activeUser) return;
+      localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+
+      if (!activeSubject) {
+        localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
+        return;
+      }
 
       const categoryEls = [...document.querySelectorAll('.category')];
       const categoriesData = categoryEls.map(cat => {
@@ -1013,24 +1028,35 @@
 
       const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
       localStorage.setItem(storageKey, JSON.stringify(userData));
-      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
-      localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
       localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
       triggerSaveToast();
     }
 
     function loadUserData(username, subjectName) {
       activeUser = username;
-      activeSubject = subjectName;
+      activeSubject = subjectName || '';
 
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
+      if (activeSubject) {
+        localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
+      } else {
+        localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
+      }
+
+      categoriesEl.innerHTML = '';
+      categoryCount = 0;
+
+      if (!activeSubject) {
+        updateModeUI();
+        prevGradeEl.value = '';
+        examScoreEl.value = '';
+        examTotalEl.value = '50';
+        recomputeAll();
+        return;
+      }
 
       const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
       const raw = localStorage.getItem(storageKey);
-      categoriesEl.innerHTML = '';
-      categoryCount = 0;
 
       if (!raw) {
         updateModeUI();
@@ -1219,7 +1245,29 @@
     }
 
     // ----- CATEGORY / ITEMS -----
+    function checkOrCreateActiveSubject() {
+      if (!activeSubject) {
+        const name = prompt(`Enter subject name for ${activeUser}:`, "General Subject");
+        if (name && name.trim()) {
+          const cleanName = name.trim();
+          if (!userSubjects.includes(cleanName)) {
+            userSubjects.push(cleanName);
+          }
+          activeSubject = cleanName;
+          renderSubjectDropdown();
+          saveUserData();
+        } else {
+          return false;
+        }
+      }
+      return true;
+    }
+
     function addCategory(name = '', weight = 0) {
+      if (!activeSubject && arguments.length === 0) {
+        if (!checkOrCreateActiveSubject()) return;
+      }
+
       categoryCount++;
       const categoryEl = document.createElement('div');
       categoryEl.className = 'category';
@@ -1603,7 +1651,8 @@
     // Subject Switcher Events
     document.getElementById('subject-selector').addEventListener('change', (e) => {
       saveUserData();
-      loadUserData(activeUser, e.target.value);
+      activeSubject = e.target.value;
+      loadUserData(activeUser, activeSubject);
     });
 
     document.getElementById('btn-add-subject').addEventListener('click', () => {
@@ -1612,29 +1661,31 @@
         const cleanName = name.trim();
         if (!userSubjects.includes(cleanName)) {
           userSubjects.push(cleanName);
-          saveUserData();
         }
         activeSubject = cleanName;
         renderSubjectDropdown();
+        saveUserData();
         loadUserData(activeUser, activeSubject);
       }
     });
 
     document.getElementById('btn-delete-subject').addEventListener('click', () => {
-      if (userSubjects.length <= 1) {
-        alert("You must keep at least one subject.");
+      if (!activeSubject) {
+        alert("No subject to delete.");
         return;
       }
       if (confirm(`Delete subject "${activeSubject}" for ${activeUser}?`)) {
         localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
         userSubjects = userSubjects.filter(s => s !== activeSubject);
-        activeSubject = userSubjects[0];
+        activeSubject = userSubjects.length > 0 ? userSubjects[0] : '';
+        localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
         renderSubjectDropdown();
         loadUserData(activeUser, activeSubject);
       }
     });
 
     document.getElementById('btn-reset-data').addEventListener('click', () => {
+      if (!activeSubject) return;
       if (confirm(`Reset all grade data for "${activeSubject}" (${activeUser})?`)) {
         localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
         loadUserData(activeUser, activeSubject);
