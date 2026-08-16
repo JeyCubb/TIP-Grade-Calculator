@@ -795,7 +795,7 @@
 
         <!-- Styled Results Dashboard -->
         <div class="result-dashboard">
-          <div class="stat-row">
+          <div class="stat-row" id="row-prev-stat" style="display: none;">
             <span>Prev Term:</span>
             <strong id="res-prev">0.00%</strong>
           </div>
@@ -1166,12 +1166,15 @@
 
     function updateModeUI() {
       const mode = currentMode();
+      const rowPrevStatEl = document.getElementById('row-prev-stat');
+
       if (mode === 'prelim') {
         CS_WEIGHT = 0.5;
         EXAM_WEIGHT = 0.5;
         PREV_WEIGHT = 0.0;
         prevGradeRowEl.style.display = 'none';
         mixPrevEl.style.display = 'none';
+        if (rowPrevStatEl) rowPrevStatEl.style.display = 'none';
 
         pillCsEl.textContent = '50%';
         pillExamEl.textContent = '50%';
@@ -1185,6 +1188,7 @@
         PREV_WEIGHT = 1 / 3;
         prevGradeRowEl.style.display = 'inline-flex';
         mixPrevEl.style.display = 'inline-flex';
+        if (rowPrevStatEl) rowPrevStatEl.style.display = 'flex';
 
         pillCsEl.textContent = '33.3%';
         pillExamEl.textContent = '33.3%';
