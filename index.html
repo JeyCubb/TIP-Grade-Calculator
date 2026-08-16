@@ -82,9 +82,9 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: var(--bg-main);
       color: var(--text-primary);
-      line-height: 1.5;
+      line-height: 1.4;
       min-height: 100vh;
-      padding: 1.25rem 1rem 3rem 1rem;
+      padding: 1rem 0.85rem 2rem 0.85rem;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
 
@@ -93,7 +93,7 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     /* Dynamic Flex Order: Calculator Content at Top (1..3), Title Header at Bottom (4) */
@@ -101,38 +101,34 @@
       order: 1;
     }
 
-    .mobile-tab-bar {
+    .main-grid {
       order: 2;
     }
 
-    .main-grid {
-      order: 3;
-    }
-
     .app-header {
-      order: 4;
+      order: 3;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.1rem 1.5rem;
+      padding: 0.85rem 1.25rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       box-shadow: var(--shadow-sm);
       backdrop-filter: blur(10px);
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
     }
 
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 0.75rem;
     }
 
     .brand-icon {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-md);
       background: var(--accent-gradient);
       color: #fff;
@@ -143,7 +139,7 @@
     }
 
     .brand-title {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.02em;
       line-height: 1.2;
@@ -157,10 +153,10 @@
     .user-profile-bar {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
-      padding: 0.35rem 0.7rem;
+      padding: 0.3rem 0.6rem;
       border-radius: var(--radius-full);
       box-shadow: var(--shadow-sm);
     }
@@ -168,8 +164,8 @@
     .user-profile-bar select {
       border: none;
       background: transparent;
-      padding: 0.15rem 0.3rem;
-      font-size: 0.85rem;
+      padding: 0.15rem 0.25rem;
+      font-size: 0.825rem;
       font-weight: 700;
       color: var(--accent-primary);
       width: auto;
@@ -180,8 +176,8 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: var(--radius-full);
       display: flex;
       align-items: center;
@@ -201,7 +197,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.25rem;
       box-shadow: var(--shadow-md);
       transition: var(--transition);
     }
@@ -210,17 +206,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1rem;
+      margin-bottom: 0.85rem;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .card-title {
-      font-size: 1.15rem;
+      font-size: 1.05rem;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     /* Sleek Low-Profile Mode Bar */
@@ -229,19 +225,19 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 0.65rem 1rem;
-      gap: 0.85rem;
+      padding: 0.55rem 0.9rem;
+      gap: 0.75rem;
       flex-wrap: wrap;
     }
 
     .segmented-control {
       display: inline-flex;
       background: var(--bg-input);
-      padding: 4px;
+      padding: 3px;
       border-radius: var(--radius-full);
       border: 1.5px solid var(--border-color);
       gap: 3px;
-      max-width: 320px;
+      max-width: 300px;
     }
 
     .segmented-option {
@@ -261,9 +257,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0.4rem 0.9rem;
+      padding: 0.35rem 0.8rem;
       border-radius: var(--radius-full);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       color: var(--text-secondary);
       cursor: pointer;
@@ -282,29 +278,28 @@
     .prev-term-row {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-full);
-      padding: 0.3rem 0.75rem;
-      animation: fadeIn 0.25s ease;
+      padding: 0.25rem 0.65rem;
     }
 
     .prev-term-row input {
-      width: 75px;
-      padding: 0.25rem 0.5rem;
-      font-size: 0.85rem;
+      width: 65px;
+      padding: 0.2rem 0.4rem;
+      font-size: 0.8rem;
       border-radius: var(--radius-sm);
     }
 
     /* Form Controls */
     label {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-secondary);
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.25rem;
     }
 
     input[type="number"],
@@ -313,10 +308,10 @@
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       color: var(--text-primary);
-      padding: 0.65rem 0.85rem;
+      padding: 0.5rem 0.75rem;
       border-radius: var(--radius-md);
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.875rem;
       font-weight: 600;
       outline: none;
       transition: var(--transition);
@@ -335,11 +330,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.25rem;
+      gap: 0.4rem;
+      padding: 0.55rem 1rem;
       border-radius: var(--radius-full);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
       border: 1.5px solid var(--border-color);
@@ -367,14 +362,14 @@
     }
 
     .btn-sm {
-      padding: 0.45rem 0.85rem;
-      font-size: 0.825rem;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.775rem;
       border-radius: var(--radius-md);
     }
 
     .btn-icon-only {
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       padding: 0;
       border-radius: var(--radius-md);
       background: rgba(239, 68, 68, 0.1);
@@ -391,24 +386,24 @@
     .pill {
       display: inline-flex;
       align-items: center;
-      padding: 0.25rem 0.75rem;
+      padding: 0.2rem 0.6rem;
       border-radius: var(--radius-full);
       background: rgba(249, 115, 22, 0.12);
       border: 1px solid rgba(249, 115, 22, 0.25);
       color: var(--accent-primary);
       font-weight: 700;
-      font-size: 0.75rem;
+      font-size: 0.725rem;
       letter-spacing: 0.02em;
     }
 
     /* Save Indicator Toast */
     .save-indicator {
-      font-size: 0.75rem;
+      font-size: 0.725rem;
       font-weight: 700;
       color: var(--color-success);
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.25rem;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -421,7 +416,7 @@
     .main-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     /* Category Box */
@@ -429,85 +424,84 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.85rem;
-      margin-top: 0.65rem;
+      padding: 0.75rem;
+      margin-top: 0.55rem;
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.55rem;
     }
 
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       flex-wrap: wrap;
     }
 
     .cat-name {
       flex: 2;
-      min-width: 130px;
+      min-width: 100px;
     }
 
     .cat-weight-wrapper {
       flex: 1;
-      min-width: 80px;
+      min-width: 70px;
     }
 
     .item-row {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.5rem 0.65rem;
+      padding: 0.45rem 0.55rem;
       border-radius: var(--radius-md);
-      flex-wrap: flex;
     }
 
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       flex: 1;
     }
 
     .item-inputs input {
-      width: 65px;
-      padding: 0.45rem 0.6rem;
-      font-size: 0.875rem;
+      width: 55px;
+      padding: 0.35rem 0.45rem;
+      font-size: 0.8rem;
     }
 
     .item-50 {
-      font-size: 0.775rem;
+      font-size: 0.725rem;
       font-weight: 700;
       color: var(--text-secondary);
       background: var(--bg-input);
-      padding: 0.25rem 0.5rem;
+      padding: 0.2rem 0.4rem;
       border-radius: var(--radius-sm);
       white-space: nowrap;
     }
 
     .avg {
-      font-size: 0.825rem;
+      font-size: 0.775rem;
       font-weight: 700;
       color: var(--accent-primary);
     }
 
     .muted {
       color: var(--text-muted);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .warn {
       color: var(--color-warning);
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .hr {
       height: 1px;
       background: var(--border-color);
-      margin: 0.85rem 0;
+      margin: 0.75rem 0;
     }
 
     /* Result Dashboard Box */
@@ -515,10 +509,10 @@
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 1.1rem;
+      padding: 0.95rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.6rem;
       font-family: inherit;
     }
 
@@ -526,7 +520,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.875rem;
+      font-size: 0.8rem;
       color: var(--text-secondary);
       font-weight: 600;
     }
@@ -539,16 +533,16 @@
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(194, 65, 12, 0.12) 100%);
       border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
-      padding: 0.85rem;
+      padding: 0.75rem;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      margin-top: 0.35rem;
+      gap: 0.3rem;
+      margin-top: 0.25rem;
     }
 
     .final-val {
-      font-size: 2rem;
+      font-size: 1.75rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--accent-primary);
@@ -558,9 +552,9 @@
     .eq-badge {
       display: inline-block;
       align-self: center;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 800;
-      padding: 0.3rem 1.1rem;
+      padding: 0.25rem 0.95rem;
       border-radius: var(--radius-full);
       background: var(--accent-gradient);
       color: #fff;
@@ -578,155 +572,141 @@
       background: var(--color-error-bg) !important;
     }
 
-    /* Mobile Single-Screen Navigation & Floating Sticky Summary Bar */
-    .mobile-tab-bar {
-      display: none;
-    }
-
-    .mobile-sticky-footer {
-      display: none;
-    }
-
-    /* Mobile Single-Screen Viewport Styles ( <= 768px ) */
+    /* ==========================================================================
+       Mobile 2-Column Side-by-Side Responsive Layout ( <= 768px )
+       ========================================================================== */
     @media (max-width: 768px) {
       body {
-        padding: 0.5rem 0.5rem 4.5rem 0.5rem;
-        height: 100vh;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
+        padding: 0.4rem 0.4rem 0.6rem 0.4rem;
       }
 
       .app-container {
-        flex: 1;
-        height: calc(100vh - 5rem);
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
+        gap: 0.5rem;
       }
 
       .app-header {
-        order: 4;
-        padding: 0.65rem 0.85rem;
+        order: 3;
+        padding: 0.5rem 0.75rem;
         border-radius: var(--radius-md);
-        margin-top: 0.25rem;
+        gap: 0.4rem;
       }
 
       .brand-title {
-        font-size: 1.1rem;
+        font-size: 0.95rem;
       }
 
       .brand-icon {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
       }
 
       .user-profile-bar {
-        padding: 0.25rem 0.5rem;
+        padding: 0.2rem 0.45rem;
       }
 
       .user-profile-bar select {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
       }
 
       .theme-toggle-btn {
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
       }
 
       .mode-card {
         order: 1;
-        padding: 0.45rem 0.65rem;
+        padding: 0.4rem 0.65rem;
         border-radius: var(--radius-md);
-        gap: 0.5rem;
+        gap: 0.4rem;
       }
 
       .segmented-label {
-        padding: 0.35rem 0.65rem;
-        font-size: 0.775rem;
+        padding: 0.3rem 0.55rem;
+        font-size: 0.75rem;
       }
 
-      /* Single-Screen View Tabs on Mobile */
-      .mobile-tab-bar {
-        order: 2;
-        display: flex;
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-full);
-        padding: 3px;
-        gap: 3px;
+      .prev-term-row input {
+        width: 55px;
       }
 
-      .mobile-tab-btn {
-        flex: 1;
-        padding: 0.45rem 0.75rem;
-        border-radius: var(--radius-full);
-        border: none;
-        background: transparent;
-        color: var(--text-secondary);
-        font-weight: 700;
-        font-size: 0.825rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.4rem;
-        transition: var(--transition);
-      }
-
-      .mobile-tab-btn.active {
-        background: var(--accent-gradient);
-        color: #fff;
-        box-shadow: 0 3px 10px var(--accent-glow);
-      }
-
+      /* 2-Column Side-by-Side Grid on Mobile Phone */
       .main-grid {
-        order: 3;
-        grid-template-columns: 1fr;
-        flex: 1;
-        overflow-y: auto;
-        padding-bottom: 0.5rem;
-      }
-
-      .card-mobile-hidden {
-        display: none !important;
+        order: 2;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
       }
 
       .card {
-        padding: 0.95rem;
+        padding: 0.65rem;
         border-radius: var(--radius-md);
       }
 
-      /* Persistent Floating Single-Screen Summary Footer */
-      .mobile-sticky-footer {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(13, 12, 11, 0.95);
-        backdrop-filter: blur(12px);
-        border-top: 1.5px solid var(--accent-primary);
-        padding: 0.6rem 1rem;
-        align-items: center;
-        justify-content: space-between;
-        z-index: 100;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
+      .card-header {
+        margin-bottom: 0.4rem;
       }
 
-      .mobile-footer-val {
-        font-size: 1.25rem;
-        font-weight: 800;
-        color: var(--accent-primary);
+      .card-title {
+        font-size: 0.875rem;
+        gap: 0.3rem;
       }
 
-      .mobile-footer-eq {
-        font-size: 0.85rem;
-        font-weight: 800;
-        background: var(--accent-gradient);
-        color: #fff;
-        padding: 0.25rem 0.85rem;
-        border-radius: var(--radius-full);
+      .category {
+        padding: 0.5rem;
+        margin-top: 0.4rem;
+        gap: 0.4rem;
+      }
+
+      .cat-name {
+        min-width: 65px;
+        font-size: 0.775rem;
+        padding: 0.35rem 0.45rem;
+      }
+
+      .cat-weight-wrapper {
+        min-width: 45px;
+      }
+
+      .cat-weight {
+        font-size: 0.775rem;
+        padding: 0.35rem 0.35rem;
+      }
+
+      .item-row {
+        padding: 0.3rem 0.35rem;
+        gap: 0.25rem;
+      }
+
+      .item-inputs input {
+        width: 40px;
+        padding: 0.25rem 0.3rem;
+        font-size: 0.775rem;
+      }
+
+      .item-50 {
+        font-size: 0.675rem;
+        padding: 0.15rem 0.25rem;
+      }
+
+      .result-dashboard {
+        padding: 0.6rem;
+        gap: 0.35rem;
+      }
+
+      .stat-row {
+        font-size: 0.725rem;
+      }
+
+      .final-grade-card {
+        padding: 0.45rem;
+      }
+
+      .final-val {
+        font-size: 1.45rem;
+      }
+
+      .eq-badge {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.7rem;
       }
     }
   </style>
@@ -752,27 +732,17 @@
       </div>
 
       <div class="prev-term-row" id="prev-grade-row" style="display: none;">
-        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Term Avg %</span>
+        <span style="font-size: 0.775rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
         <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
         <span id="prev-error" class="warn"></span>
       </div>
 
-      <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; padding: 0.3rem 0.65rem;" title="Reset current profile data">Reset</button>
+      <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.725rem; color: var(--text-muted); margin-left: auto; padding: 0.25rem 0.6rem;" title="Reset current profile data">Reset</button>
     </section>
 
-    <!-- Mobile Single-Screen View Switcher Tabs (Order 2) -->
-    <div class="mobile-tab-bar">
-      <button class="mobile-tab-btn active" id="tab-btn-cs">
-        📋 Class Standing
-      </button>
-      <button class="mobile-tab-btn" id="tab-btn-exam">
-        ✍️ Exam & Target
-      </button>
-    </div>
-
-    <!-- Main Grid Calculator Content (Order 3) -->
+    <!-- Main Grid Calculator Content - 2-Column Side-by-Side (Order 2) -->
     <div class="main-grid">
-      <!-- Class Standing Card -->
+      <!-- Class Standing Card (Column 1) -->
       <section class="card" id="card-cs-section">
         <div class="card-header">
           <div class="card-title">
@@ -782,16 +752,16 @@
           <span id="weight-warning" class="muted"></span>
         </div>
         <div id="categories"></div>
-        <div style="margin-top: 0.85rem;">
+        <div style="margin-top: 0.65rem;">
           <button id="add-category" class="btn btn-sm">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Category
           </button>
         </div>
       </section>
 
-      <!-- Exam & Target Solver Card -->
-      <section class="card card-mobile-hidden" id="card-exam-section">
+      <!-- Exam & Target Solver Card (Column 2) -->
+      <section class="card" id="card-exam-section">
         <div class="card-header">
           <div class="card-title">
             <span>Exam & Computation</span>
@@ -799,28 +769,28 @@
           </div>
         </div>
         
-        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
-          <div style="display: flex; gap: 0.65rem; align-items: flex-end;">
+        <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+          <div style="display: flex; gap: 0.55rem; align-items: flex-end;">
             <label style="flex: 1;">
               Exam Score
-              <input type="number" id="exam-score" placeholder="e.g. 45" min="0" />
+              <input type="number" id="exam-score" placeholder="Score" min="0" />
             </label>
-            <span style="font-weight: 700; padding-bottom: 0.5rem; color: var(--text-muted);">/</span>
+            <span style="font-weight: 700; padding-bottom: 0.4rem; color: var(--text-muted);">/</span>
             <label style="flex: 1;">
               Exam Total
-              <input type="number" id="exam-total" placeholder="e.g. 50" min="0" />
+              <input type="number" id="exam-total" placeholder="Total" min="0" />
             </label>
           </div>
-          <span id="exam-avg" class="avg">Exam Average: 0.00% (50-base)</span>
+          <span id="exam-avg" class="avg">Exam Avg: 0.00%</span>
         </div>
 
         <div class="hr"></div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.55rem;">
           <label>
             Target Equivalence
             <select id="target-eq">
-              <option value="3.00" selected>3.00 (75% Minimum Pass)</option>
+              <option value="3.00" selected>3.00 (75% Pass)</option>
               <option value="2.75">2.75 (78%)</option>
               <option value="2.50">2.50 (81%)</option>
               <option value="2.25">2.25 (84%)</option>
@@ -828,19 +798,19 @@
               <option value="1.75">1.75 (90%)</option>
               <option value="1.50">1.50 (93%)</option>
               <option value="1.25">1.25 (96%)</option>
-              <option value="1.00">1.00 (99% Highest)</option>
+              <option value="1.00">1.00 (99% Max)</option>
             </select>
           </label>
-          <button id="compute" class="btn btn-primary" style="width: 100%;">
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            Compute Minimum Score
+          <button id="compute" class="btn btn-primary" style="width: 100%; padding: 0.45rem 0.85rem; font-size: 0.8rem;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Compute Minimum
           </button>
         </div>
 
         <div class="hr"></div>
 
-        <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.65rem;">
-          <span style="font-size: 0.775rem; font-weight: 700; color: var(--text-muted);">Weight Mix:</span>
+        <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.55rem;">
+          <span style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted);">Weights:</span>
           <span class="pill" id="mix-cs">CS 50%</span>
           <span class="pill" id="mix-exam">Exam 50%</span>
           <span class="pill" id="mix-prev" style="display: none;">Prev 33.3%</span>
@@ -849,11 +819,11 @@
         <!-- Styled Results Dashboard -->
         <div class="result-dashboard">
           <div class="stat-row">
-            <span>Previous Term Average:</span>
+            <span>Prev Term:</span>
             <strong id="res-prev">0.00%</strong>
           </div>
           <div class="stat-row">
-            <span>Class Standing Average:</span>
+            <span>Class Standing:</span>
             <strong id="res-cs">0.00%</strong>
           </div>
           <div class="stat-row">
@@ -862,21 +832,21 @@
           </div>
 
           <div class="final-grade-card">
-            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Calculated Final Grade</span>
+            <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Final Grade</span>
             <div class="final-val" id="res-final">0.00%</div>
             <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
           </div>
           
-          <div id="summary" style="font-size: 0.8rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.2rem;"></div>
+          <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
         </div>
       </section>
     </div>
 
-    <!-- App Header & Profile Toolbar (Order 4 - Bottom of Content) -->
+    <!-- App Header & Profile Toolbar (Order 3 - Bottom of Content) -->
     <header class="app-header">
       <div class="brand-group">
         <div class="brand-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <rect width="16" height="20" x="4" y="2" rx="2"/>
             <line x1="8" x2="16" y1="6" y2="6"/>
             <line x1="16" x2="16" y1="14" y2="18"/>
@@ -891,43 +861,34 @@
       </div>
 
       <!-- User Profile & Subject Selector Bar -->
-      <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
         <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <select id="user-selector" title="Select User Profile"></select>
-          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.15rem 0.4rem; font-size: 0.775rem;" title="Add New User Profile">+</button>
-          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.15rem 0.4rem; font-size: 0.775rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
+          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New User Profile">+</button>
+          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
 
         <!-- Subject Selector -->
         <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
           <select id="subject-selector" title="Select Subject"></select>
-          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.15rem 0.4rem; font-size: 0.775rem;" title="Add New Subject">+</button>
-          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.15rem 0.4rem; font-size: 0.775rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
+          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New Subject">+</button>
+          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
         </div>
 
         <span class="save-indicator" id="save-indicator">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
 
         <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
-          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
           </svg>
         </button>
       </div>
     </header>
-  </div>
-
-  <!-- Persistent Single-Screen Floating Footer (Mobile Only) -->
-  <div class="mobile-sticky-footer">
-    <div style="display: flex; flex-direction: column;">
-      <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Final Grade</span>
-      <span class="mobile-footer-val" id="mobile-footer-val">0.00%</span>
-    </div>
-    <div class="mobile-footer-eq" id="mobile-footer-eq">Equivalence: 4.00</div>
   </div>
 
   <script>
@@ -1102,19 +1063,19 @@
             categoryEl.innerHTML = `
               <div class="cat-header">
                 <input type="text" class="cat-name" placeholder="Category" value="${c.name || 'Category ' + categoryCount}">
-                <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.3rem;">
-                  <input type="number" class="cat-weight" value="${c.weight}" min="0" max="100" placeholder="Weight">
-                  <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
+                <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.2rem;">
+                  <input type="number" class="cat-weight" value="${c.weight}" min="0" max="100" placeholder="W%">
+                  <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
                 </div>
                 <button class="btn btn-icon-only remove-category" title="Remove Category">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 </button>
               </div>
-              <div class="avg">Category Average: 0.00%</div>
-              <div class="items" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
+              <div class="avg">Cat Avg: 0.00%</div>
+              <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
               <div>
-                <button class="btn btn-sm add-item">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                   Add Item
                 </button>
               </div>
@@ -1129,12 +1090,12 @@
                 row.innerHTML = `
                   <div class="item-inputs">
                     <input type="number" class="item-score" placeholder="Score" value="${it.score || ''}" min="0">
-                    <span style="font-weight: 700; color: var(--text-muted);">/</span>
+                    <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
                     <input type="number" class="item-total" placeholder="Total" value="${it.total || ''}" min="0">
                   </div>
                   <span class="item-50">0.00%</span>
-                  <button class="btn btn-icon-only remove-item" style="width: 30px; height: 30px;" title="Remove Item">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <button class="btn btn-icon-only remove-item" style="width: 26px; height: 26px;" title="Remove Item">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                   </button>
                 `;
                 itemsContainer.appendChild(row);
@@ -1184,28 +1145,6 @@
     const resExamEl = document.getElementById('res-exam');
     const resFinalEl = document.getElementById('res-final');
     const resEqEl = document.getElementById('res-eq');
-    const mobileFooterValEl = document.getElementById('mobile-footer-val');
-    const mobileFooterEqEl = document.getElementById('mobile-footer-eq');
-
-    // Mobile View Switching Logic
-    const tabBtnCs = document.getElementById('tab-btn-cs');
-    const tabBtnExam = document.getElementById('tab-btn-exam');
-    const cardCsSection = document.getElementById('card-cs-section');
-    const cardExamSection = document.getElementById('card-exam-section');
-
-    tabBtnCs.addEventListener('click', () => {
-      tabBtnCs.classList.add('active');
-      tabBtnExam.classList.remove('active');
-      cardCsSection.classList.remove('card-mobile-hidden');
-      cardExamSection.classList.add('card-mobile-hidden');
-    });
-
-    tabBtnExam.addEventListener('click', () => {
-      tabBtnExam.classList.add('active');
-      tabBtnCs.classList.remove('active');
-      cardExamSection.classList.remove('card-mobile-hidden');
-      cardCsSection.classList.add('card-mobile-hidden');
-    });
 
     // Theme Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -1287,19 +1226,19 @@
       categoryEl.innerHTML = `
         <div class="cat-header">
           <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}">
-          <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.3rem;">
-            <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="Weight">
-            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
+          <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.2rem;">
+            <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="W%">
+            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
           </div>
           <button class="btn btn-icon-only remove-category" title="Remove Category">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
         </div>
-        <div class="avg">Category Average: 0.00%</div>
-        <div class="items" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
+        <div class="avg">Cat Avg: 0.00%</div>
+        <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
         <div>
-          <button class="btn btn-sm add-item">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+          <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Item
           </button>
         </div>
@@ -1318,12 +1257,12 @@
       row.innerHTML = `
         <div class="item-inputs">
           <input type="number" class="item-score" placeholder="Score" min="0">
-          <span style="font-weight: 700; color: var(--text-muted);">/</span>
+          <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
           <input type="number" class="item-total" placeholder="Total" min="0">
         </div>
         <span class="item-50">0.00%</span>
-        <button class="btn btn-icon-only remove-item" style="width: 30px; height: 30px;" title="Remove Item">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button class="btn btn-icon-only remove-item" style="width: 26px; height: 26px;" title="Remove Item">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       `;
       itemsContainer.appendChild(row);
@@ -1363,7 +1302,7 @@
 
       const avgLabel = categoryEl.querySelector('.avg');
       if (avgLabel) {
-        avgLabel.textContent = `Category Average: ${finalAvg.toFixed(2)}%`;
+        avgLabel.textContent = `Cat Avg: ${finalAvg.toFixed(2)}%`;
       }
     }
 
@@ -1388,10 +1327,10 @@
       }
 
       if (Math.abs(sumWeights - 100) < 0.001) {
-        weightWarningEl.textContent = 'Weights sum to 100% ✓';
+        weightWarningEl.textContent = 'Weights 100% ✓';
         weightWarningEl.classList.remove('warn');
       } else {
-        weightWarningEl.textContent = `Weights sum to ${sumWeights.toFixed(1)}% (should be 100%)`;
+        weightWarningEl.textContent = `${sumWeights.toFixed(0)}% (want 100%)`;
         weightWarningEl.classList.add('warn');
       }
 
@@ -1407,7 +1346,7 @@
         percent50 = (score / total) * 50 + 50;
       }
 
-      examAvgEl.textContent = `Exam Average: ${percent50.toFixed(2)}% (${score.toFixed(2)} / ${total.toFixed(2)}, 50-base)`;
+      examAvgEl.textContent = `Exam Avg: ${percent50.toFixed(2)}% (${score.toFixed(0)}/${total.toFixed(0)})`;
       return percent50;
     }
 
@@ -1467,23 +1406,14 @@
       resFinalEl.textContent = `${finalPercent.toFixed(2)}%`;
       resEqEl.textContent = `Equivalence: ${eq}`;
 
-      mobileFooterValEl.textContent = `${finalPercent.toFixed(2)}%`;
-      mobileFooterEqEl.textContent = `Equivalence: ${eq}`;
-
       if (eq === '4.00') {
         resEqEl.style.background = 'var(--color-error-bg)';
         resEqEl.style.color = 'var(--color-error)';
         resEqEl.style.boxShadow = 'none';
-
-        mobileFooterEqEl.style.background = 'var(--color-error-bg)';
-        mobileFooterEqEl.style.color = 'var(--color-error)';
       } else {
         resEqEl.style.background = 'var(--accent-gradient)';
         resEqEl.style.color = '#fff';
         resEqEl.style.boxShadow = '0 4px 12px var(--accent-glow)';
-
-        mobileFooterEqEl.style.background = 'var(--accent-gradient)';
-        mobileFooterEqEl.style.color = '#fff';
       }
     }
 
@@ -1496,7 +1426,7 @@
       const mode = currentMode();
 
       if (mode === 'term' && prevPercentVal === null) {
-        summaryEl.textContent = 'Please enter your Previous Term Average to compute.';
+        summaryEl.textContent = 'Enter Prev Term Average to compute.';
         return;
       }
 
@@ -1507,7 +1437,7 @@
 
       if (!isFinite(total) || total <= 0) {
         examTotalEl.classList.add('error-input');
-        summaryEl.textContent = 'Enter a valid exam total to compute the required score.';
+        summaryEl.textContent = 'Enter a valid exam total.';
         return;
       }
 
@@ -1522,12 +1452,12 @@
       const examMax = 100;
 
       if (neededExam50 <= examMin) {
-        summaryEl.textContent = `✓ Target ${targetEq} met even with a 0 on the exam (50-base gives 50%).`;
+        summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score.`;
         saveUserData();
         return;
       }
       if (neededExam50 > examMax) {
-        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached even with a perfect score.`;
+        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached.`;
         saveUserData();
         return;
       }
@@ -1541,7 +1471,7 @@
       const newExamPercent = computeExam();
       const { finalPercent: suggestedFinal, eq: suggestedEq } = computeFinal(csPercent, newExamPercent, prevPercent);
 
-      summaryEl.textContent = `💡 Needed Exam Score: ${clampedScore.toFixed(2)} / ${total.toFixed(2)} (${neededExam50.toFixed(2)}% 50-base)\nWill result in Final Grade ~${suggestedFinal.toFixed(2)}% (Equivalence: ${suggestedEq}).`;
+      summaryEl.textContent = `💡 Needed Exam: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\nFinal Grade ~${suggestedFinal.toFixed(2)}% (Eq: ${suggestedEq}).`;
       saveUserData();
     }
 
