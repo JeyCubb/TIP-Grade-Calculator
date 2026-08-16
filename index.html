@@ -744,7 +744,6 @@
             <span>Class Standing</span>
             <span class="pill pill-green" id="pill-cs">50%</span>
           </div>
-          <span id="weight-warning" class="muted"></span>
         </div>
         <div id="categories"></div>
         <div style="margin-top: 0.65rem;">
@@ -1091,7 +1090,7 @@
               <div class="avg">Cat Avg: 0.00%</div>
               <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
               <div>
-                <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem;">
+                <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem; border-color: rgba(16, 185, 129, 0.3); color: var(--accent-secondary);">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                   Add Item
                 </button>
@@ -1142,7 +1141,6 @@
     let categoryCount = 0;
 
     const categoriesEl = document.getElementById('categories');
-    const weightWarningEl = document.getElementById('weight-warning');
     const examScoreEl = document.getElementById('exam-score');
     const examTotalEl = document.getElementById('exam-total');
     const examAvgEl = document.getElementById('exam-avg');
@@ -1337,20 +1335,6 @@
         weightedSum += avgPercent * (weight / 100);
       });
 
-      if (!categoryEls.length) {
-        weightWarningEl.textContent = 'No categories yet.';
-        weightWarningEl.classList.remove('warn');
-        return 0;
-      }
-
-      if (Math.abs(sumWeights - 100) < 0.001) {
-        weightWarningEl.textContent = 'Weights 100% ✓';
-        weightWarningEl.classList.remove('warn');
-      } else {
-        weightWarningEl.textContent = `${sumWeights.toFixed(0)}% (want 100%)`;
-        weightWarningEl.classList.add('warn');
-      }
-
       return weightedSum;
     }
 
@@ -1435,6 +1419,28 @@
     function computeMinimumExamNeeded() {
       examScoreEl.classList.remove('green');
       examTotalEl.classList.remove('error-input');
+
+      // 1. Verify Category Weights sum to exactly 100%
+      const categoryEls = [...document.querySelectorAll('.category')];
+      let sumWeights = 0;
+      categoryEls.forEach(cat => {
+        const weightInput = cat.querySelector('.cat-weight');
+        weightInput.classList.remove('error-input');
+        sumWeights += parseFloat(weightInput.value) || 0;
+      });
+
+      if (!categoryEls.length) {
+        summaryEl.textContent = '⚠️ Add at least one Class Standing category.';
+        return;
+      }
+
+      if (Math.abs(sumWeights - 100) >= 0.001) {
+        categoryEls.forEach(cat => {
+          cat.querySelector('.cat-weight').classList.add('error-input');
+        });
+        summaryEl.textContent = `⚠️ Category weights must total 100% (currently ${sumWeights.toFixed(0)}%).`;
+        return;
+      }
 
       const csPercent = computeClassStanding();
       const prevPercentVal = getPrevPercent(true);
