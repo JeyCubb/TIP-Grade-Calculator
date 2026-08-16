@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Grade Calculator</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,37 +416,37 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 1rem;
-      margin-top: 0.85rem;
+      padding: 0.85rem;
+      margin-top: 0.65rem;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
     }
 
     .cat-name {
       flex: 2;
-      min-width: 140px;
+      min-width: 130px;
     }
 
     .cat-weight-wrapper {
       flex: 1;
-      min-width: 90px;
+      min-width: 80px;
     }
 
     .item-row {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.65rem;
+      padding: 0.5rem 0.65rem;
       border-radius: var(--radius-md);
       flex-wrap: flex;
     }
@@ -454,20 +454,22 @@
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       flex: 1;
     }
 
     .item-inputs input {
-      width: 70px;
+      width: 65px;
+      padding: 0.45rem 0.6rem;
+      font-size: 0.875rem;
     }
 
     .item-50 {
-      font-size: 0.8rem;
+      font-size: 0.775rem;
       font-weight: 700;
       color: var(--text-secondary);
       background: var(--bg-input);
-      padding: 0.35rem 0.6rem;
+      padding: 0.25rem 0.5rem;
       border-radius: var(--radius-sm);
       white-space: nowrap;
     }
@@ -492,7 +494,7 @@
     .hr {
       height: 1px;
       background: var(--border-color);
-      margin: 1rem 0;
+      margin: 0.85rem 0;
     }
 
     /* Result Dashboard Box */
@@ -500,10 +502,10 @@
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 1.25rem;
+      padding: 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.75rem;
       font-family: inherit;
     }
 
@@ -511,7 +513,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       color: var(--text-secondary);
       font-weight: 600;
     }
@@ -524,16 +526,16 @@
       background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(194, 65, 12, 0.12) 100%);
       border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
-      padding: 1rem;
+      padding: 0.85rem;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
-      margin-top: 0.5rem;
+      gap: 0.35rem;
+      margin-top: 0.35rem;
     }
 
     .final-val {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--accent-primary);
@@ -543,9 +545,9 @@
     .eq-badge {
       display: inline-block;
       align-self: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 800;
-      padding: 0.35rem 1.2rem;
+      padding: 0.3rem 1.1rem;
       border-radius: var(--radius-full);
       background: var(--accent-gradient);
       color: #fff;
@@ -563,45 +565,150 @@
       background: var(--color-error-bg) !important;
     }
 
-    /* Mobile Responsive Optimizations */
+    /* Mobile Single-Screen Navigation & Floating Sticky Summary Bar */
+    .mobile-tab-bar {
+      display: none;
+    }
+
+    .mobile-sticky-footer {
+      display: none;
+    }
+
+    /* Mobile Single-Screen Viewport Styles ( <= 768px ) */
     @media (max-width: 768px) {
       body {
-        padding: 0.85rem 0.75rem 2rem 0.75rem;
+        padding: 0.5rem 0.5rem 4.5rem 0.5rem;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
       }
+
+      .app-container {
+        flex: 1;
+        height: calc(100vh - 5rem);
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .app-header {
+        padding: 0.65rem 0.85rem;
+        border-radius: var(--radius-md);
+      }
+
+      .brand-title {
+        font-size: 1.1rem;
+      }
+
+      .brand-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .user-profile-bar {
+        padding: 0.25rem 0.5rem;
+      }
+
+      .user-profile-bar select {
+        font-size: 0.8rem;
+      }
+
+      .theme-toggle-btn {
+        width: 34px;
+        height: 34px;
+      }
+
+      .mode-card {
+        padding: 0.45rem 0.65rem;
+        border-radius: var(--radius-md);
+        gap: 0.5rem;
+      }
+
+      .segmented-label {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.775rem;
+      }
+
+      /* Single-Screen View Tabs on Mobile */
+      .mobile-tab-bar {
+        display: flex;
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-full);
+        padding: 3px;
+        gap: 3px;
+      }
+
+      .mobile-tab-btn {
+        flex: 1;
+        padding: 0.45rem 0.75rem;
+        border-radius: var(--radius-full);
+        border: none;
+        background: transparent;
+        color: var(--text-secondary);
+        font-weight: 700;
+        font-size: 0.825rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        transition: var(--transition);
+      }
+
+      .mobile-tab-btn.active {
+        background: var(--accent-gradient);
+        color: #fff;
+        box-shadow: 0 3px 10px var(--accent-glow);
+      }
+
       .main-grid {
         grid-template-columns: 1fr;
+        flex: 1;
+        overflow-y: auto;
+        padding-bottom: 0.5rem;
       }
-      .app-header {
-        padding: 0.85rem 1rem;
+
+      .card-mobile-hidden {
+        display: none !important;
       }
-      .brand-title {
-        font-size: 1.15rem;
-      }
+
       .card {
-        padding: 1.15rem;
+        padding: 0.95rem;
+        border-radius: var(--radius-md);
       }
-      .item-row {
-        flex-direction: row;
+
+      /* Persistent Floating Single-Screen Summary Footer */
+      .mobile-sticky-footer {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(13, 12, 11, 0.95);
+        backdrop-filter: blur(12px);
+        border-top: 1.5px solid var(--accent-primary);
+        padding: 0.6rem 1rem;
         align-items: center;
         justify-content: space-between;
-        gap: 0.4rem;
+        z-index: 100;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
       }
-      .item-inputs input {
-        width: 60px;
+
+      .mobile-footer-val {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--accent-primary);
       }
-      .item-50 {
-        font-size: 0.75rem;
-        padding: 0.3rem 0.45rem;
-      }
-      .final-val {
-        font-size: 1.85rem;
-      }
-      .mode-card {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .segmented-control {
-        max-width: 100%;
+
+      .mobile-footer-eq {
+        font-size: 0.85rem;
+        font-weight: 800;
+        background: var(--accent-gradient);
+        color: #fff;
+        padding: 0.25rem 0.85rem;
+        border-radius: var(--radius-full);
       }
     }
   </style>
@@ -613,17 +720,13 @@
     <header class="app-header">
       <div class="brand-group">
         <div class="brand-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <rect width="16" height="20" x="4" y="2" rx="2"/>
             <line x1="8" x2="16" y1="6" y2="6"/>
             <line x1="16" x2="16" y1="14" y2="18"/>
-            <path d="M16 10h.01"/>
-            <path d="M12 10h.01"/>
-            <path d="M8 10h.01"/>
-            <path d="M12 14h.01"/>
-            <path d="M8 14h.01"/>
-            <path d="M12 18h.01"/>
-            <path d="M8 18h.01"/>
+            <path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/>
+            <path d="M12 14h.01"/><path d="M8 14h.01"/>
+            <path d="M12 18h.01"/><path d="M8 18h.01"/>
           </svg>
         </div>
         <div>
@@ -632,39 +735,30 @@
       </div>
 
       <!-- User Profile & Subject Selector Bar -->
-      <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;">
         <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <select id="user-selector" title="Select User Profile"></select>
-          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.2rem 0.45rem; font-size: 0.8rem;" title="Add New User Profile">+</button>
-          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.2rem 0.45rem; font-size: 0.8rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
+          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.15rem 0.4rem; font-size: 0.775rem;" title="Add New User Profile">+</button>
+          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.15rem 0.4rem; font-size: 0.775rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
 
         <!-- Subject Selector -->
         <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
           <select id="subject-selector" title="Select Subject"></select>
-          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.2rem 0.45rem; font-size: 0.8rem;" title="Add New Subject">+</button>
-          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.2rem 0.45rem; font-size: 0.8rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
+          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.15rem 0.4rem; font-size: 0.775rem;" title="Add New Subject">+</button>
+          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.15rem 0.4rem; font-size: 0.775rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
         </div>
 
         <span class="save-indicator" id="save-indicator">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Saved
         </span>
 
         <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
-          <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2"/>
-            <path d="M12 20v2"/>
-            <path d="m4.93 4.93 1.41 1.41"/>
-            <path d="m17.66 17.66 1.41 1.41"/>
-            <path d="M2 12h2"/>
-            <path d="M20 12h2"/>
-            <path d="m6.34 17.66-1.41 1.41"/>
-            <path d="m19.07 4.93-1.41 1.41"/>
+          <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
           </svg>
         </button>
       </div>
@@ -688,17 +782,27 @@
       </div>
 
       <div class="prev-term-row" id="prev-grade-row" style="display: none;">
-        <span style="font-size: 0.825rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Term Avg %</span>
+        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Term Avg %</span>
         <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
         <span id="prev-error" class="warn"></span>
       </div>
 
-      <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; padding: 0.35rem 0.85rem;" title="Reset current profile data">Reset Data</button>
+      <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.75rem; color: var(--text-muted); margin-left: auto; padding: 0.3rem 0.65rem;" title="Reset current profile data">Reset</button>
     </section>
+
+    <!-- Mobile Single-Screen View Switcher Tabs (Only visible on mobile phone screens) -->
+    <div class="mobile-tab-bar">
+      <button class="mobile-tab-btn active" id="tab-btn-cs">
+        📋 Class Standing
+      </button>
+      <button class="mobile-tab-btn" id="tab-btn-exam">
+        ✍️ Exam & Target
+      </button>
+    </div>
 
     <div class="main-grid">
       <!-- Class Standing Card -->
-      <section class="card">
+      <section class="card" id="card-cs-section">
         <div class="card-header">
           <div class="card-title">
             <span>Class Standing</span>
@@ -707,16 +811,16 @@
           <span id="weight-warning" class="muted"></span>
         </div>
         <div id="categories"></div>
-        <div style="margin-top: 1rem;">
+        <div style="margin-top: 0.85rem;">
           <button id="add-category" class="btn btn-sm">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Category
           </button>
         </div>
       </section>
 
       <!-- Exam & Target Solver Card -->
-      <section class="card">
+      <section class="card card-mobile-hidden" id="card-exam-section">
         <div class="card-header">
           <div class="card-title">
             <span>Exam & Computation</span>
@@ -724,13 +828,13 @@
           </div>
         </div>
         
-        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
-          <div style="display: flex; gap: 0.75rem; align-items: flex-end;">
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+          <div style="display: flex; gap: 0.65rem; align-items: flex-end;">
             <label style="flex: 1;">
               Exam Score
               <input type="number" id="exam-score" placeholder="e.g. 45" min="0" />
             </label>
-            <span style="font-weight: 700; padding-bottom: 0.65rem; color: var(--text-muted);">/</span>
+            <span style="font-weight: 700; padding-bottom: 0.5rem; color: var(--text-muted);">/</span>
             <label style="flex: 1;">
               Exam Total
               <input type="number" id="exam-total" placeholder="e.g. 50" min="0" />
@@ -741,7 +845,7 @@
 
         <div class="hr"></div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.65rem;">
           <label>
             Target Equivalence
             <select id="target-eq">
@@ -757,15 +861,15 @@
             </select>
           </label>
           <button id="compute" class="btn btn-primary" style="width: 100%;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Compute Minimum Score
           </button>
         </div>
 
         <div class="hr"></div>
 
-        <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.85rem;">
-          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted);">Weight Mix:</span>
+        <div style="display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.65rem;">
+          <span style="font-size: 0.775rem; font-weight: 700; color: var(--text-muted);">Weight Mix:</span>
           <span class="pill" id="mix-cs">CS 50%</span>
           <span class="pill" id="mix-exam">Exam 50%</span>
           <span class="pill" id="mix-prev" style="display: none;">Prev 33.3%</span>
@@ -787,15 +891,24 @@
           </div>
 
           <div class="final-grade-card">
-            <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Calculated Final Grade</span>
+            <span style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Calculated Final Grade</span>
             <div class="final-val" id="res-final">0.00%</div>
             <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
           </div>
           
-          <div id="summary" style="font-size: 0.825rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.25rem;"></div>
+          <div id="summary" style="font-size: 0.8rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.2rem;"></div>
         </div>
       </section>
     </div>
+  </div>
+
+  <!-- Persistent Single-Screen Floating Footer (Mobile Only) -->
+  <div class="mobile-sticky-footer">
+    <div style="display: flex; flex-direction: column;">
+      <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Final Grade</span>
+      <span class="mobile-footer-val" id="mobile-footer-val">0.00%</span>
+    </div>
+    <div class="mobile-footer-eq" id="mobile-footer-eq">Equivalence: 4.00</div>
   </div>
 
   <script>
@@ -941,7 +1054,6 @@
       categoryCount = 0;
 
       if (!raw) {
-        // Default initial data for new subject
         updateModeUI();
         addCategory('Quizzes', 30);
         addCategory('Assignments & Exams', 70);
@@ -976,11 +1088,11 @@
                   <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
                 </div>
                 <button class="btn btn-icon-only remove-category" title="Remove Category">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 </button>
               </div>
               <div class="avg">Category Average: 0.00%</div>
-              <div class="items" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+              <div class="items" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
               <div>
                 <button class="btn btn-sm add-item">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -1002,8 +1114,8 @@
                     <input type="number" class="item-total" placeholder="Total" value="${it.total || ''}" min="0">
                   </div>
                   <span class="item-50">0.00%</span>
-                  <button class="btn btn-icon-only remove-item" style="width: 32px; height: 32px;" title="Remove Item">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <button class="btn btn-icon-only remove-item" style="width: 30px; height: 30px;" title="Remove Item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                   </button>
                 `;
                 itemsContainer.appendChild(row);
@@ -1053,6 +1165,28 @@
     const resExamEl = document.getElementById('res-exam');
     const resFinalEl = document.getElementById('res-final');
     const resEqEl = document.getElementById('res-eq');
+    const mobileFooterValEl = document.getElementById('mobile-footer-val');
+    const mobileFooterEqEl = document.getElementById('mobile-footer-eq');
+
+    // Mobile View Switching Logic
+    const tabBtnCs = document.getElementById('tab-btn-cs');
+    const tabBtnExam = document.getElementById('tab-btn-exam');
+    const cardCsSection = document.getElementById('card-cs-section');
+    const cardExamSection = document.getElementById('card-exam-section');
+
+    tabBtnCs.addEventListener('click', () => {
+      tabBtnCs.classList.add('active');
+      tabBtnExam.classList.remove('active');
+      cardCsSection.classList.remove('card-mobile-hidden');
+      cardExamSection.classList.add('card-mobile-hidden');
+    });
+
+    tabBtnExam.addEventListener('click', () => {
+      tabBtnExam.classList.add('active');
+      tabBtnCs.classList.remove('active');
+      cardExamSection.classList.remove('card-mobile-hidden');
+      cardCsSection.classList.add('card-mobile-hidden');
+    });
 
     // Theme Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -1139,11 +1273,11 @@
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.85rem;">%</span>
           </div>
           <button class="btn btn-icon-only remove-category" title="Remove Category">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
         </div>
         <div class="avg">Category Average: 0.00%</div>
-        <div class="items" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+        <div class="items" style="display: flex; flex-direction: column; gap: 0.45rem;"></div>
         <div>
           <button class="btn btn-sm add-item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -1169,8 +1303,8 @@
           <input type="number" class="item-total" placeholder="Total" min="0">
         </div>
         <span class="item-50">0.00%</span>
-        <button class="btn btn-icon-only remove-item" style="width: 32px; height: 32px;" title="Remove Item">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button class="btn btn-icon-only remove-item" style="width: 30px; height: 30px;" title="Remove Item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       `;
       itemsContainer.appendChild(row);
@@ -1314,14 +1448,23 @@
       resFinalEl.textContent = `${finalPercent.toFixed(2)}%`;
       resEqEl.textContent = `Equivalence: ${eq}`;
 
+      mobileFooterValEl.textContent = `${finalPercent.toFixed(2)}%`;
+      mobileFooterEqEl.textContent = `Equivalence: ${eq}`;
+
       if (eq === '4.00') {
         resEqEl.style.background = 'var(--color-error-bg)';
         resEqEl.style.color = 'var(--color-error)';
         resEqEl.style.boxShadow = 'none';
+
+        mobileFooterEqEl.style.background = 'var(--color-error-bg)';
+        mobileFooterEqEl.style.color = 'var(--color-error)';
       } else {
         resEqEl.style.background = 'var(--accent-gradient)';
         resEqEl.style.color = '#fff';
         resEqEl.style.boxShadow = '0 4px 12px var(--accent-glow)';
+
+        mobileFooterEqEl.style.background = 'var(--accent-gradient)';
+        mobileFooterEqEl.style.color = '#fff';
       }
     }
 
