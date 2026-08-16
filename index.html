@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* ==========================================================================
-       Design System & Design Tokens (Coppery Orange Primary & Emerald Green Functional Accents)
+       Design System & Design Tokens (Solid Coppery Orange & Minimal White Theme)
        ========================================================================== */
     :root {
       --bg-main: #0e0d0c;
@@ -29,11 +29,6 @@
       --accent-primary: #f97316;
       --accent-primary-hover: #ea580c;
       --accent-glow: rgba(249, 115, 22, 0.25);
-
-      /* Functional Emerald Green Accent */
-      --accent-secondary: #10b981;
-      --accent-secondary-hover: #059669;
-      --accent-secondary-glow: rgba(16, 185, 129, 0.3);
 
       --color-success: #10b981;
       --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -70,10 +65,6 @@
       --accent-primary: #ea580c;
       --accent-primary-hover: #c2410c;
       --accent-glow: rgba(234, 88, 12, 0.2);
-
-      --accent-secondary: #059669;
-      --accent-secondary-hover: #047857;
-      --accent-secondary-glow: rgba(5, 150, 105, 0.2);
 
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -396,7 +387,7 @@
       color: #fff;
     }
 
-    /* Pill Badges - Orange & Green Badges */
+    /* Clean Solid Orange Pill Badges */
     .pill {
       display: inline-flex;
       align-items: center;
@@ -408,12 +399,6 @@
       font-weight: 700;
       font-size: 0.725rem;
       letter-spacing: 0.02em;
-    }
-
-    .pill-green {
-      background: rgba(16, 185, 129, 0.12) !important;
-      border: 1px solid rgba(16, 185, 129, 0.25) !important;
-      color: var(--accent-secondary) !important;
     }
 
     /* Save Indicator Toast */
@@ -501,11 +486,10 @@
       white-space: nowrap;
     }
 
-    /* Green hint for category average */
     .avg {
       font-size: 0.775rem;
       font-weight: 700;
-      color: var(--accent-secondary);
+      color: var(--accent-primary);
     }
 
     .muted {
@@ -577,9 +561,9 @@
       font-weight: 800;
       padding: 0.25rem 0.95rem;
       border-radius: var(--radius-full);
-      background: var(--accent-secondary);
+      background: var(--accent-primary);
       color: #fff;
-      box-shadow: 0 4px 12px var(--accent-secondary-glow);
+      box-shadow: 0 4px 12px var(--accent-glow);
     }
 
     .green {
@@ -741,7 +725,7 @@
         <div class="card-header">
           <div class="card-title">
             <span>Class Standing</span>
-            <span class="pill pill-green" id="pill-cs">50%</span>
+            <span class="pill" id="pill-cs">50%</span>
           </div>
         </div>
         <div id="categories"></div>
@@ -774,7 +758,7 @@
               <input type="number" id="exam-total" placeholder="Total" min="0" />
             </label>
           </div>
-          <span id="exam-avg" class="avg" style="color: var(--accent-primary);">Exam Avg: 0.00%</span>
+          <span id="exam-avg" class="avg">Exam Avg: 0.00%</span>
         </div>
 
         <div class="hr"></div>
@@ -804,20 +788,20 @@
 
         <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.55rem;">
           <span style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted);">Weights:</span>
-          <span class="pill pill-green" id="mix-cs">CS 50%</span>
+          <span class="pill" id="mix-cs">CS 50%</span>
           <span class="pill" id="mix-exam">Exam 50%</span>
-          <span class="pill pill-green" id="mix-prev" style="display: none;">Prev 33.3%</span>
+          <span class="pill" id="mix-prev" style="display: none;">Prev 33.3%</span>
         </div>
 
         <!-- Clean Results Dashboard -->
         <div class="result-dashboard">
           <div class="stat-row">
             <span>Class Standing:</span>
-            <strong id="res-cs" style="color: var(--accent-secondary);">0.00%</strong>
+            <strong id="res-cs">0.00%</strong>
           </div>
           <div class="stat-row">
             <span>Exam Average:</span>
-            <strong id="res-exam" style="color: var(--accent-primary);">0.00%</strong>
+            <strong id="res-exam">0.00%</strong>
           </div>
 
           <div class="final-grade-card">
@@ -877,7 +861,7 @@
 
       <!-- User Profile & Subject Selector Bar -->
       <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-        <!-- User Profile Selector (Orange Theme) -->
+        <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <select id="user-selector" title="Select User Profile"></select>
@@ -885,11 +869,11 @@
           <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
 
-        <!-- Subject Selector (Emerald Green Accent Pill) -->
-        <div class="user-profile-bar" style="border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.08);" title="Active Subject">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-          <select id="subject-selector" style="color: var(--accent-secondary);" title="Select Subject"></select>
-          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--accent-secondary);" title="Add New Subject">+</button>
+        <!-- Subject Selector -->
+        <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <select id="subject-selector" title="Select Subject"></select>
+          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New Subject">+</button>
           <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
         </div>
 
@@ -1409,9 +1393,9 @@
         resEqEl.style.color = 'var(--color-error)';
         resEqEl.style.boxShadow = 'none';
       } else {
-        resEqEl.style.background = 'var(--accent-secondary)';
+        resEqEl.style.background = 'var(--accent-primary)';
         resEqEl.style.color = '#fff';
-        resEqEl.style.boxShadow = '0 4px 12px var(--accent-secondary-glow)';
+        resEqEl.style.boxShadow = '0 4px 12px var(--accent-glow)';
       }
     }
 
