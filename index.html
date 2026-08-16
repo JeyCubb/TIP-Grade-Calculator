@@ -1591,10 +1591,7 @@
       examScoreEl.classList.add('green');
 
       recomputeAll();
-      const newExamPercent = computeExam();
-      const { finalPercent: suggestedFinal, eq: suggestedEq } = computeFinal(csPercent, newExamPercent, prevPercent);
-
-      summaryEl.textContent = `💡 Needed Exam: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\nFinal Grade ~${suggestedFinal.toFixed(2)}% (Eq: ${suggestedEq}).`;
+      summaryEl.textContent = `💡 Needed Exam: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}`;
       saveUserData();
     }
 
