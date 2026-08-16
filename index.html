@@ -903,8 +903,8 @@
     const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v2';
     const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
     
-    let activeUser = 'Jacob';
-    let userProfiles = ['Jacob'];
+    let activeUser = 'Unknown';
+    let userProfiles = ['Unknown'];
 
     let activeSubject = '';
     let userSubjects = [];
@@ -913,7 +913,7 @@
     const saveIndicatorEl = document.getElementById('save-indicator');
 
     function triggerSaveToast() {
-      if (!saveIndicatorEl) return;
+      if (!saveIndicatorEl || activeUser === 'Unknown') return;
       saveIndicatorEl.classList.add('visible');
       clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
@@ -932,18 +932,23 @@
         } catch (e) {}
       }
 
-      const storedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
-      if (storedActiveUser && userProfiles.includes(storedActiveUser)) {
-        activeUser = storedActiveUser;
-      } else {
-        activeUser = userProfiles[0];
+      if (!userProfiles.includes('Unknown')) {
+        userProfiles.unshift('Unknown');
       }
 
+      activeUser = 'Unknown';
       renderUserProfileDropdown();
       initSubjectProfilesForActiveUser();
     }
 
     function initSubjectProfilesForActiveUser() {
+      if (activeUser === 'Unknown') {
+        userSubjects = [];
+        activeSubject = '';
+        renderSubjectDropdown();
+        return;
+      }
+
       const storedSubjects = localStorage.getItem(`tip_gc_subjects_${activeUser}`);
       if (storedSubjects) {
         try {
@@ -1002,10 +1007,11 @@
     }
 
     function saveUserData() {
-      if (!activeUser) return;
+      if (!activeUser || activeUser === 'Unknown') return;
+      const validProfiles = userProfiles.filter(u => u !== 'Unknown');
       localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(validProfiles));
 
       if (!activeSubject) {
         localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
@@ -1044,15 +1050,28 @@
       activeUser = username;
       activeSubject = subjectName || '';
 
-      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      if (activeSubject) {
-        localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
-      } else {
-        localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
+      if (activeUser !== 'Unknown') {
+        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        if (activeSubject) {
+          localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
+        } else {
+          localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
+        }
       }
 
       categoriesEl.innerHTML = '';
       categoryCount = 0;
+
+      if (activeUser === 'Unknown') {
+        updateModeUI();
+        prevGradeEl.value = '';
+        examScoreEl.value = '';
+        examTotalEl.value = '50';
+        addCategory('Quizzes', 30);
+        addCategory('Assignments & Exams', 70);
+        recomputeAll();
+        return;
+      }
 
       if (!activeSubject) {
         updateModeUI();
