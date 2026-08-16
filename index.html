@@ -1502,6 +1502,8 @@
         neededExam50 = (targetPct - prevPercent * PREV_WEIGHT - csPercent * CS_WEIGHT) / EXAM_WEIGHT;
       }
 
+      const examMin = 50;
+      const examMax = 100;
       const rawUserScore = examScoreEl.value.trim();
       const hasUserTypedScore = rawUserScore !== '';
 
