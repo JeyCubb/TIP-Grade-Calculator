@@ -1506,7 +1506,10 @@
       const examMax = 100;
 
       if (neededExam50 <= examMin) {
-        summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score.`;
+        examScoreEl.value = '0.00';
+        examScoreEl.classList.add('green');
+        recomputeAll();
+        summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score (0.00 / ${total.toFixed(0)}).`;
         saveUserData();
         return;
       }
