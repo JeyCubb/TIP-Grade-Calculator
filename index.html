@@ -10,32 +10,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     /* ==========================================================================
-       Design System & Design Tokens (Vibrant Orange & Emerald Green Theme)
+       Design System & Design Tokens (Solid Coppery Orange Theme - No Gradients)
        ========================================================================== */
     :root {
-      --bg-main: #0a0d0a;
-      --bg-header: rgba(18, 24, 18, 0.9);
-      --bg-card: #141c14;
-      --bg-card-hover: #1c261c;
-      --bg-input: #0e140e;
-      --border-color: rgba(249, 115, 22, 0.15);
-      --border-color-hover: rgba(16, 185, 129, 0.3);
+      --bg-main: #0e0d0c;
+      --bg-header: rgba(26, 22, 19, 0.95);
+      --bg-card: #1a1613;
+      --bg-card-hover: #26201b;
+      --bg-input: #12100e;
+      --border-color: rgba(249, 115, 22, 0.16);
+      --border-color-hover: rgba(249, 115, 22, 0.35);
 
-      --text-primary: #f2fcf2;
-      --text-secondary: #99a899;
-      --text-muted: #5e6e5e;
+      --text-primary: #fcf8f5;
+      --text-secondary: #a89a90;
+      --text-muted: #6e625a;
 
-      /* Orange Primary Accent */
+      /* Solid Coppery Orange Primary Accent */
       --accent-primary: #f97316;
       --accent-primary-hover: #ea580c;
-
-      /* Emerald Green Secondary Accent */
-      --accent-secondary: #10b981;
-      --accent-secondary-hover: #059669;
-
-      /* Dual Gradient (Orange to Green) */
-      --accent-gradient: linear-gradient(135deg, #f97316 0%, #10b981 100%);
-      --accent-glow: rgba(16, 185, 129, 0.25);
+      --accent-glow: rgba(249, 115, 22, 0.25);
 
       --color-success: #10b981;
       --color-success-bg: rgba(16, 185, 129, 0.15);
@@ -57,26 +50,21 @@
     }
 
     [data-theme="light"] {
-      --bg-main: #f6faf6;
-      --bg-header: rgba(255, 255, 255, 0.9);
+      --bg-main: #fdfbf9;
+      --bg-header: rgba(255, 255, 255, 0.95);
       --bg-card: #ffffff;
-      --bg-card-hover: #edf7ed;
-      --bg-input: #e6f2e6;
-      --border-color: #cce0cc;
-      --border-color-hover: #a3d1a3;
+      --bg-card-hover: #fcf4ee;
+      --bg-input: #f8eee7;
+      --border-color: #e6d6cb;
+      --border-color-hover: #d9bfad;
 
-      --text-primary: #0d1a0d;
-      --text-secondary: #3d523d;
-      --text-muted: #6b856b;
+      --text-primary: #1c1510;
+      --text-secondary: #57483e;
+      --text-muted: #8c796d;
 
       --accent-primary: #ea580c;
       --accent-primary-hover: #c2410c;
-
-      --accent-secondary: #059669;
-      --accent-secondary-hover: #047857;
-
-      --accent-gradient: linear-gradient(135deg, #ea580c 0%, #059669 100%);
-      --accent-glow: rgba(5, 150, 105, 0.2);
+      --accent-glow: rgba(234, 88, 12, 0.2);
 
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
       --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -146,7 +134,7 @@
       width: 40px;
       height: 40px;
       border-radius: var(--radius-md);
-      background: var(--accent-gradient);
+      background: var(--accent-primary);
       color: #fff;
       display: flex;
       align-items: center;
@@ -337,7 +325,7 @@
     input[type="number"]:focus,
     input[type="text"]:focus,
     select:focus {
-      border-color: var(--accent-secondary);
+      border-color: var(--accent-primary);
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
@@ -366,14 +354,14 @@
     }
 
     .btn-primary {
-      background: var(--accent-gradient);
+      background: var(--accent-primary);
       border-color: transparent;
       color: #ffffff;
       box-shadow: 0 4px 14px var(--accent-glow);
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #ea580c 0%, #059669 100%);
+      background: var(--accent-primary-hover);
       box-shadow: 0 6px 18px var(--accent-glow);
     }
 
@@ -398,24 +386,18 @@
       color: #fff;
     }
 
-    /* Pill Badges - Orange & Green Accents */
+    /* Solid Orange Pill Badges */
     .pill {
       display: inline-flex;
       align-items: center;
       padding: 0.2rem 0.6rem;
       border-radius: var(--radius-full);
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px solid rgba(249, 115, 22, 0.25);
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid rgba(249, 115, 22, 0.3);
       color: var(--accent-primary);
       font-weight: 700;
       font-size: 0.725rem;
       letter-spacing: 0.02em;
-    }
-
-    .pill-green {
-      background: rgba(16, 185, 129, 0.12) !important;
-      border: 1px solid rgba(16, 185, 129, 0.25) !important;
-      color: var(--accent-secondary) !important;
     }
 
     /* Save Indicator Toast */
@@ -506,7 +488,7 @@
     .avg {
       font-size: 0.775rem;
       font-weight: 700;
-      color: var(--accent-secondary);
+      color: var(--accent-primary);
     }
 
     .muted {
@@ -552,8 +534,8 @@
     }
 
     .final-grade-card {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(16, 185, 129, 0.12) 100%);
-      border: 1.5px solid var(--accent-secondary);
+      background: rgba(249, 115, 22, 0.08);
+      border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
       padding: 0.75rem;
       text-align: center;
@@ -567,7 +549,7 @@
       font-size: 1.75rem;
       font-weight: 800;
       letter-spacing: -0.03em;
-      color: var(--accent-secondary);
+      color: var(--accent-primary);
       line-height: 1.1;
     }
 
@@ -578,7 +560,7 @@
       font-weight: 800;
       padding: 0.25rem 0.95rem;
       border-radius: var(--radius-full);
-      background: var(--accent-gradient);
+      background: var(--accent-primary);
       color: #fff;
       box-shadow: 0 4px 12px var(--accent-glow);
     }
@@ -742,12 +724,12 @@
         <div class="card-header">
           <div class="card-title">
             <span>Class Standing</span>
-            <span class="pill pill-green" id="pill-cs">50%</span>
+            <span class="pill" id="pill-cs">50%</span>
           </div>
         </div>
         <div id="categories"></div>
         <div style="margin-top: 0.65rem;">
-          <button id="add-category" class="btn btn-sm" style="border-color: rgba(16, 185, 129, 0.3); color: var(--accent-secondary);">
+          <button id="add-category" class="btn btn-sm" style="border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary);">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Category
           </button>
@@ -805,16 +787,16 @@
 
         <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.55rem;">
           <span style="font-size: 0.725rem; font-weight: 700; color: var(--text-muted);">Weights:</span>
-          <span class="pill pill-green" id="mix-cs">CS 50%</span>
+          <span class="pill" id="mix-cs">CS 50%</span>
           <span class="pill" id="mix-exam">Exam 50%</span>
-          <span class="pill pill-green" id="mix-prev" style="display: none;">Prev 33.3%</span>
+          <span class="pill" id="mix-prev" style="display: none;">Prev 33.3%</span>
         </div>
 
         <!-- Clean Results Dashboard (Only Class Standing & Exam Average) -->
         <div class="result-dashboard">
           <div class="stat-row">
             <span>Class Standing:</span>
-            <strong id="res-cs" style="color: var(--accent-secondary);">0.00%</strong>
+            <strong id="res-cs" style="color: var(--accent-primary);">0.00%</strong>
           </div>
           <div class="stat-row">
             <span>Exam Average:</span>
@@ -878,7 +860,7 @@
 
       <!-- User Profile & Subject Selector Bar -->
       <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-        <!-- User Profile Selector (Orange Theme) -->
+        <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           <select id="user-selector" title="Select User Profile"></select>
@@ -886,11 +868,11 @@
           <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
 
-        <!-- Subject Selector (Emerald Green Theme) -->
-        <div class="user-profile-bar" style="border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.08);" title="Active Subject">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-          <select id="subject-selector" style="color: var(--accent-secondary);" title="Select Subject"></select>
-          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--accent-secondary);" title="Add New Subject">+</button>
+        <!-- Subject Selector -->
+        <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+          <select id="subject-selector" title="Select Subject"></select>
+          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New Subject">+</button>
           <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
         </div>
 
@@ -1090,7 +1072,7 @@
               <div class="avg">Cat Avg: 0.00%</div>
               <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
               <div>
-                <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem; border-color: rgba(16, 185, 129, 0.3); color: var(--accent-secondary);">
+                <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem; border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary);">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                   Add Item
                 </button>
@@ -1252,7 +1234,7 @@
         <div class="avg">Cat Avg: 0.00%</div>
         <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
         <div>
-          <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem; border-color: rgba(16, 185, 129, 0.3); color: var(--accent-secondary);">
+          <button class="btn btn-sm add-item" style="padding: 0.2rem 0.5rem; font-size: 0.725rem; border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary);">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Item
           </button>
@@ -1410,7 +1392,7 @@
         resEqEl.style.color = 'var(--color-error)';
         resEqEl.style.boxShadow = 'none';
       } else {
-        resEqEl.style.background = 'var(--accent-gradient)';
+        resEqEl.style.background = 'var(--accent-primary)';
         resEqEl.style.color = '#fff';
         resEqEl.style.boxShadow = '0 4px 12px var(--accent-glow)';
       }
