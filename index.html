@@ -917,16 +917,46 @@
       color: var(--accent-primary);
     }
 
-    .sheet-semester-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+    .sem-switcher-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 0.25rem;
+      margin: 0.15rem 0;
+      align-self: flex-start;
     }
 
-    @media (max-width: 960px) {
-      .sheet-semester-grid {
-        grid-template-columns: 1fr;
-      }
+    .sem-switch-btn {
+      padding: 0.35rem 0.95rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .sem-switch-btn:hover {
+      color: var(--text-primary);
+      background: rgba(249, 115, 22, 0.08);
+    }
+
+    .sem-switch-btn.active {
+      background: var(--accent-primary);
+      color: #fff;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .sheet-semester-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .semester-card {
@@ -1206,7 +1236,7 @@
 
       <!-- Single Stacked Semestral GWA Summary Box -->
       <div class="sheet-stacked-gwa-card">
-        <div class="stacked-gwa-row">
+        <div class="stacked-gwa-row" id="row-gwa-sem1" style="cursor: pointer;" title="View First Semester">
           <div class="stacked-gwa-info">
             <span class="stacked-gwa-label">1st Semester GWA</span>
             <span class="stacked-gwa-units" id="stat-sem1-units">Units: 0</span>
@@ -1214,13 +1244,19 @@
           <div class="stacked-gwa-val" id="stat-sem1-gwa">0.00</div>
         </div>
         <div class="hr" style="margin: 0.25rem 0;"></div>
-        <div class="stacked-gwa-row">
+        <div class="stacked-gwa-row" id="row-gwa-sem2" style="cursor: pointer;" title="View Second Semester">
           <div class="stacked-gwa-info">
             <span class="stacked-gwa-label">2nd Semester GWA</span>
             <span class="stacked-gwa-units" id="stat-sem2-units">Units: 0</span>
           </div>
           <div class="stacked-gwa-val" id="stat-sem2-gwa">0.00</div>
         </div>
+      </div>
+
+      <!-- Semester Switcher Bar (One Semester Viewable at a Time) -->
+      <div class="sem-switcher-bar">
+        <button class="sem-switch-btn active" id="btn-switch-sem1" data-sem="sem1">First Semester</button>
+        <button class="sem-switch-btn" id="btn-switch-sem2" data-sem="sem2">Second Semester</button>
       </div>
 
       <!-- Side-by-Side Semester Tables Grid -->
@@ -3789,7 +3825,59 @@ return true;
         annualGwa = sem2Stats.gwa;
       }
 
+      // Update Single-Semester View Visibility
+      const btnSem1 = document.getElementById('btn-switch-sem1');
+      const btnSem2 = document.getElementById('btn-switch-sem2');
+      const cardSem1 = document.getElementById('sem1-card');
+      const cardSem2 = document.getElementById('sem2-card');
+
+      if (btnSem1 && btnSem2 && cardSem1 && cardSem2) {
+        if (activeSemester === 'sem2') {
+          btnSem2.classList.add('active');
+          btnSem1.classList.remove('active');
+          cardSem1.style.display = 'none';
+          cardSem2.style.display = 'flex';
+        } else {
+          btnSem1.classList.add('active');
+          btnSem2.classList.remove('active');
+          cardSem1.style.display = 'flex';
+          cardSem2.style.display = 'none';
+        }
+      }
+
       renderSheetYearTabs(annualGwa);
+    }
+
+    // Semester Switcher Event Listeners
+    let activeSemester = 'sem1';
+    const btnSwitchSem1 = document.getElementById('btn-switch-sem1');
+    const btnSwitchSem2 = document.getElementById('btn-switch-sem2');
+    const rowGwaSem1 = document.getElementById('row-gwa-sem1');
+    const rowGwaSem2 = document.getElementById('row-gwa-sem2');
+
+    if (btnSwitchSem1) {
+      btnSwitchSem1.addEventListener('click', () => {
+        activeSemester = 'sem1';
+        renderSheetView();
+      });
+    }
+    if (btnSwitchSem2) {
+      btnSwitchSem2.addEventListener('click', () => {
+        activeSemester = 'sem2';
+        renderSheetView();
+      });
+    }
+    if (rowGwaSem1) {
+      rowGwaSem1.addEventListener('click', () => {
+        activeSemester = 'sem1';
+        renderSheetView();
+      });
+    }
+    if (rowGwaSem2) {
+      rowGwaSem2.addEventListener('click', () => {
+        activeSemester = 'sem2';
+        renderSheetView();
+      });
     }
 
     // Sheet Table Input Event Listeners
