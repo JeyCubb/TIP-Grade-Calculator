@@ -3552,6 +3552,18 @@ return true;
     }
 
     function tipEquivRating(eqVal) {
+      if (eqVal > 5.00) {
+        if (eqVal >= 94.0) return 'Excellent';
+        if (eqVal >= 88.5) return 'Superior';
+        if (eqVal >= 83.0) return 'Meritorious';
+        if (eqVal >= 77.5) return 'Very Good';
+        if (eqVal >= 72.0) return 'Good';
+        if (eqVal >= 65.5) return 'Very Satisfactory';
+        if (eqVal >= 61.0) return 'Satisfactory';
+        if (eqVal >= 55.5) return 'Fair';
+        if (eqVal >= 50.0) return 'Passing';
+        return 'Failed';
+      }
       if (eqVal === 1.00) return 'Excellent';
       if (eqVal <= 1.25) return 'Superior';
       if (eqVal <= 1.50) return 'Meritorious';
@@ -3589,6 +3601,11 @@ return true;
 
       if (isNaN(effectivePercent)) return NaN;
 
+      // In SHS or 3rd year when entering prelim/raw percent, if value is > 5.00 and no finals yet, return running percent
+      if (isNaN(f) && (activeSheetYear === 'SHS' || activeSheetYear === '3rd Year')) {
+        return effectivePercent;
+      }
+
       if (effectivePercent >= 94.0) return 1.00;
       if (effectivePercent > 88.5) return 1.25;
       if (effectivePercent > 83.0) return 1.50;
@@ -3607,7 +3624,7 @@ return true;
 
       function getSemGwa(semRows) {
         if (!semRows) return { gwa: 0, units: 0 };
-        let totalUnits = 0;
+        let gradedUnits = 0;
         let weightedSum = 0;
         let validCount = 0;
         semRows.forEach(r => {
@@ -3615,11 +3632,11 @@ return true;
           const u = parseFloat(r.units) || 0;
           if (!isNaN(g) && u > 0) {
             weightedSum += g * u;
-            totalUnits += u;
+            gradedUnits += u;
             validCount++;
           }
         });
-        return totalUnits > 0 && validCount > 0 ? (weightedSum / totalUnits) : 0;
+        return gradedUnits > 0 && validCount > 0 ? (weightedSum / gradedUnits) : 0;
       }
 
       const gwa1 = getSemGwa(data.sem1);
@@ -3667,6 +3684,7 @@ return true;
       const rows = userSheetData[activeSheetYear][semKey] || [];
 
       let totalUnits = 0;
+      let gradedUnits = 0;
       let weightedSum = 0;
       let validGradesCount = 0;
 
@@ -3674,18 +3692,17 @@ return true;
         const tr = document.createElement('tr');
         const computedGrade = computeRowGrade(r);
         const units = parseFloat(r.units) || 0;
+        totalUnits += units;
 
         let gradeBadge = '<span class="sheet-grade-cell">--</span>';
         if (!isNaN(computedGrade)) {
-          const isPass = computedGrade <= 3.00;
+          const isPass = (computedGrade <= 3.00) || (computedGrade >= 50.0);
           gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${computedGrade.toFixed(2)}</span>`;
           if (units > 0) {
             weightedSum += computedGrade * units;
-            totalUnits += units;
+            gradedUnits += units;
             validGradesCount++;
           }
-        } else if (units > 0) {
-          totalUnits += units;
         }
 
         tr.innerHTML = `
@@ -3702,14 +3719,13 @@ return true;
         tbody.appendChild(tr);
       });
 
-      const semGwa = totalUnits > 0 && validGradesCount > 0 ? (weightedSum / (totalUnits || 1)) : 0;
+      const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
 
       // Update badges
       document.getElementById(badgeUnitsId).textContent = `${totalUnits} Units`;
       document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
       document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
 
-      return { gwa: semGwa, units: totalUnits };
     }
 
     function renderSheetView() {
