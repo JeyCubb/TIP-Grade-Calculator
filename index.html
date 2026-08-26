@@ -1398,12 +1398,6 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
 
-        <button class="theme-toggle-btn" id="btn-cloud-sync" title="Sync & Share Profiles to Phone" style="border-color: rgba(249, 115, 22, 0.4); color: var(--accent-primary);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
-          </svg>
-        </button>
-
         <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
           <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
@@ -2267,144 +2261,6 @@
       if (confirm(`Reset all grade data for "${activeSubject}" (${activeUser})?`)) {
         localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
         loadUserData(activeUser);
-      }
-    });
-
-    // ----- CROSS-DEVICE CLOUD SYNC & LINK IMPORT -----
-    function exportFullUserData() {
-      const exportData = {
-        profiles: userProfiles.filter(u => u !== 'No Profile'),
-        activeUser: activeUser === 'No Profile' ? (userProfiles.find(u => u !== 'No Profile') || '') : activeUser,
-        activeSubject: activeSubject,
-        subjects: {},
-        grades: {}
-      };
-
-      exportData.profiles.forEach(user => {
-        const subsRaw = localStorage.getItem(`tip_gc_subjects_${user}`);
-        if (subsRaw) {
-          try { exportData.subjects[user] = JSON.parse(subsRaw); } catch(e){}
-        }
-        const activeSub = localStorage.getItem(`tip_gc_active_sub_${user}`);
-        if (exportData.subjects[user] && Array.isArray(exportData.subjects[user])) {
-          exportData.subjects[user].forEach(sub => {
-            const gKey = `tip_gc_data_${user}_${sub}`;
-            const gData = localStorage.getItem(gKey);
-            if (gData) {
-              try { exportData.grades[`${user}__${sub}`] = JSON.parse(gData); } catch(e){}
-            }
-          });
-        }
-      });
-
-            // Include Sheet Curriculum Data
-      exportData.sheets = {};
-      exportData.profiles.forEach(user => {
-        const sheetRaw = localStorage.getItem(`tip_gc_sheet_${user}`);
-        if (sheetRaw) {
-          try { exportData.sheets[user] = JSON.parse(sheetRaw); } catch(e){}
-        }
-      });
-return exportData;
-    }
-
-    function importFullUserData(dataObj) {
-      if (!dataObj || !Array.isArray(dataObj.profiles)) return false;
-
-      dataObj.profiles.forEach(user => {
-        if (!userProfiles.includes(user)) {
-          userProfiles.push(user);
-        }
-        if (dataObj.subjects && dataObj.subjects[user]) {
-          localStorage.setItem(`tip_gc_subjects_${user}`, JSON.stringify(dataObj.subjects[user]));
-        }
-      });
-
-      if (dataObj.grades) {
-        Object.keys(dataObj.grades).forEach(key => {
-          const parts = key.split('__');
-          if (parts.length === 2) {
-            const user = parts[0];
-            const sub = parts[1];
-            localStorage.setItem(`tip_gc_data_${user}_${sub}`, JSON.stringify(dataObj.grades[key]));
-          }
-        });
-      }
-
-      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-
-      if (dataObj.activeUser && userProfiles.includes(dataObj.activeUser)) {
-        activeUser = dataObj.activeUser;
-        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-        initSubjectProfilesForActiveUser();
-        if (dataObj.activeSubject && userSubjects.includes(dataObj.activeSubject)) {
-          activeSubject = dataObj.activeSubject;
-        }
-      }
-
-      renderUserProfileDropdown();
-      renderSubjectDropdown();
-      loadUserData(activeUser);
-            if (dataObj.sheets) {
-        Object.keys(dataObj.sheets).forEach(user => {
-          localStorage.setItem(`tip_gc_sheet_${user}`, JSON.stringify(dataObj.sheets[user]));
-        });
-      }
-return true;
-    }
-
-    function checkUrlSyncParams() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const syncStr = urlParams.get('sync');
-      if (syncStr) {
-        try {
-          const jsonStr = decodeURIComponent(atob(syncStr));
-          const parsed = JSON.parse(jsonStr);
-          if (importFullUserData(parsed)) {
-            alert(`✅ Cross-Device Sync Successful!\n\nImported profile "${activeUser}" and all subjects to this device.`);
-            window.history.replaceState({}, document.title, window.location.pathname);
-          }
-        } catch (e) {}
-      }
-    }
-
-    document.getElementById('btn-cloud-sync').addEventListener('click', () => {
-      const exportData = exportFullUserData();
-      if (!exportData.profiles.length) {
-        alert("Please create a User Profile first (click + next to profile) before syncing to your phone.");
-        return;
-      }
-
-      const encoded = btoa(encodeURIComponent(JSON.stringify(exportData)));
-      const syncLink = window.location.origin + window.location.pathname + '?sync=' + encoded;
-
-      const userAction = prompt(
-        `☁️ CROSS-DEVICE CLOUD SYNC\n\n` +
-        `Send your profiles, subjects & grades to your Phone or another device:\n\n` +
-        `• Press OK to COPY your Sync Link to Clipboard (open it on your phone!).\n` +
-        `• Or PASTE a sync link from your phone here to import:`,
-        syncLink
-      );
-
-      if (userAction !== null) {
-        if (userAction.includes('?sync=')) {
-          try {
-            const syncVal = new URLSearchParams(userAction.substring(userAction.indexOf('?'))).get('sync');
-            const jsonStr = decodeURIComponent(atob(syncVal));
-            const parsed = JSON.parse(jsonStr);
-            if (importFullUserData(parsed)) {
-              alert(`✅ Sync Complete! Loaded profile "${activeUser}".`);
-            }
-          } catch(e) {
-            alert("⚠️ Invalid sync link format.");
-          }
-        } else {
-          navigator.clipboard.writeText(syncLink).then(() => {
-            alert("📋 Phone Sync Link copied to clipboard!\n\nPaste/send this link to your phone (via Messenger, WhatsApp, or notes) and open it to import your profiles & subjects instantly!");
-          }).catch(() => {
-            alert("Open this link on your phone:\n\n" + syncLink);
-          });
-        }
       }
     });
 
@@ -3939,7 +3795,6 @@ return true;
     btnViewSheet.addEventListener('click', () => switchView('sheet'));
 
     initUserProfilesAndSubjects();
-    checkUrlSyncParams();
     loadUserData(activeUser);
 
     // Restore last viewed tab/page on refresh
