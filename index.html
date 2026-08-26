@@ -3589,42 +3589,55 @@ return true;
       const f = parseFloat(row.final);
       const m = parseFloat(row.midterm);
       const p = parseFloat(row.prelim);
+      const manual_g = parseFloat(row.grade);
 
-      // If manual grade override exists and final is blank, preserve manual grade
-      if (isNaN(f) && row.grade !== '' && !isNaN(parseFloat(row.grade))) {
-        return parseFloat(row.grade);
+      // SHS handling: simple average of grading periods
+      if (activeSheetYear === 'SHS') {
+        if (!isNaN(p) && !isNaN(m)) return Math.round((p + m) / 2);
+        if (!isNaN(f)) return f;
+        if (!isNaN(m)) return m;
+        if (!isNaN(p)) return p;
+        if (!isNaN(manual_g)) return manual_g;
+        return NaN;
       }
 
-      let effectivePercent = NaN;
-      if (!isNaN(f)) {
-        if (!isNaN(p) && !isNaN(m)) {
-          effectivePercent = (p * 0.111) + (m * 0.222) + (f * 0.667);
-        } else {
-          effectivePercent = f;
+      // 2nd Year & 3rd Year (75% passing scale)
+      if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
+        if (!isNaN(f)) {
+          if (f >= 99.0) return 1.00;
+          if (f >= 96.0) return 1.25;
+          if (f >= 93.0) return 1.50;
+          if (f >= 90.0) return 1.75;
+          if (f >= 87.0) return 2.00;
+          if (f >= 84.0) return 2.25;
+          if (f >= 81.0) return 2.50;
+          if (f >= 78.0) return 2.75;
+          if (f >= 75.0) return 3.00;
+          return 5.00;
         }
-      } else if (!isNaN(m)) {
-        effectivePercent = m;
-      } else if (!isNaN(p)) {
-        effectivePercent = p;
+        if (!isNaN(manual_g) && manual_g <= 5.0) return manual_g;
+        if (!isNaN(p)) return p;
+        if (!isNaN(m)) return m;
+        return NaN;
       }
 
-      if (isNaN(effectivePercent)) return NaN;
-
-      // In SHS or 3rd year when entering prelim/raw percent, if value is > 5.00 and no finals yet, return running percent
-      if (isNaN(f) && (activeSheetYear === 'SHS' || activeSheetYear === '3rd Year')) {
-        return effectivePercent;
+      // 1st Year & standard (50% passing scale)
+      if (!isNaN(f)) {
+        if (f >= 94.0) return 1.00;
+        if (f > 88.5) return 1.25;
+        if (f > 83.0) return 1.50;
+        if (f > 77.5) return 1.75;
+        if (f >= 72.0) return 2.00;
+        if (f >= 65.5) return 2.25;
+        if (f > 61.0) return 2.50;
+        if (f > 55.5) return 2.75;
+        if (f >= 50.0) return 3.00;
+        return 5.00;
       }
-
-      if (effectivePercent >= 94.0) return 1.00;
-      if (effectivePercent > 88.5) return 1.25;
-      if (effectivePercent > 83.0) return 1.50;
-      if (effectivePercent > 77.5) return 1.75;
-      if (effectivePercent >= 72.0) return 2.00;
-      if (effectivePercent >= 65.5) return 2.25;
-      if (effectivePercent > 61.0) return 2.50;
-      if (effectivePercent > 55.5) return 2.75;
-      if (effectivePercent >= 50.0) return 3.00;
-      return 5.00;
+      if (!isNaN(manual_g)) return manual_g;
+      if (!isNaN(p)) return p;
+      if (!isNaN(m)) return m;
+      return NaN;
     }
 
     function calculateYearGwa(yearKey) {
@@ -3632,19 +3645,22 @@ return true;
       const data = userSheetData[yearKey];
 
       function getSemGwa(semRows) {
-        if (!semRows) return { gwa: 0, units: 0 };
+        if (!semRows) return 0;
         let gradedUnits = 0;
         let weightedSum = 0;
         let validCount = 0;
         semRows.forEach(r => {
           const g = computeRowGrade(r);
-          const u = parseFloat(r.units) || 0;
-          if (!isNaN(g) && u > 0) {
-            weightedSum += g * u;
+          const u = parseFloat(r.units) || (yearKey === 'SHS' ? 1 : 0);
+          if (!isNaN(g) && (yearKey === 'SHS' || u > 0)) {
+            weightedSum += g * (yearKey === 'SHS' ? 1 : u);
             gradedUnits += u;
             validCount++;
           }
         });
+        if (yearKey === 'SHS') {
+          return validCount > 0 ? Math.round(weightedSum / validCount) : 0;
+        }
         return gradedUnits > 0 && validCount > 0 ? (weightedSum / gradedUnits) : 0;
       }
 
@@ -3707,7 +3723,11 @@ return true;
         if (!isNaN(computedGrade)) {
           const isPass = (computedGrade <= 3.00) || (computedGrade >= 50.0);
           gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${computedGrade.toFixed(2)}</span>`;
-          if (units > 0) {
+          if (activeSheetYear === 'SHS') {
+            weightedSum += computedGrade;
+            gradedUnits += 1;
+            validGradesCount++;
+          } else if (units > 0) {
             weightedSum += computedGrade * units;
             gradedUnits += units;
             validGradesCount++;
@@ -3728,7 +3748,12 @@ return true;
         tbody.appendChild(tr);
       });
 
-      const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
+      let semGwa = 0;
+      if (activeSheetYear === 'SHS') {
+        semGwa = validGradesCount > 0 ? (weightedSum / validGradesCount) : 0;
+      } else {
+        semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
+      }
 
       // Update badges
       document.getElementById(badgeUnitsId).textContent = `${totalUnits} Units`;
