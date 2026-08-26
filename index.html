@@ -755,10 +755,305 @@
         font-size: 0.725rem;
       }
     }
+
+    /* ==========================================================================
+       Top View Switcher (Calculator vs. Curriculum & GWA Sheet)
+       ========================================================================== */
+    .view-nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 0.35rem;
+      margin-bottom: 0.35rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .view-nav-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius-md);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .view-nav-btn:hover {
+      color: var(--text-primary);
+      background: rgba(249, 115, 22, 0.06);
+    }
+
+    .view-nav-btn.active {
+      background: var(--accent-primary);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    /* ==========================================================================
+       Curriculum & GWA Sheet View (Grades.xlsx Replica)
+       ========================================================================== */
+    .sheet-view-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .year-tabs-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .year-tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+      scrollbar-width: thin;
+    }
+
+    .year-tab-btn {
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .year-tab-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-color-hover);
+    }
+
+    .year-tab-btn.active {
+      background: rgba(249, 115, 22, 0.15);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    .sheet-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .sheet-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.8rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      position: relative;
+    }
+
+    .sheet-stat-card.featured {
+      border-color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.06);
+    }
+
+    .sheet-stat-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .sheet-stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent-primary);
+    }
+
+    .sheet-stat-sub {
+      font-size: 0.725rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .sheet-semester-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 960px) {
+      .sheet-semester-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .semester-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .semester-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .semester-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .sheet-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .sheet-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.785rem;
+      text-align: left;
+    }
+
+    .sheet-table th {
+      padding: 0.45rem 0.35rem;
+      background: var(--bg-input);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-size: 0.7rem;
+      border-bottom: 1.5px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .sheet-table td {
+      padding: 0.3rem 0.35rem;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+    }
+
+    .sheet-table input {
+      width: 100%;
+      padding: 0.25rem 0.3rem;
+      font-size: 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+
+    .sheet-table input.num-input {
+      text-align: center;
+      width: 48px;
+    }
+
+    .sheet-table input.subj-input {
+      min-width: 90px;
+    }
+
+    .sheet-table input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      background: var(--bg-card-hover);
+    }
+
+    .sheet-grade-cell {
+      font-weight: 800;
+      color: var(--accent-primary);
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: var(--radius-sm);
+      background: rgba(249, 115, 22, 0.1);
+      display: inline-block;
+      min-width: 38px;
+    }
+
+    .sheet-grade-cell.pass {
+      color: var(--color-success);
+      background: var(--color-success-bg);
+    }
+
+    .sheet-grade-cell.fail {
+      color: var(--color-error);
+      background: var(--color-error-bg);
+    }
+
+    .sheet-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+
+    .scheme-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .scheme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Top View Switcher Navigation -->
+    <nav class="view-nav-bar">
+      <button class="view-nav-btn active" id="btn-view-calc" data-view="calc">
+        <span>🧮</span> Calculator View
+      </button>
+      <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet">
+        <span>📊</span> Curriculum & GWA Sheet
+      </button>
+    </nav>
+
+    <!-- Calculator View Container -->
+    <div id="calc-view-container">
+
     
     <!-- 1. Grade Calculator Cards (Order 1 - Absolute Top) -->
     <div class="main-grid">
@@ -875,7 +1170,164 @@
       <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.725rem; color: var(--text-muted); margin-left: auto; padding: 0.25rem 0.6rem;" title="Reset current profile data">Reset</button>
     </section>
 
-    <!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
+    
+    </div><!-- End #calc-view-container -->
+
+    <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
+    <div id="sheet-view-container" class="sheet-view-container" style="display: none;">
+      <!-- Year Selector Tabs Bar -->
+      <div class="year-tabs-wrapper">
+        <div class="year-tabs-bar" id="year-tabs-container">
+          <!-- Dynamic Year Tabs -->
+        </div>
+        <div style="display: flex; gap: 0.35rem; align-items: center;">
+          <button class="btn btn-sm" id="btn-add-year-tab" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Add Custom Academic Year">+ Add Year</button>
+          <button class="btn btn-sm" id="btn-export-sheet-csv" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; border-color: rgba(249, 115, 22, 0.4); color: var(--accent-primary);" title="Export to CSV">📥 Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Year Summary Stats Cards -->
+      <div class="sheet-stats-grid">
+        <div class="sheet-stat-card featured">
+          <span class="sheet-stat-label">Annual General Weighted Average (GWA)</span>
+          <div class="sheet-stat-val" id="stat-annual-gwa">0.00</div>
+          <span class="sheet-stat-sub" id="stat-annual-rating">--</span>
+        </div>
+        <div class="sheet-stat-card">
+          <span class="sheet-stat-label">1st Semester GWA</span>
+          <div class="sheet-stat-val" id="stat-sem1-gwa" style="font-size: 1.35rem;">0.00</div>
+          <span class="sheet-stat-sub" id="stat-sem1-units">Units: 0</span>
+        </div>
+        <div class="sheet-stat-card">
+          <span class="sheet-stat-label">2nd Semester GWA</span>
+          <div class="sheet-stat-val" id="stat-sem2-gwa" style="font-size: 1.35rem;">0.00</div>
+          <span class="sheet-stat-sub" id="stat-sem2-units">Units: 0</span>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Semester Tables Grid -->
+      <div class="sheet-semester-grid">
+        <!-- 1st Semester Card -->
+        <div class="semester-card" id="sem1-card">
+          <div class="semester-header">
+            <div class="semester-title">
+              <span>First Semester</span>
+              <span class="pill" id="badge-sem1-units">0 Units</span>
+            </div>
+            <span class="pill" id="badge-sem1-gwa" style="font-size: 0.8rem; font-weight: 800;">GWA: 0.00</span>
+          </div>
+
+          <div class="sheet-table-wrapper">
+            <table class="sheet-table" id="sem1-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th style="text-align: center;">Prelims</th>
+                  <th style="text-align: center;">Midterms</th>
+                  <th style="text-align: center;">Finals</th>
+                  <th style="text-align: center;">Grade</th>
+                  <th style="text-align: center;">Units</th>
+                  <th style="text-align: center; width: 28px;"></th>
+                </tr>
+              </thead>
+              <tbody id="sem1-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="sheet-footer-row">
+            <button class="btn btn-sm" id="btn-add-sem1-row" style="border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary); font-size: 0.75rem;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              Add Subject
+            </button>
+            <div style="font-size: 0.775rem; font-weight: 700; color: var(--text-secondary);" id="sem1-footer-summary">
+              Total Units: 0 | Weighted GWA: 0.00
+            </div>
+          </div>
+        </div>
+
+        <!-- 2nd Semester Card -->
+        <div class="semester-card" id="sem2-card">
+          <div class="semester-header">
+            <div class="semester-title">
+              <span>Second Semester</span>
+              <span class="pill" id="badge-sem2-units">0 Units</span>
+            </div>
+            <span class="pill" id="badge-sem2-gwa" style="font-size: 0.8rem; font-weight: 800;">GWA: 0.00</span>
+          </div>
+
+          <div class="sheet-table-wrapper">
+            <table class="sheet-table" id="sem2-table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th style="text-align: center;">Prelims</th>
+                  <th style="text-align: center;">Midterms</th>
+                  <th style="text-align: center;">Finals</th>
+                  <th style="text-align: center;">Grade</th>
+                  <th style="text-align: center;">Units</th>
+                  <th style="text-align: center; width: 28px;"></th>
+                </tr>
+              </thead>
+              <tbody id="sem2-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="sheet-footer-row">
+            <button class="btn btn-sm" id="btn-add-sem2-row" style="border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary); font-size: 0.75rem;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              Add Subject
+            </button>
+            <div style="font-size: 0.775rem; font-weight: 700; color: var(--text-secondary);" id="sem2-footer-summary">
+              Total Units: 0 | Weighted GWA: 0.00
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIP Grading Scheme & Term Weights Reference Card -->
+      <div class="scheme-card">
+        <details>
+          <summary style="font-size: 0.825rem; font-weight: 800; color: var(--accent-primary); cursor: pointer;">
+            📋 TIP Grading Scheme & Term Weights Breakdown (Click to View)
+          </summary>
+          <div class="scheme-grid" style="margin-top: 0.75rem;">
+            <div>
+              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Grading Scale (50-base)</h4>
+              <table class="sheet-table" style="font-size: 0.725rem;">
+                <thead>
+                  <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>94.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+                  <tr><td>88.5 – 93.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+                  <tr><td>83.0 – 88.49%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+                  <tr><td>77.5 – 82.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+                  <tr><td>72.0 – 77.49%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+                  <tr><td>65.5 – 71.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+                  <tr><td>61.0 – 65.49%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+                  <tr><td>55.5 – 60.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+                  <tr><td>50.0 – 55.49%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+                  <tr><td>0.0 – 49.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Term Weights Breakdown</h4>
+              <div style="background: var(--bg-input); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 0.65rem; font-size: 0.725rem; line-height: 1.5; color: var(--text-secondary);">
+                <div><strong>Prelims (11% of Sem Grade):</strong> CS 5.5% + Exam 5.5%</div>
+                <div><strong>Midterms (22.3% of Sem Grade):</strong> CS 11% + Exam 11%</div>
+                <div><strong>Finals (66.7% of Sem Grade):</strong> CS 33.3% + Exam 33.3%</div>
+                <div style="margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px dashed var(--border-color);">
+                  <strong>GWA Formula:</strong> <code>&Sigma;(Grade &times; Units) / &Sigma;Units</code>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </div><!-- End #sheet-view-container -->
+<!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
     <header class="app-header">
       <div class="brand-group">
         <div class="brand-icon" style="font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">
@@ -1072,6 +1524,7 @@
     }
 
     function loadUserData(username, subjectName) {
+      if (typeof loadSheetData === "function") loadSheetData();
       activeUser = username;
       activeSubject = subjectName || '';
 
@@ -1808,7 +2261,15 @@
         }
       });
 
-      return exportData;
+            // Include Sheet Curriculum Data
+      exportData.sheets = {};
+      exportData.profiles.forEach(user => {
+        const sheetRaw = localStorage.getItem(`tip_gc_sheet_${user}`);
+        if (sheetRaw) {
+          try { exportData.sheets[user] = JSON.parse(sheetRaw); } catch(e){}
+        }
+      });
+return exportData;
     }
 
     function importFullUserData(dataObj) {
@@ -1848,7 +2309,12 @@
       renderUserProfileDropdown();
       renderSubjectDropdown();
       loadUserData(activeUser, activeSubject);
-      return true;
+            if (dataObj.sheets) {
+        Object.keys(dataObj.sheets).forEach(user => {
+          localStorage.setItem(`tip_gc_sheet_${user}`, JSON.stringify(dataObj.sheets[user]));
+        });
+      }
+return true;
     }
 
     function checkUrlSyncParams() {
@@ -1907,6 +2373,928 @@
     });
 
     // ----- INIT -----
+    
+    // ==========================================================================
+    // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
+    // ==========================================================================
+    const DEFAULT_CURRICULUM_DATA = {
+  "1st Year": {
+    "sem1": [
+      {
+        "name": "Chem",
+        "prelim": 95,
+        "midterm": 85,
+        "final": 84,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "UTS",
+        "prelim": 94,
+        "midterm": 93,
+        "final": 88,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "MMW",
+        "prelim": 76,
+        "midterm": 79,
+        "final": 82,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "ME",
+        "prelim": 94,
+        "midterm": 90,
+        "final": 85,
+        "grade": 1.5,
+        "units": 1
+      },
+      {
+        "name": "Calc 1",
+        "prelim": 73,
+        "midterm": 80,
+        "final": 70,
+        "grade": 2.25,
+        "units": 4
+      },
+      {
+        "name": "Emath",
+        "prelim": 44,
+        "midterm": 69,
+        "final": 76,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Drawing",
+        "prelim": 52,
+        "midterm": 59,
+        "final": 73,
+        "grade": 2,
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": 97,
+        "midterm": 92,
+        "final": 97,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": 98.5,
+        "midterm": 97.83,
+        "final": 97,
+        "grade": 1,
+        "units": 3
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Art App",
+        "prelim": "66.00",
+        "midterm": 54.33,
+        "final": 72,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Rizal",
+        "prelim": 86.88,
+        "midterm": 91.92,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "GEE",
+        "prelim": 96.88,
+        "midterm": 97.63,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "Linear",
+        "prelim": 86.22,
+        "midterm": 85.47,
+        "final": 89,
+        "grade": 1.25,
+        "units": 3
+      },
+      {
+        "name": "Calc Phys",
+        "prelim": 80.92,
+        "midterm": 72.36,
+        "final": 74,
+        "grade": 2,
+        "units": 4
+      },
+      {
+        "name": "Calc 2",
+        "prelim": 82.78,
+        "midterm": 82.84,
+        "final": 87,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "CAD",
+        "prelim": "95.50",
+        "midterm": "95.50",
+        "final": 97,
+        "grade": 1,
+        "units": 1
+      },
+      {
+        "name": "Contemp",
+        "prelim": 80.23,
+        "midterm": 77.58,
+        "final": 78,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": "97.50",
+        "midterm": 98.37,
+        "final": 99,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": "92.00",
+        "midterm": 96.67,
+        "final": 99,
+        "grade": 1,
+        "units": 3
+      }
+    ]
+  },
+  "2nd Year": {
+    "sem1": [
+      {
+        "name": "Purp Com",
+        "prelim": 90.88,
+        "midterm": 92.06,
+        "final": 93.36,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "STS",
+        "prelim": 96.43,
+        "midterm": 93.75,
+        "final": 92.13,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "DM",
+        "prelim": 91.19,
+        "midterm": 88.43,
+        "final": 84.18,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "Statics",
+        "prelim": 91.63,
+        "midterm": 80.58,
+        "final": 90.2,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "DE",
+        "prelim": 90.29,
+        "midterm": 89.11,
+        "final": 90.36,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "EE",
+        "prelim": 78.39,
+        "midterm": 78.17,
+        "final": 86.28,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "Thermo",
+        "prelim": 74.72,
+        "midterm": 81.57,
+        "final": 83.81,
+        "grade": 2.5,
+        "units": 3
+      },
+      {
+        "name": "Wrkshp",
+        "prelim": 92.5,
+        "midterm": 87.49,
+        "final": 85.83,
+        "grade": 2.25,
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": 100,
+        "midterm": 93.66,
+        "final": 97.06,
+        "grade": 1.25,
+        "units": 2
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Dynamics",
+        "prelim": 92.8,
+        "midterm": 89.97,
+        "final": 94,
+        "grade": 1.5,
+        "units": 2
+      },
+      {
+        "name": "RPH",
+        "prelim": 88,
+        "midterm": 89.13,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Comp Prog",
+        "prelim": 99.14,
+        "midterm": 96.54,
+        "final": 93,
+        "grade": 1.5,
+        "units": 1
+      },
+      {
+        "name": "Adv Math",
+        "prelim": 97.42,
+        "midterm": 95.6,
+        "final": 89,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Multivar",
+        "prelim": 90.43,
+        "midterm": 94.69,
+        "final": 92,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "EDA",
+        "prelim": 84.65,
+        "midterm": 88.87,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Machine",
+        "prelim": 97.19,
+        "midterm": 96.79,
+        "final": 96,
+        "grade": 1.25,
+        "units": 2
+      },
+      {
+        "name": "Econ",
+        "prelim": 86.79,
+        "midterm": 85.57,
+        "final": 85,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": 98.75,
+        "midterm": 99.02,
+        "final": 99,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "Thermo 2",
+        "prelim": 92.57,
+        "midterm": 91.34,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      }
+    ]
+  },
+  "3rd Year": {
+    "sem1": [
+      {
+        "name": "Deformable",
+        "prelim": 90.08,
+        "midterm": "",
+        "final": "",
+        "grade": 90.08,
+        "units": 3
+      },
+      {
+        "name": "Flu Mech",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "ACDC",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Mach Elem",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Ethics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Heat Trans",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "BOSH",
+        "prelim": 92.65,
+        "midterm": "",
+        "final": "",
+        "grade": 92.65,
+        "units": 3
+      },
+      {
+        "name": "Electronics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Comp App",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Subject 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 3",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 4",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 5",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 6",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 7",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Subject 8",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      }
+    ]
+  },
+  "SHS": {
+    "sem1": [
+      {
+        "name": "Literature",
+        "prelim": 89,
+        "midterm": 92,
+        "final": 91,
+        "grade": 91,
+        "units": 1
+      },
+      {
+        "name": "Phil Arts",
+        "prelim": 94,
+        "midterm": 95,
+        "final": 95,
+        "grade": 95,
+        "units": 1
+      },
+      {
+        "name": "PeH",
+        "prelim": 96,
+        "midterm": 97,
+        "final": 97,
+        "grade": 97,
+        "units": 1
+      },
+      {
+        "name": "Research",
+        "prelim": 91,
+        "midterm": 95,
+        "final": 93,
+        "grade": 93,
+        "units": 1
+      },
+      {
+        "name": "E-APP",
+        "prelim": 92,
+        "midterm": 96,
+        "final": 94,
+        "grade": 94,
+        "units": 1
+      },
+      {
+        "name": "Filipino",
+        "prelim": 92,
+        "midterm": 96,
+        "final": 94,
+        "grade": 94,
+        "units": 1
+      },
+      {
+        "name": "Physics",
+        "prelim": 89,
+        "midterm": 93,
+        "final": 91,
+        "grade": 91,
+        "units": 1
+      },
+      {
+        "name": "Biology",
+        "prelim": 91,
+        "midterm": 92,
+        "final": 92,
+        "grade": 92,
+        "units": 1
+      },
+      {
+        "name": "Chemistry",
+        "prelim": 93,
+        "midterm": 92,
+        "final": 93,
+        "grade": 93,
+        "units": 1
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Work Immersion",
+        "prelim": 96,
+        "midterm": 99,
+        "final": 98,
+        "grade": 98,
+        "units": 1
+      },
+      {
+        "name": "Physics",
+        "prelim": 94,
+        "midterm": 95,
+        "final": 95,
+        "grade": 95,
+        "units": 1
+      },
+      {
+        "name": "U.C.S.P.",
+        "prelim": 96,
+        "midterm": 96,
+        "final": 96,
+        "grade": 96,
+        "units": 1
+      },
+      {
+        "name": "Research Immersion",
+        "prelim": 98,
+        "midterm": 97,
+        "final": 98,
+        "grade": 98,
+        "units": 1
+      },
+      {
+        "name": "Chemistry",
+        "prelim": 94,
+        "midterm": 93,
+        "final": 94,
+        "grade": 94,
+        "units": 1
+      },
+      {
+        "name": "M.I.L.",
+        "prelim": 92,
+        "midterm": 89,
+        "final": 91,
+        "grade": 91,
+        "units": 1
+      },
+      {
+        "name": "Biology",
+        "prelim": 94,
+        "midterm": 91,
+        "final": 93,
+        "grade": 93,
+        "units": 1
+      },
+      {
+        "name": "Entrepreneurship",
+        "prelim": 91,
+        "midterm": 88,
+        "final": 90,
+        "grade": 90,
+        "units": 1
+      },
+      {
+        "name": "PeH",
+        "prelim": 98,
+        "midterm": 93,
+        "final": 96,
+        "grade": 96,
+        "units": 1
+      }
+    ]
+  }
+};
+    let activeSheetYear = '1st Year';
+    let userSheetData = null;
+
+    function getSheetStorageKey() {
+      return `tip_gc_sheet_${activeUser}`;
+    }
+
+    function loadSheetData() {
+      if (activeUser === 'No Profile') {
+        userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+        renderSheetView();
+        return;
+      }
+
+      const raw = localStorage.getItem(getSheetStorageKey());
+      if (raw) {
+        try {
+          userSheetData = JSON.parse(raw);
+        } catch(e) {
+          userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+        }
+      } else {
+        userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+        saveSheetData();
+      }
+
+      if (!userSheetData[activeSheetYear]) {
+        activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
+      }
+      renderSheetView();
+    }
+
+    function saveSheetData() {
+      if (activeUser === 'No Profile' || !userSheetData) return;
+      localStorage.setItem(getSheetStorageKey(), JSON.stringify(userSheetData));
+    }
+
+    function tipEquivRating(eqVal) {
+      if (eqVal === 1.00) return 'Excellent';
+      if (eqVal <= 1.25) return 'Superior';
+      if (eqVal <= 1.50) return 'Meritorious';
+      if (eqVal <= 1.75) return 'Very Good';
+      if (eqVal <= 2.00) return 'Good';
+      if (eqVal <= 2.25) return 'Very Satisfactory';
+      if (eqVal <= 2.50) return 'Satisfactory';
+      if (eqVal <= 2.75) return 'Fair';
+      if (eqVal <= 3.00) return 'Passing';
+      return 'Failed';
+    }
+
+    function computeRowGrade(row) {
+      const f = parseFloat(row.final);
+      const m = parseFloat(row.midterm);
+      const p = parseFloat(row.prelim);
+
+      // If manual grade override exists and final is blank, preserve manual grade
+      if (isNaN(f) && row.grade !== '' && !isNaN(parseFloat(row.grade))) {
+        return parseFloat(row.grade);
+      }
+
+      let effectivePercent = NaN;
+      if (!isNaN(f)) {
+        if (!isNaN(p) && !isNaN(m)) {
+          effectivePercent = (p * 0.111) + (m * 0.222) + (f * 0.667);
+        } else {
+          effectivePercent = f;
+        }
+      } else if (!isNaN(m)) {
+        effectivePercent = m;
+      } else if (!isNaN(p)) {
+        effectivePercent = p;
+      }
+
+      if (isNaN(effectivePercent)) return NaN;
+
+      if (effectivePercent >= 94.0) return 1.00;
+      if (effectivePercent > 88.5) return 1.25;
+      if (effectivePercent > 83.0) return 1.50;
+      if (effectivePercent > 77.5) return 1.75;
+      if (effectivePercent >= 72.0) return 2.00;
+      if (effectivePercent >= 65.5) return 2.25;
+      if (effectivePercent > 61.0) return 2.50;
+      if (effectivePercent > 55.5) return 2.75;
+      if (effectivePercent >= 50.0) return 3.00;
+      return 5.00;
+    }
+
+    function renderSheetYearTabs() {
+      const container = document.getElementById('year-tabs-container');
+      if (!container || !userSheetData) return;
+      container.innerHTML = '';
+
+      Object.keys(userSheetData).forEach(yearKey => {
+        const btn = document.createElement('button');
+        btn.className = `year-tab-btn ${yearKey === activeSheetYear ? 'active' : ''}`;
+        btn.textContent = yearKey;
+        btn.addEventListener('click', () => {
+          activeSheetYear = yearKey;
+          renderSheetView();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function renderSemesterTable(semKey, tbodyId, summaryId, badgeUnitsId, badgeGwaId) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody || !userSheetData || !userSheetData[activeSheetYear]) return { gwa: 0, units: 0 };
+
+      tbody.innerHTML = '';
+      const rows = userSheetData[activeSheetYear][semKey] || [];
+
+      let totalUnits = 0;
+      let weightedSum = 0;
+      let validGradesCount = 0;
+
+      rows.forEach((r, idx) => {
+        const tr = document.createElement('tr');
+        const computedGrade = computeRowGrade(r);
+        const units = parseFloat(r.units) || 0;
+
+        let gradeBadge = '<span class="sheet-grade-cell">--</span>';
+        if (!isNaN(computedGrade)) {
+          const isPass = computedGrade <= 3.00;
+          gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${computedGrade.toFixed(2)}</span>`;
+          if (units > 0) {
+            weightedSum += computedGrade * units;
+            totalUnits += units;
+            validGradesCount++;
+          }
+        } else if (units > 0) {
+          totalUnits += units;
+        }
+
+        tr.innerHTML = `
+          <td><input type="text" class="subj-input" value="${r.name || ''}" placeholder="Subject Name" data-field="name" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.prelim !== undefined ? r.prelim : ''}" placeholder="--" data-field="prelim" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;">${gradeBadge}</td>
+          <td style="text-align: center;"><input type="number" min="0" step="1" class="num-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;">
+            <button class="btn btn-icon-only remove-sheet-row" style="width: 22px; height: 22px; font-size: 0.7rem;" data-sem="${semKey}" data-idx="${idx}" title="Delete Subject">&times;</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const semGwa = totalUnits > 0 && validGradesCount > 0 ? (weightedSum / (totalUnits || 1)) : 0;
+
+      // Update badges
+      document.getElementById(badgeUnitsId).textContent = `${totalUnits} Units`;
+      document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+      document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+
+      return { gwa: semGwa, units: totalUnits };
+    }
+
+    function renderSheetView() {
+      if (!userSheetData) return;
+      renderSheetYearTabs();
+
+      const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary', 'badge-sem1-units', 'badge-sem1-gwa');
+      const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary', 'badge-sem2-units', 'badge-sem2-gwa');
+
+      // Update Top Stats
+      document.getElementById('stat-sem1-gwa').textContent = sem1Stats.gwa > 0 ? sem1Stats.gwa.toFixed(2) : '--';
+      document.getElementById('stat-sem1-units').textContent = `Units: ${sem1Stats.units}`;
+
+      document.getElementById('stat-sem2-gwa').textContent = sem2Stats.gwa > 0 ? sem2Stats.gwa.toFixed(2) : '--';
+      document.getElementById('stat-sem2-units').textContent = `Units: ${sem2Stats.units}`;
+
+      let annualGwa = 0;
+      if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
+        annualGwa = (sem1Stats.gwa + sem2Stats.gwa) / 2;
+      } else if (sem1Stats.gwa > 0) {
+        annualGwa = sem1Stats.gwa;
+      } else if (sem2Stats.gwa > 0) {
+        annualGwa = sem2Stats.gwa;
+      }
+
+      const annualEl = document.getElementById('stat-annual-gwa');
+      const ratingEl = document.getElementById('stat-annual-rating');
+      if (annualGwa > 0) {
+        annualEl.textContent = annualGwa.toFixed(2);
+        ratingEl.textContent = tipEquivRating(annualGwa);
+      } else {
+        annualEl.textContent = '--';
+        ratingEl.textContent = 'Enter grades to calculate';
+      }
+    }
+
+    // Sheet Table Input Event Listeners
+    document.addEventListener('input', (e) => {
+      const target = e.target;
+      if (target && target.dataset && target.dataset.field && target.dataset.sem) {
+        const semKey = target.dataset.sem;
+        const idx = parseInt(target.dataset.idx, 10);
+        const field = target.dataset.field;
+
+        if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
+          const row = userSheetData[activeSheetYear][semKey][idx];
+          if (row) {
+            row[field] = target.value;
+            saveSheetData();
+            renderSheetView();
+          }
+        }
+      }
+    });
+
+    // Sheet Row Delete & Add Events
+    document.addEventListener('click', (e) => {
+      const removeBtn = e.target.closest('.remove-sheet-row');
+      if (removeBtn) {
+        const semKey = removeBtn.dataset.sem;
+        const idx = parseInt(removeBtn.dataset.idx, 10);
+        if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
+          userSheetData[activeSheetYear][semKey].splice(idx, 1);
+          saveSheetData();
+          renderSheetView();
+        }
+      }
+    });
+
+    document.getElementById('btn-add-sem1-row').addEventListener('click', () => {
+      if (!userSheetData || !userSheetData[activeSheetYear]) return;
+      userSheetData[activeSheetYear].sem1.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 });
+      saveSheetData();
+      renderSheetView();
+    });
+
+    document.getElementById('btn-add-sem2-row').addEventListener('click', () => {
+      if (!userSheetData || !userSheetData[activeSheetYear]) return;
+      userSheetData[activeSheetYear].sem2.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 });
+      saveSheetData();
+      renderSheetView();
+    });
+
+    document.getElementById('btn-add-year-tab').addEventListener('click', () => {
+      const name = prompt("Enter new Academic Year / Sheet name (e.g. 4th Year, Summer Term):");
+      if (name && name.trim()) {
+        const cleanName = name.trim();
+        if (!userSheetData[cleanName]) {
+          userSheetData[cleanName] = {
+            sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }],
+            sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }]
+          };
+          activeSheetYear = cleanName;
+          saveSheetData();
+          renderSheetView();
+        }
+      }
+    });
+
+    // Export CSV
+    document.getElementById('btn-export-sheet-csv').addEventListener('click', () => {
+      if (!userSheetData || !userSheetData[activeSheetYear]) return;
+      const data = userSheetData[activeSheetYear];
+      let csv = `Academic Year: ${activeSheetYear}\n\nFirst Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
+      data.sem1.forEach(r => {
+        const g = computeRowGrade(r);
+        csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
+      });
+      csv += `\nSecond Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
+      data.sem2.forEach(r => {
+        const g = computeRowGrade(r);
+        csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `TIP_Grades_${activeSheetYear.replace(/\s+/g, '_')}.csv`;
+      link.click();
+    });
+
+    // View Navigation Switching
+    const btnViewCalc = document.getElementById('btn-view-calc');
+    const btnViewSheet = document.getElementById('btn-view-sheet');
+    const calcContainer = document.getElementById('calc-view-container');
+    const sheetContainer = document.getElementById('sheet-view-container');
+
+    function switchView(viewName) {
+      if (viewName === 'sheet') {
+        btnViewSheet.classList.add('active');
+        btnViewCalc.classList.remove('active');
+        calcContainer.style.display = 'none';
+        sheetContainer.style.display = 'flex';
+        renderSheetView();
+        window.location.hash = 'sheet';
+      } else {
+        btnViewCalc.classList.add('active');
+        btnViewSheet.classList.remove('active');
+        calcContainer.style.display = 'block';
+        sheetContainer.style.display = 'none';
+        window.location.hash = 'calc';
+      }
+    }
+
+    btnViewCalc.addEventListener('click', () => switchView('calc'));
+    btnViewSheet.addEventListener('click', () => switchView('sheet'));
+
+    // Check hash on load
+    if (window.location.hash === '#sheet') {
+      switchView('sheet');
+    }
+
+    loadSheetData();
     initUserProfilesAndSubjects();
     checkUrlSyncParams();
     loadUserData(activeUser, activeSubject);
