@@ -3729,6 +3729,7 @@ return true;
       document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
       document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
 
+      return { gwa: semGwa, units: totalUnits };
     }
 
     function renderSheetView() {
