@@ -3028,9 +3028,9 @@
       const p = parseFloat(row.prelim);
       const manual_g = parseFloat(row.grade);
 
-      // 2nd Year & 3rd Year (75% passing scale)
-      if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
-        if (!isNaN(f)) {
+      // 1. FINALS: If Finals grade is encoded, compute official rating (disregarding prelims and midterms)
+      if (!isNaN(f)) {
+        if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
           if (f >= 99.0) return 1.00;
           if (f >= 96.0) return 1.25;
           if (f >= 93.0) return 1.50;
@@ -3041,29 +3041,31 @@
           if (f >= 78.0) return 2.75;
           if (f >= 75.0) return 3.00;
           return 5.00;
+        } else {
+          // 1st Year & standard (50% passing scale)
+          if (f >= 94.0) return 1.00;
+          if (f > 88.5) return 1.25;
+          if (f > 83.0) return 1.50;
+          if (f > 77.5) return 1.75;
+          if (f >= 72.0) return 2.00;
+          if (f >= 65.5) return 2.25;
+          if (f > 61.0) return 2.50;
+          if (f > 55.5) return 2.75;
+          if (f >= 50.0) return 3.00;
+          return 5.00;
         }
-        if (!isNaN(manual_g) && manual_g <= 5.0) return manual_g;
-        if (!isNaN(p)) return p;
-        if (!isNaN(m)) return m;
-        return NaN;
       }
 
-      // 1st Year & standard (50% passing scale)
-      if (!isNaN(f)) {
-        if (f >= 94.0) return 1.00;
-        if (f > 88.5) return 1.25;
-        if (f > 83.0) return 1.50;
-        if (f > 77.5) return 1.75;
-        if (f >= 72.0) return 2.00;
-        if (f >= 65.5) return 2.25;
-        if (f > 61.0) return 2.50;
-        if (f > 55.5) return 2.75;
-        if (f >= 50.0) return 3.00;
-        return 5.00;
-      }
-      if (!isNaN(manual_g)) return manual_g;
-      if (!isNaN(p)) return p;
+      // 2. MIDTERMS: If Midterms grade is encoded (and no Finals), focus on Midterms and disregard Prelims
       if (!isNaN(m)) return m;
+
+      // 3. PRELIMS: If Prelims grade is encoded (and no Midterms / Finals), use Prelims
+      if (!isNaN(p)) return p;
+
+      // 4. MANUAL GRADE: If an explicit final equivalent (1.00 - 5.00) is stored directly
+      if (!isNaN(manual_g)) return manual_g;
+
+      // 5. EMPTY: Disregard from GWA calculation
       return NaN;
     }
 
