@@ -869,40 +869,52 @@
       gap: 0.75rem;
     }
 
-    .sheet-stat-card {
+    .sheet-stacked-gwa-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.8rem 1rem;
+      padding: 0.65rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-      position: relative;
+      gap: 0.35rem;
+      box-shadow: var(--shadow-sm);
     }
 
-    .sheet-stat-card.featured {
-      border-color: var(--accent-primary);
-      background: rgba(249, 115, 22, 0.06);
+    .stacked-gwa-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
     }
 
-    .sheet-stat-label {
-      font-size: 0.7rem;
+    .stacked-gwa-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stacked-gwa-label {
+      font-size: 0.75rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-secondary);
     }
 
-    .sheet-stat-val {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--accent-primary);
+    .stacked-gwa-units {
+      font-size: 0.725rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-input);
+      padding: 0.12rem 0.45rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
     }
 
-    .sheet-stat-sub {
-      font-size: 0.725rem;
-      color: var(--text-muted);
-      font-weight: 600;
+    .stacked-gwa-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--accent-primary);
     }
 
     .sheet-semester-grid {
@@ -1189,6 +1201,25 @@
       <div class="year-tabs-wrapper">
         <div class="year-tabs-bar" id="year-tabs-container">
           <!-- Dynamic Year Tabs -->
+        </div>
+      </div>
+
+      <!-- Single Stacked Semestral GWA Summary Box -->
+      <div class="sheet-stacked-gwa-card">
+        <div class="stacked-gwa-row">
+          <div class="stacked-gwa-info">
+            <span class="stacked-gwa-label">1st Semester GWA</span>
+            <span class="stacked-gwa-units" id="stat-sem1-units">Units: 0</span>
+          </div>
+          <div class="stacked-gwa-val" id="stat-sem1-gwa">0.00</div>
+        </div>
+        <div class="hr" style="margin: 0.25rem 0;"></div>
+        <div class="stacked-gwa-row">
+          <div class="stacked-gwa-info">
+            <span class="stacked-gwa-label">2nd Semester GWA</span>
+            <span class="stacked-gwa-units" id="stat-sem2-units">Units: 0</span>
+          </div>
+          <div class="stacked-gwa-val" id="stat-sem2-gwa">0.00</div>
         </div>
       </div>
 
@@ -3188,6 +3219,17 @@ return true;
 
       const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary', 'badge-sem1-units', 'badge-sem1-gwa');
       const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary', 'badge-sem2-units', 'badge-sem2-gwa');
+
+      // Update Single Stacked Semestral GWA Box
+      const elSem1Gwa = document.getElementById('stat-sem1-gwa');
+      const elSem1Units = document.getElementById('stat-sem1-units');
+      const elSem2Gwa = document.getElementById('stat-sem2-gwa');
+      const elSem2Units = document.getElementById('stat-sem2-units');
+
+      if (elSem1Gwa) elSem1Gwa.textContent = sem1Stats.gwa > 0 ? sem1Stats.gwa.toFixed(2) : '--';
+      if (elSem1Units) elSem1Units.textContent = `Units: ${sem1Stats.units}`;
+      if (elSem2Gwa) elSem2Gwa.textContent = sem2Stats.gwa > 0 ? sem2Stats.gwa.toFixed(2) : '--';
+      if (elSem2Units) elSem2Units.textContent = `Units: ${sem2Stats.units}`;
 
       let annualGwa = 0;
       if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
