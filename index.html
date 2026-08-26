@@ -1405,6 +1405,31 @@
   </div>
 
   <script>
+    // ----- DOM REFERENCES & STATE -----
+    let CS_WEIGHT = 0.5;
+    let EXAM_WEIGHT = 0.5;
+    let PREV_WEIGHT = 0.0;
+    let categoryCount = 0;
+
+    const categoriesEl = document.getElementById('categories');
+    const examScoreEl = document.getElementById('exam-score');
+    const examTotalEl = document.getElementById('exam-total');
+    const prevGradeRowEl = document.getElementById('prev-grade-row');
+    const prevGradeEl = document.getElementById('prev-grade');
+    const prevErrorEl = document.getElementById('prev-error');
+    const pillCsEl = document.getElementById('pill-cs');
+    const pillExamEl = document.getElementById('pill-exam');
+    const mixCsEl = document.getElementById('mix-cs');
+    const mixExamEl = document.getElementById('mix-exam');
+    const mixPrevEl = document.getElementById('mix-prev');
+    const summaryEl = document.getElementById('summary');
+    const targetEqEl = document.getElementById('target-eq');
+
+    const resCsEl = document.getElementById('res-cs');
+    const resExamEl = document.getElementById('res-exam');
+    const resFinalEl = document.getElementById('res-final');
+    const resEqEl = document.getElementById('res-eq');
+
     // ----- USER PROFILES, SUBJECTS & PERSISTENCE -----
     const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v2';
     const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
@@ -1595,6 +1620,8 @@
         prevGradeEl.value = '';
         examScoreEl.value = '';
         examTotalEl.value = '50';
+        addCategory('Quizzes', 30);
+        addCategory('Assessment Tasks', 70);
         recomputeAll();
         return;
       }
@@ -1689,31 +1716,7 @@
       }
     }
 
-    // ----- STATE -----
-    let CS_WEIGHT = 0.5;
-    let EXAM_WEIGHT = 0.5;
-    let PREV_WEIGHT = 0.0;
-    let categoryCount = 0;
-
-    const categoriesEl = document.getElementById('categories');
-    const examScoreEl = document.getElementById('exam-score');
-    const examTotalEl = document.getElementById('exam-total');
-    const examAvgEl = document.getElementById('exam-avg');
-    const prevGradeRowEl = document.getElementById('prev-grade-row');
-    const prevGradeEl = document.getElementById('prev-grade');
-    const prevErrorEl = document.getElementById('prev-error');
-    const pillCsEl = document.getElementById('pill-cs');
-    const pillExamEl = document.getElementById('pill-exam');
-    const mixCsEl = document.getElementById('mix-cs');
-    const mixExamEl = document.getElementById('mix-exam');
-    const mixPrevEl = document.getElementById('mix-prev');
-    const summaryEl = document.getElementById('summary');
-    const targetEqEl = document.getElementById('target-eq');
-
-    const resCsEl = document.getElementById('res-cs');
-    const resExamEl = document.getElementById('res-exam');
-    const resFinalEl = document.getElementById('res-final');
-    const resEqEl = document.getElementById('res-eq');
+    // Theme Toggle and UI Event Handlers
 
     // Theme Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
