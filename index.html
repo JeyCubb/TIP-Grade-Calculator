@@ -1553,8 +1553,8 @@
         prevGradeEl.value = '';
         examScoreEl.value = '';
         examTotalEl.value = '50';
-        addCategory('Quizzes', 30);
         addCategory('Assessment Tasks', 70);
+        addCategory('Quizzes', 30);
         recomputeAll();
         return;
       }
@@ -1567,8 +1567,8 @@
         prevGradeEl.value = '';
         examScoreEl.value = '';
         examTotalEl.value = '50';
-        addCategory('Quizzes', 30);
         addCategory('Assessment Tasks', 70);
+        addCategory('Quizzes', 30);
         recomputeAll();
         return;
       }
@@ -1639,14 +1639,14 @@
             recomputeCategory(categoryEl);
           });
         } else {
-          addCategory('Quizzes', 30);
           addCategory('Assessment Tasks', 70);
+          addCategory('Quizzes', 30);
         }
 
         recomputeAll();
       } catch (e) {
-        addCategory('Quizzes', 30);
         addCategory('Assessment Tasks', 70);
+        addCategory('Quizzes', 30);
         recomputeAll();
       }
     }
@@ -1886,19 +1886,40 @@
     }
 
     function recomputeAll() {
+      // Check if any score box is filled in
+      const scoreInputs = [...document.querySelectorAll('.item-score')];
+      const hasItemScore = scoreInputs.some(input => input.value.trim() !== '' && !isNaN(parseFloat(input.value)));
+      const hasExamScore = examScoreEl.value.trim() !== '' && !isNaN(parseFloat(examScoreEl.value));
+      const hasPrevScore = currentMode() === 'term' && prevGradeEl.value.trim() !== '' && !isNaN(parseFloat(prevGradeEl.value));
+
+      const hasAnyScore = hasItemScore || hasExamScore || hasPrevScore;
+
       const csPercent = computeClassStanding();
-      const examPercent = computeExam();
+      const examPercentVal = computeExam();
+      const examPercent = examPercentVal === null ? 0 : examPercentVal;
       const prevPercentVal = getPrevPercent(false);
       const prevPercent = prevPercentVal == null ? 0 : prevPercentVal;
 
-      const { finalPercent, eq } = computeFinal(csPercent, examPercent, prevPercent);
+      resCsEl.textContent = hasItemScore ? `${csPercent.toFixed(2)}%` : '0.00%';
+      resExamEl.textContent = hasExamScore ? `${examPercent.toFixed(2)}%` : '--';
 
-      resCsEl.textContent = `${csPercent.toFixed(2)}%`;
-      resExamEl.textContent = `${examPercent.toFixed(2)}%`;
+      if (!hasAnyScore) {
+        resFinalEl.textContent = '--';
+        resEqEl.textContent = 'Equivalence: --';
+        resEqEl.style.background = 'rgba(255, 255, 255, 0.08)';
+        resEqEl.style.color = 'var(--text-muted)';
+        resEqEl.style.boxShadow = 'none';
+        return;
+      }
+
+      // If at least one score is entered, calculate grade
+      const effectiveExamPercent = examPercentVal === null ? (hasItemScore ? csPercent : 0) : examPercent;
+      const { finalPercent, eq } = computeFinal(csPercent, effectiveExamPercent, prevPercent);
+
       resFinalEl.textContent = `${finalPercent.toFixed(2)}%`;
       resEqEl.textContent = `Equivalence: ${eq}`;
 
-      if (eq === '4.00') {
+      if (eq === '4.00' || eq === '5.00') {
         resEqEl.style.background = 'var(--color-error-bg)';
         resEqEl.style.color = 'var(--color-error)';
         resEqEl.style.boxShadow = 'none';
