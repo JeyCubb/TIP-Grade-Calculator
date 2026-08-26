@@ -1477,7 +1477,13 @@
         localStorage.setItem('tip_gc_sheet_Jacob', JSON.stringify(DEFAULT_JACOB_CURRICULUM));
       }
 
-      activeUser = 'No Profile';
+      const savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
+      if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
+        activeUser = savedActiveUser;
+      } else {
+        activeUser = 'No Profile';
+      }
+
       renderUserProfileDropdown();
       initSubjectProfilesForActiveUser();
     }
@@ -3883,7 +3889,6 @@ return true;
       switchView('sheet');
     }
 
-    loadSheetData();
     initUserProfilesAndSubjects();
     checkUrlSyncParams();
     loadUserData(activeUser, activeSubject);
