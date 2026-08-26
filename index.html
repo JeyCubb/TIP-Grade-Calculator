@@ -1394,14 +1394,6 @@
           <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
         </div>
 
-        <!-- Subject Selector -->
-        <div class="user-profile-bar" style="border-color: rgba(249, 115, 22, 0.3); background: rgba(249, 115, 22, 0.08);" title="Active Subject">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-          <select id="subject-selector" title="Select Subject"></select>
-          <button class="btn btn-sm" id="btn-add-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New Subject">+</button>
-          <button class="btn btn-sm" id="btn-delete-subject" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Subject">&times;</button>
-        </div>
-
         <span class="save-indicator" id="save-indicator">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
@@ -1815,28 +1807,7 @@
     }
 
     // ----- CATEGORY / ITEMS -----
-    function checkOrCreateActiveSubject() {
-      if (!activeSubject) {
-        const name = prompt(`Enter subject name for ${activeUser}:`, "General Subject");
-        if (name && name.trim()) {
-          const cleanName = name.trim();
-          if (!userSubjects.includes(cleanName)) {
-            userSubjects.push(cleanName);
-          }
-          activeSubject = cleanName;
-          renderSubjectDropdown();
-          saveUserData();
-        } else {
-          return false;
-        }
-      }
-      return true;
-    }
-
     function addCategory(name = '', weight = 0) {
-      if (!activeSubject && arguments.length === 0) {
-        if (!checkOrCreateActiveSubject()) return;
-      }
 
       categoryCount++;
       const categoryEl = document.createElement('div');
@@ -2215,7 +2186,7 @@
       saveUserData();
       activeUser = e.target.value;
       initSubjectProfilesForActiveUser();
-      loadUserData(activeUser, activeSubject);
+      loadUserData(activeUser);
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
@@ -2229,7 +2200,7 @@
         activeUser = cleanName;
         renderUserProfileDropdown();
         initSubjectProfilesForActiveUser();
-        loadUserData(activeUser, activeSubject);
+        loadUserData(activeUser);
       }
     });
 
@@ -2243,7 +2214,7 @@
         activeUser = 'No Profile';
         renderUserProfileDropdown();
         initSubjectProfilesForActiveUser();
-        loadUserData(activeUser, activeSubject);
+        loadUserData(activeUser);
       }
     });
 
@@ -2251,7 +2222,7 @@
     document.getElementById('subject-selector').addEventListener('change', (e) => {
       saveUserData();
       activeSubject = e.target.value;
-      loadUserData(activeUser, activeSubject);
+      loadUserData(activeUser);
     });
 
     document.getElementById('btn-add-subject').addEventListener('click', () => {
@@ -2272,7 +2243,7 @@
         activeSubject = cleanName;
         renderSubjectDropdown();
         saveUserData();
-        loadUserData(activeUser, activeSubject);
+        loadUserData(activeUser);
       }
     });
 
@@ -2287,7 +2258,7 @@
         activeSubject = userSubjects.length > 0 ? userSubjects[0] : '';
         localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
         renderSubjectDropdown();
-        loadUserData(activeUser, activeSubject);
+        loadUserData(activeUser);
       }
     });
 
@@ -2295,7 +2266,7 @@
       if (!activeSubject) return;
       if (confirm(`Reset all grade data for "${activeSubject}" (${activeUser})?`)) {
         localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
-        loadUserData(activeUser, activeSubject);
+        loadUserData(activeUser);
       }
     });
 
@@ -2373,7 +2344,7 @@ return exportData;
 
       renderUserProfileDropdown();
       renderSubjectDropdown();
-      loadUserData(activeUser, activeSubject);
+      loadUserData(activeUser);
             if (dataObj.sheets) {
         Object.keys(dataObj.sheets).forEach(user => {
           localStorage.setItem(`tip_gc_sheet_${user}`, JSON.stringify(dataObj.sheets[user]));
@@ -3969,7 +3940,7 @@ return true;
 
     initUserProfilesAndSubjects();
     checkUrlSyncParams();
-    loadUserData(activeUser, activeSubject);
+    loadUserData(activeUser);
 
     // Restore last viewed tab/page on refresh
     const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc'))
