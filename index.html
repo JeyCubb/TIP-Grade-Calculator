@@ -3078,6 +3078,7 @@
         } else if (!userSheetData[activeSheetYear]) {
           activeSheetYear = Object.keys(userSheetData)[0] || '3rd Year';
         }
+        localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
         renderSheetView();
         return;
       }
@@ -3102,11 +3103,12 @@
         saveSheetData();
       }
 
-      if (savedYear && userSheetData[savedYear] && savedYear !== 'SHS') {
+      if (savedYear && userSheetData[savedYear]) {
         activeSheetYear = savedYear;
       } else if (!userSheetData[activeSheetYear]) {
         activeSheetYear = Object.keys(userSheetData)[0] || '3rd Year';
       }
+      localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
       renderSheetView();
     }
 
@@ -3373,6 +3375,9 @@
           btnAddSem2.style.display = 'inline-flex';
         }
       }
+
+      localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
+      localStorage.setItem('tip_gc_active_sheet_sem', activeSemester);
 
       renderSheetYearTabs(annualGwa);
     }
