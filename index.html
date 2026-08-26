@@ -1234,24 +1234,6 @@
         </div>
       </div>
 
-      <!-- Single Semestral GWA Summary Box (Showing Selected Semester) -->
-      <div class="sheet-stacked-gwa-card">
-        <div class="stacked-gwa-row" id="row-gwa-sem1">
-          <div class="stacked-gwa-info">
-            <span class="stacked-gwa-label">1st Semester GWA</span>
-            <span class="stacked-gwa-units" id="stat-sem1-units">Units: 0</span>
-          </div>
-          <div class="stacked-gwa-val" id="stat-sem1-gwa">0.00</div>
-        </div>
-        <div class="stacked-gwa-row" id="row-gwa-sem2" style="display: none;">
-          <div class="stacked-gwa-info">
-            <span class="stacked-gwa-label">2nd Semester GWA</span>
-            <span class="stacked-gwa-units" id="stat-sem2-units">Units: 0</span>
-          </div>
-          <div class="stacked-gwa-val" id="stat-sem2-gwa">0.00</div>
-        </div>
-      </div>
-
       <!-- Semester Switcher Bar (One Semester Viewable at a Time) -->
       <div class="sem-switcher-bar">
         <button class="sem-switch-btn active" id="btn-switch-sem1" data-sem="sem1">First Semester</button>
@@ -3811,17 +3793,6 @@ return true;
       const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary', 'badge-sem1-units', 'badge-sem1-gwa');
       const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary', 'badge-sem2-units', 'badge-sem2-gwa');
 
-      // Update Single Stacked Semestral GWA Box
-      const elSem1Gwa = document.getElementById('stat-sem1-gwa');
-      const elSem1Units = document.getElementById('stat-sem1-units');
-      const elSem2Gwa = document.getElementById('stat-sem2-gwa');
-      const elSem2Units = document.getElementById('stat-sem2-units');
-
-      if (elSem1Gwa) elSem1Gwa.textContent = sem1Stats.gwa > 0 ? sem1Stats.gwa.toFixed(2) : '--';
-      if (elSem1Units) elSem1Units.textContent = `Units: ${sem1Stats.units}`;
-      if (elSem2Gwa) elSem2Gwa.textContent = sem2Stats.gwa > 0 ? sem2Stats.gwa.toFixed(2) : '--';
-      if (elSem2Units) elSem2Units.textContent = `Units: ${sem2Stats.units}`;
-
       let annualGwa = 0;
       if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
         annualGwa = (sem1Stats.gwa + sem2Stats.gwa) / 2;
@@ -3831,13 +3802,11 @@ return true;
         annualGwa = sem2Stats.gwa;
       }
 
-      // Update Single-Semester View Visibility & GWA Card Row
+      // Update Single-Semester View Visibility
       const btnSem1 = document.getElementById('btn-switch-sem1');
       const btnSem2 = document.getElementById('btn-switch-sem2');
       const cardSem1 = document.getElementById('sem1-card');
       const cardSem2 = document.getElementById('sem2-card');
-      const rowSem1 = document.getElementById('row-gwa-sem1');
-      const rowSem2 = document.getElementById('row-gwa-sem2');
 
       if (btnSem1 && btnSem2 && cardSem1 && cardSem2) {
         if (activeSemester === 'sem2') {
@@ -3845,15 +3814,11 @@ return true;
           btnSem1.classList.remove('active');
           cardSem1.style.display = 'none';
           cardSem2.style.display = 'flex';
-          if (rowSem1) rowSem1.style.display = 'none';
-          if (rowSem2) rowSem2.style.display = 'flex';
         } else {
           btnSem1.classList.add('active');
           btnSem2.classList.remove('active');
           cardSem1.style.display = 'flex';
           cardSem2.style.display = 'none';
-          if (rowSem1) rowSem1.style.display = 'flex';
-          if (rowSem2) rowSem2.style.display = 'none';
         }
       }
 
@@ -3866,8 +3831,6 @@ return true;
 
     const btnSwitchSem1 = document.getElementById('btn-switch-sem1');
     const btnSwitchSem2 = document.getElementById('btn-switch-sem2');
-    const rowGwaSem1 = document.getElementById('row-gwa-sem1');
-    const rowGwaSem2 = document.getElementById('row-gwa-sem2');
 
     if (btnSwitchSem1) {
       btnSwitchSem1.addEventListener('click', () => {
@@ -3878,20 +3841,6 @@ return true;
     }
     if (btnSwitchSem2) {
       btnSwitchSem2.addEventListener('click', () => {
-        activeSemester = 'sem2';
-        localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
-        renderSheetView();
-      });
-    }
-    if (rowGwaSem1) {
-      rowGwaSem1.addEventListener('click', () => {
-        activeSemester = 'sem1';
-        localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
-        renderSheetView();
-      });
-    }
-    if (rowGwaSem2) {
-      rowGwaSem2.addEventListener('click', () => {
         activeSemester = 'sem2';
         localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
         renderSheetView();
