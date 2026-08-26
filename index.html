@@ -3185,7 +3185,7 @@
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">${gradeBadge}</td>
-          <td style="text-align: center;"><input type="text" inputmode="numeric" class="num-input units-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="text" inputmode="numeric" class="num-input units-input" value="${r.units !== undefined && r.units !== '' ? r.units : ''}" placeholder="" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">
             ${deleteBtnHtml}
           </td>
@@ -3365,7 +3365,7 @@
           e.preventDefault();
           if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
             userSheetData[activeSheetYear][semKey].splice(idx + 1, 0, {
-              name: '', prelim: '', midterm: '', final: '', grade: '', units: 3
+              name: '', prelim: '', midterm: '', final: '', grade: '', units: ''
             });
             saveSheetData();
             renderSheetView();
@@ -3384,7 +3384,7 @@
             userSheetData[activeSheetYear][semKey].splice(idx, 1);
             if (userSheetData[activeSheetYear][semKey].length === 0) {
               userSheetData[activeSheetYear][semKey].push({
-                name: '', prelim: '', midterm: '', final: '', grade: '', units: 3
+                name: '', prelim: '', midterm: '', final: '', grade: '', units: ''
               });
             }
             saveSheetData();
@@ -3442,14 +3442,14 @@
 
     document.getElementById('btn-add-sem1-row').addEventListener('click', () => {
       if (!userSheetData || !userSheetData[activeSheetYear]) return;
-      userSheetData[activeSheetYear].sem1.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 });
+      userSheetData[activeSheetYear].sem1.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' });
       saveSheetData();
       renderSheetView();
     });
 
     document.getElementById('btn-add-sem2-row').addEventListener('click', () => {
       if (!userSheetData || !userSheetData[activeSheetYear]) return;
-      userSheetData[activeSheetYear].sem2.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 });
+      userSheetData[activeSheetYear].sem2.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' });
       saveSheetData();
       renderSheetView();
     });
