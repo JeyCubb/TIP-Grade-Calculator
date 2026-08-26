@@ -3197,10 +3197,7 @@
           }
         }
 
-        const isLockedSem = (activeSheetYear === '1st Year') || (activeSheetYear === '2nd Year') || (activeSheetYear === '3rd Year' && semKey === 'sem1');
-        const deleteBtnHtml = isLockedSem
-          ? ''
-          : `<button class="btn btn-icon-only remove-sheet-row" style="width: 22px; height: 22px; font-size: 0.7rem;" data-sem="${semKey}" data-idx="${idx}" title="Delete Subject">&times;</button>`;
+        const deleteBtnHtml = '';
 
         tr.innerHTML = `
           <td><input type="text" class="subj-input" value="${r.name || ''}" placeholder="Subject Name" data-field="name" data-sem="${semKey}" data-idx="${idx}"></td>
@@ -3261,7 +3258,7 @@
         }
       }
 
-      // Hide Add Subject button on locked/completed semesters
+      // Hide Add Subject buttons on 1st, 2nd, and 3rd year
       const btnAddSem1 = document.getElementById('btn-add-sem1-row');
       const btnAddSem2 = document.getElementById('btn-add-sem2-row');
 
@@ -3274,7 +3271,7 @@
       }
 
       if (btnAddSem2) {
-        if (activeSheetYear === '1st Year' || activeSheetYear === '2nd Year') {
+        if (activeSheetYear === '1st Year' || activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
           btnAddSem2.style.display = 'none';
         } else {
           btnAddSem2.style.display = 'inline-flex';
