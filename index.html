@@ -3559,9 +3559,13 @@ return true;
     }
 
     function loadSheetData() {
+      const savedYear = localStorage.getItem('tip_gc_active_sheet_year');
+
       if (activeUser === 'No Profile') {
         userSheetData = JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
-        if (!userSheetData[activeSheetYear]) {
+        if (savedYear && userSheetData[savedYear]) {
+          activeSheetYear = savedYear;
+        } else if (!userSheetData[activeSheetYear]) {
           activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
         }
         renderSheetView();
@@ -3584,7 +3588,9 @@ return true;
         saveSheetData();
       }
 
-      if (!userSheetData[activeSheetYear]) {
+      if (savedYear && userSheetData[savedYear]) {
+        activeSheetYear = savedYear;
+      } else if (!userSheetData[activeSheetYear]) {
         activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
       }
       renderSheetView();
@@ -3730,6 +3736,7 @@ return true;
 
         btn.addEventListener('click', () => {
           activeSheetYear = yearKey;
+          localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
           renderSheetView();
         });
         container.appendChild(btn);
@@ -3854,7 +3861,9 @@ return true;
     }
 
     // Semester Switcher Event Listeners
-    let activeSemester = 'sem1';
+    let activeSemester = localStorage.getItem('tip_gc_active_sheet_sem') || 'sem1';
+    if (activeSemester !== 'sem1' && activeSemester !== 'sem2') activeSemester = 'sem1';
+
     const btnSwitchSem1 = document.getElementById('btn-switch-sem1');
     const btnSwitchSem2 = document.getElementById('btn-switch-sem2');
     const rowGwaSem1 = document.getElementById('row-gwa-sem1');
@@ -3863,24 +3872,28 @@ return true;
     if (btnSwitchSem1) {
       btnSwitchSem1.addEventListener('click', () => {
         activeSemester = 'sem1';
+        localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
         renderSheetView();
       });
     }
     if (btnSwitchSem2) {
       btnSwitchSem2.addEventListener('click', () => {
         activeSemester = 'sem2';
+        localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
         renderSheetView();
       });
     }
     if (rowGwaSem1) {
       rowGwaSem1.addEventListener('click', () => {
         activeSemester = 'sem1';
+        localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
         renderSheetView();
       });
     }
     if (rowGwaSem2) {
       rowGwaSem2.addEventListener('click', () => {
         activeSemester = 'sem2';
+        localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
         renderSheetView();
       });
     }
@@ -3944,6 +3957,7 @@ return true;
               sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }]
             };
             activeSheetYear = cleanName;
+            localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
             saveSheetData();
             renderSheetView();
           }
@@ -3989,12 +4003,14 @@ return true;
         calcContainer.style.display = 'none';
         sheetContainer.style.display = 'flex';
         renderSheetView();
+        localStorage.setItem('tip_gc_active_view', 'sheet');
         window.location.hash = 'sheet';
       } else {
         btnViewCalc.classList.add('active');
         btnViewSheet.classList.remove('active');
         calcContainer.style.display = 'block';
         sheetContainer.style.display = 'none';
+        localStorage.setItem('tip_gc_active_view', 'calc');
         window.location.hash = 'calc';
       }
     }
@@ -4002,14 +4018,15 @@ return true;
     btnViewCalc.addEventListener('click', () => switchView('calc'));
     btnViewSheet.addEventListener('click', () => switchView('sheet'));
 
-    // Check hash on load
-    if (window.location.hash === '#sheet') {
-      switchView('sheet');
-    }
-
     initUserProfilesAndSubjects();
     checkUrlSyncParams();
     loadUserData(activeUser, activeSubject);
+
+    // Restore last viewed tab/page on refresh
+    const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc'))
+      ? window.location.hash.replace('#', '')
+      : (localStorage.getItem('tip_gc_active_view') || 'calc');
+    switchView(initialView);
   </script>
 </body>
 </html>
