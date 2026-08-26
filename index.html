@@ -1087,15 +1087,15 @@
           <label>
             Target Grade
             <select id="target-eq">
-              <option value="3.00" selected>3.00 (75.00 – 77.99% Pass)</option>
-              <option value="2.75">2.75 (78.00 – 80.99%)</option>
-              <option value="2.50">2.50 (81.00 – 83.99%)</option>
-              <option value="2.25">2.25 (84.00 – 86.99%)</option>
-              <option value="2.00">2.00 (87.00 – 89.99%)</option>
-              <option value="1.75">1.75 (90.00 – 92.99%)</option>
-              <option value="1.50">1.50 (93.00 – 95.99%)</option>
-              <option value="1.25">1.25 (96.00 – 98.99%)</option>
-              <option value="1.00">1.00 (99.00 – 100.0% Max)</option>
+              <option value="3.00" selected>3.00 (75 – 77% Pass)</option>
+              <option value="2.75">2.75 (78 – 80%)</option>
+              <option value="2.50">2.50 (81 – 83%)</option>
+              <option value="2.25">2.25 (84 – 86%)</option>
+              <option value="2.00">2.00 (87 – 89%)</option>
+              <option value="1.75">1.75 (90 – 92%)</option>
+              <option value="1.50">1.50 (93 – 95%)</option>
+              <option value="1.25">1.25 (96 – 98%)</option>
+              <option value="1.00">1.00 (99 – 100% Max)</option>
             </select>
           </label>
           <button id="compute" class="btn btn-primary" style="width: 100%; padding: 0.5rem 0.85rem; font-size: 0.85rem;">
@@ -1169,10 +1169,6 @@
       <div class="year-tabs-wrapper">
         <div class="year-tabs-bar" id="year-tabs-container">
           <!-- Dynamic Year Tabs -->
-        </div>
-        <div style="display: flex; gap: 0.35rem; align-items: center;">
-          <button class="btn btn-sm" id="btn-add-year-tab" style="padding: 0.35rem 0.65rem; font-size: 0.75rem;" title="Add Custom Academic Year">+ Add Year</button>
-          <button class="btn btn-sm" id="btn-export-sheet-csv" style="padding: 0.35rem 0.65rem; font-size: 0.75rem; border-color: rgba(249, 115, 22, 0.4); color: var(--accent-primary);" title="Export to CSV">📥 Export CSV</button>
         </div>
       </div>
 
@@ -3226,43 +3222,49 @@ return true;
       renderSheetView();
     });
 
-    document.getElementById('btn-add-year-tab').addEventListener('click', () => {
-      const name = prompt("Enter new Academic Year / Sheet name (e.g. 4th Year, Summer Term):");
-      if (name && name.trim()) {
-        const cleanName = name.trim();
-        if (!userSheetData[cleanName]) {
-          userSheetData[cleanName] = {
-            sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }],
-            sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }]
-          };
-          activeSheetYear = cleanName;
-          saveSheetData();
-          renderSheetView();
+    const btnAddYear = document.getElementById('btn-add-year-tab');
+    if (btnAddYear) {
+      btnAddYear.addEventListener('click', () => {
+        const name = prompt("Enter new Academic Year / Sheet name (e.g. 4th Year, Summer Term):");
+        if (name && name.trim()) {
+          const cleanName = name.trim();
+          if (!userSheetData[cleanName]) {
+            userSheetData[cleanName] = {
+              sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }],
+              sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }]
+            };
+            activeSheetYear = cleanName;
+            saveSheetData();
+            renderSheetView();
+          }
         }
-      }
-    });
+      });
+    }
 
     // Export CSV
-    document.getElementById('btn-export-sheet-csv').addEventListener('click', () => {
-      if (!userSheetData || !userSheetData[activeSheetYear]) return;
-      const data = userSheetData[activeSheetYear];
-      let csv = `Academic Year: ${activeSheetYear}\n\nFirst Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
-      data.sem1.forEach(r => {
-        const g = computeRowGrade(r);
-        csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
-      });
-      csv += `\nSecond Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
-      data.sem2.forEach(r => {
-        const g = computeRowGrade(r);
-        csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
-      });
+    const btnExportCsv = document.getElementById('btn-export-sheet-csv');
+    if (btnExportCsv) {
+      btnExportCsv.addEventListener('click', () => {
+        if (!userSheetData || !userSheetData[activeSheetYear]) return;
+        const data = userSheetData[activeSheetYear];
+        let csv = `Academic Year: ${activeSheetYear}\n\nFirst Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
+        data.sem1.forEach(r => {
+          const g = computeRowGrade(r);
+          csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
+        });
+        csv += `\nSecond Semester\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
+        data.sem2.forEach(r => {
+          const g = computeRowGrade(r);
+          csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
+        });
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `TIP_Grades_${activeSheetYear.replace(/\s+/g, '_')}.csv`;
-      link.click();
-    });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `TIP_Grades_${activeSheetYear.replace(/\s+/g, '_')}.csv`;
+        link.click();
+      });
+    }
 
     // View Navigation Switching
     const btnViewCalc = document.getElementById('btn-view-calc');
