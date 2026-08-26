@@ -1442,6 +1442,16 @@
         userProfiles.unshift('No Profile');
       }
 
+      if (!userProfiles.includes('Jacob')) {
+        userProfiles.push('Jacob');
+        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+      }
+
+      // Initialize Jacob's sheet data if not present
+      if (!localStorage.getItem('tip_gc_sheet_Jacob')) {
+        localStorage.setItem('tip_gc_sheet_Jacob', JSON.stringify(DEFAULT_JACOB_CURRICULUM));
+      }
+
       activeUser = 'No Profile';
       renderUserProfileDropdown();
       initSubjectProfilesForActiveUser();
@@ -1553,9 +1563,9 @@
     }
 
     function loadUserData(username, subjectName) {
-      if (typeof loadSheetData === "function") loadSheetData();
       activeUser = username;
       activeSubject = subjectName || '';
+      if (typeof loadSheetData === "function") loadSheetData();
 
       if (activeUser !== 'No Profile') {
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -2406,7 +2416,7 @@ return true;
     // ==========================================================================
     // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
     // ==========================================================================
-    const DEFAULT_CURRICULUM_DATA = {
+    const DEFAULT_JACOB_CURRICULUM = {
   "1st Year": {
     "sem1": [
       {
@@ -2798,72 +2808,7 @@ return true;
         "units": 1
       }
     ],
-    "sem2": [
-      {
-        "name": "Subject 1",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 2",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 3",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 4",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 5",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 6",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 7",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Subject 8",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      }
-    ]
+    "sem2": []
   },
   "SHS": {
     "sem1": [
@@ -3016,6 +2961,552 @@ return true;
     ]
   }
 };
+    const DEFAULT_BLANK_CURRICULUM = {
+  "1st Year": {
+    "sem1": [
+      {
+        "name": "Chem",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "UTS",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "MMW",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "ME",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Calc 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "Emath",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Drawing",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Art App",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Rizal",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "GEE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Linear",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Calc Phys",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "Calc 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "CAD",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Contemp",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      }
+    ]
+  },
+  "2nd Year": {
+    "sem1": [
+      {
+        "name": "Purp Com",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "STS",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "DM",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Statics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "DE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "EE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Thermo",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Wrkshp",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Dynamics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "RPH",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Comp Prog",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Adv Math",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Multivar",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "EDA",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Machine",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Econ",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Thermo 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      }
+    ]
+  },
+  "3rd Year": {
+    "sem1": [
+      {
+        "name": "Deformable",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Flu Mech",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "ACDC",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Mach Elem",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Ethics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Heat Trans",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "BOSH",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Electronics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Comp App",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      }
+    ],
+    "sem2": []
+  },
+  "SHS": {
+    "sem1": [
+      {
+        "name": "Literature",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Phil Arts",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "PeH",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Research",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "E-APP",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Filipino",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Physics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Biology",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Chemistry",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Work Immersion",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Physics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "U.C.S.P.",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Research Immersion",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Chemistry",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "M.I.L.",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Biology",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Entrepreneurship",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "PeH",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      }
+    ]
+  }
+};
+
     let activeSheetYear = '1st Year';
     let userSheetData = null;
 
@@ -3025,7 +3516,10 @@ return true;
 
     function loadSheetData() {
       if (activeUser === 'No Profile') {
-        userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+        userSheetData = JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
+        if (!userSheetData[activeSheetYear]) {
+          activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
+        }
         renderSheetView();
         return;
       }
@@ -3035,10 +3529,14 @@ return true;
         try {
           userSheetData = JSON.parse(raw);
         } catch(e) {
-          userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+          userSheetData = (activeUser === 'Jacob') 
+            ? JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM))
+            : JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
         }
       } else {
-        userSheetData = JSON.parse(JSON.stringify(DEFAULT_CURRICULUM_DATA));
+        userSheetData = (activeUser === 'Jacob') 
+          ? JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM))
+          : JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
         saveSheetData();
       }
 
