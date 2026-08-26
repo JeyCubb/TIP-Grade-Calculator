@@ -1234,17 +1234,16 @@
         </div>
       </div>
 
-      <!-- Single Stacked Semestral GWA Summary Box -->
+      <!-- Single Semestral GWA Summary Box (Showing Selected Semester) -->
       <div class="sheet-stacked-gwa-card">
-        <div class="stacked-gwa-row" id="row-gwa-sem1" style="cursor: pointer;" title="View First Semester">
+        <div class="stacked-gwa-row" id="row-gwa-sem1">
           <div class="stacked-gwa-info">
             <span class="stacked-gwa-label">1st Semester GWA</span>
             <span class="stacked-gwa-units" id="stat-sem1-units">Units: 0</span>
           </div>
           <div class="stacked-gwa-val" id="stat-sem1-gwa">0.00</div>
         </div>
-        <div class="hr" style="margin: 0.25rem 0;"></div>
-        <div class="stacked-gwa-row" id="row-gwa-sem2" style="cursor: pointer;" title="View Second Semester">
+        <div class="stacked-gwa-row" id="row-gwa-sem2" style="display: none;">
           <div class="stacked-gwa-info">
             <span class="stacked-gwa-label">2nd Semester GWA</span>
             <span class="stacked-gwa-units" id="stat-sem2-units">Units: 0</span>
@@ -3825,11 +3824,13 @@ return true;
         annualGwa = sem2Stats.gwa;
       }
 
-      // Update Single-Semester View Visibility
+      // Update Single-Semester View Visibility & GWA Card Row
       const btnSem1 = document.getElementById('btn-switch-sem1');
       const btnSem2 = document.getElementById('btn-switch-sem2');
       const cardSem1 = document.getElementById('sem1-card');
       const cardSem2 = document.getElementById('sem2-card');
+      const rowSem1 = document.getElementById('row-gwa-sem1');
+      const rowSem2 = document.getElementById('row-gwa-sem2');
 
       if (btnSem1 && btnSem2 && cardSem1 && cardSem2) {
         if (activeSemester === 'sem2') {
@@ -3837,11 +3838,15 @@ return true;
           btnSem1.classList.remove('active');
           cardSem1.style.display = 'none';
           cardSem2.style.display = 'flex';
+          if (rowSem1) rowSem1.style.display = 'none';
+          if (rowSem2) rowSem2.style.display = 'flex';
         } else {
           btnSem1.classList.add('active');
           btnSem2.classList.remove('active');
           cardSem1.style.display = 'flex';
           cardSem2.style.display = 'none';
+          if (rowSem1) rowSem1.style.display = 'flex';
+          if (rowSem2) rowSem2.style.display = 'none';
         }
       }
 
