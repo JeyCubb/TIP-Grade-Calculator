@@ -3286,6 +3286,74 @@
       });
     }
 
+    function updateSheetCalculationsOnly() {
+      if (!userSheetData || !userSheetData[activeSheetYear]) return;
+
+      let annualGwaCalc = { sem1Gwa: 0, sem2Gwa: 0 };
+
+      ['sem1', 'sem2'].forEach(semKey => {
+        const tbody = document.getElementById(`${semKey}-tbody`);
+        if (!tbody) return;
+
+        const rows = userSheetData[activeSheetYear][semKey] || [];
+        const trs = tbody.querySelectorAll('tr');
+
+        let totalUnits = 0;
+        let gradedUnits = 0;
+        let weightedSum = 0;
+        let validGradesCount = 0;
+
+        rows.forEach((r, idx) => {
+          const computedGrade = computeRowGrade(r);
+          const units = parseFloat(r.units) || 0;
+          totalUnits += units;
+
+          const tr = trs[idx];
+          if (tr) {
+            const gradeBadgeCell = tr.querySelector('.sheet-grade-cell');
+            if (gradeBadgeCell) {
+              if (!isNaN(computedGrade)) {
+                const isPass = (computedGrade <= 3.00) || (computedGrade >= 50.0);
+                gradeBadgeCell.className = `sheet-grade-cell ${isPass ? 'pass' : 'fail'}`;
+                gradeBadgeCell.textContent = computedGrade.toFixed(2);
+              } else {
+                gradeBadgeCell.className = 'sheet-grade-cell';
+                gradeBadgeCell.textContent = '--';
+              }
+            }
+          }
+
+          if (!isNaN(computedGrade) && units > 0) {
+            weightedSum += computedGrade * units;
+            gradedUnits += units;
+            validGradesCount++;
+          }
+        });
+
+        const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
+        if (semKey === 'sem1') annualGwaCalc.sem1Gwa = semGwa;
+        if (semKey === 'sem2') annualGwaCalc.sem2Gwa = semGwa;
+
+        const bUnits = document.getElementById(`badge-${semKey}-units`);
+        const bGwa = document.getElementById(`badge-${semKey}-gwa`);
+        const sSummary = document.getElementById(`${semKey}-footer-summary`);
+
+        if (bUnits) bUnits.textContent = `${totalUnits} Units`;
+        if (bGwa) bGwa.textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+        if (sSummary) sSummary.textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+      });
+
+      let annualGwa = 0;
+      if (annualGwaCalc.sem1Gwa > 0 && annualGwaCalc.sem2Gwa > 0) {
+        annualGwa = (annualGwaCalc.sem1Gwa + annualGwaCalc.sem2Gwa) / 2;
+      } else if (annualGwaCalc.sem1Gwa > 0) {
+        annualGwa = annualGwaCalc.sem1Gwa;
+      } else if (annualGwaCalc.sem2Gwa > 0) {
+        annualGwa = annualGwaCalc.sem2Gwa;
+      }
+      renderSheetYearTabs(annualGwa);
+    }
+
     // Sheet Table Input Event Listeners
     document.addEventListener('input', (e) => {
       const target = e.target;
@@ -3299,7 +3367,7 @@
           if (row) {
             row[field] = target.value;
             saveSheetData();
-            renderSheetView();
+            updateSheetCalculationsOnly();
           }
         }
       }
