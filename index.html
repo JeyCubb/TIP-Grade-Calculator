@@ -1440,8 +1440,7 @@
     let activeUser = 'No Profile';
     let userProfiles = ['No Profile'];
 
-    let activeSubject = '';
-    let userSubjects = [];
+    
 
     let saveTimeout = null;
     const saveIndicatorEl = document.getElementById('save-indicator');
@@ -1488,42 +1487,10 @@
       }
 
       renderUserProfileDropdown();
-      initSubjectProfilesForActiveUser();
+      
     }
 
-    function initSubjectProfilesForActiveUser() {
-      if (activeUser === 'No Profile') {
-        userSubjects = [];
-        activeSubject = '';
-        renderSubjectDropdown();
-        return;
-      }
-
-      const storedSubjects = localStorage.getItem(`tip_gc_subjects_${activeUser}`);
-      if (storedSubjects) {
-        try {
-          const parsed = JSON.parse(storedSubjects);
-          if (Array.isArray(parsed)) {
-            userSubjects = parsed;
-          } else {
-            userSubjects = [];
-          }
-        } catch (e) {
-          userSubjects = [];
-        }
-      } else {
-        userSubjects = [];
-      }
-
-      const storedActiveSub = localStorage.getItem(`tip_gc_active_sub_${activeUser}`);
-      if (storedActiveSub && userSubjects.includes(storedActiveSub)) {
-        activeSubject = storedActiveSub;
-      } else {
-        activeSubject = userSubjects.length > 0 ? userSubjects[0] : '';
-      }
-
-      renderSubjectDropdown();
-    }
+    
 
     function renderUserProfileDropdown() {
       const select = document.getElementById('user-selector');
@@ -1537,36 +1504,11 @@
       });
     }
 
-    function renderSubjectDropdown() {
-      const select = document.getElementById('subject-selector');
-      select.innerHTML = '';
-      if (userSubjects.length === 0) {
-        const opt = document.createElement('option');
-        opt.value = '';
-        opt.textContent = 'No Subject';
-        select.appendChild(opt);
-        return;
-      }
-      userSubjects.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s;
-        opt.textContent = s;
-        if (s === activeSubject) opt.selected = true;
-        select.appendChild(opt);
-      });
-    }
-
     function saveUserData() {
       if (!activeUser || activeUser === 'No Profile') return;
       const validProfiles = userProfiles.filter(u => u !== 'No Profile');
-      localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
       localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(validProfiles));
-
-      if (!activeSubject) {
-        localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
-        return;
-      }
 
       const categoryEls = [...document.querySelectorAll('.category')];
       const categoriesData = categoryEls.map(cat => {
@@ -1590,24 +1532,17 @@
         categories: categoriesData
       };
 
-      const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
+      const storageKey = `tip_gc_data_${activeUser}`;
       localStorage.setItem(storageKey, JSON.stringify(userData));
-      localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
       triggerSaveToast();
     }
 
-    function loadUserData(username, subjectName) {
-      activeUser = username;
-      activeSubject = subjectName || '';
+    function loadUserData(username) {
+      activeUser = username || 'No Profile';
       if (typeof loadSheetData === "function") loadSheetData();
 
       if (activeUser !== 'No Profile') {
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-        if (activeSubject) {
-          localStorage.setItem(`tip_gc_active_sub_${activeUser}`, activeSubject);
-        } else {
-          localStorage.removeItem(`tip_gc_active_sub_${activeUser}`);
-        }
       }
 
       categoriesEl.innerHTML = '';
@@ -1624,22 +1559,12 @@
         return;
       }
 
-      if (!activeSubject) {
-        updateModeUI();
-        prevGradeEl.value = '';
-        examScoreEl.value = '';
-        examTotalEl.value = '50';
-        addCategory('Quizzes', 30);
-        addCategory('Assessment Tasks', 70);
-        recomputeAll();
-        return;
-      }
-
-      const storageKey = `tip_gc_data_${activeUser}_${activeSubject}`;
+      const storageKey = `tip_gc_data_${activeUser}`;
       const raw = localStorage.getItem(storageKey);
 
       if (!raw) {
         updateModeUI();
+        prevGradeEl.value = '';
         examScoreEl.value = '';
         examTotalEl.value = '50';
         addCategory('Quizzes', 30);
@@ -1706,6 +1631,7 @@
                   </button>
                 `;
                 itemsContainer.appendChild(row);
+                recomputeCategory(categoryEl);
               });
             } else {
               addItem(categoryEl);
@@ -1714,7 +1640,7 @@
           });
         } else {
           addCategory('Quizzes', 30);
-          addCategory('Assignments & Exams', 70);
+          addCategory('Assessment Tasks', 70);
         }
 
         recomputeAll();
@@ -2179,7 +2105,7 @@
     document.getElementById('user-selector').addEventListener('change', (e) => {
       saveUserData();
       activeUser = e.target.value;
-      initSubjectProfilesForActiveUser();
+      
       loadUserData(activeUser);
     });
 
@@ -2193,7 +2119,7 @@
         }
         activeUser = cleanName;
         renderUserProfileDropdown();
-        initSubjectProfilesForActiveUser();
+        
         loadUserData(activeUser);
       }
     });
@@ -2207,62 +2133,16 @@
         userProfiles = userProfiles.filter(u => u !== activeUser);
         activeUser = 'No Profile';
         renderUserProfileDropdown();
-        initSubjectProfilesForActiveUser();
+        
         loadUserData(activeUser);
       }
     });
 
     // Subject Switcher Events
-    document.getElementById('subject-selector').addEventListener('change', (e) => {
-      saveUserData();
-      activeSubject = e.target.value;
-      loadUserData(activeUser);
-    });
+    
 
-    document.getElementById('btn-add-subject').addEventListener('click', () => {
-      if (activeUser === 'No Profile') {
-        const createNow = confirm("You are currently using 'No Profile'.\n\nPlease create a User Profile first to store and manage your subjects! Would you like to create a profile now?");
-        if (createNow) {
-          document.getElementById('btn-add-user').click();
-        }
-        return;
-      }
 
-      const name = prompt(`Enter new subject name for ${activeUser}:`);
-      if (name && name.trim()) {
-        const cleanName = name.trim();
-        if (!userSubjects.includes(cleanName)) {
-          userSubjects.push(cleanName);
-        }
-        activeSubject = cleanName;
-        renderSubjectDropdown();
-        saveUserData();
-        loadUserData(activeUser);
-      }
-    });
 
-    document.getElementById('btn-delete-subject').addEventListener('click', () => {
-      if (!activeSubject) {
-        alert("No subject to delete.");
-        return;
-      }
-      if (confirm(`Delete subject "${activeSubject}" for ${activeUser}?`)) {
-        localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
-        userSubjects = userSubjects.filter(s => s !== activeSubject);
-        activeSubject = userSubjects.length > 0 ? userSubjects[0] : '';
-        localStorage.setItem(`tip_gc_subjects_${activeUser}`, JSON.stringify(userSubjects));
-        renderSubjectDropdown();
-        loadUserData(activeUser);
-      }
-    });
-
-    document.getElementById('btn-reset-data').addEventListener('click', () => {
-      if (!activeSubject) return;
-      if (confirm(`Reset all grade data for "${activeSubject}" (${activeUser})?`)) {
-        localStorage.removeItem(`tip_gc_data_${activeUser}_${activeSubject}`);
-        loadUserData(activeUser);
-      }
-    });
 
     // ----- INIT -----
     
