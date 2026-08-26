@@ -1041,16 +1041,6 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Top View Switcher Navigation -->
-    <nav class="view-nav-bar">
-      <button class="view-nav-btn active" id="btn-view-calc" data-view="calc">
-        <span>🧮</span> Calculator View
-      </button>
-      <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet">
-        <span>📊</span> Curriculum & GWA Sheet
-      </button>
-    </nav>
-
     <!-- Calculator View Container -->
     <div id="calc-view-container">
 
@@ -1327,7 +1317,18 @@
         </details>
       </div>
     </div><!-- End #sheet-view-container -->
-<!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
+
+    <!-- View Switcher Navigation Bar (Bottom of Page) -->
+    <nav class="view-nav-bar">
+      <button class="view-nav-btn active" id="btn-view-calc" data-view="calc">
+        <span>🧮</span> Calculator View
+      </button>
+      <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet">
+        <span>📊</span> Curriculum & GWA Sheet
+      </button>
+    </nav>
+
+    <!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
     <header class="app-header">
       <div class="brand-group">
         <div class="brand-icon" style="font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">
