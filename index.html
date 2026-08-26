@@ -2270,7 +2270,7 @@
     // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
     // ==========================================================================
     const DEFAULT_BLANK_CURRICULUM = {
-  "1st Year": {
+  "3rd Year": {
     "sem1": [
       {
         "name": "",
@@ -2278,7 +2278,15 @@
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 4
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
       },
       {
         "name": "",
@@ -2302,31 +2310,7 @@
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 1
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 4
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
         "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 1
       },
       {
         "name": "",
@@ -2343,90 +2327,25 @@
         "final": "",
         "grade": "",
         "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
       }
     ],
-    "sem2": [
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 4
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 4
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 1
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 2
-      },
-      {
-        "name": "",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      }
-    ]
+    "sem2": []
   },
   "2nd Year": {
     "sem1": [
@@ -2586,7 +2505,7 @@
       }
     ]
   },
-  "3rd Year": {
+  "1st Year": {
     "sem1": [
       {
         "name": "",
@@ -2594,7 +2513,7 @@
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 3
+        "units": 4
       },
       {
         "name": "",
@@ -2618,7 +2537,105 @@
         "midterm": "",
         "final": "",
         "grade": "",
+        "units": 1
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
         "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      }
+    ],
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
       },
       {
         "name": "",
@@ -2643,9 +2660,24 @@
         "final": "",
         "grade": "",
         "units": 3
+      }
+    ]
+  }
+};
+
+    const DEFAULT_JACOB_CURRICULUM = {
+  "3rd Year": {
+    "sem1": [
+      {
+        "name": "Deformable",
+        "prelim": 90.08,
+        "midterm": "",
+        "final": "",
+        "grade": 90.08,
+        "units": 3
       },
       {
-        "name": "",
+        "name": "Flu Mech",
         "prelim": "",
         "midterm": "",
         "final": "",
@@ -2653,7 +2685,55 @@
         "units": 3
       },
       {
-        "name": "",
+        "name": "ACDC",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Mach Elem",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Ethics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Heat Trans",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "BOSH",
+        "prelim": 92.65,
+        "midterm": "",
+        "final": "",
+        "grade": 92.65,
+        "units": 3
+      },
+      {
+        "name": "Electronics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Comp App",
         "prelim": "",
         "midterm": "",
         "final": "",
@@ -2662,167 +2742,6 @@
       }
     ],
     "sem2": []
-  }
-};
-
-    const DEFAULT_JACOB_CURRICULUM = {
-  "1st Year": {
-    "sem1": [
-      {
-        "name": "Chem",
-        "prelim": 95,
-        "midterm": 85,
-        "final": 84,
-        "grade": 1.5,
-        "units": 4
-      },
-      {
-        "name": "UTS",
-        "prelim": 94,
-        "midterm": 93,
-        "final": 88,
-        "grade": 1.5,
-        "units": 3
-      },
-      {
-        "name": "MMW",
-        "prelim": 76,
-        "midterm": 79,
-        "final": 82,
-        "grade": 1.75,
-        "units": 3
-      },
-      {
-        "name": "ME",
-        "prelim": 94,
-        "midterm": 90,
-        "final": 85,
-        "grade": 1.5,
-        "units": 1
-      },
-      {
-        "name": "Calc 1",
-        "prelim": 73,
-        "midterm": 80,
-        "final": 70,
-        "grade": 2.25,
-        "units": 4
-      },
-      {
-        "name": "Emath",
-        "prelim": 44,
-        "midterm": 69,
-        "final": 76,
-        "grade": 2,
-        "units": 3
-      },
-      {
-        "name": "Drawing",
-        "prelim": 52,
-        "midterm": 59,
-        "final": 73,
-        "grade": 2,
-        "units": 1
-      },
-      {
-        "name": "PE",
-        "prelim": 97,
-        "midterm": 92,
-        "final": 97,
-        "grade": 1,
-        "units": 2
-      },
-      {
-        "name": "NSTP",
-        "prelim": 98.5,
-        "midterm": 97.83,
-        "final": 97,
-        "grade": 1,
-        "units": 3
-      }
-    ],
-    "sem2": [
-      {
-        "name": "Art App",
-        "prelim": "66.00",
-        "midterm": 54.33,
-        "final": 72,
-        "grade": 2,
-        "units": 3
-      },
-      {
-        "name": "Rizal",
-        "prelim": 86.88,
-        "midterm": 91.92,
-        "final": 94,
-        "grade": 1,
-        "units": 3
-      },
-      {
-        "name": "GEE",
-        "prelim": 96.88,
-        "midterm": 97.63,
-        "final": 94,
-        "grade": 1,
-        "units": 3
-      },
-      {
-        "name": "Linear",
-        "prelim": 86.22,
-        "midterm": 85.47,
-        "final": 89,
-        "grade": 1.25,
-        "units": 3
-      },
-      {
-        "name": "Calc Phys",
-        "prelim": 80.92,
-        "midterm": 72.36,
-        "final": 74,
-        "grade": 2,
-        "units": 4
-      },
-      {
-        "name": "Calc 2",
-        "prelim": 82.78,
-        "midterm": 82.84,
-        "final": 87,
-        "grade": 1.5,
-        "units": 4
-      },
-      {
-        "name": "CAD",
-        "prelim": "95.50",
-        "midterm": "95.50",
-        "final": 97,
-        "grade": 1,
-        "units": 1
-      },
-      {
-        "name": "Contemp",
-        "prelim": 80.23,
-        "midterm": 77.58,
-        "final": 78,
-        "grade": 1.75,
-        "units": 3
-      },
-      {
-        "name": "PE",
-        "prelim": "97.50",
-        "midterm": 98.37,
-        "final": 99,
-        "grade": 1,
-        "units": 2
-      },
-      {
-        "name": "NSTP",
-        "prelim": "92.00",
-        "midterm": 96.67,
-        "final": 99,
-        "grade": 1,
-        "units": 3
-      }
-    ]
   },
   "2nd Year": {
     "sem1": [
@@ -2982,86 +2901,167 @@
       }
     ]
   },
-  "3rd Year": {
+  "1st Year": {
     "sem1": [
       {
-        "name": "Deformable",
-        "prelim": 90.08,
-        "midterm": "",
-        "final": "",
-        "grade": 90.08,
+        "name": "Chem",
+        "prelim": 95,
+        "midterm": 85,
+        "final": 84,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "UTS",
+        "prelim": 94,
+        "midterm": 93,
+        "final": 88,
+        "grade": 1.5,
         "units": 3
       },
       {
-        "name": "Flu Mech",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "name": "MMW",
+        "prelim": 76,
+        "midterm": 79,
+        "final": 82,
+        "grade": 1.75,
         "units": 3
       },
       {
-        "name": "ACDC",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "name": "ME",
+        "prelim": 94,
+        "midterm": 90,
+        "final": 85,
+        "grade": 1.5,
+        "units": 1
+      },
+      {
+        "name": "Calc 1",
+        "prelim": 73,
+        "midterm": 80,
+        "final": 70,
+        "grade": 2.25,
+        "units": 4
+      },
+      {
+        "name": "Emath",
+        "prelim": 44,
+        "midterm": 69,
+        "final": 76,
+        "grade": 2,
         "units": 3
       },
       {
-        "name": "Mach Elem",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
+        "name": "Drawing",
+        "prelim": 52,
+        "midterm": 59,
+        "final": 73,
+        "grade": 2,
+        "units": 1
       },
       {
-        "name": "Ethics",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Heat Trans",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "name": "PE",
+        "prelim": 97,
+        "midterm": 92,
+        "final": 97,
+        "grade": 1,
         "units": 2
       },
       {
-        "name": "BOSH",
-        "prelim": 92.65,
-        "midterm": "",
-        "final": "",
-        "grade": 92.65,
+        "name": "NSTP",
+        "prelim": 98.5,
+        "midterm": 97.83,
+        "final": 97,
+        "grade": 1,
         "units": 3
-      },
-      {
-        "name": "Electronics",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 3
-      },
-      {
-        "name": "Comp App",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
-        "units": 1
       }
     ],
-    "sem2": []
+    "sem2": [
+      {
+        "name": "Art App",
+        "prelim": "66.00",
+        "midterm": 54.33,
+        "final": 72,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Rizal",
+        "prelim": 86.88,
+        "midterm": 91.92,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "GEE",
+        "prelim": 96.88,
+        "midterm": 97.63,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "Linear",
+        "prelim": 86.22,
+        "midterm": 85.47,
+        "final": 89,
+        "grade": 1.25,
+        "units": 3
+      },
+      {
+        "name": "Calc Phys",
+        "prelim": 80.92,
+        "midterm": 72.36,
+        "final": 74,
+        "grade": 2,
+        "units": 4
+      },
+      {
+        "name": "Calc 2",
+        "prelim": 82.78,
+        "midterm": 82.84,
+        "final": 87,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "CAD",
+        "prelim": "95.50",
+        "midterm": "95.50",
+        "final": 97,
+        "grade": 1,
+        "units": 1
+      },
+      {
+        "name": "Contemp",
+        "prelim": 80.23,
+        "midterm": 77.58,
+        "final": 78,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": "97.50",
+        "midterm": 98.37,
+        "final": 99,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": "92.00",
+        "midterm": 96.67,
+        "final": 99,
+        "grade": 1,
+        "units": 3
+      }
+    ]
   }
 };
 
-    let activeSheetYear = '1st Year';
+    let activeSheetYear = '3rd Year';
     let userSheetData = null;
 
     function getSheetStorageKey() {
@@ -3076,7 +3076,7 @@
         if (savedYear && userSheetData[savedYear]) {
           activeSheetYear = savedYear;
         } else if (!userSheetData[activeSheetYear]) {
-          activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
+          activeSheetYear = Object.keys(userSheetData)[0] || '3rd Year';
         }
         renderSheetView();
         return;
@@ -3105,7 +3105,7 @@
       if (savedYear && userSheetData[savedYear] && savedYear !== 'SHS') {
         activeSheetYear = savedYear;
       } else if (!userSheetData[activeSheetYear]) {
-        activeSheetYear = Object.keys(userSheetData)[0] || '1st Year';
+        activeSheetYear = Object.keys(userSheetData)[0] || '3rd Year';
       }
       renderSheetView();
     }
@@ -3223,7 +3223,17 @@
       if (!container || !userSheetData) return;
       container.innerHTML = '';
 
-      Object.keys(userSheetData).forEach(yearKey => {
+      const yearOrder = ['4th Year', '3rd Year', '2nd Year', '1st Year'];
+      const sortedKeys = Object.keys(userSheetData).sort((a, b) => {
+        const idxA = yearOrder.indexOf(a);
+        const idxB = yearOrder.indexOf(b);
+        if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+        if (idxA !== -1) return -1;
+        if (idxB !== -1) return 1;
+        return a.localeCompare(b);
+      });
+
+      sortedKeys.forEach(yearKey => {
         const btn = document.createElement('button');
         const isActive = yearKey === activeSheetYear;
         btn.className = `year-tab-btn ${isActive ? 'active' : ''}`;
