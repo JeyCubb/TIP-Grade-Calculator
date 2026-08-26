@@ -2225,7 +2225,16 @@
         "units": 1
       }
     ],
-    "sem2": []
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ]
   },
   "2nd Year": {
     "sem1": [
@@ -2621,7 +2630,16 @@
         "units": 1
       }
     ],
-    "sem2": []
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ]
   },
   "2nd Year": {
     "sem1": [
@@ -2980,6 +2998,11 @@
         userSheetData = (activeUser === 'Jacob') 
           ? JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM))
           : JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
+        saveSheetData();
+      }
+
+      if (userSheetData['3rd Year'] && (!userSheetData['3rd Year'].sem2 || userSheetData['3rd Year'].sem2.length === 0)) {
+        userSheetData['3rd Year'].sem2 = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
         saveSheetData();
       }
 
