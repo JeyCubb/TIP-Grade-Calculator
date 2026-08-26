@@ -3176,7 +3176,7 @@
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">${gradeBadge}</td>
-          <td style="text-align: center;"><input type="number" min="0" step="1" class="num-input units-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="text" inputmode="numeric" class="num-input units-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">
             ${deleteBtnHtml}
           </td>
@@ -3345,6 +3345,52 @@
       renderSheetYearTabs(annualGwa);
     }
 
+    // Hidden Shortcut: Typing '+' in Units adds a subject, typing '-' removes a subject
+    document.addEventListener('keydown', (e) => {
+      const target = e.target;
+      if (target && target.dataset && target.dataset.field === 'units' && target.dataset.sem) {
+        const semKey = target.dataset.sem;
+        const idx = parseInt(target.dataset.idx, 10);
+
+        if (e.key === '+' || e.key === '=') {
+          e.preventDefault();
+          if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
+            userSheetData[activeSheetYear][semKey].splice(idx + 1, 0, {
+              name: '', prelim: '', midterm: '', final: '', grade: '', units: 3
+            });
+            saveSheetData();
+            renderSheetView();
+            // Focus the new subject name input
+            setTimeout(() => {
+              const newSubjInput = document.querySelector(`input[data-field="name"][data-sem="${semKey}"][data-idx="${idx + 1}"]`);
+              if (newSubjInput) newSubjInput.focus();
+            }, 50);
+          }
+          return;
+        }
+
+        if (e.key === '-' || e.key === '_') {
+          e.preventDefault();
+          if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
+            userSheetData[activeSheetYear][semKey].splice(idx, 1);
+            if (userSheetData[activeSheetYear][semKey].length === 0) {
+              userSheetData[activeSheetYear][semKey].push({
+                name: '', prelim: '', midterm: '', final: '', grade: '', units: 3
+              });
+            }
+            saveSheetData();
+            renderSheetView();
+            setTimeout(() => {
+              const targetIdx = Math.max(0, idx - 1);
+              const prevUnitsInput = document.querySelector(`input[data-field="units"][data-sem="${semKey}"][data-idx="${targetIdx}"]`);
+              if (prevUnitsInput) prevUnitsInput.focus();
+            }, 50);
+          }
+          return;
+        }
+      }
+    });
+
     // Sheet Table Input Event Listeners
     document.addEventListener('input', (e) => {
       const target = e.target;
@@ -3352,6 +3398,13 @@
         const semKey = target.dataset.sem;
         const idx = parseInt(target.dataset.idx, 10);
         const field = target.dataset.field;
+
+        // Strip '+' and '-' if pasted into units
+        if (field === 'units') {
+          if (target.value.includes('+') || target.value.includes('-')) {
+            target.value = target.value.replace(/[\+\-]/g, '');
+          }
+        }
 
         if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
           const row = userSheetData[activeSheetYear][semKey][idx];
