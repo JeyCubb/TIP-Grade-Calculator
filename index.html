@@ -988,7 +988,15 @@
 
     .sheet-table input.num-input {
       text-align: center;
-      width: 48px;
+      width: 58px;
+      min-width: 54px;
+      padding: 0.25rem 0.2rem;
+      font-size: 0.775rem;
+    }
+
+    .sheet-table input.units-input {
+      width: 38px;
+      min-width: 34px;
     }
 
     .sheet-table input.subj-input {
@@ -3135,7 +3143,7 @@ return true;
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">${gradeBadge}</td>
-          <td style="text-align: center;"><input type="number" min="0" step="1" class="num-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td style="text-align: center;"><input type="number" min="0" step="1" class="num-input units-input" value="${r.units !== undefined ? r.units : 3}" placeholder="3" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">
             <button class="btn btn-icon-only remove-sheet-row" style="width: 22px; height: 22px; font-size: 0.7rem;" data-sem="${semKey}" data-idx="${idx}" title="Delete Subject">&times;</button>
           </td>
