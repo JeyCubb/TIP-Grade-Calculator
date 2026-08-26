@@ -3184,13 +3184,12 @@
 
         let gradeBadge = '<span class="sheet-grade-cell">--</span>';
         if (!isNaN(computedGrade)) {
-          const isPass = (computedGrade <= 3.00) || (computedGrade >= 50.0);
-          gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${computedGrade.toFixed(2)}</span>`;
-          if (activeSheetYear === 'SHS') {
-            weightedSum += computedGrade;
-            gradedUnits += 1;
-            validGradesCount++;
-          } else if (units > 0) {
+          const isDecimalRating = !isNaN(parseFloat(r.final)) || (!isNaN(parseFloat(r.grade)) && parseFloat(r.grade) <= 5.0);
+          const passCutoff = (activeSheetYear === '1st Year') ? 50.0 : 75.0;
+          const isPass = isDecimalRating ? (computedGrade <= 3.00) : (computedGrade >= passCutoff);
+          const displayText = isDecimalRating ? computedGrade.toFixed(2) : (computedGrade % 1 === 0 ? computedGrade.toFixed(0) : computedGrade.toFixed(2));
+          gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${displayText}</span>`;
+          if (units > 0) {
             weightedSum += computedGrade * units;
             gradedUnits += units;
             validGradesCount++;
@@ -3333,9 +3332,12 @@
             const gradeBadgeCell = tr.querySelector('.sheet-grade-cell');
             if (gradeBadgeCell) {
               if (!isNaN(computedGrade)) {
-                const isPass = (computedGrade <= 3.00) || (computedGrade >= 50.0);
+                const isDecimalRating = !isNaN(parseFloat(r.final)) || (!isNaN(parseFloat(r.grade)) && parseFloat(r.grade) <= 5.0);
+                const passCutoff = (activeSheetYear === '1st Year') ? 50.0 : 75.0;
+                const isPass = isDecimalRating ? (computedGrade <= 3.00) : (computedGrade >= passCutoff);
+                const displayText = isDecimalRating ? computedGrade.toFixed(2) : (computedGrade % 1 === 0 ? computedGrade.toFixed(0) : computedGrade.toFixed(2));
                 gradeBadgeCell.className = `sheet-grade-cell ${isPass ? 'pass' : 'fail'}`;
-                gradeBadgeCell.textContent = computedGrade.toFixed(2);
+                gradeBadgeCell.textContent = displayText;
               } else {
                 gradeBadgeCell.className = 'sheet-grade-cell';
                 gradeBadgeCell.textContent = '--';
