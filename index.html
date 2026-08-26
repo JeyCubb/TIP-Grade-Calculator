@@ -1185,29 +1185,10 @@
 
     <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
     <div id="sheet-view-container" class="sheet-view-container" style="display: none;">
-      <!-- Year Selector Tabs Bar -->
+      <!-- Year Selector Tabs Bar with Integrated Annual GWA -->
       <div class="year-tabs-wrapper">
         <div class="year-tabs-bar" id="year-tabs-container">
           <!-- Dynamic Year Tabs -->
-        </div>
-      </div>
-
-      <!-- Year Summary Stats Cards -->
-      <div class="sheet-stats-grid">
-        <div class="sheet-stat-card featured">
-          <span class="sheet-stat-label">Annual General Weighted Average (GWA)</span>
-          <div class="sheet-stat-val" id="stat-annual-gwa">0.00</div>
-          <span class="sheet-stat-sub" id="stat-annual-rating">--</span>
-        </div>
-        <div class="sheet-stat-card">
-          <span class="sheet-stat-label">1st Semester GWA</span>
-          <div class="sheet-stat-val" id="stat-sem1-gwa" style="font-size: 1.35rem;">0.00</div>
-          <span class="sheet-stat-sub" id="stat-sem1-units">Units: 0</span>
-        </div>
-        <div class="sheet-stat-card">
-          <span class="sheet-stat-label">2nd Semester GWA</span>
-          <div class="sheet-stat-val" id="stat-sem2-gwa" style="font-size: 1.35rem;">0.00</div>
-          <span class="sheet-stat-sub" id="stat-sem2-units">Units: 0</span>
         </div>
       </div>
 
@@ -3091,15 +3072,56 @@ return true;
       return 5.00;
     }
 
-    function renderSheetYearTabs() {
+    function calculateYearGwa(yearKey) {
+      if (!userSheetData || !userSheetData[yearKey]) return 0;
+      const data = userSheetData[yearKey];
+
+      function getSemGwa(semRows) {
+        if (!semRows) return { gwa: 0, units: 0 };
+        let totalUnits = 0;
+        let weightedSum = 0;
+        let validCount = 0;
+        semRows.forEach(r => {
+          const g = computeRowGrade(r);
+          const u = parseFloat(r.units) || 0;
+          if (!isNaN(g) && u > 0) {
+            weightedSum += g * u;
+            totalUnits += u;
+            validCount++;
+          }
+        });
+        return totalUnits > 0 && validCount > 0 ? (weightedSum / totalUnits) : 0;
+      }
+
+      const gwa1 = getSemGwa(data.sem1);
+      const gwa2 = getSemGwa(data.sem2);
+
+      if (gwa1 > 0 && gwa2 > 0) return (gwa1 + gwa2) / 2;
+      if (gwa1 > 0) return gwa1;
+      if (gwa2 > 0) return gwa2;
+      return 0;
+    }
+
+    function renderSheetYearTabs(currentAnnualGwa = 0) {
       const container = document.getElementById('year-tabs-container');
       if (!container || !userSheetData) return;
       container.innerHTML = '';
 
       Object.keys(userSheetData).forEach(yearKey => {
         const btn = document.createElement('button');
-        btn.className = `year-tab-btn ${yearKey === activeSheetYear ? 'active' : ''}`;
-        btn.textContent = yearKey;
+        const isActive = yearKey === activeSheetYear;
+        btn.className = `year-tab-btn ${isActive ? 'active' : ''}`;
+        
+        if (isActive) {
+          if (currentAnnualGwa > 0) {
+            btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: 600; opacity: 0.95; font-size: 0.775rem;">• Annual GWA: <strong>${currentAnnualGwa.toFixed(2)}</strong> (${tipEquivRating(currentAnnualGwa)})</span>`;
+          } else {
+            btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;">• Annual GWA: --</span>`;
+          }
+        } else {
+          btn.textContent = yearKey;
+        }
+
         btn.addEventListener('click', () => {
           activeSheetYear = yearKey;
           renderSheetView();
@@ -3163,17 +3185,9 @@ return true;
 
     function renderSheetView() {
       if (!userSheetData) return;
-      renderSheetYearTabs();
 
       const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary', 'badge-sem1-units', 'badge-sem1-gwa');
       const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary', 'badge-sem2-units', 'badge-sem2-gwa');
-
-      // Update Top Stats
-      document.getElementById('stat-sem1-gwa').textContent = sem1Stats.gwa > 0 ? sem1Stats.gwa.toFixed(2) : '--';
-      document.getElementById('stat-sem1-units').textContent = `Units: ${sem1Stats.units}`;
-
-      document.getElementById('stat-sem2-gwa').textContent = sem2Stats.gwa > 0 ? sem2Stats.gwa.toFixed(2) : '--';
-      document.getElementById('stat-sem2-units').textContent = `Units: ${sem2Stats.units}`;
 
       let annualGwa = 0;
       if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
@@ -3184,15 +3198,7 @@ return true;
         annualGwa = sem2Stats.gwa;
       }
 
-      const annualEl = document.getElementById('stat-annual-gwa');
-      const ratingEl = document.getElementById('stat-annual-rating');
-      if (annualGwa > 0) {
-        annualEl.textContent = annualGwa.toFixed(2);
-        ratingEl.textContent = tipEquivRating(annualGwa);
-      } else {
-        annualEl.textContent = '--';
-        ratingEl.textContent = 'Enter grades to calculate';
-      }
+      renderSheetYearTabs(annualGwa);
     }
 
     // Sheet Table Input Event Listeners
