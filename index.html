@@ -1369,7 +1369,7 @@
         <span>🧮</span> Calculator View
       </button>
       <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet">
-        <span>📊</span> Curriculum & GWA Sheet
+        <span>📊</span> GWA Sheet
       </button>
     </nav>
 
@@ -3412,6 +3412,11 @@
       ? window.location.hash.replace('#', '')
       : (localStorage.getItem('tip_gc_active_view') || 'calc');
     switchView(initialView);
+
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash === '#sheet') switchView('sheet');
+      else if (window.location.hash === '#calc') switchView('calc');
+    });
   </script>
 </body>
 </html>
