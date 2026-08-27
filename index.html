@@ -3875,7 +3875,14 @@
     }
 
     window.addEventListener('keydown', (e) => {
-      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      const activeEl = document.activeElement;
+      const activeTag = activeEl ? activeEl.tagName.toLowerCase() : '';
+
+      // Pressing Enter or Escape exits focus (blurs) from any input or select
+      if ((e.key === 'Enter' || e.key === 'Escape') && (activeTag === 'input' || activeTag === 'select')) {
+        activeEl.blur();
+        return;
+      }
 
       // 1. Ctrl + Shift + Left/Right Arrow: Switch Between Main Views (Calculator vs GWA Sheet)
       if (e.ctrlKey && e.shiftKey) {
