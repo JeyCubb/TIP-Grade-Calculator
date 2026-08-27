@@ -1441,14 +1441,6 @@
       <div class="sheet-semester-grid">
         <!-- 1st Semester Card -->
         <div class="semester-card" id="sem1-card">
-          <div class="semester-header">
-            <div class="semester-title">
-              <span>First Semester</span>
-              <span class="pill" id="badge-sem1-units">0 Units</span>
-            </div>
-            <span class="pill" id="badge-sem1-gwa" style="font-size: 0.8rem; font-weight: 800;">GWA: 0.00</span>
-          </div>
-
           <div class="sheet-table-wrapper">
             <table class="sheet-table" id="sem1-table">
               <thead>
@@ -1479,14 +1471,6 @@
 
         <!-- 2nd Semester Card -->
         <div class="semester-card" id="sem2-card">
-          <div class="semester-header">
-            <div class="semester-title">
-              <span>Second Semester</span>
-              <span class="pill" id="badge-sem2-units">0 Units</span>
-            </div>
-            <span class="pill" id="badge-sem2-gwa" style="font-size: 0.8rem; font-weight: 800;">GWA: 0.00</span>
-          </div>
-
           <div class="sheet-table-wrapper">
             <table class="sheet-table" id="sem2-table">
               <thead>
@@ -3434,12 +3418,13 @@
 
       const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
 
-      // Update badges
-      document.getElementById(badgeUnitsId).textContent = `${totalUnits} Units`;
+      // Update summary
       const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
       const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` (${semEquiv})` : '';
-      document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
-      document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
+      const summaryEl = document.getElementById(summaryId);
+      if (summaryEl) {
+        summaryEl.textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
+      }
 
       return { gwa: semGwa, units: totalUnits };
     }
@@ -3447,8 +3432,8 @@
     function renderSheetView() {
       if (!userSheetData) return;
 
-      const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary', 'badge-sem1-units', 'badge-sem1-gwa');
-      const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary', 'badge-sem2-units', 'badge-sem2-gwa');
+      const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary');
+      const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary');
 
       let annualGwa = 0;
       if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
@@ -3578,14 +3563,9 @@
         if (semKey === 'sem1') annualGwaCalc.sem1Gwa = semGwa;
         if (semKey === 'sem2') annualGwaCalc.sem2Gwa = semGwa;
 
-        const bUnits = document.getElementById(`badge-${semKey}-units`);
-        const bGwa = document.getElementById(`badge-${semKey}-gwa`);
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
-
-        if (bUnits) bUnits.textContent = `${totalUnits} Units`;
         const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
         const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` (${semEquiv})` : '';
-        if (bGwa) bGwa.textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
         if (sSummary) sSummary.textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
       });
 
