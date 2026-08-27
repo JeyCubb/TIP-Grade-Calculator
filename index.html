@@ -3382,6 +3382,7 @@
           btn.textContent = yearKey;
         }
 
+        btn.title = `Switch Year Level (← / →)`;
         btn.addEventListener('click', () => {
           activeSheetYear = yearKey;
           localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
@@ -3828,6 +3829,45 @@
         e.preventDefault();
         switchView('calc');
         return;
+      }
+
+      // Left / Right Arrow without Ctrl (When in GWA Sheet View and not typing in an input): Switch Year Level
+      const currentActiveView = localStorage.getItem('tip_gc_active_view') || 'calc';
+      if (currentActiveView === 'sheet' && activeTag !== 'input' && activeTag !== 'select') {
+        const yearOrder = ['4th Year', '3rd Year', '2nd Year', '1st Year'];
+        if (userSheetData) {
+          const sortedKeys = Object.keys(userSheetData).sort((a, b) => {
+            const idxA = yearOrder.indexOf(a);
+            const idxB = yearOrder.indexOf(b);
+            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+            if (idxA !== -1) return -1;
+            if (idxB !== -1) return 1;
+            return a.localeCompare(b);
+          });
+
+          const currentIdx = sortedKeys.indexOf(activeSheetYear);
+          if (currentIdx !== -1) {
+            if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              const newIdx = Math.max(0, currentIdx - 1);
+              if (newIdx !== currentIdx) {
+                activeSheetYear = sortedKeys[newIdx];
+                localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
+                renderSheetView();
+              }
+              return;
+            } else if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              const newIdx = Math.min(sortedKeys.length - 1, currentIdx + 1);
+              if (newIdx !== currentIdx) {
+                activeSheetYear = sortedKeys[newIdx];
+                localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
+                renderSheetView();
+              }
+              return;
+            }
+          }
+        }
       }
 
       if (e.key === 'PageDown' || (e.key === 'End' && activeTag !== 'input' && activeTag !== 'select')) {
