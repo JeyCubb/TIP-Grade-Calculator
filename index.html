@@ -1693,16 +1693,29 @@
         userProfiles.unshift('No Profile');
       }
 
-      if (!userProfiles.includes('Jacob')) {
-        userProfiles.push('Jacob');
-        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
+      // Migrate existing 'Jacob' data to 'JeyCub' if present
+      if (localStorage.getItem('tip_gc_data_Jacob') && !localStorage.getItem('tip_gc_data_JeyCub')) {
+        localStorage.setItem('tip_gc_data_JeyCub', localStorage.getItem('tip_gc_data_Jacob'));
+      }
+      if (localStorage.getItem('tip_gc_sheet_Jacob') && !localStorage.getItem('tip_gc_sheet_JeyCub')) {
+        localStorage.setItem('tip_gc_sheet_JeyCub', localStorage.getItem('tip_gc_sheet_Jacob'));
       }
 
-      // Check URL query parameters for profile (?profile=Jacob)
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlProfile = urlParams.get('profile');
+      // Replace 'Jacob' with 'JeyCub' in userProfiles list
+      userProfiles = userProfiles.map(u => u === 'Jacob' ? 'JeyCub' : u);
 
-      const savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
+      if (!userProfiles.includes('JeyCub')) {
+        userProfiles.push('JeyCub');
+        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+      }
+
+      // Check URL query parameters for profile (?profile=JeyCub)
+      const urlParams = new URLSearchParams(window.location.search);
+      let urlProfile = urlParams.get('profile');
+      if (urlProfile === 'Jacob') urlProfile = 'JeyCub';
+
+      let savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
+      if (savedActiveUser === 'Jacob') savedActiveUser = 'JeyCub';
 
       if (urlProfile && userProfiles.includes(urlProfile)) {
         activeUser = urlProfile;
@@ -1716,7 +1729,7 @@
       } else if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
         activeUser = savedActiveUser;
       } else {
-        activeUser = 'Jacob'; // Default to Jacob so user's profile is immediately active
+        activeUser = 'JeyCub'; // Default to JeyCub
       }
 
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -2411,7 +2424,7 @@
         localStorage.removeItem(`tip_gc_sheet_${activeUser}`);
         userProfiles = userProfiles.filter(u => u !== activeUser);
         localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-        activeUser = userProfiles.includes('Jacob') ? 'Jacob' : 'No Profile';
+        activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : 'No Profile';
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         updateProfileUrl();
         renderUserProfileDropdown();
@@ -3272,12 +3285,12 @@
             saveSheetData();
           }
         } catch(e) {
-          userSheetData = (activeUser === 'Jacob') 
+          userSheetData = (activeUser === 'JeyCub' || activeUser === 'Jacob') 
             ? JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM))
             : JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
         }
       } else {
-        userSheetData = (activeUser === 'Jacob') 
+        userSheetData = (activeUser === 'JeyCub' || activeUser === 'Jacob') 
           ? JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM))
           : JSON.parse(JSON.stringify(DEFAULT_BLANK_CURRICULUM));
         saveSheetData();
