@@ -396,19 +396,30 @@
       justify-content: center;
       flex-shrink: 0;
       border-radius: var(--radius-md);
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid var(--color-error);
-      color: var(--color-error);
+      background: rgba(239, 68, 68, 0.15);
+      border: 1.5px solid #ef4444;
+      color: #ef4444;
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
     }
 
     .btn-icon-only svg {
       display: block;
+      width: 15px;
+      height: 15px;
+      stroke: #ef4444;
       pointer-events: none;
     }
 
     .btn-icon-only:hover {
-      background: var(--color-error);
-      color: #fff;
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .btn-icon-only:hover svg {
+      stroke: #ffffff;
     }
 
     /* Clean Solid Orange Pill Badges */
