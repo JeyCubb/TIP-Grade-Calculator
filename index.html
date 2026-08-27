@@ -1084,180 +1084,216 @@
 
     /* ==========================================================================
        Desktop Typography Enhancement (min-width: 768px)
-       Enlarges fonts across Calculator & Sheet by ~3px (~0.18rem - 0.2rem)
-       while preserving original compact mobile UI on phones.
+       Enlarges fonts across Calculator & Sheet significantly (~3-4px boost)
+       while keeping the mobile layout compact and untouched.
        ========================================================================== */
     @media (min-width: 768px) {
       body {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
+      }
+
+      .app-container {
+        max-width: 1200px;
+        gap: 1.25rem;
       }
 
       .brand-title {
-        font-size: 1.45rem;
+        font-size: 1.6rem;
+      }
+
+      .brand-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.4rem !important;
       }
 
       .card-title {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
       }
 
       .pill {
-        font-size: 0.85rem;
-        padding: 0.25rem 0.75rem;
+        font-size: 0.95rem;
+        padding: 0.3rem 0.85rem;
       }
 
       .cat-name {
-        font-size: 1.05rem !important;
+        font-size: 1.15rem !important;
+        padding: 0.45rem 0.65rem !important;
       }
 
       .cat-weight {
-        font-size: 1.05rem !important;
+        font-size: 1.15rem !important;
+        width: 68px !important;
       }
 
       .cat-header span {
-        font-size: 0.95rem !important;
+        font-size: 1.05rem !important;
       }
 
       .item-inputs input {
-        font-size: 1.05rem !important;
-        padding: 0.45rem 0.65rem !important;
+        font-size: 1.15rem !important;
+        padding: 0.5rem 0.75rem !important;
       }
 
       .item-inputs span {
-        font-size: 0.95rem !important;
+        font-size: 1.1rem !important;
       }
 
       .item-50 {
-        font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        font-size: 1.05rem;
+        padding: 0.35rem 0.75rem;
       }
 
       .avg {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
       }
 
       .btn {
-        font-size: 0.95rem;
-      }
-
-      .btn-sm {
-        font-size: 0.875rem;
-      }
-
-      #exam-score, #exam-total {
-        font-size: 1.05rem !important;
-        padding: 0.45rem 0.65rem !important;
-      }
-
-      #card-exam-section label {
-        font-size: 0.95rem;
-      }
-
-      #target-eq {
-        font-size: 1.05rem !important;
-      }
-
-      #compute-exam {
         font-size: 1.05rem;
         padding: 0.65rem 1.25rem;
       }
 
+      .btn-sm {
+        font-size: 0.95rem;
+        padding: 0.4rem 0.9rem;
+      }
+
+      #exam-score, #exam-total {
+        font-size: 1.15rem !important;
+        padding: 0.5rem 0.75rem !important;
+      }
+
+      #card-exam-section label {
+        font-size: 1.05rem;
+      }
+
+      #target-eq {
+        font-size: 1.15rem !important;
+        padding: 0.55rem 0.85rem !important;
+      }
+
+      #compute {
+        font-size: 1.15rem;
+        padding: 0.75rem 1.4rem;
+      }
+
       .stat-row {
-        font-size: 0.975rem;
+        font-size: 1.05rem;
       }
 
       .final-grade-card div:first-child {
-        font-size: 0.85rem !important;
+        font-size: 0.95rem !important;
       }
 
       .final-val {
-        font-size: 2.15rem;
+        font-size: 2.5rem;
       }
 
       .eq-badge {
-        font-size: 1.05rem;
-        padding: 0.35rem 1.15rem;
+        font-size: 1.2rem;
+        padding: 0.45rem 1.35rem;
+      }
+
+      .segmented-control {
+        max-width: 380px;
       }
 
       .segmented-label {
-        font-size: 0.95rem;
-        padding: 0.45rem 1rem;
+        font-size: 1.05rem;
+        padding: 0.55rem 1.2rem;
       }
 
       .prev-term-row span {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
       }
 
       .prev-term-row input {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
+        width: 80px;
       }
 
       .user-profile-bar select {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
       }
 
       .scheme-dropdown-summary {
-        font-size: 0.95rem;
+        font-size: 1.05rem;
+        padding: 0.4rem 0.95rem;
+      }
+
+      .scheme-dropdown-content {
+        width: 360px;
+      }
+
+      .scheme-dropdown-content table {
+        font-size: 0.95rem !important;
       }
 
       .view-nav-btn {
-        font-size: 1.05rem;
-        padding: 0.75rem 1.25rem;
+        font-size: 1.15rem;
+        padding: 0.85rem 1.5rem;
       }
 
       .year-tab-btn {
-        font-size: 0.95rem;
-        padding: 0.55rem 1.25rem;
+        font-size: 1.05rem;
+        padding: 0.65rem 1.45rem;
       }
 
       .year-tab-btn span {
-        font-size: 0.9rem !important;
+        font-size: 1.0rem !important;
       }
 
       .sem-switch-btn {
-        font-size: 0.95rem;
-        padding: 0.45rem 1.15rem;
+        font-size: 1.05rem;
+        padding: 0.55rem 1.35rem;
       }
 
       .semester-title {
-        font-size: 1.15rem;
+        font-size: 1.3rem;
       }
 
       .sheet-table th {
-        font-size: 0.875rem;
-        padding: 0.65rem 0.5rem;
+        font-size: 1.0rem;
+        padding: 0.75rem 0.65rem;
       }
 
       .sheet-table td {
-        font-size: 0.95rem;
-        padding: 0.45rem 0.5rem;
+        font-size: 1.05rem;
+        padding: 0.55rem 0.65rem;
       }
 
       .sheet-table input {
-        font-size: 0.95rem;
-        padding: 0.35rem 0.45rem;
+        font-size: 1.05rem;
+        padding: 0.45rem 0.6rem;
+      }
+
+      .sheet-table input.subj-input {
+        min-width: 140px;
       }
 
       .sheet-table input.num-input {
-        font-size: 0.95rem;
-        width: 68px;
+        font-size: 1.05rem;
+        width: 78px;
+        min-width: 70px;
       }
 
       .sheet-table input.units-input {
-        font-size: 0.95rem;
-        width: 46px;
+        font-size: 1.05rem;
+        width: 54px;
+        min-width: 48px;
       }
 
       .sheet-grade-cell {
-        font-size: 0.95rem;
-        min-width: 46px;
-        padding: 0.25rem 0.55rem;
+        font-size: 1.05rem;
+        min-width: 56px;
+        padding: 0.35rem 0.7rem;
       }
 
       .sheet-footer-row div,
       .sheet-footer-row span,
       #sem1-footer-summary,
       #sem2-footer-summary {
-        font-size: 0.95rem !important;
+        font-size: 1.05rem !important;
       }
     }
   </style>
