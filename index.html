@@ -392,11 +392,22 @@
     .btn-icon-only {
       width: 32px;
       height: 32px;
+      min-width: 32px;
+      min-height: 32px;
       padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       border-radius: var(--radius-md);
       background: rgba(239, 68, 68, 0.1);
       border: 1px solid var(--color-error);
       color: var(--color-error);
+    }
+
+    .btn-icon-only svg {
+      display: block;
+      pointer-events: none;
     }
 
     .btn-icon-only:hover {
@@ -1783,8 +1794,8 @@
                   <input type="number" class="cat-weight" value="${c.weight}" min="0" max="100" placeholder="W%">
                   <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
                 </div>
-                <button class="btn btn-icon-only remove-category" title="Remove Category">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                <button class="btn btn-icon-only remove-category" title="Remove Category" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
                 </button>
               </div>
               <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
@@ -1810,8 +1821,8 @@
                     <input type="number" class="item-total" placeholder="Total" value="${it.total || ''}" min="0">
                   </div>
                   <span class="item-50">0.00%</span>
-                  <button class="btn btn-icon-only remove-item" style="width: 26px; height: 26px;" title="Remove Item">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  <button class="btn btn-icon-only remove-item" style="width: 28px; height: 28px; min-width: 28px; min-height: 28px; display: inline-flex; align-items: center; justify-content: center;" title="Remove Item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                   </button>
                 `;
                 itemsContainer.appendChild(row);
@@ -1912,7 +1923,6 @@
 
     // ----- CATEGORY / ITEMS -----
     function addCategory(name = '', weight = 0) {
-
       categoryCount++;
       const categoryEl = document.createElement('div');
       categoryEl.className = 'category';
@@ -1923,8 +1933,8 @@
             <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="W%">
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
           </div>
-          <button class="btn btn-icon-only remove-category" title="Remove Category">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+          <button class="btn btn-icon-only remove-category" title="Remove Category" style="width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
         </div>
         <div class="items" style="display: flex; flex-direction: column; gap: 0.35rem;"></div>
@@ -1954,8 +1964,8 @@
           <input type="number" class="item-total" placeholder="Total" min="0">
         </div>
         <span class="item-50">0.00%</span>
-        <button class="btn btn-icon-only remove-item" style="width: 26px; height: 26px;" title="Remove Item">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button class="btn btn-icon-only remove-item" style="width: 28px; height: 28px; min-width: 28px; min-height: 28px; display: inline-flex; align-items: center; justify-content: center;" title="Remove Item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       `;
       itemsContainer.appendChild(row);
