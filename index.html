@@ -1083,26 +1083,73 @@
       flex-wrap: wrap;
     }
 
-    .scheme-card {
+    .scheme-dropdown-container {
+      margin-bottom: 0.85rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 1rem;
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+      overflow: hidden;
+    }
+
+    .scheme-dropdown-container[open] {
+      border-color: rgba(249, 115, 22, 0.4);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .scheme-dropdown-summary {
       display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      cursor: pointer;
+      user-select: none;
+      background: rgba(249, 115, 22, 0.05);
     }
 
-    .scheme-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
+    .scheme-dropdown-summary:hover {
+      background: rgba(249, 115, 22, 0.1);
     }
 
+    .scheme-dropdown-content {
+      padding: 0.75rem 0.85rem 0.85rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card);
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Top Temporary Dropdown: TIP Grading Scheme -->
+    <details class="scheme-dropdown-container">
+      <summary class="scheme-dropdown-summary">
+        <span>📋 TIP Grading Scale (75-base)</span>
+        <span style="font-size: 0.7rem; font-weight: 600; opacity: 0.8;">Click to View ▾</span>
+      </summary>
+      <div class="scheme-dropdown-content">
+        <table class="sheet-table" style="font-size: 0.725rem; width: 100%;">
+          <thead>
+            <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+            <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+            <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+            <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+            <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+            <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+            <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+            <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+            <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+            <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
     <!-- Calculator View Container -->
     <div id="calc-view-container">
 
@@ -1317,37 +1364,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- TIP Grading Scheme & Term Weights Reference Card -->
-      <div class="scheme-card">
-        <details>
-          <summary style="font-size: 0.825rem; font-weight: 800; color: var(--accent-primary); cursor: pointer;">
-            📋 TIP Grading Scheme (Click to View)
-          </summary>
-          <div class="scheme-grid" style="margin-top: 0.75rem;">
-            <div>
-              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Grading Scale (75-base)</h4>
-              <table class="sheet-table" style="font-size: 0.725rem;">
-                <thead>
-                  <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
-                  <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
-                  <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
-                  <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
-                  <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
-                  <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
-                  <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
-                  <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
-                  <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
-                  <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </details>
       </div>
     </div><!-- End #sheet-view-container -->
 
