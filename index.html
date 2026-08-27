@@ -79,10 +79,6 @@
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: var(--bg-main);
@@ -3792,51 +3788,49 @@
       else if (window.location.hash === '#calc') switchView('calc');
     });
 
-    // Page Up / Page Down and Smart Scroll Snapping to Top / Bottom
+    // Page Up / Page Down and Instant Top / Bottom Scroll
+    function scrollToTop() {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
+    function scrollToBottom() {
+      const bottom = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, 5000);
+      window.scrollTo(0, bottom);
+      document.documentElement.scrollTop = bottom;
+      document.body.scrollTop = bottom;
+    }
+
     window.addEventListener('keydown', (e) => {
-      // If user is not currently editing an input box or typing in a select
       const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-      if (e.key === 'PageDown') {
+      if (e.key === 'PageDown' || (e.key === 'End' && activeTag !== 'input' && activeTag !== 'select')) {
         e.preventDefault();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
-      } else if (e.key === 'PageUp') {
+        scrollToBottom();
+      } else if (e.key === 'PageUp' || (e.key === 'Home' && activeTag !== 'input' && activeTag !== 'select')) {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      } else if (e.key === 'Home' && activeTag !== 'input' && activeTag !== 'select') {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      } else if (e.key === 'End' && activeTag !== 'input' && activeTag !== 'select') {
-        e.preventDefault();
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
+        scrollToTop();
       }
     });
 
-    // Instant Top / Bottom Scroll on Mouse Wheel when at threshold
+    // Instant Top / Bottom Scroll on Mouse Wheel
     let wheelCooldown = false;
     window.addEventListener('wheel', (e) => {
-      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-      if (activeTag === 'input' || activeTag === 'select') return;
-      
-      // If user is inside an overflow scrollable table or modal, ignore
+      // If user is inside an overflow scrollable table or modal, let them scroll table horizontally
       if (e.target && (e.target.closest('.sheet-table-wrapper') || e.target.closest('.scheme-dropdown-content'))) return;
 
       if (wheelCooldown) return;
 
-      const scrollY = window.scrollY || window.pageYOffset;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-
-      if (maxScroll <= 20) return; // No scroll needed if content fits
-
-      if (e.deltaY > 20 && scrollY < maxScroll) {
-        // Scrolling down: immediately jump to the bottom
+      if (e.deltaY > 10) {
+        // Any downward wheel gesture jumps directly to bottom
         wheelCooldown = true;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
-        setTimeout(() => { wheelCooldown = false; }, 300);
-      } else if (e.deltaY < -20 && scrollY > 0) {
-        // Scrolling up: immediately jump to the top
+        scrollToBottom();
+        setTimeout(() => { wheelCooldown = false; }, 250);
+      } else if (e.deltaY < -10) {
+        // Any upward wheel gesture jumps directly to top
         wheelCooldown = true;
-        window.scrollTo({ top: 0, behavior: 'instant' });
-        setTimeout(() => { wheelCooldown = false; }, 300);
+        scrollToTop();
+        setTimeout(() => { wheelCooldown = false; }, 250);
       }
     }, { passive: true });
   </script>
