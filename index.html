@@ -1327,7 +1327,26 @@
           </summary>
           <div class="scheme-grid" style="margin-top: 0.75rem;">
             <div>
-              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Grading Scale (50-base)</h4>
+              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Grading Scale (75-base • 2nd & 3rd Year)</h4>
+              <table class="sheet-table" style="font-size: 0.725rem; margin-bottom: 1rem;">
+                <thead>
+                  <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+                  <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+                  <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+                  <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+                  <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+                  <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+                  <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+                  <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+                  <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+                  <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+                </tbody>
+              </table>
+
+              <h4 style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.35rem; text-transform: uppercase;">Grading Scale (50-base • 1st Year Only)</h4>
               <table class="sheet-table" style="font-size: 0.725rem;">
                 <thead>
                   <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
@@ -1588,13 +1607,22 @@
         if (data.targetEq) targetEqEl.value = data.targetEq;
 
         if (Array.isArray(data.categories) && data.categories.length > 0) {
-          data.categories.forEach(c => {
+          data.categories.forEach((c, idx) => {
             categoryCount++;
+            let displayName = c.name;
+            if (!displayName || displayName === 'Category 1' || (idx === 0 && (!displayName || displayName.startsWith('Category')))) {
+              displayName = 'Assessment Tasks';
+            } else if (displayName === 'Category 2' || (idx === 1 && (!displayName || displayName.startsWith('Category')))) {
+              displayName = 'Quizzes';
+            } else if (!displayName) {
+              displayName = 'Category ' + categoryCount;
+            }
+
             const categoryEl = document.createElement('div');
             categoryEl.className = 'category';
             categoryEl.innerHTML = `
               <div class="cat-header">
-                <input type="text" class="cat-name" placeholder="Category" value="${c.name || 'Category ' + categoryCount}">
+                <input type="text" class="cat-name" placeholder="Category" value="${displayName}">
                 <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.2rem;">
                   <input type="number" class="cat-weight" value="${c.weight}" min="0" max="100" placeholder="W%">
                   <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
