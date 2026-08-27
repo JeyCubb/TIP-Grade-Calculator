@@ -7,8 +7,9 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Firebase Realtime Database SDKs for Cross-Device Sync -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
   <style>
     /* ==========================================================================
        Design System & Design Tokens (Solid Coppery Orange & Minimal White Theme)
@@ -1761,6 +1762,74 @@
       });
     }
 
+    let firebaseDb = null;
+    let isCloudUpdating = false;
+
+    function initFirebase() {
+      try {
+        if (typeof firebase !== 'undefined') {
+          const config = {
+            databaseURL: "https://jeycub-stardew-farm-calendar-default-rtdb.firebaseio.com/"
+          };
+          if (!firebase.apps.length) {
+            firebase.initializeApp(config);
+          }
+          firebaseDb = firebase.database();
+
+          // Listen for remote profile updates in Realtime Database
+          firebaseDb.ref('tip_grade_calculator').on('value', snapshot => {
+            const cloudData = snapshot.val();
+            if (cloudData && typeof cloudData === 'object') {
+              isCloudUpdating = true;
+              let hasChanges = false;
+
+              // Sync profiles list
+              if (Array.isArray(cloudData._profiles)) {
+                cloudData._profiles.forEach(p => {
+                  if (!userProfiles.includes(p)) userProfiles.push(p);
+                });
+                localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+                renderUserProfileDropdown();
+              }
+
+              // Sync active profile's calculator and sheet data
+              Object.keys(cloudData).forEach(key => {
+                if (key.startsWith('data_')) {
+                  const u = key.replace('data_', '');
+                  localStorage.setItem(`tip_gc_data_${u}`, JSON.stringify(cloudData[key]));
+                  if (u === activeUser) hasChanges = true;
+                } else if (key.startsWith('sheet_')) {
+                  const u = key.replace('sheet_', '');
+                  localStorage.setItem(`tip_gc_sheet_${u}`, JSON.stringify(cloudData[key]));
+                  if (u === activeUser) hasChanges = true;
+                }
+              });
+
+              if (hasChanges) {
+                loadUserData(activeUser);
+                loadSheetData();
+              }
+              setTimeout(() => { isCloudUpdating = false; }, 300);
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("Firebase initialization warning:", e);
+      }
+    }
+
+    function syncToCloud(type, user, data) {
+      if (!firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
+      try {
+        const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
+        firebaseDb.ref(`tip_grade_calculator/${type}_${safeUser}`).set(data);
+        const validProfiles = userProfiles.filter(u => u !== 'No Profile');
+        firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
+      } catch (e) {
+        console.warn("Cloud sync error:", e);
+      }
+    }
+
     function saveUserData() {
       if (!activeUser || activeUser === 'No Profile') return;
       const validProfiles = userProfiles.filter(u => u !== 'No Profile');
@@ -1791,6 +1860,7 @@
 
       const storageKey = `tip_gc_data_${activeUser}`;
       localStorage.setItem(storageKey, JSON.stringify(userData));
+      syncToCloud('data', activeUser, userData);
       triggerSaveToast();
     }
 
@@ -3313,6 +3383,7 @@
     function saveSheetData() {
       if (!userSheetData) return;
       localStorage.setItem(getSheetStorageKey(), JSON.stringify(userSheetData));
+      syncToCloud('sheet', activeUser, userSheetData);
     }
 
     function tipPercentToEquiv(pct) {
@@ -3861,6 +3932,7 @@
 
     initUserProfilesAndSubjects();
     loadUserData(activeUser);
+    initFirebase();
 
     // Restore last viewed tab/page on refresh
     const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc'))
