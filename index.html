@@ -1669,20 +1669,40 @@
         localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles));
       }
 
-      // Initialize Jacob's sheet data if not present
-      if (!localStorage.getItem('tip_gc_sheet_Jacob')) {
-        localStorage.setItem('tip_gc_sheet_Jacob', JSON.stringify(DEFAULT_JACOB_CURRICULUM));
-      }
+      // Check URL query parameters for profile (?profile=Jacob)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlProfile = urlParams.get('profile');
 
       const savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
-      if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
+
+      if (urlProfile && userProfiles.includes(urlProfile)) {
+        activeUser = urlProfile;
+      } else if (urlProfile && urlProfile.trim()) {
+        const cleanName = urlProfile.trim();
+        if (!userProfiles.includes(cleanName)) {
+          userProfiles.push(cleanName);
+          localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+        }
+        activeUser = cleanName;
+      } else if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
         activeUser = savedActiveUser;
       } else {
-        activeUser = 'No Profile';
+        activeUser = 'Jacob'; // Default to Jacob so user's profile is immediately active
       }
 
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+      updateProfileUrl();
       renderUserProfileDropdown();
-      
+    }
+
+    function updateProfileUrl() {
+      const currentUrl = new URL(window.location.href);
+      if (activeUser && activeUser !== 'No Profile') {
+        currentUrl.searchParams.set('profile', activeUser);
+      } else {
+        currentUrl.searchParams.delete('profile');
+      }
+      window.history.replaceState({}, '', currentUrl.toString());
     }
 
     
@@ -2329,8 +2349,10 @@
     document.getElementById('user-selector').addEventListener('change', (e) => {
       saveUserData();
       activeUser = e.target.value;
-      
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+      updateProfileUrl();
       loadUserData(activeUser);
+      loadSheetData();
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
@@ -2339,12 +2361,14 @@
         const cleanName = name.trim();
         if (!userProfiles.includes(cleanName)) {
           userProfiles.push(cleanName);
-          saveUserData();
+          localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
         }
         activeUser = cleanName;
+        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        updateProfileUrl();
         renderUserProfileDropdown();
-        
         loadUserData(activeUser);
+        loadSheetData();
       }
     });
 
@@ -2353,12 +2377,17 @@
         alert("Cannot delete the default 'No Profile' guest state.");
         return;
       }
-      if (confirm(`Delete user profile "${activeUser}" and all its subjects?`)) {
+      if (confirm(`Delete user profile "${activeUser}" and all its saved data?`)) {
+        localStorage.removeItem(`tip_gc_data_${activeUser}`);
+        localStorage.removeItem(`tip_gc_sheet_${activeUser}`);
         userProfiles = userProfiles.filter(u => u !== activeUser);
-        activeUser = 'No Profile';
+        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+        activeUser = userProfiles.includes('Jacob') ? 'Jacob' : 'No Profile';
+        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        updateProfileUrl();
         renderUserProfileDropdown();
-        
         loadUserData(activeUser);
+        loadSheetData();
       }
     });
 
@@ -3240,7 +3269,7 @@
     }
 
     function saveSheetData() {
-      if (activeUser === 'No Profile' || !userSheetData) return;
+      if (!userSheetData) return;
       localStorage.setItem(getSheetStorageKey(), JSON.stringify(userSheetData));
     }
 
