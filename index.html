@@ -3050,29 +3050,34 @@
       localStorage.setItem(getSheetStorageKey(), JSON.stringify(userSheetData));
     }
 
-    function tipEquivRating(eqVal) {
-      if (eqVal > 5.00) {
-        if (eqVal >= 94.0) return 'Excellent';
-        if (eqVal >= 88.5) return 'Superior';
-        if (eqVal >= 83.0) return 'Meritorious';
-        if (eqVal >= 77.5) return 'Very Good';
-        if (eqVal >= 72.0) return 'Good';
-        if (eqVal >= 65.5) return 'Very Satisfactory';
-        if (eqVal >= 61.0) return 'Satisfactory';
-        if (eqVal >= 55.5) return 'Fair';
-        if (eqVal >= 50.0) return 'Passing';
-        return 'Failed';
+    function tipPercentToEquiv(pct) {
+      if (isNaN(pct) || pct <= 0) return '--';
+      if (pct <= 5.00) return pct.toFixed(2);
+
+      if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
+        if (pct >= 99.0) return '1.00';
+        if (pct >= 96.0) return '1.25';
+        if (pct >= 93.0) return '1.50';
+        if (pct >= 90.0) return '1.75';
+        if (pct >= 87.0) return '2.00';
+        if (pct >= 84.0) return '2.25';
+        if (pct >= 81.0) return '2.50';
+        if (pct >= 78.0) return '2.75';
+        if (pct >= 75.0) return '3.00';
+        return '5.00';
+      } else {
+        // 1st Year (50% passing scale)
+        if (pct >= 94.0) return '1.00';
+        if (pct >= 88.5) return '1.25';
+        if (pct >= 83.0) return '1.50';
+        if (pct >= 77.5) return '1.75';
+        if (pct >= 72.0) return '2.00';
+        if (pct >= 65.5) return '2.25';
+        if (pct >= 61.0) return '2.50';
+        if (pct >= 55.5) return '2.75';
+        if (pct >= 50.0) return '3.00';
+        return '5.00';
       }
-      if (eqVal === 1.00) return 'Excellent';
-      if (eqVal <= 1.25) return 'Superior';
-      if (eqVal <= 1.50) return 'Meritorious';
-      if (eqVal <= 1.75) return 'Very Good';
-      if (eqVal <= 2.00) return 'Good';
-      if (eqVal <= 2.25) return 'Very Satisfactory';
-      if (eqVal <= 2.50) return 'Satisfactory';
-      if (eqVal <= 2.75) return 'Fair';
-      if (eqVal <= 3.00) return 'Passing';
-      return 'Failed';
     }
 
     function computeRowGrade(row) {
@@ -3246,8 +3251,10 @@
 
       // Update badges
       document.getElementById(badgeUnitsId).textContent = `${totalUnits} Units`;
-      document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
-      document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+      const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
+      const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` (${semEquiv})` : '';
+      document.getElementById(badgeGwaId).textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
+      document.getElementById(summaryId).textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
 
       return { gwa: semGwa, units: totalUnits };
     }
@@ -3391,8 +3398,10 @@
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
 
         if (bUnits) bUnits.textContent = `${totalUnits} Units`;
-        if (bGwa) bGwa.textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
-        if (sSummary) sSummary.textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}`;
+        const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
+        const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` (${semEquiv})` : '';
+        if (bGwa) bGwa.textContent = `GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
+        if (sSummary) sSummary.textContent = `Total Units: ${totalUnits} | Weighted GWA: ${semGwa > 0 ? semGwa.toFixed(2) : '--'}${semEquivText}`;
       });
 
       let annualGwa = 0;
