@@ -1456,8 +1456,8 @@
 
         <!-- Semester Switcher Bar (Top Right) -->
         <div class="sem-switcher-bar">
-          <button class="sem-switch-btn active" id="btn-switch-sem1" data-sem="sem1">First Semester</button>
-          <button class="sem-switch-btn" id="btn-switch-sem2" data-sem="sem2">Second Semester</button>
+          <button class="sem-switch-btn active" id="btn-switch-sem1" data-sem="sem1" title="First Semester (Shift + ←)">First Semester</button>
+          <button class="sem-switch-btn" id="btn-switch-sem2" data-sem="sem2" title="Second Semester (Shift + →)">Second Semester</button>
         </div>
       </div>
 
@@ -1527,10 +1527,10 @@
 
     <!-- View Switcher Navigation Bar (Bottom of Page) -->
     <nav class="view-nav-bar">
-      <button class="view-nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + →)">
+      <button class="view-nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + →)">
         <span>🧮</span> Calculator View
       </button>
-      <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + ←)">
+      <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + ←)">
         <span>📊</span> GWA Sheet
       </button>
     </nav>
@@ -3382,7 +3382,7 @@
           btn.textContent = yearKey;
         }
 
-        btn.title = `Switch Year Level (← / →)`;
+        btn.title = `Switch Year Level (Ctrl + ← / →)`;
         btn.addEventListener('click', () => {
           activeSheetYear = yearKey;
           localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
@@ -3817,55 +3817,77 @@
     window.addEventListener('keydown', (e) => {
       const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
 
-      // Ctrl + Left Arrow: Switch to GWA Sheet
-      if (e.ctrlKey && e.key === 'ArrowLeft') {
-        e.preventDefault();
-        switchView('sheet');
-        return;
+      // 1. Ctrl + Shift + Left/Right Arrow: Switch Between Main Views (Calculator vs GWA Sheet)
+      if (e.ctrlKey && e.shiftKey) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          switchView('sheet');
+          return;
+        }
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          switchView('calc');
+          return;
+        }
       }
 
-      // Ctrl + Right Arrow: Switch to Calculator View
-      if (e.ctrlKey && e.key === 'ArrowRight') {
-        e.preventDefault();
-        switchView('calc');
-        return;
-      }
+      // 2. Ctrl + Left/Right Arrow (without Shift): Switch Year Level (in GWA Sheet View)
+      if (e.ctrlKey && !e.shiftKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        const currentActiveView = localStorage.getItem('tip_gc_active_view') || 'calc';
+        if (currentActiveView === 'sheet' && activeTag !== 'input' && activeTag !== 'select') {
+          const yearOrder = ['4th Year', '3rd Year', '2nd Year', '1st Year'];
+          if (userSheetData) {
+            const sortedKeys = Object.keys(userSheetData).sort((a, b) => {
+              const idxA = yearOrder.indexOf(a);
+              const idxB = yearOrder.indexOf(b);
+              if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+              if (idxA !== -1) return -1;
+              if (idxB !== -1) return 1;
+              return a.localeCompare(b);
+            });
 
-      // Left / Right Arrow without Ctrl (When in GWA Sheet View and not typing in an input): Switch Year Level
-      const currentActiveView = localStorage.getItem('tip_gc_active_view') || 'calc';
-      if (currentActiveView === 'sheet' && activeTag !== 'input' && activeTag !== 'select') {
-        const yearOrder = ['4th Year', '3rd Year', '2nd Year', '1st Year'];
-        if (userSheetData) {
-          const sortedKeys = Object.keys(userSheetData).sort((a, b) => {
-            const idxA = yearOrder.indexOf(a);
-            const idxB = yearOrder.indexOf(b);
-            if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-            if (idxA !== -1) return -1;
-            if (idxB !== -1) return 1;
-            return a.localeCompare(b);
-          });
-
-          const currentIdx = sortedKeys.indexOf(activeSheetYear);
-          if (currentIdx !== -1) {
-            if (e.key === 'ArrowLeft') {
-              e.preventDefault();
-              const newIdx = Math.max(0, currentIdx - 1);
-              if (newIdx !== currentIdx) {
-                activeSheetYear = sortedKeys[newIdx];
-                localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
-                renderSheetView();
+            const currentIdx = sortedKeys.indexOf(activeSheetYear);
+            if (currentIdx !== -1) {
+              if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                const newIdx = Math.max(0, currentIdx - 1);
+                if (newIdx !== currentIdx) {
+                  activeSheetYear = sortedKeys[newIdx];
+                  localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
+                  renderSheetView();
+                }
+                return;
+              } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                const newIdx = Math.min(sortedKeys.length - 1, currentIdx + 1);
+                if (newIdx !== currentIdx) {
+                  activeSheetYear = sortedKeys[newIdx];
+                  localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
+                  renderSheetView();
+                }
+                return;
               }
-              return;
-            } else if (e.key === 'ArrowRight') {
-              e.preventDefault();
-              const newIdx = Math.min(sortedKeys.length - 1, currentIdx + 1);
-              if (newIdx !== currentIdx) {
-                activeSheetYear = sortedKeys[newIdx];
-                localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
-                renderSheetView();
-              }
-              return;
             }
+          }
+        }
+      }
+
+      // 3. Shift + Left/Right Arrow (without Ctrl): Switch Semester (in GWA Sheet View)
+      if (e.shiftKey && !e.ctrlKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        const currentActiveView = localStorage.getItem('tip_gc_active_view') || 'calc';
+        if (currentActiveView === 'sheet' && activeTag !== 'input' && activeTag !== 'select') {
+          if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            activeSemester = 'sem1';
+            localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
+            renderSheetView();
+            return;
+          } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            activeSemester = 'sem2';
+            localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
+            renderSheetView();
+            return;
           }
         }
       }
