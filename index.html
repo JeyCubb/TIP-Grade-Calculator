@@ -3933,26 +3933,30 @@
       }
     });
 
-    // Instant Top / Bottom Scroll on Mouse Wheel
+    // Instant Top / Bottom Scroll on Mouse Wheel (Single tick triggers PageDown / PageUp)
     let wheelCooldown = false;
     window.addEventListener('wheel', (e) => {
-      // If user is inside an overflow scrollable table or modal, let them scroll table horizontally
+      // If user is inside an overflow scrollable table or modal, allow internal scrolling
       if (e.target && (e.target.closest('.sheet-table-wrapper') || e.target.closest('.scheme-dropdown-content'))) return;
+
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+      }
 
       if (wheelCooldown) return;
 
-      if (e.deltaY > 10) {
-        // Any downward wheel gesture jumps directly to bottom
+      if (e.deltaY > 0) {
+        // Single scroll down tick -> PageDown (bottom)
         wheelCooldown = true;
         scrollToBottom();
-        setTimeout(() => { wheelCooldown = false; }, 250);
-      } else if (e.deltaY < -10) {
-        // Any upward wheel gesture jumps directly to top
+        setTimeout(() => { wheelCooldown = false; }, 180);
+      } else if (e.deltaY < 0) {
+        // Single scroll up tick -> PageUp (top)
         wheelCooldown = true;
         scrollToTop();
-        setTimeout(() => { wheelCooldown = false; }, 250);
+        setTimeout(() => { wheelCooldown = false; }, 180);
       }
-    }, { passive: true });
+    }, { passive: false });
   </script>
 </body>
 </html>
