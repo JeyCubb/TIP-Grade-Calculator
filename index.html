@@ -3945,7 +3945,7 @@
       else if (window.location.hash === '#calc') switchView('calc');
     });
 
-    // Page Up / Page Down and Instant Top / Bottom Scroll
+    // Instant Top / Bottom Scroll on Mouse Wheel (Single tick triggers PageDown / PageUp)
     function scrollToTop() {
       window.scrollTo(0, 0);
       document.documentElement.scrollTop = 0;
@@ -3953,7 +3953,15 @@
     }
 
     function scrollToBottom() {
-      const bottom = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, 5000);
+      const bottom = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.body.clientHeight,
+        document.documentElement.clientHeight,
+        99999
+      );
       window.scrollTo(0, bottom);
       document.documentElement.scrollTop = bottom;
       document.body.scrollTop = bottom;
@@ -4053,30 +4061,18 @@
       }
     });
 
-    // Instant Top / Bottom Scroll on Mouse Wheel (Single tick triggers PageDown / PageUp)
-    let wheelCooldown = false;
     window.addEventListener('wheel', (e) => {
       // If user is inside an overflow scrollable table or modal, allow internal scrolling
       if (e.target && (e.target.closest('.sheet-table-wrapper') || e.target.closest('.scheme-dropdown-content'))) return;
 
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-      }
-
-      if (wheelCooldown) return;
-
       if (e.deltaY > 0) {
-        // Single scroll down tick -> PageDown (bottom)
-        wheelCooldown = true;
+        e.preventDefault();
         scrollToBottom();
-        setTimeout(() => { wheelCooldown = false; }, 180);
       } else if (e.deltaY < 0) {
-        // Single scroll up tick -> PageUp (top)
-        wheelCooldown = true;
+        e.preventDefault();
         scrollToTop();
-        setTimeout(() => { wheelCooldown = false; }, 180);
       }
-    }, { passive: false });
+    }, { passive: false, capture: true });
   </script>
 </body>
 </html>
