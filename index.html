@@ -1033,40 +1033,53 @@
     }
 
     .scheme-dropdown-container {
-      margin-bottom: 0.85rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-      overflow: hidden;
+      position: relative;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 0;
+      transition: var(--transition);
     }
 
     .scheme-dropdown-container[open] {
-      border-color: rgba(249, 115, 22, 0.4);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
     .scheme-dropdown-summary {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.55rem 0.85rem;
+      gap: 0.35rem;
+      padding: 0.3rem 0.75rem;
       font-size: 0.8rem;
       font-weight: 700;
       color: var(--accent-primary);
       cursor: pointer;
       user-select: none;
-      background: rgba(249, 115, 22, 0.05);
+      list-style: none;
+    }
+
+    .scheme-dropdown-summary::-webkit-details-marker {
+      display: none;
     }
 
     .scheme-dropdown-summary:hover {
-      background: rgba(249, 115, 22, 0.1);
+      color: var(--accent-primary-hover);
     }
 
     .scheme-dropdown-content {
-      padding: 0.75rem 0.85rem 0.85rem;
-      border-top: 1px solid var(--border-color);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      width: min(320px, 90vw);
+      max-height: 380px;
+      overflow-y: auto;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
       background: var(--bg-card);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      z-index: 1000;
     }
 
     /* ==========================================================================
@@ -1251,33 +1264,6 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Top Temporary Dropdown: TIP Grading Scheme -->
-    <details class="scheme-dropdown-container">
-      <summary class="scheme-dropdown-summary">
-        <span>📋 TIP Grading Scale (75-base)</span>
-        <span style="font-size: 0.7rem; font-weight: 600; opacity: 0.8;">Click to View ▾</span>
-      </summary>
-      <div class="scheme-dropdown-content">
-        <table class="sheet-table" style="font-size: 0.725rem; width: 100%;">
-          <thead>
-            <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
-            <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
-            <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
-            <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
-            <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
-            <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
-            <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
-            <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
-            <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
-            <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </details>
-
     <!-- Calculator View Container -->
     <div id="calc-view-container">
 
@@ -1516,8 +1502,39 @@
         </div>
       </div>
 
-      <!-- User Profile & Subject Selector Bar -->
+      <!-- User Profile & Grading Scheme Bar -->
       <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+        <!-- TIP Grading Scheme Dropdown (Visible only in GWA Sheet View) -->
+        <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
+          <summary class="scheme-dropdown-summary" title="Click to view 75-base grading scale">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Grading Scale</span>
+            <span style="font-size: 0.65rem; opacity: 0.8;">▾</span>
+          </summary>
+          <div class="scheme-dropdown-content">
+            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.4rem;">
+              📋 TIP Grading Scale (75-base)
+            </div>
+            <table class="sheet-table" style="font-size: 0.725rem; width: 100%;">
+              <thead>
+                <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+                <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+                <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+                <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+                <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+                <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+                <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+                <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+                <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+                <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
         <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -3699,11 +3716,14 @@
     const sheetContainer = document.getElementById('sheet-view-container');
 
     function switchView(viewName) {
+      const headerSchemeEl = document.getElementById('header-scheme-dropdown');
+
       if (viewName === 'sheet') {
         btnViewSheet.classList.add('active');
         btnViewCalc.classList.remove('active');
         calcContainer.style.display = 'none';
         sheetContainer.style.display = 'flex';
+        if (headerSchemeEl) headerSchemeEl.style.display = 'inline-block';
         renderSheetView();
         localStorage.setItem('tip_gc_active_view', 'sheet');
         window.location.hash = 'sheet';
@@ -3712,6 +3732,10 @@
         btnViewSheet.classList.remove('active');
         calcContainer.style.display = 'block';
         sheetContainer.style.display = 'none';
+        if (headerSchemeEl) {
+          headerSchemeEl.style.display = 'none';
+          headerSchemeEl.removeAttribute('open');
+        }
         localStorage.setItem('tip_gc_active_view', 'calc');
         window.location.hash = 'calc';
       }
