@@ -1764,6 +1764,8 @@
 
     let firebaseDb = null;
     let isCloudUpdating = false;
+    const clientId = 'client_' + Math.random().toString(36).substring(2, 11);
+    let cloudSyncDebounceTimer = null;
 
     function initFirebase() {
       try {
@@ -1780,6 +1782,15 @@
           firebaseDb.ref('tip_grade_calculator').on('value', snapshot => {
             const cloudData = snapshot.val();
             if (cloudData && typeof cloudData === 'object') {
+              // Ignore cloud updates triggered by THIS same browser window
+              if (cloudData._lastSender === clientId) {
+                return;
+              }
+
+              // Also do not destroy DOM if user is actively typing inside an input box in Calculator view
+              const activeEl = document.activeElement;
+              const isUserTypingInCalc = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT') && activeEl.closest('#calc-view-container');
+
               isCloudUpdating = true;
               let hasChanges = false;
 
@@ -1797,7 +1808,7 @@
                 if (key.startsWith('data_')) {
                   const u = key.replace('data_', '');
                   localStorage.setItem(`tip_gc_data_${u}`, JSON.stringify(cloudData[key]));
-                  if (u === activeUser) hasChanges = true;
+                  if (u === activeUser && !isUserTypingInCalc) hasChanges = true;
                 } else if (key.startsWith('sheet_')) {
                   const u = key.replace('sheet_', '');
                   localStorage.setItem(`tip_gc_sheet_${u}`, JSON.stringify(cloudData[key]));
@@ -1805,7 +1816,7 @@
                 }
               });
 
-              if (hasChanges) {
+              if (hasChanges && !isUserTypingInCalc) {
                 loadUserData(activeUser);
                 loadSheetData();
               }
@@ -1820,14 +1831,18 @@
 
     function syncToCloud(type, user, data) {
       if (!firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
-      try {
-        const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
-        firebaseDb.ref(`tip_grade_calculator/${type}_${safeUser}`).set(data);
-        const validProfiles = userProfiles.filter(u => u !== 'No Profile');
-        firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
-      } catch (e) {
-        console.warn("Cloud sync error:", e);
-      }
+      clearTimeout(cloudSyncDebounceTimer);
+      cloudSyncDebounceTimer = setTimeout(() => {
+        try {
+          const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
+          firebaseDb.ref(`tip_grade_calculator/${type}_${safeUser}`).set(data);
+          const validProfiles = userProfiles.filter(u => u !== 'No Profile');
+          firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
+          firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+        } catch (e) {
+          console.warn("Cloud sync error:", e);
+        }
+      }, 400);
     }
 
     function saveUserData() {
