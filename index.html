@@ -1595,7 +1595,7 @@
               <div class="unhide-cols-bar" id="sem1-unhide-bar"></div>
             </div>
             <div class="sem-footer-summary-text" id="sem1-footer-summary">
-              Total Units: <span style="color: var(--accent-primary);">0</span> | Weighted GWA: <span style="color: var(--accent-primary);">0.00</span>
+              Units: <span style="color: var(--accent-primary);">0</span> | GWA: <span style="color: var(--accent-primary);">0.00</span>
             </div>
           </div>
         </div>
@@ -1628,7 +1628,7 @@
               <div class="unhide-cols-bar" id="sem2-unhide-bar"></div>
             </div>
             <div class="sem-footer-summary-text" id="sem2-footer-summary">
-              Total Units: <span style="color: var(--accent-primary);">0</span> | Weighted GWA: <span style="color: var(--accent-primary);">0.00</span>
+              Units: <span style="color: var(--accent-primary);">0</span> | GWA: <span style="color: var(--accent-primary);">0.00</span>
             </div>
           </div>
         </div>
@@ -3716,7 +3716,7 @@
       // Update summary
       const summaryEl = document.getElementById(summaryId);
       if (summaryEl) {
-        summaryEl.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
+        summaryEl.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
       }
 
       return { gwa: semGwa, units: totalUnits };
@@ -3858,7 +3858,7 @@
 
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
         if (sSummary) {
-          sSummary.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
+          sSummary.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
         }
       });
 
