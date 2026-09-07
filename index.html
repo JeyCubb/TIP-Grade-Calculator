@@ -1030,14 +1030,14 @@
     }
 
     .sheet-table td {
-      padding: 0.3rem 0.35rem;
+      padding: 0.25rem 0.3rem;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
     }
 
     .sheet-table input {
       width: 100%;
-      padding: 0.25rem 0.3rem;
+      padding: 0.22rem 0.35rem;
       font-size: 0.75rem;
       border-radius: var(--radius-sm);
       border: 1px solid var(--border-color);
@@ -1050,7 +1050,7 @@
       text-align: center;
       width: 58px;
       min-width: 54px;
-      padding: 0.25rem 0.2rem;
+      padding: 0.22rem 0.2rem;
       font-size: 0.775rem;
     }
 
@@ -1060,7 +1060,10 @@
     }
 
     .sheet-table input.subj-input {
-      min-width: 90px;
+      width: 100%;
+      max-width: 190px;
+      min-width: 100px;
+      padding: 0.22rem 0.45rem;
     }
 
     .sheet-table input:focus {
@@ -1107,6 +1110,8 @@
       font-weight: 800;
       color: var(--text-primary);
       letter-spacing: 0.01em;
+      margin-left: auto;
+      text-align: right;
     }
 
     .sem-footer-summary-text strong {
@@ -1354,21 +1359,23 @@
 
       .sheet-table th {
         font-size: 0.95rem;
-        padding: 0.7rem 0.6rem;
+        padding: 0.55rem 0.5rem;
       }
 
       .sheet-table td {
         font-size: 1.0rem;
-        padding: 0.5rem 0.6rem;
+        padding: 0.4rem 0.5rem;
       }
 
       .sheet-table input {
         font-size: 1.0rem;
-        padding: 0.4rem 0.55rem;
+        padding: 0.35rem 0.5rem;
       }
 
       .sheet-table input.subj-input {
-        min-width: 135px;
+        width: 100%;
+        max-width: 220px;
+        min-width: 120px;
       }
 
       .sheet-table input.num-input {
@@ -1394,6 +1401,8 @@
       #sem1-footer-summary,
       #sem2-footer-summary {
         font-size: 1.05rem !important;
+        margin-left: auto;
+        text-align: right;
       }
     }
   </style>
