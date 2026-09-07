@@ -487,13 +487,15 @@
     }
 
     .cat-name {
-      flex: 2;
-      min-width: 110px;
+      flex: 1.2;
+      max-width: 140px;
+      min-width: 80px;
     }
 
     .cat-weight-wrapper {
-      flex: 1;
-      min-width: 70px;
+      flex: 0 0 auto;
+      width: 55px;
+      min-width: 45px;
     }
 
     .cat-weight {
@@ -506,20 +508,20 @@
       gap: 0.35rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.3rem 0.45rem;
+      padding: 0.25rem 0.4rem;
       border-radius: var(--radius-md);
     }
 
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
-      flex: 1;
+      gap: 0.25rem;
+      flex: 0 0 auto;
     }
 
     .item-inputs input {
-      width: 76px;
-      padding: 0.25rem 0.45rem;
+      width: 50px;
+      padding: 0.2rem 0.35rem;
       font-size: 0.75rem;
     }
 
@@ -1248,13 +1250,14 @@
 
       .cat-name {
         font-size: 1.0rem !important;
-        padding: 0.3rem 0.55rem !important;
+        max-width: 150px !important;
+        padding: 0.25rem 0.45rem !important;
       }
 
       .cat-weight {
         font-size: 1.0rem !important;
-        width: 60px !important;
-        padding: 0.3rem 0.4rem !important;
+        width: 48px !important;
+        padding: 0.25rem 0.35rem !important;
       }
 
       .cat-header span {
@@ -1263,7 +1266,8 @@
 
       .item-inputs input {
         font-size: 1.0rem !important;
-        padding: 0.3rem 0.55rem !important;
+        width: 54px !important;
+        padding: 0.25rem 0.45rem !important;
       }
 
       .item-inputs span {
