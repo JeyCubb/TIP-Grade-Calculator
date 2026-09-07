@@ -4134,6 +4134,18 @@
       const activeEl = document.activeElement;
       const activeTag = activeEl ? activeEl.tagName.toLowerCase() : '';
 
+      // Pressing Enter in Calculator mode triggers Compute Minimum
+      if (e.key === 'Enter') {
+        const currentActiveView = localStorage.getItem('tip_gc_active_view') || 'calc';
+        if (currentActiveView === 'calc') {
+          if (activeTag === 'input' || activeTag === 'select') {
+            activeEl.blur();
+          }
+          computeMinimumExamNeeded();
+          return;
+        }
+      }
+
       // Pressing Enter or Escape exits focus (blurs) from any input or select
       if ((e.key === 'Enter' || e.key === 'Escape') && (activeTag === 'input' || activeTag === 'select')) {
         activeEl.blur();
