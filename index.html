@@ -3439,40 +3439,23 @@
 
       // 1. FINALS: If Finals grade is encoded, compute official rating (disregarding prelims and midterms)
       if (!isNaN(f)) {
-        if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
-          if (f >= 99.0) return 1.00;
-          if (f >= 96.0) return 1.25;
-          if (f >= 93.0) return 1.50;
-          if (f >= 90.0) return 1.75;
-          if (f >= 87.0) return 2.00;
-          if (f >= 84.0) return 2.25;
-          if (f >= 81.0) return 2.50;
-          if (f >= 78.0) return 2.75;
-          if (f >= 75.0) return 3.00;
-          return 5.00;
-        } else {
-          // 1st Year & standard (50% passing scale)
-          if (f >= 94.0) return 1.00;
-          if (f > 88.5) return 1.25;
-          if (f > 83.0) return 1.50;
-          if (f > 77.5) return 1.75;
-          if (f >= 72.0) return 2.00;
-          if (f >= 65.5) return 2.25;
-          if (f > 61.0) return 2.50;
-          if (f > 55.5) return 2.75;
-          if (f >= 50.0) return 3.00;
-          return 5.00;
-        }
+        return parseFloat(tipPercentToEquiv(f)) || f;
       }
 
       // 2. MIDTERMS: If Midterms grade is encoded (and no Finals), focus on Midterms and disregard Prelims
-      if (!isNaN(m)) return m;
+      if (!isNaN(m)) {
+        return parseFloat(tipPercentToEquiv(m)) || m;
+      }
 
       // 3. PRELIMS: If Prelims grade is encoded (and no Midterms / Finals), use Prelims
-      if (!isNaN(p)) return p;
+      if (!isNaN(p)) {
+        return parseFloat(tipPercentToEquiv(p)) || p;
+      }
 
       // 4. MANUAL GRADE: If an explicit final equivalent (1.00 - 5.00) is stored directly
-      if (!isNaN(manual_g)) return manual_g;
+      if (!isNaN(manual_g)) {
+        return parseFloat(tipPercentToEquiv(manual_g)) || manual_g;
+      }
 
       // 5. EMPTY: Disregard from GWA calculation
       return NaN;
@@ -3497,7 +3480,7 @@
           }
         });
         if (yearKey === 'SHS') {
-          return validCount > 0 ? Math.round(weightedSum / validCount) : 0;
+          return validCount > 0 ? (weightedSum / validCount) : 0;
         }
         return gradedUnits > 0 && validCount > 0 ? (weightedSum / gradedUnits) : 0;
       }
@@ -3571,10 +3554,8 @@
 
         let gradeBadge = '<span class="sheet-grade-cell">--</span>';
         if (!isNaN(computedGrade)) {
-          const isDecimalRating = !isNaN(parseFloat(r.final)) || (!isNaN(parseFloat(r.grade)) && parseFloat(r.grade) <= 5.0);
-          const passCutoff = (activeSheetYear === '1st Year') ? 50.0 : 75.0;
-          const isPass = isDecimalRating ? (computedGrade <= 3.00) : (computedGrade >= passCutoff);
-          const displayText = isDecimalRating ? computedGrade.toFixed(2) : (computedGrade % 1 === 0 ? computedGrade.toFixed(0) : computedGrade.toFixed(2));
+          const isPass = computedGrade <= 3.00;
+          const displayText = computedGrade.toFixed(2);
           gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${displayText}</span>`;
           if (units > 0) {
             weightedSum += computedGrade * units;
@@ -3602,11 +3583,9 @@
       const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
 
       // Update summary
-      const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
-      const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` <span style="color: var(--accent-primary); font-weight: 800;">(${semEquiv})</span>` : '';
       const summaryEl = document.getElementById(summaryId);
       if (summaryEl) {
-        summaryEl.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>${semEquivText}`;
+        summaryEl.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
       }
 
       return { gwa: semGwa, units: totalUnits };
@@ -3722,10 +3701,8 @@
             const gradeBadgeCell = tr.querySelector('.sheet-grade-cell');
             if (gradeBadgeCell) {
               if (!isNaN(computedGrade)) {
-                const isDecimalRating = !isNaN(parseFloat(r.final)) || (!isNaN(parseFloat(r.grade)) && parseFloat(r.grade) <= 5.0);
-                const passCutoff = (activeSheetYear === '1st Year') ? 50.0 : 75.0;
-                const isPass = isDecimalRating ? (computedGrade <= 3.00) : (computedGrade >= passCutoff);
-                const displayText = isDecimalRating ? computedGrade.toFixed(2) : (computedGrade % 1 === 0 ? computedGrade.toFixed(0) : computedGrade.toFixed(2));
+                const isPass = computedGrade <= 3.00;
+                const displayText = computedGrade.toFixed(2);
                 gradeBadgeCell.className = `sheet-grade-cell ${isPass ? 'pass' : 'fail'}`;
                 gradeBadgeCell.textContent = displayText;
               } else {
@@ -3747,10 +3724,8 @@
         if (semKey === 'sem2') annualGwaCalc.sem2Gwa = semGwa;
 
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
-        const semEquiv = semGwa > 0 ? tipPercentToEquiv(semGwa) : '--';
-        const semEquivText = (semEquiv !== '--' && semGwa > 5.00) ? ` <span style="color: var(--accent-primary); font-weight: 800;">(${semEquiv})</span>` : '';
         if (sSummary) {
-          sSummary.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>${semEquivText}`;
+          sSummary.innerHTML = `Total Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; Weighted GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
         }
       });
 
