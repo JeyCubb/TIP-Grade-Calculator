@@ -572,6 +572,94 @@
       margin: 0.35rem 0;
     }
 
+    /* Target Grade Custom Dropdown */
+    .target-select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .target-select-display {
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      transition: var(--transition);
+    }
+
+    .target-select-display:hover {
+      border-color: var(--border-color-hover);
+      background: var(--bg-card-hover);
+    }
+
+    .target-select-display.open {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .target-select-options {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      max-height: 260px;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+      padding: 0.25rem 0;
+    }
+
+    .target-select-options.show {
+      display: flex;
+    }
+
+    .target-option-item {
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.15s ease;
+    }
+
+    .target-option-item:hover {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--accent-primary);
+    }
+
+    .target-option-item.selected {
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .target-option-item .opt-range {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
+    .target-option-item.selected .opt-range {
+      color: #ffffff;
+      opacity: 0.95;
+    }
+
     /* Result Dashboard Box */
     .result-dashboard {
       background: var(--bg-input);
@@ -1504,17 +1592,61 @@
         <div style="display: flex; flex-direction: column; gap: 0.55rem;">
           <label>
             Target Grade
-            <select id="target-eq">
-              <option value="3.00">3.00 (75%)</option>
-              <option value="2.75">2.75 (78%)</option>
-              <option value="2.50">2.50 (81%)</option>
-              <option value="2.25" selected>2.25 (84%)</option>
-              <option value="2.00">2.00 (87%)</option>
-              <option value="1.75">1.75 (90%)</option>
-              <option value="1.50">1.50 (93%)</option>
-              <option value="1.25">1.25 (96%)</option>
-              <option value="1.00">1.00 (99%)</option>
-            </select>
+            <div class="target-select-wrapper" id="target-select-wrapper">
+              <div class="target-select-display" id="target-select-display" tabindex="0">
+                <span id="target-select-label">2.25</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none; opacity: 0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+              <div class="target-select-options" id="target-select-options">
+                <div class="target-option-item" data-value="3.00">
+                  <span>3.00</span>
+                  <span class="opt-range">(75% – 77.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="2.75">
+                  <span>2.75</span>
+                  <span class="opt-range">(78% – 80.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="2.50">
+                  <span>2.50</span>
+                  <span class="opt-range">(81% – 83.99%)</span>
+                </div>
+                <div class="target-option-item selected" data-value="2.25">
+                  <span>2.25</span>
+                  <span class="opt-range">(84% – 86.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="2.00">
+                  <span>2.00</span>
+                  <span class="opt-range">(87% – 89.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="1.75">
+                  <span>1.75</span>
+                  <span class="opt-range">(90% – 92.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="1.50">
+                  <span>1.50</span>
+                  <span class="opt-range">(93% – 95.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="1.25">
+                  <span>1.25</span>
+                  <span class="opt-range">(96% – 98.99%)</span>
+                </div>
+                <div class="target-option-item" data-value="1.00">
+                  <span>1.00</span>
+                  <span class="opt-range">(99% – 100%)</span>
+                </div>
+              </div>
+              <select id="target-eq" style="display: none;">
+                <option value="3.00">3.00</option>
+                <option value="2.75">2.75</option>
+                <option value="2.50">2.50</option>
+                <option value="2.25" selected>2.25</option>
+                <option value="2.00">2.00</option>
+                <option value="1.75">1.75</option>
+                <option value="1.50">1.50</option>
+                <option value="1.25">1.25</option>
+                <option value="1.00">1.00</option>
+              </select>
+            </div>
           </label>
           <button id="compute" class="btn btn-primary" style="width: 100%; padding: 0.5rem 0.85rem; font-size: 0.85rem;">
             Compute Minimum
@@ -1761,6 +1893,26 @@
     const mixPrevEl = document.getElementById('mix-prev');
     const summaryEl = document.getElementById('summary');
     const targetEqEl = document.getElementById('target-eq');
+    const targetSelectWrapperEl = document.getElementById('target-select-wrapper');
+    const targetSelectDisplayEl = document.getElementById('target-select-display');
+    const targetSelectLabelEl = document.getElementById('target-select-label');
+    const targetSelectOptionsEl = document.getElementById('target-select-options');
+
+    function updateTargetSelectUI(val) {
+      if (targetSelectLabelEl) {
+        targetSelectLabelEl.textContent = val;
+      }
+      if (targetSelectOptionsEl) {
+        const optionItems = targetSelectOptionsEl.querySelectorAll('.target-option-item');
+        optionItems.forEach(item => {
+          if (item.getAttribute('data-value') === val) {
+            item.classList.add('selected');
+          } else {
+            item.classList.remove('selected');
+          }
+        });
+      }
+    }
 
     const resCsEl = document.getElementById('res-cs');
     const resExamEl = document.getElementById('res-exam');
@@ -2036,7 +2188,13 @@
         prevGradeEl.value = data.prevGrade || '';
         examScoreEl.value = data.examScore || '';
         examTotalEl.value = data.examTotal !== undefined && data.examTotal !== '' ? data.examTotal : '50';
-        if (data.targetEq) targetEqEl.value = data.targetEq;
+        if (data.targetEq) {
+          targetEqEl.value = data.targetEq;
+          updateTargetSelectUI(data.targetEq);
+        } else {
+          targetEqEl.value = '2.25';
+          updateTargetSelectUI('2.25');
+        }
 
         if (Array.isArray(data.categories) && data.categories.length > 0) {
           data.categories.forEach((c, idx) => {
@@ -2557,8 +2715,42 @@
       saveUserData();
     });
     targetEqEl.addEventListener('change', () => {
+      updateTargetSelectUI(targetEqEl.value);
       saveUserData();
     });
+
+    if (targetSelectDisplayEl && targetSelectOptionsEl) {
+      targetSelectDisplayEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = targetSelectOptionsEl.classList.contains('show');
+        if (isOpen) {
+          targetSelectOptionsEl.classList.remove('show');
+          targetSelectDisplayEl.classList.remove('open');
+        } else {
+          targetSelectOptionsEl.classList.add('show');
+          targetSelectDisplayEl.classList.add('open');
+        }
+      });
+
+      targetSelectOptionsEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.target-option-item');
+        if (item) {
+          const val = item.getAttribute('data-value');
+          targetEqEl.value = val;
+          updateTargetSelectUI(val);
+          targetSelectOptionsEl.classList.remove('show');
+          targetSelectDisplayEl.classList.remove('open');
+          saveUserData();
+        }
+      });
+
+      document.addEventListener('click', (e) => {
+        if (targetSelectWrapperEl && !targetSelectWrapperEl.contains(e.target)) {
+          targetSelectOptionsEl.classList.remove('show');
+          targetSelectDisplayEl.classList.remove('open');
+        }
+      });
+    }
 
     document.getElementById('mode-prelim').addEventListener('change', () => {
       updateModeUI();
