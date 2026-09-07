@@ -458,14 +458,14 @@
     .main-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.25rem;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
     }
 
     #categories {
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.45rem;
     }
 
     /* Category Box */
@@ -473,16 +473,16 @@
       background: var(--bg-input);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.75rem;
+      padding: 0.5rem 0.65rem;
       display: flex;
       flex-direction: column;
-      gap: 0.55rem;
+      gap: 0.4rem;
     }
 
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       flex-wrap: wrap;
     }
 
@@ -503,23 +503,23 @@
     .item-row {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.45rem 0.55rem;
+      padding: 0.3rem 0.45rem;
       border-radius: var(--radius-md);
     }
 
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
       flex: 1;
     }
 
     .item-inputs input {
       width: 76px;
-      padding: 0.35rem 0.5rem;
+      padding: 0.25rem 0.45rem;
       font-size: 0.75rem;
     }
 
@@ -537,7 +537,7 @@
       font-weight: 700;
       color: var(--text-secondary);
       background: var(--bg-input);
-      padding: 0.2rem 0.4rem;
+      padding: 0.15rem 0.35rem;
       border-radius: var(--radius-sm);
       white-space: nowrap;
     }
@@ -562,7 +562,7 @@
     .hr {
       height: 1px;
       background: var(--border-color);
-      margin: 0.75rem 0;
+      margin: 0.5rem 0;
     }
 
     /* Result Dashboard Box */
@@ -570,10 +570,10 @@
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
-      padding: 0.95rem;
+      padding: 0.65rem 0.8rem;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.45rem;
       font-family: inherit;
     }
 
@@ -594,12 +594,12 @@
       background: rgba(249, 115, 22, 0.08);
       border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
-      padding: 0.75rem;
+      padding: 0.5rem 0.65rem;
       text-align: center;
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
-      margin-top: 0.25rem;
+      gap: 0.2rem;
+      margin-top: 0.15rem;
     }
 
     .final-val {
@@ -615,10 +615,11 @@
       align-self: center;
       font-size: 0.85rem;
       font-weight: 800;
-      padding: 0.25rem 0.95rem;
+      padding: 0.2rem 0.85rem;
       border-radius: var(--radius-full);
       background: var(--accent-primary);
-      color: #fff;
+      color: #ffffff;
+      margin-top: 0.15rem;
       box-shadow: 0 4px 12px var(--accent-glow);
     }
 
@@ -1228,62 +1229,71 @@
         font-size: 1.35rem !important;
       }
 
+      .card {
+        padding: 0.85rem 1rem !important;
+      }
+
+      .card-header {
+        margin-bottom: 0.5rem !important;
+      }
+
       .card-title {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
       }
 
       .pill {
-        font-size: 0.9rem;
-        padding: 0.25rem 0.8rem;
+        font-size: 0.85rem;
+        padding: 0.2rem 0.65rem;
       }
 
       .cat-name {
-        font-size: 1.1rem !important;
-        padding: 0.45rem 0.65rem !important;
+        font-size: 1.0rem !important;
+        padding: 0.3rem 0.55rem !important;
       }
 
       .cat-weight {
-        font-size: 1.1rem !important;
-        width: 66px !important;
+        font-size: 1.0rem !important;
+        width: 60px !important;
+        padding: 0.3rem 0.4rem !important;
       }
 
       .cat-header span {
-        font-size: 1.0rem !important;
+        font-size: 0.95rem !important;
       }
 
       .item-inputs input {
-        font-size: 1.1rem !important;
-        padding: 0.45rem 0.7rem !important;
+        font-size: 1.0rem !important;
+        padding: 0.3rem 0.55rem !important;
       }
 
       .item-inputs span {
-        font-size: 1.05rem !important;
+        font-size: 1.0rem !important;
       }
 
       .item-50 {
-        font-size: 1.0rem;
-        padding: 0.3rem 0.7rem;
+        font-size: 0.95rem;
+        padding: 0.25rem 0.55rem;
       }
 
       .avg {
-        font-size: 1.0rem;
+        font-size: 0.95rem;
       }
 
       .btn {
-        font-size: 1.0rem;
-        padding: 0.6rem 1.2rem;
+        font-size: 0.95rem;
+        padding: 0.45rem 0.95rem;
       }
 
       .btn-sm {
-        font-size: 0.9rem;
-        padding: 0.35rem 0.85rem;
+        font-size: 0.85rem;
+        padding: 0.25rem 0.65rem;
       }
 
       .btn-icon-only {
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px !important;
-        min-height: 32px !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
         padding: 0 !important;
         display: inline-flex !important;
         align-items: center !important;
@@ -1291,8 +1301,8 @@
       }
 
       .btn-icon-only svg {
-        width: 16px !important;
-        height: 16px !important;
+        width: 14px !important;
+        height: 14px !important;
         display: block !important;
         stroke: #ef4444 !important;
       }
@@ -1302,44 +1312,44 @@
       }
 
       #exam-score, #exam-total {
-        font-size: 1.1rem !important;
-        padding: 0.45rem 0.7rem !important;
+        font-size: 1.05rem !important;
+        padding: 0.35rem 0.6rem !important;
       }
 
       #card-exam-section label {
-        font-size: 1.0rem;
+        font-size: 0.95rem;
       }
 
       #target-eq {
-        font-size: 1.1rem !important;
-        padding: 0.5rem 0.8rem !important;
+        font-size: 1.05rem !important;
+        padding: 0.38rem 0.7rem !important;
       }
 
       #compute {
-        font-size: 1.1rem;
-        padding: 0.7rem 1.35rem;
+        font-size: 1.0rem;
+        padding: 0.55rem 1.15rem;
       }
 
       .stat-row {
-        font-size: 1.0rem;
+        font-size: 0.95rem;
       }
 
       .final-val {
-        font-size: 2.4rem;
+        font-size: 2.1rem;
       }
 
       .eq-badge {
-        font-size: 1.15rem;
-        padding: 0.4rem 1.3rem;
+        font-size: 1.05rem;
+        padding: 0.3rem 1.1rem;
       }
 
       .segmented-control {
-        max-width: 360px;
+        max-width: 320px;
       }
 
       .segmented-label {
-        font-size: 1.0rem;
-        padding: 0.5rem 1.15rem;
+        font-size: 0.9rem;
+        padding: 0.35rem 0.9rem;
       }
 
       .prev-term-row span {
