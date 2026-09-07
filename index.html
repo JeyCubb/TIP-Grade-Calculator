@@ -968,14 +968,16 @@
     }
 
     .sheet-table-wrapper {
-      width: fit-content;
-      max-width: 100%;
+      width: 100%;
       overflow-x: auto;
       scrollbar-width: thin;
+      display: flex;
+      justify-content: center;
     }
 
     .sheet-table {
       width: auto;
+      margin: 0 auto;
       border-collapse: collapse;
       font-size: 0.785rem;
       text-align: left;
@@ -1011,16 +1013,16 @@
     .unhide-cols-bar {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.25rem;
       flex-wrap: wrap;
     }
 
     .unhide-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
-      padding: 0.12rem 0.45rem;
-      font-size: 0.7rem;
+      gap: 0.2rem;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
       font-weight: 700;
       border-radius: var(--radius-full);
       background: rgba(249, 115, 22, 0.12);
@@ -1028,6 +1030,7 @@
       color: var(--accent-primary);
       cursor: pointer;
       transition: var(--transition);
+      white-space: nowrap;
     }
 
     .unhide-pill:hover {
@@ -1119,6 +1122,7 @@
       padding-bottom: 0.1rem;
       border-top: 1px solid var(--border-color);
       flex-wrap: wrap;
+      width: 100%;
     }
 
     .sem-footer-summary-text {
@@ -1128,6 +1132,7 @@
       letter-spacing: 0.01em;
       margin-left: auto;
       text-align: right;
+      white-space: nowrap;
     }
 
     .sem-footer-summary-text strong {
