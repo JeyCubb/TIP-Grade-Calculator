@@ -3709,11 +3709,11 @@
 
         tr.innerHTML = `
           <td class="col-subj"><input type="text" class="subj-input" value="${r.name || ''}" placeholder="Subject Name" data-field="name" data-sem="${semKey}" data-idx="${idx}"></td>
-          <td class="col-prelim" style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.prelim !== undefined ? r.prelim : ''}" placeholder="--" data-field="prelim" data-sem="${semKey}" data-idx="${idx}"></td>
-          <td class="col-midterm" style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
-          <td class="col-final" style="text-align: center;"><input type="number" step="0.01" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td class="col-prelim" style="text-align: center;"><input type="number" step="0.01" inputmode="decimal" class="num-input" value="${r.prelim !== undefined ? r.prelim : ''}" placeholder="--" data-field="prelim" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td class="col-midterm" style="text-align: center;"><input type="number" step="0.01" inputmode="decimal" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td class="col-final" style="text-align: center;"><input type="number" step="0.01" inputmode="decimal" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
           <td class="col-grade" style="text-align: center;">${gradeBadge}</td>
-          <td class="col-units" style="text-align: center;"><input type="text" inputmode="numeric" class="num-input units-input" value="${r.units !== undefined && r.units !== '' ? r.units : ''}" placeholder="" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td class="col-units" style="text-align: center;"><input type="text" class="num-input units-input" value="${r.units !== undefined && r.units !== '' ? r.units : ''}" placeholder="" data-field="units" data-sem="${semKey}" data-idx="${idx}"></td>
           <td style="text-align: center;">
             ${deleteBtnHtml}
           </td>
