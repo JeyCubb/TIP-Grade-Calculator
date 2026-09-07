@@ -824,22 +824,24 @@
 
       .cat-header {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
-        justify-content: space-between;
-        gap: 0.2rem;
+        gap: 0.25rem;
+        width: 100%;
       }
 
       .cat-name {
-        width: 100%;
-        flex: 1 0 100%;
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
         font-size: 0.775rem;
-        padding: 0.25rem 0.35rem;
+        padding: 0.2rem 0.3rem;
       }
 
       .cat-weight-wrapper {
-        min-width: 40px;
-        margin-top: 0.1rem;
+        flex: 0 0 auto;
+        min-width: 38px;
+        margin-top: 0;
       }
 
       .cat-weight {
