@@ -402,14 +402,15 @@
       justify-content: center;
       flex-shrink: 0;
       border-radius: var(--radius-md);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1.5px solid var(--border-color);
+      background: transparent;
+      border: 1px solid transparent;
       color: var(--text-muted);
       font-weight: 800;
       font-size: 1rem;
       line-height: 1;
       cursor: pointer;
       transition: var(--transition);
+      opacity: 0.65;
     }
 
     .remove-category,
@@ -419,33 +420,35 @@
 
     .btn-icon-only svg {
       display: block;
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       stroke: var(--text-muted);
       pointer-events: none;
       transition: stroke 0.2s ease;
     }
 
     .btn-icon-only:hover {
-      background: var(--color-error);
-      border-color: var(--color-error);
-      color: #ffffff;
-      transform: scale(1.05);
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      opacity: 1;
+      transform: scale(1.1);
     }
 
     .btn-icon-only:hover svg {
-      stroke: #ffffff;
+      stroke: #ef4444;
     }
 
-    /* Add Item / Add Category Buttons: Grey by default, Orange on hover */
+    /* Add Item / Add Category Buttons: Transparent with grey text by default, Orange on hover */
     .btn-add-action {
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
+      background: transparent;
+      border: 1px solid transparent;
       color: var(--text-muted);
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
+      opacity: 0.75;
     }
 
     .btn-add-action svg {
@@ -454,9 +457,10 @@
     }
 
     .btn-add-action:hover {
-      background: rgba(249, 115, 22, 0.15);
-      border-color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.12);
+      border-color: rgba(249, 115, 22, 0.35);
       color: var(--accent-primary);
+      opacity: 1;
       transform: translateY(-1px);
     }
 
