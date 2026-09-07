@@ -3895,61 +3895,75 @@
       });
     }
 
-    // Hidden Sheet Columns State
-    let hiddenSheetCols = [];
+    // Hidden Sheet Columns State (Scoped per Year and Semester, e.g. "3rd Year_sem1": ["prelim"])
+    let hiddenSheetColsMap = {};
     try {
-      hiddenSheetCols = JSON.parse(localStorage.getItem('tip_gc_hidden_cols')) || [];
+      hiddenSheetColsMap = JSON.parse(localStorage.getItem('tip_gc_hidden_cols_map')) || {};
     } catch(err) {
-      hiddenSheetCols = [];
+      hiddenSheetColsMap = {};
+    }
+
+    function getHiddenColsFor(yearKey, semKey) {
+      const key = `${yearKey}_${semKey}`;
+      return hiddenSheetColsMap[key] || [];
     }
 
     function updateHiddenColumnView() {
-      const container = document.getElementById('sheet-view-container');
-      if (!container) return;
+      if (!activeSheetYear) return;
 
-      ['prelim', 'midterm', 'final'].forEach(col => {
-        const cls = `col-hidden-${col}`;
-        if (hiddenSheetCols.includes(col)) {
-          container.classList.add(cls);
-        } else {
-          container.classList.remove(cls);
-        }
-      });
-
-      // Update Unhide Pills (Sorted: prelims -> midterms -> finals)
       const colOrder = ['prelim', 'midterm', 'final'];
-      const sortedHiddenCols = [...hiddenSheetCols].sort((a, b) => {
-        return colOrder.indexOf(a) - colOrder.indexOf(b);
-      });
 
       ['sem1', 'sem2'].forEach(semKey => {
-        const unhideBar = document.getElementById(`${semKey}-unhide-bar`);
-        if (!unhideBar) return;
-        unhideBar.innerHTML = '';
-        if (sortedHiddenCols.length > 0) {
-          sortedHiddenCols.forEach(col => {
-            const pill = document.createElement('button');
-            pill.className = 'unhide-pill';
-            const label = col.charAt(0).toUpperCase() + col.slice(1) + 's';
-            pill.innerHTML = `+ Show ${label}`;
-            pill.title = `Click to restore ${label} column`;
-            pill.addEventListener('click', () => {
-              toggleHideColumn(col);
-            });
-            unhideBar.appendChild(pill);
+        const card = document.getElementById(`${semKey}-card`);
+        const hiddenCols = getHiddenColsFor(activeSheetYear, semKey);
+
+        if (card) {
+          ['prelim', 'midterm', 'final'].forEach(col => {
+            const cls = `col-hidden-${col}`;
+            if (hiddenCols.includes(col)) {
+              card.classList.add(cls);
+            } else {
+              card.classList.remove(cls);
+            }
           });
+        }
+
+        // Update Unhide Pills for this specific semester
+        const unhideBar = document.getElementById(`${semKey}-unhide-bar`);
+        if (unhideBar) {
+          unhideBar.innerHTML = '';
+          const sortedHiddenCols = [...hiddenCols].sort((a, b) => colOrder.indexOf(a) - colOrder.indexOf(b));
+          if (sortedHiddenCols.length > 0) {
+            sortedHiddenCols.forEach(col => {
+              const pill = document.createElement('button');
+              pill.className = 'unhide-pill';
+              const label = col.charAt(0).toUpperCase() + col.slice(1) + 's';
+              pill.innerHTML = `+ Show ${label}`;
+              pill.title = `Click to restore ${label} column for ${activeSheetYear} ${semKey === 'sem1' ? '1st Sem' : '2nd Sem'}`;
+              pill.addEventListener('click', () => {
+                toggleHideColumn(col, semKey);
+              });
+              unhideBar.appendChild(pill);
+            });
+          }
         }
       });
     }
 
-    function toggleHideColumn(col) {
-      const idx = hiddenSheetCols.indexOf(col);
-      if (idx > -1) {
-        hiddenSheetCols.splice(idx, 1);
-      } else {
-        hiddenSheetCols.push(col);
+    function toggleHideColumn(col, semKey) {
+      if (!activeSheetYear || !semKey) return;
+      const key = `${activeSheetYear}_${semKey}`;
+      if (!hiddenSheetColsMap[key]) {
+        hiddenSheetColsMap[key] = [];
       }
-      localStorage.setItem('tip_gc_hidden_cols', JSON.stringify(hiddenSheetCols));
+      const list = hiddenSheetColsMap[key];
+      const idx = list.indexOf(col);
+      if (idx > -1) {
+        list.splice(idx, 1);
+      } else {
+        list.push(col);
+      }
+      localStorage.setItem('tip_gc_hidden_cols_map', JSON.stringify(hiddenSheetColsMap));
       updateHiddenColumnView();
     }
 
@@ -4238,7 +4252,9 @@
       // Column Header Click to Hide
       const thCol = e.target.closest('th.col-clickable');
       if (thCol && thCol.dataset.col) {
-        toggleHideColumn(thCol.dataset.col);
+        const card = thCol.closest('.semester-card');
+        const semKey = card && card.id === 'sem2-card' ? 'sem2' : 'sem1';
+        toggleHideColumn(thCol.dataset.col, semKey);
         return;
       }
 
