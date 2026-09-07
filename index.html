@@ -2472,18 +2472,6 @@
       const neededScore = ((neededExam50 - 50) / 50) * total;
       const clampedScore = Math.min(Math.max(neededScore, 0), total);
 
-      if (hasUserTypedScore) {
-        const userScoreVal = parseFloat(rawUserScore) || 0;
-        const confirmOverwrite = confirm(
-          `You currently have a score of ${userScoreVal.toFixed(2)} entered.\n\nDo you want to overwrite it with the minimum score needed (${clampedScore.toFixed(2)} / ${total.toFixed(0)}) to reach target equivalence ${targetEq}?`
-        );
-        if (!confirmOverwrite) {
-          summaryEl.textContent = `💡 Minimum score needed for ${targetEq}: ${clampedScore.toFixed(2)} / ${total.toFixed(0)}\n(Your score kept at: ${userScoreVal.toFixed(2)} / ${total.toFixed(0)}).`;
-          saveUserData();
-          return;
-        }
-      }
-
       examScoreEl.value = clampedScore.toFixed(2);
       examScoreEl.classList.add('green');
 
