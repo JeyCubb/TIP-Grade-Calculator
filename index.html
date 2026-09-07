@@ -1444,7 +1444,6 @@
         <div class="card-header">
           <div class="card-title">
             <span>Class Standing</span>
-            <span class="pill" id="pill-cs">50%</span>
           </div>
         </div>
         <div id="categories" style="flex: 1;"></div>
@@ -1461,7 +1460,6 @@
         <div class="card-header">
           <div class="card-title">
             <span>Exam</span>
-            <span class="pill" id="pill-exam">50%</span>
           </div>
         </div>
         
@@ -2112,8 +2110,8 @@
         prevGradeRowEl.style.display = 'none';
         mixPrevEl.style.display = 'none';
 
-        pillCsEl.textContent = '50%';
-        pillExamEl.textContent = '50%';
+        if (pillCsEl) pillCsEl.textContent = '50%';
+        if (pillExamEl) pillExamEl.textContent = '50%';
         mixCsEl.textContent = 'CS 50%';
         mixExamEl.textContent = 'Exam 50%';
         prevErrorEl.textContent = '';
@@ -2125,8 +2123,8 @@
         prevGradeRowEl.style.display = 'inline-flex';
         mixPrevEl.style.display = 'inline-flex';
 
-        pillCsEl.textContent = '33.3%';
-        pillExamEl.textContent = '33.3%';
+        if (pillCsEl) pillCsEl.textContent = '33.3%';
+        if (pillExamEl) pillExamEl.textContent = '33.3%';
         mixCsEl.textContent = 'CS 33.3%';
         mixExamEl.textContent = 'Exam 33.3%';
         mixPrevEl.textContent = 'Prev 33.3%';
