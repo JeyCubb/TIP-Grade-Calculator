@@ -3633,13 +3633,18 @@
         }
       });
 
-      // Update Unhide Pills
+      // Update Unhide Pills (Sorted: prelims -> midterms -> finals)
+      const colOrder = ['prelim', 'midterm', 'final'];
+      const sortedHiddenCols = [...hiddenSheetCols].sort((a, b) => {
+        return colOrder.indexOf(a) - colOrder.indexOf(b);
+      });
+
       ['sem1', 'sem2'].forEach(semKey => {
         const unhideBar = document.getElementById(`${semKey}-unhide-bar`);
         if (!unhideBar) return;
         unhideBar.innerHTML = '';
-        if (hiddenSheetCols.length > 0) {
-          hiddenSheetCols.forEach(col => {
+        if (sortedHiddenCols.length > 0) {
+          sortedHiddenCols.forEach(col => {
             const pill = document.createElement('button');
             pill.className = 'unhide-pill';
             const label = col.charAt(0).toUpperCase() + col.slice(1) + 's';
