@@ -2228,6 +2228,12 @@
       saveUserData();
     }
 
+    function formatCompactPercent(val) {
+      if (val === null || val === undefined || isNaN(val)) return '0%';
+      const num = parseFloat(val.toFixed(2));
+      return `${num}%`;
+    }
+
     function recomputeCategory(categoryEl) {
       const itemRows = [...categoryEl.querySelectorAll('.item-row')];
       let sumPercent = 0;
@@ -2242,7 +2248,7 @@
         const total = parseFloat(totalInput.value);
 
         if (!isFinite(score) || !isFinite(total) || total <= 0) {
-          if (display) display.textContent = '0.00%';
+          if (display) display.textContent = '0%';
           return;
         }
 
@@ -2252,7 +2258,7 @@
         itemCount++;
 
         if (display) {
-          display.textContent = `${itemPercent.toFixed(2)}%`;
+          display.textContent = formatCompactPercent(itemPercent);
         }
       });
 
@@ -2261,7 +2267,7 @@
 
       const avgLabel = categoryEl.querySelector('.avg');
       if (avgLabel) {
-        avgLabel.textContent = `Cat Avg: ${finalAvg.toFixed(2)}%`;
+        avgLabel.textContent = `Cat Avg: ${formatCompactPercent(finalAvg)}`;
       }
     }
 
@@ -2350,8 +2356,8 @@
       const prevPercentVal = getPrevPercent(false);
       const prevPercent = prevPercentVal == null ? 0 : prevPercentVal;
 
-      resCsEl.textContent = hasItemScore ? `${csPercent.toFixed(2)}%` : '0.00%';
-      resExamEl.textContent = hasExamScore ? `${examPercent.toFixed(2)}%` : '--';
+      resCsEl.textContent = hasItemScore ? formatCompactPercent(csPercent) : '0%';
+      resExamEl.textContent = hasExamScore ? formatCompactPercent(examPercent) : '--';
 
       if (!hasAnyScore) {
         resFinalEl.textContent = '--';
@@ -2366,7 +2372,7 @@
       const effectiveExamPercent = examPercentVal === null ? (hasItemScore ? csPercent : 0) : examPercent;
       const { finalPercent, eq } = computeFinal(csPercent, effectiveExamPercent, prevPercent);
 
-      resFinalEl.textContent = `${finalPercent.toFixed(2)}%`;
+      resFinalEl.textContent = formatCompactPercent(finalPercent);
       resEqEl.textContent = `Equivalence: ${eq}`;
 
       if (eq === '4.00' || eq === '5.00') {
