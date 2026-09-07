@@ -522,47 +522,51 @@
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
-      flex-wrap: wrap;
+      gap: 0.35rem;
+      width: 100%;
     }
 
     .cat-name {
-      flex: 1.2;
-      max-width: 140px;
-      min-width: 80px;
+      flex: 1 1 auto;
+      min-width: 0;
+      width: auto;
+      text-overflow: ellipsis;
     }
 
     .cat-weight-wrapper {
       flex: 0 0 auto;
-      width: 55px;
-      min-width: 45px;
+      width: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
     }
 
     .cat-weight {
+      width: 50px;
       text-align: right;
     }
 
     .item-row {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
+      gap: 0.35rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      padding: 0.1rem 0.3rem;
+      padding: 0.12rem 0.35rem;
       border-radius: var(--radius-md);
     }
 
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.2rem;
+      gap: 0.25rem;
       flex: 0 0 auto;
     }
 
     .item-inputs input {
-      width: 50px;
-      padding: 0.1rem 0.3rem;
-      font-size: 0.75rem;
+      width: 54px;
+      padding: 0.12rem 0.35rem;
+      font-size: 0.775rem;
     }
 
     .item-score,
