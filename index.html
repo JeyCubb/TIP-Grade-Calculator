@@ -1165,17 +1165,19 @@
       font-size: 0.75rem;
       font-weight: 700;
       border-radius: var(--radius-full);
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px dashed var(--accent-primary);
-      color: var(--accent-primary);
+      background: var(--bg-input);
+      border: 1px dashed var(--border-color);
+      color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition);
       white-space: nowrap;
     }
 
     .unhide-pill:hover {
-      background: var(--accent-primary);
-      color: #ffffff;
+      background: rgba(249, 115, 22, 0.15);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-1px);
     }
 
     .sheet-table td {
@@ -1786,7 +1788,7 @@
 
           <div class="sheet-footer-row">
             <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-              <button class="btn btn-sm" id="btn-add-sem1-row" style="border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary); font-size: 0.75rem;">
+              <button class="btn btn-sm btn-add-action" id="btn-add-sem1-row" style="font-size: 0.75rem;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 Add Subject
               </button>
@@ -1819,7 +1821,7 @@
 
           <div class="sheet-footer-row">
             <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-              <button class="btn btn-sm" id="btn-add-sem2-row" style="border-color: rgba(249, 115, 22, 0.3); color: var(--accent-primary); font-size: 0.75rem;">
+              <button class="btn btn-sm btn-add-action" id="btn-add-sem2-row" style="font-size: 0.75rem;">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                 Add Subject
               </button>
