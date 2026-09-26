@@ -586,8 +586,8 @@
       min-width: 0;
       width: auto;
       text-overflow: ellipsis;
-      font-size: 0.8rem !important;
-      padding: 0.18rem 0.45rem;
+      font-size: 0.775rem !important;
+      padding: 0.15rem 0.45rem;
     }
 
     .cat-weight-wrapper {
@@ -595,20 +595,21 @@
       width: auto;
       display: inline-flex;
       align-items: center;
-      gap: 0.2rem;
+      gap: 0.15rem;
+      margin-left: auto;
     }
 
     .cat-weight {
-      width: 44px;
-      min-width: 44px;
-      padding: 0.15rem 0.25rem;
+      width: 36px;
+      min-width: 34px;
+      padding: 0.12rem 0.25rem;
       text-align: center;
-      font-size: 0.8rem !important;
+      font-size: 0.775rem !important;
       box-sizing: border-box;
     }
 
     .cat-weight-wrapper span {
-      font-size: 0.775rem !important;
+      font-size: 0.75rem !important;
       font-weight: 700;
       color: var(--text-muted);
     }
@@ -2763,10 +2764,10 @@
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
-      const charW = isDesktop ? 12 : 11;
-      const basePad = isDesktop ? 22 : 24;
-      const minW = isDesktop ? 44 : 44;
-      const maxW = isDesktop ? 100 : 85;
+      const charW = isDesktop ? 12 : 10;
+      const basePad = isDesktop ? 22 : 18;
+      const minW = isDesktop ? 42 : 36;
+      const maxW = isDesktop ? 100 : 80;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
 
