@@ -507,10 +507,18 @@
 
     /* Grid Layout */
     .main-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
+      flex-direction: column;
       gap: 0.5rem;
       margin-bottom: 0.35rem;
+    }
+
+    #card-exam-section {
+      order: 1;
+    }
+
+    #card-cs-section {
+      order: 2;
     }
 
     #categories {
@@ -1384,6 +1392,19 @@
     @media (min-width: 768px) {
       body {
         font-size: 1.15rem;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      #card-cs-section {
+        order: 1;
+      }
+
+      #card-exam-section {
+        order: 2;
       }
 
       .app-container {
