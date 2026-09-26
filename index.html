@@ -3387,6 +3387,9 @@
       updateProfileUrl();
       loadUserData(activeUser);
       loadSheetData();
+      if (activeUser === 'No Profile') {
+        openProfilePromptModal();
+      }
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
@@ -3422,6 +3425,9 @@
         renderUserProfileDropdown();
         loadUserData(activeUser);
         loadSheetData();
+        if (activeUser === 'No Profile') {
+          openProfilePromptModal();
+        }
       }
     });
 
