@@ -600,9 +600,9 @@
     }
 
     .cat-weight {
-      width: 36px;
-      min-width: 34px;
-      padding: 0.12rem 0.25rem;
+      width: 38px;
+      min-width: 36px;
+      padding: 0.12rem 0.2rem;
       text-align: center;
       font-size: 0.775rem !important;
       box-sizing: border-box;
@@ -2765,8 +2765,8 @@
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
       const charW = isDesktop ? 12 : 10;
-      const basePad = isDesktop ? 22 : 18;
-      const minW = isDesktop ? 42 : 36;
+      const basePad = isDesktop ? 22 : 20;
+      const minW = isDesktop ? 42 : 38;
       const maxW = isDesktop ? 100 : 80;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
