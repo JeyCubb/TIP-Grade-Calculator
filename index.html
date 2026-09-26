@@ -1420,10 +1420,12 @@
       position: absolute;
       bottom: calc(100% + 8px);
       left: 0;
-      width: min(420px, calc(100vw - 2rem));
-      max-height: 480px;
-      overflow-y: auto;
-      padding: 0.95rem 1.1rem;
+      width: max-content;
+      min-width: 320px;
+      max-width: calc(100vw - 2rem);
+      max-height: none;
+      overflow: visible;
+      padding: 0.55rem 0.75rem;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       background: var(--bg-card);
@@ -1433,8 +1435,16 @@
 
     .scheme-dropdown-content .sheet-table th,
     .scheme-dropdown-content .sheet-table td {
-      padding: 0.45rem 0.6rem;
+      padding: 0.12rem 0.4rem;
+      font-size: 0.55rem;
       white-space: nowrap;
+    }
+
+    .scheme-dropdown-content .sheet-grade-cell {
+      font-size: 0.55rem !important;
+      min-width: 28px !important;
+      padding: 0.08rem 0.3rem !important;
+      line-height: 1.1 !important;
     }
 
     /* ==========================================================================
@@ -1710,11 +1720,31 @@
       }
 
       .scheme-dropdown-content {
-        width: 390px;
+        width: max-content !important;
+        min-width: 360px !important;
+        max-width: calc(100vw - 2rem) !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0.65rem 0.85rem !important;
       }
 
       .scheme-dropdown-content table {
-        font-size: 1.10rem !important;
+        font-size: 0.58rem !important;
+        width: 100% !important;
+      }
+
+      .scheme-dropdown-content .sheet-table th,
+      .scheme-dropdown-content .sheet-table td {
+        padding: 0.14rem 0.45rem !important;
+        font-size: 0.58rem !important;
+        white-space: nowrap !important;
+      }
+
+      .scheme-dropdown-content .sheet-grade-cell {
+        font-size: 0.58rem !important;
+        min-width: 32px !important;
+        padding: 0.1rem 0.35rem !important;
+        line-height: 1.1 !important;
       }
 
       .view-nav-btn {
@@ -2361,10 +2391,10 @@
             <span style="font-size: 0.65rem; opacity: 0.8;">▾</span>
           </summary>
           <div class="scheme-dropdown-content">
-            <div style="font-size: 0.75rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.4rem;">
+            <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
               📋 TIP Grading Scale (75-base)
             </div>
-            <table class="sheet-table" style="font-size: 0.725rem; width: 100%;">
+            <table class="sheet-table" style="font-size: 0.58rem; width: 100%;">
               <thead>
                 <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
               </thead>
