@@ -518,6 +518,45 @@
       order: 2;
     }
 
+    .exam-desktop-header {
+      display: none !important;
+    }
+
+    .exam-input-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .exam-mobile-label {
+      font-weight: 700;
+      font-size: 0.825rem;
+      color: var(--text-primary);
+    }
+
+    .exam-inputs-wrapper {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .target-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .target-label {
+      font-weight: 700;
+      font-size: 0.825rem;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
     #categories {
       display: flex;
       flex-direction: column;
@@ -1528,11 +1567,68 @@
         stroke: #ffffff !important;
       }
 
+      .exam-desktop-header {
+        display: flex !important;
+        margin-bottom: 0.4rem !important;
+      }
+
+      .exam-mobile-label {
+        display: none !important;
+      }
+
+      .exam-input-row {
+        display: flex !important;
+        width: 100% !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      .exam-inputs-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        gap: 0.45rem !important;
+        align-items: center !important;
+        margin-left: 0 !important;
+      }
+
+      .exam-inputs-wrapper span {
+        font-size: 1.15rem !important;
+      }
+
       #exam-score, #exam-total {
+        flex: 1 1 0% !important;
+        width: 100% !important;
+        max-width: none !important;
         font-size: 1.20rem !important;
-        padding: 0.22rem 0.5rem !important;
-        text-align: center !important;
+        padding: 0.25rem 0.65rem !important;
+        text-align: right !important;
         box-sizing: border-box !important;
+      }
+
+      .target-row {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.35rem !important;
+      }
+
+      .target-label {
+        font-size: 1.10rem !important;
+        font-weight: 700 !important;
+        color: var(--text-secondary) !important;
+      }
+
+      .target-select-wrapper {
+        width: 100% !important;
+      }
+
+      .target-select-display {
+        font-size: 1.15rem !important;
+        padding: 0.35rem 0.85rem !important;
+      }
+
+      .target-option-item {
+        font-size: 1.05rem !important;
+        padding: 0.45rem 0.85rem !important;
       }
 
       #card-exam-section label {
@@ -1722,9 +1818,15 @@
 
       <!-- Exam & Target Solver Card (Column 2) -->
       <section class="card" id="card-exam-section">
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.15rem;">
-          <span style="font-weight: 700; font-size: 0.825rem; color: var(--text-primary);">Exam</span>
-          <div style="display: flex; gap: 0.25rem; align-items: center; margin-left: auto;">
+        <div class="card-header exam-desktop-header">
+          <div class="card-title">
+            <span>Exam</span>
+          </div>
+        </div>
+
+        <div class="exam-input-row">
+          <span class="exam-mobile-label">Exam</span>
+          <div class="exam-inputs-wrapper">
             <input type="number" id="exam-score" placeholder="Score" min="0" title="Exam Score" />
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
             <input type="number" id="exam-total" placeholder="Total" value="50" min="0" title="Exam Total" />
@@ -1734,9 +1836,9 @@
         <div class="hr"></div>
 
         <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
-            <span style="font-weight: 700; font-size: 0.825rem; color: var(--text-primary); white-space: nowrap;">Target Grade</span>
-            <div class="target-select-wrapper" id="target-select-wrapper" style="width: 62%;">
+          <div class="target-row">
+            <span class="target-label">Target Grade</span>
+            <div class="target-select-wrapper" id="target-select-wrapper">
               <div class="target-select-display" id="target-select-display" tabindex="0">
                 <span id="target-select-label">2.25</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none; opacity: 0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -2661,6 +2763,12 @@
 
     function fitNumberInputWidth(input, defaultVal = '50') {
       if (!input) return;
+      if (window.innerWidth >= 768) {
+        if (input.id === 'exam-score' || input.id === 'exam-total') {
+          input.style.width = '';
+          return;
+        }
+      }
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
