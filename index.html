@@ -2247,7 +2247,7 @@
       } else if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
         activeUser = savedActiveUser;
       } else {
-        activeUser = 'JeyCub'; // Default to JeyCub
+        activeUser = 'No Profile'; // Default to No Profile on fresh visit
       }
 
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -2400,9 +2400,7 @@
       activeUser = username || 'No Profile';
       if (typeof loadSheetData === "function") loadSheetData();
 
-      if (activeUser !== 'No Profile') {
-        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      }
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
 
       categoriesEl.innerHTML = '';
       categoryCount = 0;
