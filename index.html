@@ -758,16 +758,17 @@
       background: rgba(249, 115, 22, 0.08);
       border: 1.5px solid var(--accent-primary);
       border-radius: var(--radius-md);
-      padding: 0.25rem 0.45rem;
-      text-align: center;
+      padding: 0.25rem 0.55rem;
       display: flex;
-      flex-direction: column;
-      gap: 0.1rem;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
       margin-top: 0.05rem;
     }
 
     .final-val {
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       font-weight: 800;
       letter-spacing: -0.03em;
       color: var(--accent-primary);
@@ -776,15 +777,15 @@
 
     .eq-badge {
       display: inline-block;
-      align-self: center;
       font-size: 0.75rem;
       font-weight: 800;
       padding: 0.15rem 0.65rem;
       border-radius: var(--radius-full);
       background: var(--accent-primary);
       color: #ffffff;
-      margin-top: 0.1rem;
+      margin-top: 0;
       box-shadow: 0 4px 12px var(--accent-glow);
+      white-space: nowrap;
     }
 
     .green {
@@ -1531,7 +1532,11 @@
       }
 
       .final-val {
-        font-size: 2.1rem;
+        font-size: 1.55rem !important;
+      }
+
+      .avg {
+        font-size: 0.85rem !important;
       }
 
       .eq-badge {
@@ -1682,14 +1687,9 @@
 
       <!-- Exam & Target Solver Card (Column 2) -->
       <section class="card" id="card-exam-section">
-        <div class="card-header">
-          <div class="card-title">
-            <span>Exam</span>
-          </div>
-        </div>
-        
-        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-          <div style="display: flex; gap: 0.35rem; align-items: center;">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.15rem;">
+          <span style="font-weight: 700; font-size: 0.825rem; color: var(--text-primary);">Exam</span>
+          <div style="display: flex; gap: 0.35rem; align-items: center; width: 62%;">
             <input type="number" id="exam-score" placeholder="Score" min="0" style="flex: 1;" title="Exam Score" />
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
             <input type="number" id="exam-total" placeholder="Total" value="50" min="0" style="flex: 1;" title="Exam Total" />
@@ -1698,10 +1698,10 @@
 
         <div class="hr"></div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-          <label>
-            Target Grade
-            <div class="target-select-wrapper" id="target-select-wrapper">
+        <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+            <span style="font-weight: 700; font-size: 0.825rem; color: var(--text-primary); white-space: nowrap;">Target Grade</span>
+            <div class="target-select-wrapper" id="target-select-wrapper" style="width: 62%;">
               <div class="target-select-display" id="target-select-display" tabindex="0">
                 <span id="target-select-label">2.25</span>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none; opacity: 0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -1756,7 +1756,7 @@
                 <option value="1.00">1.00</option>
               </select>
             </div>
-          </label>
+          </div>
           <button id="compute" class="btn btn-primary" style="width: 100%; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
             Compute Minimum
           </button>
@@ -1764,7 +1764,7 @@
 
         <div class="hr"></div>
 
-        <div style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.35rem;">
+        <div style="display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.25rem;">
           <span style="font-size: 0.7rem; font-weight: 700; color: var(--text-muted);">Weights:</span>
           <span class="pill" id="mix-cs">CS 50%</span>
           <span class="pill" id="mix-exam">Exam 50%</span>
@@ -1783,8 +1783,10 @@
           </div>
 
           <div class="final-grade-card">
-            <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em;">Final Grade</span>
-            <div class="final-val" id="res-final">0.00%</div>
+            <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+              <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
+              <div class="final-val" id="res-final">0.00%</div>
+            </div>
             <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
           </div>
           
@@ -2461,21 +2463,21 @@
       categoryEl.innerHTML = `
         <div class="cat-header">
           <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}">
-          <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.2rem;">
+          <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.15rem;">
             <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="W%">
-            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
+            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.62rem;">%</span>
           </div>
+          <span class="avg" style="font-size: 0.65rem; font-weight: 700; color: var(--accent-primary); white-space: nowrap; margin-left: auto;">Cat Avg: 0.00%</span>
           <button class="btn btn-icon-only remove-category" title="Remove Category">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
           </button>
         </div>
-        <div class="items" style="display: flex; flex-direction: column; gap: 0.25rem;"></div>
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 0.15rem;">
-          <button class="btn btn-sm btn-add-action add-item">
+        <div class="items" style="display: flex; flex-direction: column; gap: 0.2rem;"></div>
+        <div style="display: flex; align-items: center; margin-top: 0.1rem;">
+          <button class="btn btn-sm btn-add-action add-item" style="padding: 0.15rem 0.45rem; font-size: 0.725rem;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Item
           </button>
-          <span class="avg" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary);">Cat Avg: 0.00%</span>
         </div>
       `;
       categoriesEl.appendChild(categoryEl);
