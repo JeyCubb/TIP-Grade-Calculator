@@ -1462,8 +1462,9 @@
 
       .cat-weight {
         font-size: 0.76rem !important;
-        width: 34px !important;
         padding: 0.12rem 0.25rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .cat-weight-wrapper span,
@@ -1473,8 +1474,9 @@
 
       .item-inputs input {
         font-size: 1.0rem !important;
-        width: 54px !important;
-        padding: 0.18rem 0.45rem !important;
+        padding: 0.18rem 0.35rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .item-inputs span {
@@ -1524,9 +1526,9 @@
 
       #exam-score, #exam-total {
         font-size: 1.05rem !important;
-        padding: 0.25rem 0.55rem !important;
-        width: 100% !important;
-        text-align: right !important;
+        padding: 0.2rem 0.45rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       #card-exam-section label {
@@ -2660,13 +2662,14 @@
 
     function fitNumberInputWidth(input, defaultVal = '50') {
       if (!input) return;
-      if (window.innerWidth >= 768) {
-        input.style.width = '';
-        return;
-      }
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
-      input.style.width = `${Math.min(75, Math.max(28, len * 9 + 14))}px`;
+      const isDesktop = window.innerWidth >= 768;
+      const charW = isDesktop ? 12 : 9;
+      const basePad = isDesktop ? 20 : 14;
+      const minW = isDesktop ? 38 : 28;
+      const maxW = isDesktop ? 100 : 75;
+      input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
 
     function recomputeAll() {
