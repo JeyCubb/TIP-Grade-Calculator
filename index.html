@@ -2603,6 +2603,20 @@
       });
     }
 
+    function deleteProfileFromCloud(user) {
+      if (!firebaseDb || !user || user === 'No Profile') return;
+      try {
+        const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
+        firebaseDb.ref(`tip_grade_calculator/data_${safeUser}`).remove();
+        firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
+        const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
+        firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
+        firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+      } catch (e) {
+        console.warn("Cloud delete error:", e);
+      }
+    }
+
     function renderProfileModalList() {
       const listEl = document.getElementById('profile-modal-list');
       if (!listEl) return;
@@ -2618,17 +2632,46 @@
         const item = document.createElement('div');
         item.className = 'profile-modal-item';
         item.innerHTML = `
-          <div class="profile-modal-item-name">
+          <div class="profile-modal-item-name" style="flex: 1; cursor: pointer;">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
             <span>${p}</span>
           </div>
-          <span class="profile-modal-item-badge">Load Profile &rarr;</span>
+          <div style="display: flex; align-items: center; gap: 0.35rem;">
+            <span class="profile-modal-item-badge" style="cursor: pointer;">Load Profile &rarr;</span>
+            <button class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+              </svg>
+            </button>
+          </div>
         `;
-        item.addEventListener('click', () => {
+        item.querySelector('.profile-modal-item-name').addEventListener('click', () => {
           selectProfileFromModal(p);
+        });
+        item.querySelector('.profile-modal-item-badge').addEventListener('click', () => {
+          selectProfileFromModal(p);
+        });
+        item.querySelector('.profile-modal-item-delete').addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (confirm(`Delete profile "${p}" and all its saved data?`)) {
+            deleteProfileFromCloud(p);
+            localStorage.removeItem(`tip_gc_data_${p}`);
+            localStorage.removeItem(`tip_gc_sheet_${p}`);
+            userProfiles = userProfiles.filter(u => u !== p);
+            localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+            if (activeUser === p) {
+              activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : (userProfiles.find(u => u !== 'No Profile') || 'No Profile');
+              localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+              updateProfileUrl();
+              loadUserData(activeUser);
+              loadSheetData();
+            }
+            renderUserProfileDropdown();
+            renderProfileModalList();
+          }
         });
         listEl.appendChild(item);
       });
@@ -2702,23 +2745,30 @@
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list from cloud data
+              // Sync profiles list from authoritative cloud data
               if (Array.isArray(cloudData._profiles)) {
-                cloudData._profiles.forEach(p => {
-                  if (p && !userProfiles.includes(p)) userProfiles.push(p);
+                const cloudList = cloudData._profiles.filter(p => p && p !== 'No Profile');
+                userProfiles = ['No Profile', ...new Set(cloudList)];
+              } else {
+                // Fallback to discovering from data_ and sheet_ keys if _profiles is empty
+                const discovered = [];
+                Object.keys(cloudData).forEach(key => {
+                  if (key.startsWith('data_')) {
+                    const u = key.replace('data_', '');
+                    if (u && !discovered.includes(u)) discovered.push(u);
+                  } else if (key.startsWith('sheet_')) {
+                    const u = key.replace('sheet_', '');
+                    if (u && !discovered.includes(u)) discovered.push(u);
+                  }
                 });
+                if (discovered.length > 0) {
+                  userProfiles = ['No Profile', ...new Set(discovered)];
+                }
               }
 
-              // Also discover any profiles from cloud data keys
-              Object.keys(cloudData).forEach(key => {
-                if (key.startsWith('data_')) {
-                  const u = key.replace('data_', '');
-                  if (u && !userProfiles.includes(u)) userProfiles.push(u);
-                } else if (key.startsWith('sheet_')) {
-                  const u = key.replace('sheet_', '');
-                  if (u && !userProfiles.includes(u)) userProfiles.push(u);
-                }
-              });
+              if (!userProfiles.includes('JeyCub')) {
+                userProfiles.push('JeyCub');
+              }
 
               localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
               renderUserProfileDropdown();
@@ -3484,15 +3534,18 @@
         alert("Cannot delete the default 'No Profile' guest state.");
         return;
       }
-      if (confirm(`Delete user profile "${activeUser}" and all its saved data?`)) {
-        localStorage.removeItem(`tip_gc_data_${activeUser}`);
-        localStorage.removeItem(`tip_gc_sheet_${activeUser}`);
-        userProfiles = userProfiles.filter(u => u !== activeUser);
+      const userToDelete = activeUser;
+      if (confirm(`Delete user profile "${userToDelete}" and all its saved data?`)) {
+        deleteProfileFromCloud(userToDelete);
+        localStorage.removeItem(`tip_gc_data_${userToDelete}`);
+        localStorage.removeItem(`tip_gc_sheet_${userToDelete}`);
+        userProfiles = userProfiles.filter(u => u !== userToDelete);
         localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-        activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : 'No Profile';
+        activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : (userProfiles.find(u => u !== 'No Profile') || 'No Profile');
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         updateProfileUrl();
         renderUserProfileDropdown();
+        renderProfileModalList();
         loadUserData(activeUser);
         loadSheetData();
         if (activeUser === 'No Profile') {
