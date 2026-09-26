@@ -1584,7 +1584,7 @@
 
       .exam-inputs-wrapper {
         display: flex !important;
-        width: 100% !important;
+        width: auto !important;
         gap: 0.45rem !important;
         align-items: center !important;
         margin-left: 0 !important;
@@ -1595,12 +1595,10 @@
       }
 
       #exam-score, #exam-total {
-        flex: 1 1 0% !important;
-        width: 100% !important;
-        max-width: none !important;
+        width: auto !important;
         font-size: 1.20rem !important;
-        padding: 0.25rem 0.65rem !important;
-        text-align: right !important;
+        padding: 0.22rem 0.5rem !important;
+        text-align: center !important;
         box-sizing: border-box !important;
       }
 
@@ -2763,18 +2761,12 @@
 
     function fitNumberInputWidth(input, defaultVal = '50') {
       if (!input) return;
-      if (window.innerWidth >= 768) {
-        if (input.id === 'exam-score' || input.id === 'exam-total') {
-          input.style.width = '';
-          return;
-        }
-      }
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
       const charW = isDesktop ? 12 : 10;
       const basePad = isDesktop ? 22 : 18;
-      const minW = isDesktop ? 40 : 36;
+      const minW = isDesktop ? 42 : 36;
       const maxW = isDesktop ? 100 : 80;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
