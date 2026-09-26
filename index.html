@@ -1682,13 +1682,22 @@
         padding: 0.3rem 0.95rem;
       }
 
+      .prev-term-row {
+        gap: 0.6rem !important;
+        padding: 0.35rem 0.95rem !important;
+        border-radius: var(--radius-full) !important;
+      }
+
       .prev-term-row span {
-        font-size: 1.15rem;
+        font-size: 1.15rem !important;
+        white-space: nowrap !important;
       }
 
       .prev-term-row input {
-        font-size: 1.25rem;
-        width: 88px;
+        font-size: 1.25rem !important;
+        padding: 0.2rem 0.4rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       .user-profile-bar select {
@@ -1899,10 +1908,10 @@
 
         <div class="hr"></div>
 
-        <div class="weights-row" style="display: flex; align-items: center; gap: 0.2rem; flex-wrap: wrap; margin-bottom: 0.25rem; font-size: 0.7rem; font-weight: 700; color: var(--text-muted);">
+        <div class="weights-row" style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.25rem; font-size: 0.7rem; font-weight: 700; color: var(--text-muted);">
           <span>Weights:</span>
-          <span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span>
-          <span id="mix-exam">Exam 50%</span><span id="mix-exam-comma" style="display: none;">,</span>
+          <span><span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span></span>
+          <span><span id="mix-exam">Exam 50%</span><span id="mix-exam-comma" style="display: none;">,</span></span>
           <span id="mix-prev" style="display: none;">Prev 33.3%</span>
         </div>
 
@@ -1948,7 +1957,7 @@
       </div>
 
       <div class="prev-term-row" id="prev-grade-row" style="display: none;">
-        <span style="font-size: 0.775rem; font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
+        <span style="font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
         <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
         <span id="prev-error" class="warn"></span>
       </div>
@@ -2764,10 +2773,10 @@
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
-      const charW = isDesktop ? 12 : 10;
-      const basePad = isDesktop ? 22 : 20;
-      const minW = isDesktop ? 42 : 38;
-      const maxW = isDesktop ? 100 : 80;
+      const charW = isDesktop ? 14 : 11;
+      const basePad = isDesktop ? 30 : 22;
+      const minW = isDesktop ? 58 : 40;
+      const maxW = isDesktop ? 120 : 85;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
 
@@ -2984,6 +2993,7 @@
       recomputeAll();
       saveUserData();
     });
+    window.addEventListener('resize', recomputeAll);
     targetEqEl.addEventListener('change', () => {
       updateTargetSelectUI(targetEqEl.value);
       saveUserData();
