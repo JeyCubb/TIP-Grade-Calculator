@@ -2552,10 +2552,9 @@
       });
     }
 
-    function openProfilePromptModal() {
-      const modal = document.getElementById('profile-prompt-modal');
+    function renderProfileModalList() {
       const listEl = document.getElementById('profile-modal-list');
-      if (!modal || !listEl) return;
+      if (!listEl) return;
 
       listEl.innerHTML = '';
       const selectableProfiles = userProfiles.filter(u => u !== 'No Profile');
@@ -2582,6 +2581,13 @@
         });
         listEl.appendChild(item);
       });
+    }
+
+    function openProfilePromptModal() {
+      const modal = document.getElementById('profile-prompt-modal');
+      if (!modal) return;
+
+      renderProfileModalList();
 
       modal.style.display = 'flex';
       setTimeout(() => {
@@ -2645,14 +2651,27 @@
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list
+              // Sync profiles list from cloud data
               if (Array.isArray(cloudData._profiles)) {
                 cloudData._profiles.forEach(p => {
-                  if (!userProfiles.includes(p)) userProfiles.push(p);
+                  if (p && !userProfiles.includes(p)) userProfiles.push(p);
                 });
-                localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-                renderUserProfileDropdown();
               }
+
+              // Also discover any profiles from cloud data keys
+              Object.keys(cloudData).forEach(key => {
+                if (key.startsWith('data_')) {
+                  const u = key.replace('data_', '');
+                  if (u && !userProfiles.includes(u)) userProfiles.push(u);
+                } else if (key.startsWith('sheet_')) {
+                  const u = key.replace('sheet_', '');
+                  if (u && !userProfiles.includes(u)) userProfiles.push(u);
+                }
+              });
+
+              localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+              renderUserProfileDropdown();
+              renderProfileModalList();
 
               // Sync active profile's calculator and sheet data
               Object.keys(cloudData).forEach(key => {
