@@ -599,9 +599,18 @@
       font-size: 0.775rem;
     }
 
-    .item-score,
-    #exam-score {
+    .item-score {
       text-align: right;
+    }
+
+    #exam-score,
+    #exam-total {
+      width: 44px;
+      min-width: 36px;
+      padding: 0.15rem 0.25rem;
+      font-size: 0.8rem;
+      text-align: center;
+      box-sizing: border-box;
     }
 
     .item-inputs input::placeholder {
@@ -1689,10 +1698,10 @@
       <section class="card" id="card-exam-section">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.15rem;">
           <span style="font-weight: 700; font-size: 0.825rem; color: var(--text-primary);">Exam</span>
-          <div style="display: flex; gap: 0.35rem; align-items: center; width: 62%;">
-            <input type="number" id="exam-score" placeholder="Score" min="0" style="flex: 1;" title="Exam Score" />
+          <div style="display: flex; gap: 0.25rem; align-items: center; margin-left: auto;">
+            <input type="number" id="exam-score" placeholder="Score" min="0" title="Exam Score" />
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
-            <input type="number" id="exam-total" placeholder="Total" value="50" min="0" style="flex: 1;" title="Exam Total" />
+            <input type="number" id="exam-total" placeholder="Total" value="50" min="0" title="Exam Total" />
           </div>
         </div>
 
@@ -2619,7 +2628,17 @@
       return { finalPercent, eq };
     }
 
+    function fitExamInputWidth(input) {
+      if (!input) return;
+      const val = input.value !== '' ? input.value : (input.placeholder || '50');
+      const len = Math.max(val.length, 2);
+      input.style.width = `${Math.min(75, Math.max(38, len * 9 + 16))}px`;
+    }
+
     function recomputeAll() {
+      fitExamInputWidth(examScoreEl);
+      fitExamInputWidth(examTotalEl);
+
       // Check if any score box is filled in
       const scoreInputs = [...document.querySelectorAll('.item-score')];
       const hasItemScore = scoreInputs.some(input => input.value.trim() !== '' && !isNaN(parseFloat(input.value)));
