@@ -1822,9 +1822,10 @@
         font-size: 1.05rem !important;
         padding: 0.45rem 0.85rem !important;
       }
+      .btn-create-profile,
       #btn-modal-add-profile {
         font-size: 1.05rem !important;
-        padding: 0.45rem 1rem !important;
+        padding: 0.5rem 1.15rem !important;
       }
       .profile-modal-guest-btn {
         font-size: 1.05rem !important;
@@ -1988,20 +1989,62 @@
       border-radius: var(--radius-full);
     }
 
+    .profile-modal-add-section {
+      margin-top: 0.65rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
     .profile-modal-add-row {
       display: flex;
       gap: 0.4rem;
-      margin-top: 0.65rem;
     }
 
     .profile-modal-add-row input {
       flex: 1;
       font-size: 0.775rem;
-      padding: 0.35rem 0.65rem;
+      padding: 0.38rem 0.65rem;
       border-radius: var(--radius-md);
       background: var(--bg-input);
       border: 1.5px solid var(--border-color);
       color: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    .profile-modal-add-row input:focus {
+      border-color: #10b981 !important;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    .btn-create-profile {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: var(--radius-md) !important;
+      padding: 0.42rem 0.95rem !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.35rem !important;
+      cursor: pointer !important;
+      white-space: nowrap !important;
+    }
+
+    .btn-create-profile:hover {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.65), 0 0 16px rgba(16, 185, 129, 0.4) !important;
+      transform: translateY(-2px) scale(1.02) !important;
+      color: #ffffff !important;
+    }
+
+    .btn-create-profile:active {
+      transform: translateY(0) scale(0.98) !important;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4) !important;
     }
 
     .profile-modal-footer {
@@ -2385,9 +2428,18 @@
         <div class="profile-modal-section-label">Available Profiles</div>
         <div class="profile-modal-list" id="profile-modal-list"></div>
 
-        <div class="profile-modal-add-row">
-          <input type="text" id="modal-new-profile-input" placeholder="Create new profile name..." maxlength="25" />
-          <button class="btn btn-sm btn-primary" id="btn-modal-add-profile" style="white-space: nowrap;">Add Profile</button>
+        <div class="profile-modal-add-section">
+          <div class="profile-modal-section-label" style="color: var(--color-success); display: flex; align-items: center; gap: 0.3rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+            Create New Profile
+          </div>
+          <div class="profile-modal-add-row">
+            <input type="text" id="modal-new-profile-input" placeholder="Enter new profile name..." maxlength="25" />
+            <button class="btn btn-sm btn-create-profile" id="btn-modal-add-profile">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Create Profile</span>
+            </button>
+          </div>
         </div>
       </div>
 
