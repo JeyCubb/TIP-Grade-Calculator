@@ -1796,6 +1796,240 @@
         margin-left: auto;
         text-align: right;
       }
+
+      /* Profile Prompt Modal (Desktop) */
+      .profile-modal-dialog {
+        max-width: 480px !important;
+        padding: 1.4rem !important;
+        gap: 1.05rem !important;
+      }
+      .profile-modal-title {
+        font-size: 1.35rem !important;
+      }
+      .profile-modal-subtitle {
+        font-size: 0.95rem !important;
+      }
+      .profile-modal-item {
+        padding: 0.75rem 1rem !important;
+      }
+      .profile-modal-item-name {
+        font-size: 1.15rem !important;
+      }
+      .profile-modal-item-badge {
+        font-size: 0.85rem !important;
+      }
+      .profile-modal-add-row input {
+        font-size: 1.05rem !important;
+        padding: 0.45rem 0.85rem !important;
+      }
+      #btn-modal-add-profile {
+        font-size: 1.05rem !important;
+        padding: 0.45rem 1rem !important;
+      }
+      .profile-modal-guest-btn {
+        font-size: 1.05rem !important;
+        padding: 0.55rem 1rem !important;
+      }
+    }
+
+    /* Profile Prompt Modal Base Styles */
+    .profile-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease-out;
+    }
+
+    .profile-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .profile-modal-dialog {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color-hover);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+      width: 100%;
+      max-width: 440px;
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      transform: translateY(12px) scale(0.97);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .profile-modal-overlay.open .profile-modal-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .profile-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .profile-modal-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .profile-modal-avatar-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .profile-modal-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .profile-modal-subtitle {
+      font-size: 0.725rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+      line-height: 1.3;
+    }
+
+    .profile-modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0.15rem 0.35rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.15s ease;
+    }
+
+    .profile-modal-close-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .profile-modal-section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .profile-modal-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      max-height: 230px;
+      overflow-y: auto;
+      padding-right: 0.2rem;
+    }
+
+    .profile-modal-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 0.75rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      color: var(--text-primary);
+    }
+
+    .profile-modal-item:hover {
+      border-color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .profile-modal-item-name {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .profile-modal-item-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.12);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-full);
+    }
+
+    .profile-modal-add-row {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.65rem;
+    }
+
+    .profile-modal-add-row input {
+      flex: 1;
+      font-size: 0.775rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-md);
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .profile-modal-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.65rem;
+    }
+
+    .profile-modal-guest-btn {
+      width: 100%;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .profile-modal-guest-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      border-color: var(--border-color-hover);
     }
   </style>
 </head>
@@ -2128,6 +2362,43 @@
     </header>
   </div>
 
+  <!-- Profile Selection Prompt Modal (Shown when entering/refreshing on 'No Profile') -->
+  <div id="profile-prompt-modal" class="profile-modal-overlay" style="display: none;">
+    <div class="profile-modal-dialog">
+      <div class="profile-modal-header">
+        <div class="profile-modal-title-wrap">
+          <div class="profile-modal-avatar-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="profile-modal-title">Select a Profile</h2>
+            <p class="profile-modal-subtitle">Pick an existing profile to load your saved data, or continue as guest.</p>
+          </div>
+        </div>
+        <button class="profile-modal-close-btn" id="btn-close-profile-modal" title="Close dialog">&times;</button>
+      </div>
+
+      <div class="profile-modal-body">
+        <div class="profile-modal-section-label">Available Profiles</div>
+        <div class="profile-modal-list" id="profile-modal-list"></div>
+
+        <div class="profile-modal-add-row">
+          <input type="text" id="modal-new-profile-input" placeholder="Create new profile name..." maxlength="25" />
+          <button class="btn btn-sm btn-primary" id="btn-modal-add-profile" style="white-space: nowrap;">Add Profile</button>
+        </div>
+      </div>
+
+      <div class="profile-modal-footer">
+        <button class="profile-modal-guest-btn" id="btn-profile-modal-guest">
+          Continue as No Profile (Guest)
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ----- DOM REFERENCES & STATE -----
     let CS_WEIGHT = 0.5;
@@ -2253,6 +2524,10 @@
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
       updateProfileUrl();
       renderUserProfileDropdown();
+
+      if (activeUser === 'No Profile') {
+        openProfilePromptModal();
+      }
     }
 
     function updateProfileUrl() {
@@ -2265,8 +2540,6 @@
       window.history.replaceState({}, '', currentUrl.toString());
     }
 
-    
-
     function renderUserProfileDropdown() {
       const select = document.getElementById('user-selector');
       select.innerHTML = '';
@@ -2277,6 +2550,67 @@
         if (u === activeUser) opt.selected = true;
         select.appendChild(opt);
       });
+    }
+
+    function openProfilePromptModal() {
+      const modal = document.getElementById('profile-prompt-modal');
+      const listEl = document.getElementById('profile-modal-list');
+      if (!modal || !listEl) return;
+
+      listEl.innerHTML = '';
+      const selectableProfiles = userProfiles.filter(u => u !== 'No Profile');
+
+      if (selectableProfiles.length === 0) {
+        selectableProfiles.push('JeyCub');
+      }
+
+      selectableProfiles.forEach(p => {
+        const item = document.createElement('div');
+        item.className = 'profile-modal-item';
+        item.innerHTML = `
+          <div class="profile-modal-item-name">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>${p}</span>
+          </div>
+          <span class="profile-modal-item-badge">Load Profile &rarr;</span>
+        `;
+        item.addEventListener('click', () => {
+          selectProfileFromModal(p);
+        });
+        listEl.appendChild(item);
+      });
+
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.classList.add('open');
+      }, 10);
+    }
+
+    function closeProfilePromptModal() {
+      const modal = document.getElementById('profile-prompt-modal');
+      if (!modal) return;
+      modal.classList.remove('open');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 250);
+    }
+
+    function selectProfileFromModal(username) {
+      if (!username) return;
+      activeUser = username;
+      if (!userProfiles.includes(username)) {
+        userProfiles.push(username);
+        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+      }
+      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+      renderUserProfileDropdown();
+      updateProfileUrl();
+      loadUserData(activeUser);
+      loadSheetData();
+      closeProfilePromptModal();
     }
 
     let firebaseDb = null;
@@ -3091,13 +3425,47 @@
       }
     });
 
-    // Subject Switcher Events
-    
+    // Profile Prompt Modal Event Listeners
+    const btnCloseProfileModal = document.getElementById('btn-close-profile-modal');
+    if (btnCloseProfileModal) {
+      btnCloseProfileModal.addEventListener('click', closeProfilePromptModal);
+    }
 
+    const btnProfileModalGuest = document.getElementById('btn-profile-modal-guest');
+    if (btnProfileModalGuest) {
+      btnProfileModalGuest.addEventListener('click', closeProfilePromptModal);
+    }
 
+    const profilePromptModal = document.getElementById('profile-prompt-modal');
+    if (profilePromptModal) {
+      profilePromptModal.addEventListener('click', (e) => {
+        if (e.target === profilePromptModal) {
+          closeProfilePromptModal();
+        }
+      });
+    }
 
-
-    // ----- INIT -----
+    const btnModalAddProfile = document.getElementById('btn-modal-add-profile');
+    const modalNewProfileInput = document.getElementById('modal-new-profile-input');
+    function handleModalAddProfile() {
+      if (!modalNewProfileInput) return;
+      const name = modalNewProfileInput.value.trim();
+      if (name) {
+        modalNewProfileInput.value = '';
+        selectProfileFromModal(name);
+      }
+    }
+    if (btnModalAddProfile) {
+      btnModalAddProfile.addEventListener('click', handleModalAddProfile);
+    }
+    if (modalNewProfileInput) {
+      modalNewProfileInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleModalAddProfile();
+        }
+      });
+    }
     
     // ==========================================================================
     // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
