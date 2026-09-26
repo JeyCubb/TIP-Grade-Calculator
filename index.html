@@ -563,11 +563,12 @@
     }
 
     .cat-weight {
-      width: 14px;
-      padding: 0.08rem 0.1rem;
-      text-align: right;
+      width: 28px;
+      min-width: 24px;
+      padding: 0.1rem 0.15rem;
+      text-align: center;
       font-size: 0.62rem !important;
-      min-width: 0;
+      box-sizing: border-box;
     }
 
     .cat-weight-wrapper span {
@@ -594,13 +595,17 @@
     }
 
     .item-inputs input {
-      width: 54px;
-      padding: 0.12rem 0.35rem;
+      width: 44px;
+      min-width: 32px;
+      padding: 0.12rem 0.25rem;
       font-size: 0.775rem;
+      text-align: center;
+      box-sizing: border-box;
     }
 
-    .item-score {
-      text-align: right;
+    .item-score,
+    .item-total {
+      text-align: center;
     }
 
     #exam-score,
@@ -2541,6 +2546,9 @@
     }
 
     function recomputeCategory(categoryEl) {
+      const weightInput = categoryEl.querySelector('.cat-weight');
+      if (weightInput) fitNumberInputWidth(weightInput, '30');
+
       const itemRows = [...categoryEl.querySelectorAll('.item-row')];
       let sumPercent = 0;
       let itemCount = 0;
@@ -2549,6 +2557,9 @@
         const scoreInput = row.querySelector('.item-score');
         const totalInput = row.querySelector('.item-total');
         const display = row.querySelector('.item-50');
+
+        if (scoreInput) fitNumberInputWidth(scoreInput, 'Score');
+        if (totalInput) fitNumberInputWidth(totalInput, 'Total');
 
         const score = parseFloat(scoreInput.value);
         const total = parseFloat(totalInput.value);
@@ -2647,20 +2658,24 @@
       return { finalPercent, eq };
     }
 
-    function fitExamInputWidth(input) {
+    function fitNumberInputWidth(input, defaultVal = '50') {
       if (!input) return;
       if (window.innerWidth >= 768) {
         input.style.width = '';
         return;
       }
-      const val = input.value !== '' ? input.value : (input.placeholder || '50');
-      const len = Math.max(val.length, 2);
-      input.style.width = `${Math.min(75, Math.max(38, len * 9 + 16))}px`;
+      const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
+      const len = Math.max(val.length, 1);
+      input.style.width = `${Math.min(75, Math.max(28, len * 9 + 14))}px`;
     }
 
     function recomputeAll() {
-      fitExamInputWidth(examScoreEl);
-      fitExamInputWidth(examTotalEl);
+      fitNumberInputWidth(examScoreEl, 'Score');
+      fitNumberInputWidth(examTotalEl, '50');
+      fitNumberInputWidth(prevGradeEl, '86');
+      document.querySelectorAll('.cat-weight').forEach(el => fitNumberInputWidth(el, '30'));
+      document.querySelectorAll('.item-score').forEach(el => fitNumberInputWidth(el, 'Score'));
+      document.querySelectorAll('.item-total').forEach(el => fitNumberInputWidth(el, 'Total'));
 
       // Check if any score box is filled in
       const scoreInputs = [...document.querySelectorAll('.item-score')];
