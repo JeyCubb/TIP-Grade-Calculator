@@ -1520,6 +1520,8 @@
       #exam-score, #exam-total {
         font-size: 1.05rem !important;
         padding: 0.25rem 0.55rem !important;
+        width: 100% !important;
+        text-align: right !important;
       }
 
       #card-exam-section label {
@@ -1540,8 +1542,23 @@
         font-size: 0.95rem;
       }
 
+      .final-grade-card {
+        flex-direction: column !important;
+        text-align: center !important;
+        padding: 0.45rem 0.65rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.15rem !important;
+      }
+
+      .final-grade-title-group {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 0.1rem !important;
+      }
+
       .final-val {
-        font-size: 1.55rem !important;
+        font-size: 2.1rem !important;
       }
 
       .avg {
@@ -1549,8 +1566,10 @@
       }
 
       .eq-badge {
-        font-size: 1.05rem;
-        padding: 0.25rem 1.0rem;
+        align-self: center !important;
+        margin-top: 0.2rem !important;
+        font-size: 1.05rem !important;
+        padding: 0.25rem 1.0rem !important;
       }
 
       .segmented-control {
@@ -1792,7 +1811,7 @@
           </div>
 
           <div class="final-grade-card">
-            <div style="display: flex; align-items: baseline; gap: 0.4rem;">
+            <div class="final-grade-title-group" style="display: flex; align-items: baseline; gap: 0.4rem;">
               <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
               <div class="final-val" id="res-final">0.00%</div>
             </div>
@@ -2630,6 +2649,10 @@
 
     function fitExamInputWidth(input) {
       if (!input) return;
+      if (window.innerWidth >= 768) {
+        input.style.width = '';
+        return;
+      }
       const val = input.value !== '' ? input.value : (input.placeholder || '50');
       const len = Math.max(val.length, 2);
       input.style.width = `${Math.min(75, Math.max(38, len * 9 + 16))}px`;
