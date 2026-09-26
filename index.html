@@ -577,8 +577,9 @@
     .cat-header {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.25rem;
       width: 100%;
+      min-height: 28px;
     }
 
     .cat-name {
@@ -587,7 +588,10 @@
       width: auto;
       text-overflow: ellipsis;
       font-size: 0.775rem !important;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.35rem;
+      height: 28px;
+      line-height: 1.2;
+      box-sizing: border-box;
     }
 
     .cat-weight-wrapper {
@@ -597,15 +601,19 @@
       align-items: center;
       gap: 0.15rem;
       margin-left: auto;
+      height: 28px;
     }
 
     .cat-weight {
-      width: 38px;
-      min-width: 36px;
-      padding: 0.12rem 0.2rem;
+      width: 32px;
+      min-width: 28px;
+      padding: 0.12rem 0.2rem !important;
       text-align: center;
-      font-size: 0.775rem !important;
-      box-sizing: border-box;
+      font-size: 0.75rem !important;
+      height: 28px !important;
+      line-height: 1.2 !important;
+      box-sizing: border-box !important;
+      border-radius: var(--radius-sm);
     }
 
     .cat-weight-wrapper span {
@@ -904,28 +912,39 @@
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
-        gap: 0.25rem;
+        gap: 0.2rem;
         width: 100%;
+        min-height: 26px;
       }
 
       .cat-name {
         flex: 1 1 auto;
         min-width: 0;
         width: auto;
-        font-size: 0.775rem;
-        padding: 0.2rem 0.3rem;
+        font-size: 0.725rem !important;
+        padding: 0.1rem 0.3rem !important;
+        height: 26px !important;
+        line-height: 24px !important;
+        box-sizing: border-box !important;
       }
 
       .cat-weight-wrapper {
         flex: 0 0 auto;
-        min-width: 38px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.1rem;
         margin-top: 0;
+        height: 26px;
       }
 
       .cat-weight {
-        font-size: 0.725rem;
-        padding: 0.2rem 0.2rem;
-        width: 36px;
+        font-size: 0.725rem !important;
+        padding: 0.1rem 0.15rem !important;
+        height: 26px !important;
+        line-height: 24px !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        border-radius: var(--radius-sm) !important;
       }
 
       .item-row {
@@ -3255,10 +3274,10 @@
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
       const isDesktop = window.innerWidth >= 768;
-      const charW = isDesktop ? 14 : 11;
-      const basePad = isDesktop ? 30 : 22;
-      const minW = isDesktop ? 58 : 40;
-      const maxW = isDesktop ? 120 : 85;
+      const charW = isDesktop ? 14 : 9;
+      const basePad = isDesktop ? 30 : 16;
+      const minW = isDesktop ? 58 : 32;
+      const maxW = isDesktop ? 120 : 65;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
 
