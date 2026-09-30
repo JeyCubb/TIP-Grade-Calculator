@@ -1796,45 +1796,45 @@
       }
 
       .sheet-table th {
-        font-size: 1.33rem;
-        padding: 0.32rem 0.6rem;
+        font-size: 1.23rem;
+        padding: 0.3rem 0.55rem;
       }
 
       .sheet-table td {
-        font-size: 1.40rem;
-        padding: 0.18rem 0.5rem;
+        font-size: 1.30rem;
+        padding: 0.16rem 0.45rem;
       }
 
       .sheet-table input {
-        font-size: 1.40rem;
-        padding: 0.18rem 0.5rem;
+        font-size: 1.30rem;
+        padding: 0.16rem 0.45rem;
       }
 
       .sheet-table input.subj-input {
         width: 100%;
         max-width: 180px;
         min-width: 105px;
-        padding: 0.18rem 0.5rem;
+        padding: 0.16rem 0.45rem;
       }
 
       .sheet-table input.num-input {
-        font-size: 1.40rem;
-        width: 92px;
-        min-width: 80px;
-        padding: 0.18rem 0.3rem;
+        font-size: 1.30rem;
+        width: 86px;
+        min-width: 74px;
+        padding: 0.16rem 0.25rem;
       }
 
       .sheet-table input.units-input {
-        font-size: 1.40rem;
-        width: 64px;
-        min-width: 54px;
-        padding: 0.18rem 0.3rem;
+        font-size: 1.30rem;
+        width: 58px;
+        min-width: 48px;
+        padding: 0.16rem 0.25rem;
       }
 
       .sheet-grade-cell {
-        font-size: 1.40rem;
-        min-width: 68px;
-        padding: 0.15rem 0.7rem;
+        font-size: 1.30rem;
+        min-width: 62px;
+        padding: 0.12rem 0.6rem;
         line-height: 1.2;
       }
 
@@ -1851,7 +1851,7 @@
       .sem-footer-summary-text,
       #sem1-footer-summary,
       #sem2-footer-summary {
-        font-size: 1.35rem !important;
+        font-size: 1.25rem !important;
         margin-left: auto;
         text-align: right;
       }
@@ -2637,11 +2637,96 @@
     // ----- USER PROFILES, SUBJECTS & PERSISTENCE -----
     const STORAGE_KEY_PROFILES = 'tip_gc_profiles_v2';
     const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
+    const STORAGE_KEY_PASSWORDS = 'tip_gc_profile_passwords';
+    const STORAGE_KEY_UNLOCKED = 'tip_gc_unlocked_profiles_session';
     
     let activeUser = 'No Profile';
     let userProfiles = ['No Profile'];
+    let profilePasswords = {};
+    let unlockedProfiles = [];
 
-    
+    function initUnlockedProfiles() {
+      try {
+        const stored = sessionStorage.getItem(STORAGE_KEY_UNLOCKED);
+        if (stored) {
+          unlockedProfiles = JSON.parse(stored) || [];
+        }
+      } catch (e) {
+        unlockedProfiles = [];
+      }
+    }
+    initUnlockedProfiles();
+
+    function markProfileUnlocked(username) {
+      if (!username || username === 'No Profile') return;
+      if (!unlockedProfiles.includes(username)) {
+        unlockedProfiles.push(username);
+        try {
+          sessionStorage.setItem(STORAGE_KEY_UNLOCKED, JSON.stringify(unlockedProfiles));
+        } catch (e) {}
+      }
+    }
+
+    function isProfileAuthenticated(username) {
+      if (!username || username === 'No Profile') return true;
+      const pass = getProfilePassword(username);
+      if (!pass) return true; // No password required
+      return unlockedProfiles.includes(username);
+    }
+
+    function getProfilePassword(username) {
+      if (!username || username === 'No Profile') return '';
+      return profilePasswords[username] || '';
+    }
+
+    function setProfilePassword(username, password) {
+      if (!username || username === 'No Profile') return;
+      if (password && password.trim()) {
+        profilePasswords[username] = password.trim();
+        markProfileUnlocked(username); // Creator is automatically authenticated
+      } else {
+        delete profilePasswords[username];
+      }
+      localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+      syncToCloud('passwords', '_global', profilePasswords);
+      updateProfileLockUI();
+    }
+
+    function updateProfileLockUI() {
+      const lockBtn = document.getElementById('btn-profile-lock');
+      const lockIcon = document.getElementById('lock-icon');
+      const deleteUserBtn = document.getElementById('btn-delete-user');
+      if (!lockBtn || !lockIcon) return;
+
+      if (!activeUser || activeUser === 'No Profile') {
+        lockBtn.style.display = 'none';
+        if (deleteUserBtn) deleteUserBtn.style.display = 'none';
+        return;
+      }
+
+      lockBtn.style.display = 'inline-flex';
+      const password = getProfilePassword(activeUser);
+
+      if (password) {
+        // Locked state
+        lockBtn.classList.add('is-locked');
+        lockBtn.title = `Profile '${activeUser}' is Password Protected (Click to Unlock/Change)`;
+        lockIcon.innerHTML = `
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        `;
+        if (deleteUserBtn) deleteUserBtn.style.display = 'none';
+      } else {
+        // Unlocked state
+        lockBtn.classList.remove('is-locked');
+        lockBtn.title = `Profile '${activeUser}' is Unlocked (Click to Set Password)`;
+        lockIcon.innerHTML = `
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+        `;
+        if (deleteUserBtn) deleteUserBtn.style.display = 'inline-flex';
+      }
+    }
 
     let saveTimeout = null;
     const saveIndicatorEl = document.getElementById('save-indicator');
@@ -2666,6 +2751,15 @@
         } catch (e) {}
       }
 
+      const storedPasswords = localStorage.getItem(STORAGE_KEY_PASSWORDS);
+      if (storedPasswords) {
+        try {
+          profilePasswords = JSON.parse(storedPasswords) || {};
+        } catch (e) {
+          profilePasswords = {};
+        }
+      }
+
       if (!userProfiles.includes('No Profile')) {
         userProfiles.unshift('No Profile');
       }
@@ -2676,6 +2770,11 @@
       }
       if (localStorage.getItem('tip_gc_sheet_Jacob') && !localStorage.getItem('tip_gc_sheet_JeyCub')) {
         localStorage.setItem('tip_gc_sheet_JeyCub', localStorage.getItem('tip_gc_sheet_Jacob'));
+      }
+      if (profilePasswords['Jacob'] && !profilePasswords['JeyCub']) {
+        profilePasswords['JeyCub'] = profilePasswords['Jacob'];
+        delete profilePasswords['Jacob'];
+        localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
       }
 
       // Replace 'Jacob' with 'JeyCub' in userProfiles list
@@ -2709,9 +2808,31 @@
         activeUser = 'No Profile'; // Default to No Profile on fresh visit
       }
 
+      // Check if the loaded profile requires password auth on initial visit
+      if (activeUser !== 'No Profile' && !isProfileAuthenticated(activeUser)) {
+        // If not authenticated, prompt for password
+        setTimeout(() => {
+          promptProfilePassword(activeUser, () => {
+            // On success
+            loadUserData(activeUser);
+            loadSheetData();
+          }, () => {
+            // On cancel, revert to No Profile
+            activeUser = 'No Profile';
+            localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+            updateProfileUrl();
+            renderUserProfileDropdown();
+            loadUserData(activeUser);
+            loadSheetData();
+            openProfilePromptModal();
+          });
+        }, 150);
+      }
+
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
       updateProfileUrl();
       renderUserProfileDropdown();
+      updateProfileLockUI();
 
       if (activeUser === 'No Profile') {
         openProfilePromptModal();
@@ -2740,12 +2861,145 @@
       });
     }
 
+    function promptProfilePassword(targetUser, onSuccess, onCancel) {
+      if (!profileLockModal) return;
+
+      if (lockModalError) {
+        lockModalError.style.display = 'none';
+        lockModalError.textContent = '';
+      }
+
+      if (lockModalTitle) lockModalTitle.textContent = `Profile Locked (${targetUser})`;
+      if (lockModalSubtitle) lockModalSubtitle.textContent = `Enter the password to access this profile.`;
+      if (lockPasswordInput) {
+        lockPasswordInput.value = '';
+        lockPasswordInput.placeholder = "Enter password";
+      }
+      if (lockModalPrimaryBtn) {
+        lockModalPrimaryBtn.textContent = "Unlock & Enter";
+        lockModalPrimaryBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+      }
+      if (lockModalSecondaryBtn) {
+        lockModalSecondaryBtn.style.display = 'inline-flex';
+        lockModalSecondaryBtn.textContent = "Cancel";
+      }
+
+      // Temporary override handlers for prompt mode
+      const submitHandler = () => {
+        const entered = lockPasswordInput ? lockPasswordInput.value.trim() : '';
+        const actual = getProfilePassword(targetUser);
+        if (entered === actual) {
+          markProfileUnlocked(targetUser);
+          cleanup();
+          closeLockModal();
+          if (typeof onSuccess === 'function') onSuccess();
+        } else {
+          if (lockModalError) {
+            lockModalError.textContent = "Incorrect password. Please try again.";
+            lockModalError.style.display = 'block';
+          }
+          if (lockPasswordInput) {
+            lockPasswordInput.select();
+          }
+        }
+      };
+
+      const cancelHandler = () => {
+        cleanup();
+        closeLockModal();
+        if (typeof onCancel === 'function') onCancel();
+      };
+
+      const keyHandler = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitHandler();
+        } else if (e.key === 'Escape') {
+          cancelHandler();
+        }
+      };
+
+      function cleanup() {
+        if (lockModalPrimaryBtn) lockModalPrimaryBtn.removeEventListener('click', submitHandler);
+        if (lockModalSecondaryBtn) lockModalSecondaryBtn.removeEventListener('click', cancelHandler);
+        if (btnCloseLockModal) btnCloseLockModal.removeEventListener('click', cancelHandler);
+        if (lockPasswordInput) lockPasswordInput.removeEventListener('keydown', keyHandler);
+        // Restore standard handlers
+        attachStandardLockModalHandlers();
+      }
+
+      // Detach standard handlers while in prompt mode
+      detachStandardLockModalHandlers();
+
+      if (lockModalPrimaryBtn) lockModalPrimaryBtn.addEventListener('click', submitHandler);
+      if (lockModalSecondaryBtn) lockModalSecondaryBtn.addEventListener('click', cancelHandler);
+      if (btnCloseLockModal) btnCloseLockModal.addEventListener('click', cancelHandler);
+      if (lockPasswordInput) lockPasswordInput.addEventListener('keydown', keyHandler);
+
+      profileLockModal.style.display = 'flex';
+      setTimeout(() => {
+        profileLockModal.classList.add('open');
+        if (lockPasswordInput) {
+          lockPasswordInput.focus();
+        }
+      }, 10);
+    }
+
+    function switchProfileWithAuth(targetUser) {
+      if (!targetUser) return;
+      if (targetUser === activeUser) return;
+
+      if (targetUser === 'No Profile' || isProfileAuthenticated(targetUser)) {
+        saveUserData();
+        activeUser = targetUser;
+        if (!userProfiles.includes(targetUser) && targetUser !== 'No Profile') {
+          userProfiles.push(targetUser);
+          localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+        }
+        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        updateProfileUrl();
+        renderUserProfileDropdown();
+        loadUserData(activeUser);
+        loadSheetData();
+        if (activeUser === 'No Profile') {
+          openProfilePromptModal();
+        }
+      } else {
+        // Needs password prompt
+        promptProfilePassword(targetUser, () => {
+          saveUserData();
+          activeUser = targetUser;
+          if (!userProfiles.includes(targetUser)) {
+            userProfiles.push(targetUser);
+            localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+          }
+          localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          updateProfileUrl();
+          renderUserProfileDropdown();
+          loadUserData(activeUser);
+          loadSheetData();
+        }, () => {
+          // Revert dropdown to activeUser
+          renderUserProfileDropdown();
+        });
+      }
+    }
+
+    function selectProfileFromModal(username) {
+      if (!username) return;
+      closeProfilePromptModal();
+      switchProfileWithAuth(username);
+    }
+
     function deleteProfileFromCloud(user) {
       if (!firebaseDb || !user || user === 'No Profile') return;
       try {
         const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
         firebaseDb.ref(`tip_grade_calculator/data_${safeUser}`).remove();
         firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
+        delete profilePasswords[user];
+        localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+        firebaseDb.ref(`tip_grade_calculator/passwords__global`).set(profilePasswords);
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
         firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
         firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
@@ -2766,6 +3020,7 @@
       }
 
       selectableProfiles.forEach(p => {
+        const isLocked = !!getProfilePassword(p);
         const item = document.createElement('div');
         item.className = 'profile-modal-item';
         item.innerHTML = `
@@ -2775,14 +3030,16 @@
               <circle cx="12" cy="7" r="4"/>
             </svg>
             <span>${p}</span>
+            ${isLocked ? `<span style="font-size: 0.75rem; color: var(--accent-primary); display: inline-flex; align-items: center; margin-left: 0.25rem;" title="Password Protected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ''}
           </div>
           <div style="display: flex; align-items: center; gap: 0.35rem;">
             <span class="profile-modal-item-badge" style="cursor: pointer;">Load Profile &rarr;</span>
+            ${!isLocked ? `
             <button class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
               </svg>
-            </button>
+            </button>` : ''}
           </div>
         `;
         item.querySelector('.profile-modal-item-name').addEventListener('click', () => {
@@ -2791,25 +3048,32 @@
         item.querySelector('.profile-modal-item-badge').addEventListener('click', () => {
           selectProfileFromModal(p);
         });
-        item.querySelector('.profile-modal-item-delete').addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (confirm(`Delete profile "${p}" and all its saved data?`)) {
-            deleteProfileFromCloud(p);
-            localStorage.removeItem(`tip_gc_data_${p}`);
-            localStorage.removeItem(`tip_gc_sheet_${p}`);
-            userProfiles = userProfiles.filter(u => u !== p);
-            localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-            if (activeUser === p) {
-              activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : (userProfiles.find(u => u !== 'No Profile') || 'No Profile');
-              localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-              updateProfileUrl();
-              loadUserData(activeUser);
-              loadSheetData();
+        const deleteBtn = item.querySelector('.profile-modal-item-delete');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (getProfilePassword(p)) {
+              alert(`Profile "${p}" is locked. Please unlock it before deleting.`);
+              return;
             }
-            renderUserProfileDropdown();
-            renderProfileModalList();
-          }
-        });
+            if (confirm(`Delete profile "${p}" and all its saved data?`)) {
+              deleteProfileFromCloud(p);
+              localStorage.removeItem(`tip_gc_data_${p}`);
+              localStorage.removeItem(`tip_gc_sheet_${p}`);
+              userProfiles = userProfiles.filter(u => u !== p);
+              localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+              if (activeUser === p) {
+                activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : (userProfiles.find(u => u !== 'No Profile') || 'No Profile');
+                localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                updateProfileUrl();
+                loadUserData(activeUser);
+                loadSheetData();
+              }
+              renderUserProfileDropdown();
+              renderProfileModalList();
+            }
+          });
+        }
         listEl.appendChild(item);
       });
     }
@@ -2907,9 +3171,16 @@
                 userProfiles.push('JeyCub');
               }
 
+              // Sync passwords from cloud
+              if (cloudData.passwords__global && typeof cloudData.passwords__global === 'object') {
+                profilePasswords = cloudData.passwords__global;
+                localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+              }
+
               localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
               renderUserProfileDropdown();
               renderProfileModalList();
+              updateProfileLockUI();
 
               // Sync active profile's calculator and sheet data
               Object.keys(cloudData).forEach(key => {
@@ -3112,6 +3383,7 @@
         addCategory('Quizzes', 30);
         recomputeAll();
       }
+      updateProfileLockUI();
     }
 
     // Theme Toggle and UI Event Handlers
@@ -3638,15 +3910,8 @@
 
     // Profile Switcher Events
     document.getElementById('user-selector').addEventListener('change', (e) => {
-      saveUserData();
-      activeUser = e.target.value;
-      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      updateProfileUrl();
-      loadUserData(activeUser);
-      loadSheetData();
-      if (activeUser === 'No Profile') {
-        openProfilePromptModal();
-      }
+      const target = e.target.value;
+      switchProfileWithAuth(target);
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
@@ -3671,6 +3936,10 @@
         alert("Cannot delete the default 'No Profile' guest state.");
         return;
       }
+      if (getProfilePassword(activeUser)) {
+        alert(`Profile "${activeUser}" is locked. Click the padlock icon to unlock before deleting.`);
+        return;
+      }
       const userToDelete = activeUser;
       if (confirm(`Delete user profile "${userToDelete}" and all its saved data?`)) {
         deleteProfileFromCloud(userToDelete);
@@ -3690,6 +3959,153 @@
         }
       }
     });
+
+    // Profile Lock Modal Logic & Events
+    const profileLockModal = document.getElementById('profile-lock-modal');
+    const lockPasswordInput = document.getElementById('lock-password-input');
+    const lockModalError = document.getElementById('lock-modal-error');
+    const lockModalTitle = document.getElementById('lock-modal-title');
+    const lockModalSubtitle = document.getElementById('lock-modal-subtitle');
+    const lockModalPrimaryBtn = document.getElementById('btn-lock-modal-primary');
+    const lockModalSecondaryBtn = document.getElementById('btn-lock-modal-secondary');
+    const btnProfileLock = document.getElementById('btn-profile-lock');
+    const btnCloseLockModal = document.getElementById('btn-close-lock-modal');
+
+    function standardLockPrimaryHandler() {
+      const currentPassword = getProfilePassword(activeUser);
+      if (currentPassword) {
+        // Unlock action
+        setProfilePassword(activeUser, '');
+        renderProfileModalList();
+        closeLockModal();
+      } else {
+        // Save & Lock action
+        const val = lockPasswordInput ? lockPasswordInput.value.trim() : '';
+        if (!val) {
+          if (lockModalError) {
+            lockModalError.textContent = "Please enter a password to lock this profile.";
+            lockModalError.style.display = 'block';
+          }
+          return;
+        }
+        setProfilePassword(activeUser, val);
+        renderProfileModalList();
+        closeLockModal();
+      }
+    }
+
+    function standardLockSecondaryHandler() {
+      // Save new password if user edited it while in locked view
+      const val = lockPasswordInput ? lockPasswordInput.value.trim() : '';
+      if (!val) {
+        setProfilePassword(activeUser, '');
+      } else {
+        setProfilePassword(activeUser, val);
+      }
+      renderProfileModalList();
+      closeLockModal();
+    }
+
+    function standardLockKeyHandler(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        standardLockPrimaryHandler();
+      } else if (e.key === 'Escape') {
+        closeLockModal();
+      }
+    }
+
+    function attachStandardLockModalHandlers() {
+      if (lockModalPrimaryBtn) lockModalPrimaryBtn.addEventListener('click', standardLockPrimaryHandler);
+      if (lockModalSecondaryBtn) lockModalSecondaryBtn.addEventListener('click', standardLockSecondaryHandler);
+      if (btnCloseLockModal) btnCloseLockModal.addEventListener('click', closeLockModal);
+      if (lockPasswordInput) lockPasswordInput.addEventListener('keydown', standardLockKeyHandler);
+    }
+
+    function detachStandardLockModalHandlers() {
+      if (lockModalPrimaryBtn) lockModalPrimaryBtn.removeEventListener('click', standardLockPrimaryHandler);
+      if (lockModalSecondaryBtn) lockModalSecondaryBtn.removeEventListener('click', standardLockSecondaryHandler);
+      if (btnCloseLockModal) btnCloseLockModal.removeEventListener('click', closeLockModal);
+      if (lockPasswordInput) lockPasswordInput.removeEventListener('keydown', standardLockKeyHandler);
+    }
+
+    // Attach initial standard handlers
+    attachStandardLockModalHandlers();
+
+    function openLockModal() {
+      if (!profileLockModal || !activeUser || activeUser === 'No Profile') return;
+
+      detachStandardLockModalHandlers();
+      attachStandardLockModalHandlers();
+
+      const currentPassword = getProfilePassword(activeUser);
+      if (lockModalError) {
+        lockModalError.style.display = 'none';
+        lockModalError.textContent = '';
+      }
+
+      if (currentPassword) {
+        // Mode: Already locked. Allow unlock or change.
+        if (lockModalTitle) lockModalTitle.textContent = `Unlock Profile (${activeUser})`;
+        if (lockModalSubtitle) lockModalSubtitle.textContent = `This profile is password protected.`;
+        if (lockPasswordInput) {
+          lockPasswordInput.value = currentPassword;
+          lockPasswordInput.placeholder = "Enter password";
+        }
+        if (lockModalPrimaryBtn) {
+          lockModalPrimaryBtn.textContent = "Unlock Profile";
+          lockModalPrimaryBtn.style.background = "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)";
+        }
+        if (lockModalSecondaryBtn) {
+          lockModalSecondaryBtn.style.display = 'inline-flex';
+          lockModalSecondaryBtn.textContent = "Save Password";
+        }
+      } else {
+        // Mode: Not locked. Allow setting password.
+        if (lockModalTitle) lockModalTitle.textContent = `Lock Profile (${activeUser})`;
+        if (lockModalSubtitle) lockModalSubtitle.textContent = `Set a password to protect this profile.`;
+        if (lockPasswordInput) {
+          lockPasswordInput.value = '';
+          lockPasswordInput.placeholder = "Enter password to lock (e.g. 1234)";
+        }
+        if (lockModalPrimaryBtn) {
+          lockModalPrimaryBtn.textContent = "Save & Lock";
+          lockModalPrimaryBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+        }
+        if (lockModalSecondaryBtn) {
+          lockModalSecondaryBtn.style.display = 'none';
+        }
+      }
+
+      profileLockModal.style.display = 'flex';
+      setTimeout(() => {
+        profileLockModal.classList.add('open');
+        if (lockPasswordInput) {
+          lockPasswordInput.focus();
+          lockPasswordInput.select();
+        }
+      }, 10);
+    }
+
+    function closeLockModal() {
+      if (!profileLockModal) return;
+      profileLockModal.classList.remove('open');
+      setTimeout(() => {
+        profileLockModal.style.display = 'none';
+      }, 250);
+    }
+
+    if (btnProfileLock) {
+      btnProfileLock.addEventListener('click', openLockModal);
+    }
+
+    if (profileLockModal) {
+      profileLockModal.addEventListener('click', (e) => {
+        if (e.target === profileLockModal) {
+          closeLockModal();
+        }
+      });
+    }
 
     // Profile Prompt Modal Event Listeners
     const btnCloseProfileModal = document.getElementById('btn-close-profile-modal');
