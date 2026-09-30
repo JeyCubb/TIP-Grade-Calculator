@@ -3041,6 +3041,7 @@
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         updateProfileUrl();
         renderUserProfileDropdown();
+        updateProfileLockUI();
         loadUserData(activeUser);
         loadSheetData();
         if (activeUser === 'No Profile') {
@@ -3058,6 +3059,7 @@
           localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
           updateProfileUrl();
           renderUserProfileDropdown();
+          updateProfileLockUI();
           loadUserData(activeUser);
           loadSheetData();
         }, () => {
@@ -3183,17 +3185,8 @@
 
     function selectProfileFromModal(username) {
       if (!username) return;
-      activeUser = username;
-      if (!userProfiles.includes(username)) {
-        userProfiles.push(username);
-        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
-      }
-      localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-      renderUserProfileDropdown();
-      updateProfileUrl();
-      loadUserData(activeUser);
-      loadSheetData();
       closeProfilePromptModal();
+      switchProfileWithAuth(username);
     }
 
     let firebaseDb = null;
