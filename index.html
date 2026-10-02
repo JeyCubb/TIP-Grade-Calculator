@@ -3033,17 +3033,23 @@
 
       if (targetUser === 'No Profile' || isProfileAuthenticated(targetUser)) {
         saveUserData();
+        const isNewProfile = !userProfiles.includes(targetUser) && targetUser !== 'No Profile';
         activeUser = targetUser;
-        if (!userProfiles.includes(targetUser) && targetUser !== 'No Profile') {
+        if (isNewProfile) {
           userProfiles.push(targetUser);
           localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
         }
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         updateProfileUrl();
         renderUserProfileDropdown();
+        renderProfileModalList();
         updateProfileLockUI();
         loadUserData(activeUser);
         loadSheetData();
+        if (isNewProfile) {
+          saveUserData();
+          saveSheetData();
+        }
         if (activeUser === 'No Profile') {
           openProfilePromptModal();
         }
@@ -3051,17 +3057,23 @@
         // Needs password prompt
         promptProfilePassword(targetUser, () => {
           saveUserData();
+          const isNewProfile = !userProfiles.includes(targetUser) && targetUser !== 'No Profile';
           activeUser = targetUser;
-          if (!userProfiles.includes(targetUser)) {
+          if (isNewProfile) {
             userProfiles.push(targetUser);
             localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
           }
           localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
           updateProfileUrl();
           renderUserProfileDropdown();
+          renderProfileModalList();
           updateProfileLockUI();
           loadUserData(activeUser);
           loadSheetData();
+          if (isNewProfile) {
+            saveUserData();
+            saveSheetData();
+          }
         }, () => {
           // Revert dropdown to activeUser
           renderUserProfileDropdown();
@@ -3221,10 +3233,10 @@
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list from authoritative cloud data
+              // Sync profiles list from authoritative cloud data, preserving any local profiles
+              let remoteProfiles = [];
               if (Array.isArray(cloudData._profiles)) {
-                const cloudList = cloudData._profiles.filter(p => p && p !== 'No Profile');
-                userProfiles = ['No Profile', ...new Set(cloudList)];
+                remoteProfiles = cloudData._profiles.filter(p => p && p !== 'No Profile');
               } else {
                 // Fallback to discovering from data_ and sheet_ keys if _profiles is empty
                 const discovered = [];
@@ -3238,17 +3250,18 @@
                   }
                 });
                 if (discovered.length > 0) {
-                  userProfiles = ['No Profile', ...new Set(discovered)];
+                  remoteProfiles = discovered;
                 }
               }
 
-              if (!userProfiles.includes('JeyCub')) {
-                userProfiles.push('JeyCub');
-              }
+              // Merge remote with current local profiles to prevent newly created profiles from being discarded
+              const merged = new Set([...userProfiles.filter(u => u !== 'No Profile'), ...remoteProfiles]);
+              merged.add('JeyCub');
+              userProfiles = ['No Profile', ...merged];
 
               // Sync passwords from cloud
               if (cloudData.passwords__global && typeof cloudData.passwords__global === 'object') {
-                profilePasswords = cloudData.passwords__global;
+                profilePasswords = { ...profilePasswords, ...cloudData.passwords__global };
                 localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
               }
 
@@ -3993,6 +4006,7 @@
       const name = prompt("Enter new profile name:");
       if (name && name.trim()) {
         const cleanName = name.trim();
+        saveUserData(); // Save previous profile before switching
         if (!userProfiles.includes(cleanName)) {
           userProfiles.push(cleanName);
           localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
@@ -4001,8 +4015,12 @@
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
         updateProfileUrl();
         renderUserProfileDropdown();
+        renderProfileModalList();
+        updateProfileLockUI();
         loadUserData(activeUser);
         loadSheetData();
+        saveUserData(); // Persist initial state for newly created profile
+        saveSheetData(); // Persist initial sheet for newly created profile
       }
     });
 
