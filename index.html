@@ -2872,43 +2872,49 @@
       let urlProfile = urlParams.get('profile');
       if (urlProfile === 'Jacob') urlProfile = 'JeyCub';
 
-      let savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
-      if (savedActiveUser === 'Jacob') savedActiveUser = 'JeyCub';
-
+      let desiredProfile = 'No Profile';
       if (urlProfile && userProfiles.includes(urlProfile)) {
-        activeUser = urlProfile;
+        desiredProfile = urlProfile;
       } else if (urlProfile && urlProfile.trim()) {
         const cleanName = urlProfile.trim();
         if (!userProfiles.includes(cleanName)) {
           userProfiles.push(cleanName);
           localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
         }
-        activeUser = cleanName;
+        desiredProfile = cleanName;
       } else if (savedActiveUser && userProfiles.includes(savedActiveUser)) {
-        activeUser = savedActiveUser;
+        desiredProfile = savedActiveUser;
       } else {
-        activeUser = 'No Profile'; // Default to No Profile on fresh visit
+        desiredProfile = 'No Profile';
       }
 
       // Check if the loaded profile requires password auth on initial visit
-      if (activeUser !== 'No Profile' && !isProfileAuthenticated(activeUser)) {
-        // If not authenticated, prompt for password
+      if (desiredProfile !== 'No Profile' && !isProfileAuthenticated(desiredProfile)) {
+        activeUser = 'No Profile';
         setTimeout(() => {
-          promptProfilePassword(activeUser, () => {
+          promptProfilePassword(desiredProfile, () => {
             // On success
+            activeUser = desiredProfile;
+            localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+            updateProfileUrl();
+            renderUserProfileDropdown();
+            updateProfileLockUI();
             loadUserData(activeUser);
             loadSheetData();
           }, () => {
-            // On cancel, revert to No Profile
+            // On cancel, remain on No Profile
             activeUser = 'No Profile';
             localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
             updateProfileUrl();
             renderUserProfileDropdown();
+            updateProfileLockUI();
             loadUserData(activeUser);
             loadSheetData();
             openProfilePromptModal();
           });
         }, 150);
+      } else {
+        activeUser = desiredProfile;
       }
 
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -3077,6 +3083,9 @@
         }, () => {
           // Revert dropdown to activeUser
           renderUserProfileDropdown();
+          if (activeUser === 'No Profile') {
+            openProfilePromptModal();
+          }
         });
       }
     }
@@ -3195,12 +3204,6 @@
       }, 250);
     }
 
-    function selectProfileFromModal(username) {
-      if (!username) return;
-      closeProfilePromptModal();
-      switchProfileWithAuth(username);
-    }
-
     let firebaseDb = null;
     let isCloudUpdating = false;
     const clientId = 'client_' + Math.random().toString(36).substring(2, 11);
@@ -3263,6 +3266,41 @@
               if (cloudData.passwords__global && typeof cloudData.passwords__global === 'object') {
                 profilePasswords = { ...profilePasswords, ...cloudData.passwords__global };
                 localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+              }
+
+              // Check if active profile became locked and is not authenticated
+              if (activeUser !== 'No Profile' && !isProfileAuthenticated(activeUser)) {
+                const targetLockedUser = activeUser;
+                activeUser = 'No Profile';
+                localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                updateProfileUrl();
+                renderUserProfileDropdown();
+                renderProfileModalList();
+                updateProfileLockUI();
+                loadUserData('No Profile');
+                loadSheetData();
+                promptProfilePassword(targetLockedUser, () => {
+                  activeUser = targetLockedUser;
+                  localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                  updateProfileUrl();
+                  renderUserProfileDropdown();
+                  renderProfileModalList();
+                  updateProfileLockUI();
+                  loadUserData(activeUser);
+                  loadSheetData();
+                }, () => {
+                  activeUser = 'No Profile';
+                  localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                  updateProfileUrl();
+                  renderUserProfileDropdown();
+                  renderProfileModalList();
+                  updateProfileLockUI();
+                  loadUserData(activeUser);
+                  loadSheetData();
+                  openProfilePromptModal();
+                });
+                setTimeout(() => { isCloudUpdating = false; }, 300);
+                return;
               }
 
               localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
