@@ -2749,6 +2749,15 @@
       }
     }
 
+    function revokeProfileAuth(username) {
+      // Remove from unlocked list so switching back requires password again
+      if (!username || username === 'No Profile') return;
+      unlockedProfiles = unlockedProfiles.filter(u => u !== username);
+      try {
+        sessionStorage.setItem(STORAGE_KEY_UNLOCKED, JSON.stringify(unlockedProfiles));
+      } catch (e) {}
+    }
+
     function isProfileAuthenticated(username) {
       if (!username || username === 'No Profile') return true;
       const pass = getProfilePassword(username);
@@ -3040,6 +3049,12 @@
       if (!targetUser) return;
       if (targetUser === activeUser) return;
 
+      // Always revoke session auth for the profile being left (if it has a password)
+      // so anyone switching back must re-enter the password
+      if (activeUser && activeUser !== 'No Profile' && getProfilePassword(activeUser)) {
+        revokeProfileAuth(activeUser);
+      }
+
       if (targetUser === 'No Profile' || isProfileAuthenticated(targetUser)) {
         saveUserData();
         const isNewProfile = !userProfiles.includes(targetUser) && targetUser !== 'No Profile';
@@ -3084,7 +3099,7 @@
             saveSheetData();
           }
         }, () => {
-          // Revert dropdown to activeUser
+          // Revert dropdown to activeUser (already revoked, stays revoked)
           renderUserProfileDropdown();
           if (activeUser === 'No Profile') {
             openProfilePromptModal();
