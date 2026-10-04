@@ -2872,6 +2872,9 @@
       let urlProfile = urlParams.get('profile');
       if (urlProfile === 'Jacob') urlProfile = 'JeyCub';
 
+      let savedActiveUser = localStorage.getItem(STORAGE_KEY_ACTIVE_USER);
+      if (savedActiveUser === 'Jacob') savedActiveUser = 'JeyCub';
+
       let desiredProfile = 'No Profile';
       if (urlProfile && userProfiles.includes(urlProfile)) {
         desiredProfile = urlProfile;
@@ -5758,7 +5761,12 @@
     btnViewSheet.addEventListener('click', () => switchView('sheet'));
 
     initUserProfilesAndSubjects();
-    loadUserData(activeUser);
+    // loadUserData is called inside initUserProfilesAndSubjects for the authenticated path,
+    // and inside the promptProfilePassword callbacks for the locked-profile path.
+    // Only call it here for truly open profiles (no password guard needed).
+    if (activeUser !== 'No Profile') {
+      loadUserData(activeUser);
+    }
     initFirebase();
 
     // Restore last viewed tab/page on refresh
