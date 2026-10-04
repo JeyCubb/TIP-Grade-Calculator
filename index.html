@@ -2779,7 +2779,14 @@
         delete profilePasswords[username];
       }
       localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
-      syncToCloud('passwords', '_global', profilePasswords);
+      if (firebaseDb) {
+        try {
+          firebaseDb.ref('tip_grade_calculator/passwords__global').set(profilePasswords);
+          firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+        } catch (e) {
+          console.warn("Password cloud sync error:", e);
+        }
+      }
       updateProfileLockUI();
     }
 
@@ -3419,6 +3426,7 @@
         // window's own listener sees _lastSender === clientId and ignores the echo.
         const updates = {
           [key]: data,
+          passwords__global: profilePasswords,
           _profiles: userProfiles.filter(u => u !== 'No Profile'),
           _lastSender: clientId
         };
