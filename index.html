@@ -3268,10 +3268,20 @@
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list from authoritative cloud data, preserving any local profiles
-              let remoteProfiles = [];
+              // Sync profiles list from authoritative cloud data
               if (Array.isArray(cloudData._profiles)) {
-                remoteProfiles = cloudData._profiles.filter(p => p && p !== 'No Profile');
+                const cloudList = cloudData._profiles.filter(p => p && p !== 'No Profile');
+                const uniqueSet = new Set(cloudList);
+                uniqueSet.add('JeyCub');
+                userProfiles = ['No Profile', ...uniqueSet];
+                // Clean up any local profiles that were deleted from cloud
+                const deletedLocals = Object.keys(localStorage).filter(k => k.startsWith('tip_gc_data_') || k.startsWith('tip_gc_sheet_'));
+                deletedLocals.forEach(k => {
+                  const u = k.replace('tip_gc_data_', '').replace('tip_gc_sheet_', '');
+                  if (u && !userProfiles.includes(u)) {
+                    localStorage.removeItem(k);
+                  }
+                });
               } else {
                 // Fallback to discovering from data_ and sheet_ keys if _profiles is empty
                 const discovered = [];
@@ -3284,15 +3294,10 @@
                     if (u && !discovered.includes(u)) discovered.push(u);
                   }
                 });
-                if (discovered.length > 0) {
-                  remoteProfiles = discovered;
-                }
+                const merged = new Set([...userProfiles.filter(u => u !== 'No Profile'), ...discovered]);
+                merged.add('JeyCub');
+                userProfiles = ['No Profile', ...merged];
               }
-
-              // Merge remote with current local profiles to prevent newly created profiles from being discarded
-              const merged = new Set([...userProfiles.filter(u => u !== 'No Profile'), ...remoteProfiles]);
-              merged.add('JeyCub');
-              userProfiles = ['No Profile', ...merged];
 
               // Sync passwords from cloud
               if (cloudData.passwords__global && typeof cloudData.passwords__global === 'object') {
