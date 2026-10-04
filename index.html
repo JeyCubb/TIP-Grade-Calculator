@@ -3347,7 +3347,9 @@
                   loadSheetData();
                   openProfilePromptModal();
                 });
-                setTimeout(() => { isCloudUpdating = false; }, 300);
+                // Remote apply is synchronous, so release the guard immediately.
+                // (A delayed reset used to silently drop real user edits made right after a sync.)
+                isCloudUpdating = false;
                 return;
               }
 
@@ -3360,8 +3362,13 @@
                 loadUserData(activeUser);
                 loadSheetData();
               }
-              setTimeout(() => { isCloudUpdating = false; }, 300);
+              isCloudUpdating = false;
+              setCloudStatus(true);
             }
+          }, err => {
+            // Listener was rejected (e.g. Firebase security rules deny access)
+            console.warn("Firebase listener cancelled:", err);
+            setCloudStatus(false, err);
           });
         }
       } catch (e) {
@@ -3369,19 +3376,48 @@
       }
     }
 
+    // Shows a small banner when cloud sync is failing, so data silently staying
+    // on one device is no longer invisible.
+    function setCloudStatus(ok, err) {
+      let banner = document.getElementById('cloud-sync-banner');
+      if (ok) {
+        if (banner) banner.remove();
+        return;
+      }
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'cloud-sync-banner';
+        banner.style.cssText = 'position:fixed;left:50%;bottom:12px;transform:translateX(-50%);z-index:9999;max-width:calc(100vw - 24px);padding:0.45rem 0.8rem;border-radius:10px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.5);color:#fca5a5;font-size:0.7rem;font-weight:700;text-align:center;backdrop-filter:blur(6px);';
+        document.body.appendChild(banner);
+      }
+      const reason = err && /permission/i.test(String(err.code || err.message || err)) ? 'permission denied by Firebase rules' : 'connection error';
+      banner.textContent = `⚠️ Cloud sync offline (${reason}). Changes are saved on this device only.`;
+    }
+
+    // One debounce timer per key, so a sheet save and a calculator save made close
+    // together no longer cancel each other.
+    const cloudSyncTimers = {};
+
     function syncToCloud(type, user, data) {
       if (!firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
-      clearTimeout(cloudSyncDebounceTimer);
-      cloudSyncDebounceTimer = setTimeout(() => {
-        try {
-          const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
-          firebaseDb.ref(`tip_grade_calculator/${type}_${safeUser}`).set(data);
-          const validProfiles = userProfiles.filter(u => u !== 'No Profile');
-          firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
-          firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
-        } catch (e) {
-          console.warn("Cloud sync error:", e);
-        }
+      const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
+      const key = `${type}_${safeUser}`;
+      clearTimeout(cloudSyncTimers[key]);
+      cloudSyncTimers[key] = setTimeout(() => {
+        delete cloudSyncTimers[key];
+        // Single atomic write: data + profile list + sender tag land together, so this
+        // window's own listener sees _lastSender === clientId and ignores the echo.
+        const updates = {
+          [key]: data,
+          _profiles: userProfiles.filter(u => u !== 'No Profile'),
+          _lastSender: clientId
+        };
+        firebaseDb.ref('tip_grade_calculator').update(updates)
+          .then(() => setCloudStatus(true))
+          .catch(e => {
+            console.warn("Cloud sync error:", e);
+            setCloudStatus(false, e);
+          });
       }, 400);
     }
 
