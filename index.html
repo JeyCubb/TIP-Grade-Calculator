@@ -3130,6 +3130,11 @@
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
         firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
         firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+        // Also remove locally
+        userProfiles = userProfiles.filter(u => u !== user);
+        localStorage.removeItem(`tip_gc_data_${user}`);
+        localStorage.removeItem(`tip_gc_sheet_${user}`);
+        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
       } catch (e) {
         console.warn("Cloud delete error:", e);
       }
@@ -4067,7 +4072,12 @@
     // Profile Switcher Events
     document.getElementById('user-selector').addEventListener('change', (e) => {
       const target = e.target.value;
-      switchProfileWithAuth(target);
+      // On mobile, blur the select first so the native OS picker fully dismisses
+      // before the password modal tries to open (otherwise it can appear behind the picker)
+      e.target.blur();
+      setTimeout(() => {
+        switchProfileWithAuth(target);
+      }, 80);
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
