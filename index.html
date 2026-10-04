@@ -3286,7 +3286,23 @@
                 localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
               }
 
+              // Cache ALL grade data from Firebase to localStorage BEFORE any lock checks.
+              // This ensures data is available to render after the user successfully unlocks
+              // (important in incognito where localStorage starts empty).
+              Object.keys(cloudData).forEach(key => {
+                if (key.startsWith('data_')) {
+                  const u = key.replace('data_', '');
+                  localStorage.setItem(`tip_gc_data_${u}`, JSON.stringify(cloudData[key]));
+                  if (u === activeUser && !isUserTypingInCalc) hasChanges = true;
+                } else if (key.startsWith('sheet_')) {
+                  const u = key.replace('sheet_', '');
+                  localStorage.setItem(`tip_gc_sheet_${u}`, JSON.stringify(cloudData[key]));
+                  if (u === activeUser) hasChanges = true;
+                }
+              });
+
               // Check if active profile became locked and is not authenticated
+              // (runs AFTER data is cached so unlock callback can read it)
               if (activeUser !== 'No Profile' && !isProfileAuthenticated(activeUser)) {
                 const targetLockedUser = activeUser;
                 activeUser = 'No Profile';
@@ -3325,19 +3341,6 @@
               renderUserProfileDropdown();
               renderProfileModalList();
               updateProfileLockUI();
-
-              // Sync active profile's calculator and sheet data
-              Object.keys(cloudData).forEach(key => {
-                if (key.startsWith('data_')) {
-                  const u = key.replace('data_', '');
-                  localStorage.setItem(`tip_gc_data_${u}`, JSON.stringify(cloudData[key]));
-                  if (u === activeUser && !isUserTypingInCalc) hasChanges = true;
-                } else if (key.startsWith('sheet_')) {
-                  const u = key.replace('sheet_', '');
-                  localStorage.setItem(`tip_gc_sheet_${u}`, JSON.stringify(cloudData[key]));
-                  if (u === activeUser) hasChanges = true;
-                }
-              });
 
               if (hasChanges && !isUserTypingInCalc) {
                 loadUserData(activeUser);
