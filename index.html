@@ -3049,13 +3049,11 @@
       if (!targetUser) return;
       if (targetUser === activeUser) return;
 
-      // Always revoke session auth for the profile being left (if it has a password)
-      // so anyone switching back must re-enter the password
-      if (activeUser && activeUser !== 'No Profile' && getProfilePassword(activeUser)) {
-        revokeProfileAuth(activeUser);
-      }
-
       if (targetUser === 'No Profile' || isProfileAuthenticated(targetUser)) {
+        // Switching to an open profile — revoke the outgoing locked profile's session now
+        if (activeUser && activeUser !== 'No Profile' && getProfilePassword(activeUser)) {
+          revokeProfileAuth(activeUser);
+        }
         saveUserData();
         const isNewProfile = !userProfiles.includes(targetUser) && targetUser !== 'No Profile';
         activeUser = targetUser;
@@ -3078,8 +3076,14 @@
           openProfilePromptModal();
         }
       } else {
-        // Needs password prompt
+        // Target profile needs a password — revert dropdown immediately so no visual glitch
+        renderUserProfileDropdown();
+
         promptProfilePassword(targetUser, () => {
+          // Password confirmed — NOW revoke the outgoing profile's session and switch
+          if (activeUser && activeUser !== 'No Profile' && getProfilePassword(activeUser)) {
+            revokeProfileAuth(activeUser);
+          }
           saveUserData();
           const isNewProfile = !userProfiles.includes(targetUser) && targetUser !== 'No Profile';
           activeUser = targetUser;
@@ -3099,7 +3103,7 @@
             saveSheetData();
           }
         }, () => {
-          // Revert dropdown to activeUser (already revoked, stays revoked)
+          // Cancelled — stay on current profile, dropdown already reverted above
           renderUserProfileDropdown();
           if (activeUser === 'No Profile') {
             openProfilePromptModal();
