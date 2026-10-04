@@ -2868,6 +2868,11 @@
         localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
       }
 
+      // Filter out stale or ghost profiles
+      userProfiles = userProfiles.filter(u => u !== 'qs');
+      localStorage.removeItem('tip_gc_data_qs');
+      localStorage.removeItem('tip_gc_sheet_qs');
+
       // Replace 'Jacob' with 'JeyCub' in userProfiles list
       userProfiles = userProfiles.map(u => u === 'Jacob' ? 'JeyCub' : u);
 
