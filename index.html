@@ -3210,7 +3210,12 @@
       modal.style.display = 'flex';
       setTimeout(() => {
         modal.classList.add('open');
-      }, 10);
+        const input = document.getElementById('modal-new-profile-input');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }, 60);
     }
 
     function closeProfilePromptModal() {
@@ -4298,6 +4303,13 @@
           e.preventDefault();
           handleModalAddProfile();
         }
+      });
+    }
+    const modalAddSectionLabel = document.querySelector('.profile-modal-add-section .profile-modal-section-label');
+    if (modalAddSectionLabel && modalNewProfileInput) {
+      modalAddSectionLabel.style.cursor = 'pointer';
+      modalAddSectionLabel.addEventListener('click', () => {
+        modalNewProfileInput.focus();
       });
     }
     
