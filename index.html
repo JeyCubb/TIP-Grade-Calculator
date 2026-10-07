@@ -2608,7 +2608,7 @@
       <div class="profile-modal-body" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.35rem;">
         <div>
           <label id="lock-password-label" style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">Enter Password (Visible):</label>
-          <input type="text" id="lock-password-input" placeholder="e.g. 1234 or mypass" autocomplete="off" style="width: 100%; font-size: 0.95rem; font-family: inherit; font-weight: 600; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1.5px solid var(--border-color); color: var(--text-primary);" />
+          <input type="text" id="lock-password-input" placeholder="e.g. 1234 or mypass" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" style="width: 100%; font-size: 0.95rem; font-family: inherit; font-weight: 600; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1.5px solid var(--border-color); color: var(--text-primary);" />
         </div>
         <div id="lock-modal-error" style="color: var(--color-error); font-size: 0.75rem; font-weight: 700; min-height: 1rem; display: none;"></div>
         
@@ -2772,8 +2772,9 @@
 
     function setProfilePassword(username, password) {
       if (!username || username === 'No Profile') return;
-      if (password && password.trim()) {
-        profilePasswords[username] = password.trim();
+      const cleanPass = password ? String(password).trim() : '';
+      if (cleanPass) {
+        profilePasswords[username] = cleanPass;
         markProfileUnlocked(username); // Creator is automatically authenticated
       } else {
         delete profilePasswords[username];
@@ -2781,8 +2782,11 @@
       localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
       if (firebaseDb) {
         try {
-          firebaseDb.ref('tip_grade_calculator/passwords__global').set(profilePasswords);
-          firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+          const updates = {
+            passwords__global: profilePasswords,
+            _lastSender: clientId
+          };
+          firebaseDb.ref('tip_grade_calculator').update(updates);
         } catch (e) {
           console.warn("Password cloud sync error:", e);
         }
@@ -2996,16 +3000,68 @@
         lockModalSecondaryBtn.textContent = "Cancel";
       }
 
+      const normalizePass = (p) => {
+        if (!p) return '';
+        return String(p)
+          .trim()
+          .replace(/[\u2018\u2019]/g, "'") // convert smart single quotes to straight quote
+          .replace(/[\u201C\u201D]/g, '"'); // convert smart double quotes to straight quote
+      };
+
       // Temporary override handlers for prompt mode
       const submitHandler = () => {
-        const entered = lockPasswordInput ? lockPasswordInput.value.trim() : '';
-        const actual = getProfilePassword(targetUser);
-        if (entered === actual) {
+        const entered = normalizePass(lockPasswordInput ? lockPasswordInput.value : '');
+        const actual = normalizePass(getProfilePassword(targetUser));
+
+        const isMatch = (candidate) => {
+          if (!entered || !candidate) return false;
+          return entered === candidate || entered.toLowerCase() === candidate.toLowerCase();
+        };
+
+        if (isMatch(actual)) {
           markProfileUnlocked(targetUser);
           cleanup();
           closeLockModal();
           if (typeof onSuccess === 'function') onSuccess();
+          return;
+        }
+
+        // If local check failed, check Firebase in real-time in case desktop updated recently
+        if (firebaseDb) {
+          if (lockModalPrimaryBtn) {
+            lockModalPrimaryBtn.disabled = true;
+            lockModalPrimaryBtn.textContent = "Checking...";
+          }
+          firebaseDb.ref(`tip_grade_calculator/passwords__global/${targetUser}`).once('value')
+            .then(snapshot => {
+              const cloudPass = normalizePass(snapshot.val());
+              if (cloudPass) {
+                profilePasswords[targetUser] = cloudPass;
+                localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+              }
+              if (isMatch(cloudPass)) {
+                markProfileUnlocked(targetUser);
+                cleanup();
+                closeLockModal();
+                if (typeof onSuccess === 'function') onSuccess();
+                return;
+              }
+              showPasswordError();
+            })
+            .catch(() => {
+              showPasswordError();
+            })
+            .finally(() => {
+              if (lockModalPrimaryBtn) {
+                lockModalPrimaryBtn.disabled = false;
+                lockModalPrimaryBtn.textContent = "Unlock & Enter";
+              }
+            });
         } else {
+          showPasswordError();
+        }
+
+        function showPasswordError() {
           if (lockModalError) {
             lockModalError.textContent = "Incorrect password. Please try again.";
             lockModalError.style.display = 'block';
@@ -3138,10 +3194,13 @@
         firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
         delete profilePasswords[user];
         localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
-        firebaseDb.ref(`tip_grade_calculator/passwords__global`).set(profilePasswords);
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
-        firebaseDb.ref('tip_grade_calculator/_profiles').set(validProfiles);
-        firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
+        const updates = {
+          passwords__global: profilePasswords,
+          _profiles: validProfiles,
+          _lastSender: clientId
+        };
+        firebaseDb.ref('tip_grade_calculator').update(updates);
         // Also remove locally
         userProfiles = userProfiles.filter(u => u !== user);
         localStorage.removeItem(`tip_gc_data_${user}`);
@@ -3311,9 +3370,11 @@
                 userProfiles = ['No Profile', ...merged];
               }
 
-              // Sync passwords from cloud
-              if (cloudData.passwords__global && typeof cloudData.passwords__global === 'object') {
-                profilePasswords = { ...profilePasswords, ...cloudData.passwords__global };
+              // Sync passwords from cloud authoritatively
+              if (cloudData.hasOwnProperty('passwords__global')) {
+                profilePasswords = (cloudData.passwords__global && typeof cloudData.passwords__global === 'object')
+                  ? { ...cloudData.passwords__global }
+                  : {};
                 localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
               }
 
@@ -3426,7 +3487,6 @@
         // window's own listener sees _lastSender === clientId and ignores the echo.
         const updates = {
           [key]: data,
-          passwords__global: profilePasswords,
           _profiles: userProfiles.filter(u => u !== 'No Profile'),
           _lastSender: clientId
         };
@@ -4197,36 +4257,23 @@
     const btnCloseLockModal = document.getElementById('btn-close-lock-modal');
 
     function standardLockPrimaryHandler() {
-      const currentPassword = getProfilePassword(activeUser);
-      if (currentPassword) {
-        // Unlock action
+      // Primary action: Save the entered password (or unlock if left blank)
+      const val = lockPasswordInput ? lockPasswordInput.value.trim() : '';
+      if (!val) {
+        // If empty, remove password (unlock)
         setProfilePassword(activeUser, '');
         renderProfileModalList();
         closeLockModal();
-      } else {
-        // Save & Lock action
-        const val = lockPasswordInput ? lockPasswordInput.value.trim() : '';
-        if (!val) {
-          if (lockModalError) {
-            lockModalError.textContent = "Please enter a password to lock this profile.";
-            lockModalError.style.display = 'block';
-          }
-          return;
-        }
-        setProfilePassword(activeUser, val);
-        renderProfileModalList();
-        closeLockModal();
+        return;
       }
+      setProfilePassword(activeUser, val);
+      renderProfileModalList();
+      closeLockModal();
     }
 
     function standardLockSecondaryHandler() {
-      // Save new password if user edited it while in locked view
-      const val = lockPasswordInput ? lockPasswordInput.value.trim() : '';
-      if (!val) {
-        setProfilePassword(activeUser, '');
-      } else {
-        setProfilePassword(activeUser, val);
-      }
+      // Secondary action: Explicitly remove password lock
+      setProfilePassword(activeUser, '');
       renderProfileModalList();
       closeLockModal();
     }
@@ -4270,20 +4317,22 @@
       }
 
       if (currentPassword) {
-        // Mode: Already locked. Allow unlock or change.
-        if (lockModalTitle) lockModalTitle.textContent = `Unlock Profile (${activeUser})`;
-        if (lockModalSubtitle) lockModalSubtitle.textContent = `This profile is password protected.`;
+        // Mode: Already locked. Allow changing password or removing lock.
+        if (lockModalTitle) lockModalTitle.textContent = `Password Lock (${activeUser})`;
+        if (lockModalSubtitle) lockModalSubtitle.textContent = `Change password or remove lock.`;
         if (lockPasswordInput) {
           lockPasswordInput.value = currentPassword;
-          lockPasswordInput.placeholder = "Enter password";
+          lockPasswordInput.placeholder = "Enter new password";
         }
         if (lockModalPrimaryBtn) {
-          lockModalPrimaryBtn.textContent = "Unlock Profile";
-          lockModalPrimaryBtn.style.background = "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)";
+          lockModalPrimaryBtn.textContent = "Save Password";
+          lockModalPrimaryBtn.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
         }
         if (lockModalSecondaryBtn) {
           lockModalSecondaryBtn.style.display = 'inline-flex';
-          lockModalSecondaryBtn.textContent = "Save Password";
+          lockModalSecondaryBtn.textContent = "Remove Lock";
+          lockModalSecondaryBtn.style.color = "var(--color-error)";
+          lockModalSecondaryBtn.style.borderColor = "rgba(239, 68, 68, 0.4)";
         }
       } else {
         // Mode: Not locked. Allow setting password.
