@@ -2773,6 +2773,7 @@
     function setProfilePassword(username, password) {
       if (!username || username === 'No Profile') return;
       const cleanPass = password ? String(password).trim() : '';
+      const safeUser = username.replace(/[\.#\$\[\]]/g, '_');
       if (cleanPass) {
         profilePasswords[username] = cleanPass;
         markProfileUnlocked(username); // Creator is automatically authenticated
@@ -2782,11 +2783,12 @@
       localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
       if (firebaseDb) {
         try {
-          const updates = {
-            passwords__global: profilePasswords,
-            _lastSender: clientId
-          };
-          firebaseDb.ref('tip_grade_calculator').update(updates);
+          if (cleanPass) {
+            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeUser}`).set(cleanPass);
+          } else {
+            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeUser}`).remove();
+          }
+          firebaseDb.ref('tip_grade_calculator/_lastSender').set(clientId);
         } catch (e) {
           console.warn("Password cloud sync error:", e);
         }
@@ -3032,7 +3034,8 @@
             lockModalPrimaryBtn.disabled = true;
             lockModalPrimaryBtn.textContent = "Checking...";
           }
-          firebaseDb.ref(`tip_grade_calculator/passwords__global/${targetUser}`).once('value')
+          const safeTarget = targetUser.replace(/[\.#\$\[\]]/g, '_');
+          firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeTarget}`).once('value')
             .then(snapshot => {
               const cloudPass = normalizePass(snapshot.val());
               if (cloudPass) {
@@ -3192,11 +3195,11 @@
         const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
         firebaseDb.ref(`tip_grade_calculator/data_${safeUser}`).remove();
         firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
+        firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeUser}`).remove();
         delete profilePasswords[user];
         localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
         const updates = {
-          passwords__global: profilePasswords,
           _profiles: validProfiles,
           _lastSender: clientId
         };
@@ -3447,6 +3450,52 @@
             // Listener was rejected (e.g. Firebase security rules deny access)
             console.warn("Firebase listener cancelled:", err);
             setCloudStatus(false, err);
+          });
+
+          // Dedicated real-time listener for password changes across devices
+          firebaseDb.ref('tip_grade_calculator/passwords__global').on('value', passSnap => {
+            const remotePasswords = passSnap.val();
+            if (remotePasswords && typeof remotePasswords === 'object') {
+              profilePasswords = { ...remotePasswords };
+            } else {
+              profilePasswords = {};
+            }
+            localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+            renderProfileModalList();
+            updateProfileLockUI();
+
+            // If active profile became locked and is not authenticated on this device, lock it down
+            if (activeUser !== 'No Profile' && !isProfileAuthenticated(activeUser)) {
+              const targetLockedUser = activeUser;
+              activeUser = 'No Profile';
+              localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+              updateProfileUrl();
+              renderUserProfileDropdown();
+              renderProfileModalList();
+              updateProfileLockUI();
+              loadUserData('No Profile');
+              loadSheetData();
+              promptProfilePassword(targetLockedUser, () => {
+                activeUser = targetLockedUser;
+                localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                updateProfileUrl();
+                renderUserProfileDropdown();
+                renderProfileModalList();
+                updateProfileLockUI();
+                loadUserData(activeUser);
+                loadSheetData();
+              }, () => {
+                activeUser = 'No Profile';
+                localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+                updateProfileUrl();
+                renderUserProfileDropdown();
+                renderProfileModalList();
+                updateProfileLockUI();
+                loadUserData(activeUser);
+                loadSheetData();
+                openProfilePromptModal();
+              });
+            }
           });
         }
       } catch (e) {
