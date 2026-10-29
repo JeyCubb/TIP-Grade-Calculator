@@ -3342,36 +3342,31 @@
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list from authoritative cloud data
-              if (Array.isArray(cloudData._profiles)) {
-                const cloudList = cloudData._profiles.filter(p => p && p !== 'No Profile');
-                const uniqueSet = new Set(cloudList);
-                uniqueSet.add('JeyCub');
-                userProfiles = ['No Profile', ...uniqueSet];
-                // Clean up any local profiles that were deleted from cloud
-                const deletedLocals = Object.keys(localStorage).filter(k => k.startsWith('tip_gc_data_') || k.startsWith('tip_gc_sheet_'));
-                deletedLocals.forEach(k => {
-                  const u = k.replace('tip_gc_data_', '').replace('tip_gc_sheet_', '');
-                  if (u && !userProfiles.includes(u)) {
-                    localStorage.removeItem(k);
+              // Sync profiles list from cloud: combine registered _profiles with any profiles discovered from data_* or sheet_*
+              const cloudList = Array.isArray(cloudData._profiles)
+                ? cloudData._profiles.filter(p => p && p !== 'No Profile' && p !== 'qs')
+                : [];
+              const discovered = [];
+              Object.keys(cloudData).forEach(key => {
+                if (key.startsWith('data_') || key.startsWith('sheet_')) {
+                  const u = key.replace(/^data_|^sheet_/, '');
+                  if (u && u !== 'No Profile' && u !== 'qs' && !discovered.includes(u)) {
+                    discovered.push(u);
                   }
-                });
-              } else {
-                // Fallback to discovering from data_ and sheet_ keys if _profiles is empty
-                const discovered = [];
-                Object.keys(cloudData).forEach(key => {
-                  if (key.startsWith('data_')) {
-                    const u = key.replace('data_', '');
-                    if (u && !discovered.includes(u)) discovered.push(u);
-                  } else if (key.startsWith('sheet_')) {
-                    const u = key.replace('sheet_', '');
-                    if (u && !discovered.includes(u)) discovered.push(u);
-                  }
-                });
-                const merged = new Set([...userProfiles.filter(u => u !== 'No Profile'), ...discovered]);
-                merged.add('JeyCub');
-                userProfiles = ['No Profile', ...merged];
-              }
+                }
+              });
+              const uniqueSet = new Set([...cloudList, ...discovered]);
+              uniqueSet.add('JeyCub');
+              userProfiles = ['No Profile', ...uniqueSet];
+
+              // Clean up local storage only for genuinely deleted profiles (no longer in userProfiles or cloud)
+              const deletedLocals = Object.keys(localStorage).filter(k => k.startsWith('tip_gc_data_') || k.startsWith('tip_gc_sheet_'));
+              deletedLocals.forEach(k => {
+                const u = k.replace(/^tip_gc_data_|^tip_gc_sheet_/, '');
+                if (u && !userProfiles.includes(u) && !cloudData[`data_${u}`] && !cloudData[`sheet_${u}`]) {
+                  localStorage.removeItem(k);
+                }
+              });
 
               // Sync passwords from cloud authoritatively
               if (cloudData.hasOwnProperty('passwords__global')) {
