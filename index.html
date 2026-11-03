@@ -1105,14 +1105,17 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 32px 1.2fr 1.1fr auto !important;
+        grid-template-columns: 32px 1.15fr 1fr 105px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.35rem !important;
         gap: 0.3rem !important;
       }
+      .profile-modal-grid-header .col-actions {
+        text-align: right !important;
+      }
 
       .profile-modal-row {
-        grid-template-columns: 32px 1.2fr 1.1fr auto !important;
+        grid-template-columns: 32px 1.15fr 1fr 105px !important;
         padding: 0.4rem 0.35rem !important;
         gap: 0.3rem !important;
       }
@@ -2082,14 +2085,19 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 48px 1.85fr 1.6fr auto !important;
+        grid-template-columns: 48px 260px 200px 1fr !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 0.85rem !important;
         margin-bottom: 0.15rem !important;
+        gap: 0.75rem !important;
+      }
+      .profile-modal-grid-header .col-actions {
+        text-align: right !important;
       }
       .profile-modal-row {
-        grid-template-columns: 48px 1.85fr 1.6fr auto !important;
+        grid-template-columns: 48px 260px 200px 1fr !important;
         padding: 0.42rem 0.85rem !important;
+        gap: 0.75rem !important;
       }
       .profile-modal-list {
         max-height: 220px !important;
@@ -2277,7 +2285,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 40px 1.4fr 1.3fr auto;
+      grid-template-columns: 40px 1.3fr 1.2fr 125px;
       align-items: center;
       gap: 0.5rem;
       padding: 0.35rem 0.6rem;
@@ -2296,9 +2304,13 @@
       font-size: 0.85rem;
     }
 
+    .profile-modal-grid-header .col-actions {
+      text-align: right;
+    }
+
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 40px 1.4fr 1.3fr auto;
+      grid-template-columns: 40px 1.3fr 1.2fr 125px;
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 0.6rem;
@@ -3236,11 +3248,11 @@
 
     function formatLastAccessed(ts) {
       if (!ts) {
-        return `<div class="accessed-dt"><span class="accessed-empty">Never</span></div>`;
+        return `<div class="accessed-dt"><span class="accessed-empty">Not Accessed</span></div>`;
       }
       const d = new Date(ts);
       if (isNaN(d.getTime())) {
-        return `<div class="accessed-dt"><span class="accessed-empty">Never</span></div>`;
+        return `<div class="accessed-dt"><span class="accessed-empty">Not Accessed</span></div>`;
       }
       const dateStr = d.toLocaleDateString('en-US', {
         month: 'short',
