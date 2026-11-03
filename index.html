@@ -2391,6 +2391,9 @@
       border-radius: var(--radius-md);
       transition: var(--transition);
       cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
     .profile-modal-row:hover {
@@ -2464,8 +2467,13 @@
 
     .profile-modal-row .col-name:hover .profile-name-val {
       color: var(--accent-primary);
-      text-decoration: underline dotted 1.5px;
-      text-underline-offset: 3px;
+    }
+
+    .profile-name-text.is-holding-name {
+      background: rgba(249, 115, 22, 0.32) !important;
+      transform: scale(0.96);
+      transition: transform 0.45s ease, background 0.45s ease;
+      box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
     }
 
     .profile-name-edit-icon {
@@ -4297,7 +4305,7 @@
 
         const row = document.createElement('div');
         row.className = `profile-modal-row ${isActive ? 'is-active' : ''} ${isFav ? 'is-favorited' : ''}`;
-        row.title = isActive ? `Profile '${p}' is currently active` : `Click anywhere to load profile '${p}'`;
+        row.title = isActive ? `Profile '${p}' is currently active (Hold name to rename)` : `Click to load profile '${p}' (Hold name to rename)`;
         row.innerHTML = `
           <div class="col-fav">
             <button type="button" class="btn-fav-star ${isFav ? 'favorited' : ''}" title="${isFav ? 'Unpin from top (Device Only)' : 'Pin to top (Device Only)'}" data-user="${p}">
@@ -4306,12 +4314,12 @@
               </svg>
             </button>
           </div>
-          <div class="col-name" style="cursor: pointer;" title="${isLocked ? `Profile '${p}' is locked. Click to view info.` : `Click to rename profile '${p}'`}">
+          <div class="col-name" style="cursor: pointer;" title="${isLocked ? `Profile '${p}' is locked. Click to load.` : `Click to load. Hold to rename profile '${p}'.`}">
             <div class="profile-name-text">
               <span class="profile-name-val">${p}</span>
               ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
               ${!isLocked ? `
-              <span class="profile-name-edit-icon" title="Click to rename">
+              <span class="profile-name-edit-icon" title="Hold to rename">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -4379,19 +4387,77 @@
           });
         }
 
-        // Clicking anywhere on the row loads the profile
-        row.addEventListener('click', () => {
-          selectProfileFromModal(p);
+        // Hold to rename (press & hold ~500ms on name/row to rename; quick click/tap loads profile)
+        let holdTimer = null;
+        let isHoldTriggered = false;
+        let startX = 0;
+        let startY = 0;
+
+        const nameTextEl = row.querySelector('.profile-name-text');
+
+        function cancelHold() {
+          if (holdTimer) {
+            clearTimeout(holdTimer);
+            holdTimer = null;
+          }
+          if (nameTextEl) {
+            nameTextEl.classList.remove('is-holding-name');
+          }
+          row.classList.remove('is-holding');
+        }
+
+        function onPointerDown(e) {
+          if (e.button !== undefined && e.button !== 0) return; // Only primary/left click or touch
+          if (e.target.closest('.btn-fav-star') || e.target.closest('.profile-modal-item-lock') || e.target.closest('.profile-modal-item-delete')) {
+            return;
+          }
+          isHoldTriggered = false;
+          startX = e.clientX;
+          startY = e.clientY;
+
+          if (nameTextEl) {
+            nameTextEl.classList.add('is-holding-name');
+          }
+          row.classList.add('is-holding');
+
+          holdTimer = setTimeout(() => {
+            isHoldTriggered = true;
+            cancelHold();
+            try {
+              if (navigator.vibrate) navigator.vibrate(50);
+            } catch (_) {}
+            handleRenameProfile(p);
+          }, 500);
+        }
+
+        function onPointerMove(e) {
+          if (!holdTimer) return;
+          const dist = Math.hypot(e.clientX - startX, e.clientY - startY);
+          if (dist > 8) {
+            cancelHold();
+          }
+        }
+
+        row.addEventListener('pointerdown', onPointerDown);
+        row.addEventListener('pointermove', onPointerMove);
+        row.addEventListener('pointerup', cancelHold);
+        row.addEventListener('pointercancel', cancelHold);
+        row.addEventListener('pointerleave', cancelHold);
+        row.addEventListener('contextmenu', (e) => {
+          if (isHoldTriggered) e.preventDefault();
         });
 
-        // Clicking name directly triggers rename (or informs if locked)
-        const colName = row.querySelector('.col-name');
-        if (colName) {
-          colName.addEventListener('click', (e) => {
+        // Clicking anywhere on the row (including the name) loads the profile,
+        // UNLESS the long-press/hold timer just triggered a rename!
+        row.addEventListener('click', (e) => {
+          if (isHoldTriggered) {
+            isHoldTriggered = false;
+            e.preventDefault();
             e.stopPropagation();
-            handleRenameProfile(p);
-          });
-        }
+            return;
+          }
+          selectProfileFromModal(p);
+        });
 
         const deleteBtn = row.querySelector('.profile-modal-item-delete');
         if (deleteBtn) {
