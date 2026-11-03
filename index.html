@@ -3000,14 +3000,6 @@
             <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-          <button class="btn btn-sm" id="btn-rename-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; display: inline-flex; align-items: center; justify-content: center;" title="Rename Active Profile">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-            </svg>
-          </button>
-          <button class="btn btn-sm" id="btn-add-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New User Profile">+</button>
-          <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
           <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
             <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <!-- Unlocked state by default -->
@@ -5416,18 +5408,23 @@
       });
     }
 
-    document.getElementById('btn-add-user').addEventListener('click', () => {
-      openProfilePromptModal();
-      setTimeout(() => {
-        const input = document.getElementById('modal-new-profile-input');
-        if (input) {
-          input.focus();
-          input.select();
-        }
-      }, 100);
-    });
+    const btnAddUser = document.getElementById('btn-add-user');
+    if (btnAddUser) {
+      btnAddUser.addEventListener('click', () => {
+        openProfilePromptModal();
+        setTimeout(() => {
+          const input = document.getElementById('modal-new-profile-input');
+          if (input) {
+            input.focus();
+            input.select();
+          }
+        }, 100);
+      });
+    }
 
-    document.getElementById('btn-delete-user').addEventListener('click', async () => {
+    const btnDeleteUser = document.getElementById('btn-delete-user');
+    if (btnDeleteUser) {
+      btnDeleteUser.addEventListener('click', async () => {
       if (activeUser === 'No Profile') {
         showCustomAlert({
           title: 'Cannot Delete Profile',
@@ -5479,7 +5476,8 @@
           openProfilePromptModal();
         }
       }
-    });
+      });
+    }
 
     // Profile Lock Modal Logic & Events
     const profileLockModal = document.getElementById('profile-lock-modal');
