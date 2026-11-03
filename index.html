@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
@@ -3358,7 +3358,10 @@
       try {
         const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
         const map = raw ? JSON.parse(raw) : {};
-        return map[user] || null;
+        if (map[user]) return map[user];
+        const safe = user.replace(/[\.#\$\[\]]/g, '_');
+        if (map[safe]) return map[safe];
+        return null;
       } catch (e) {
         return null;
       }
@@ -3369,8 +3372,20 @@
       try {
         const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
         const map = raw ? JSON.parse(raw) : {};
-        map[user] = Date.now();
+        const now = Date.now();
+        map[user] = now;
         localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(map));
+
+        // Sync to Firebase in real time across all devices
+        if (firebaseDb) {
+          const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
+          firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeUser}`).set({
+            user: user,
+            timestamp: now
+          }).catch(err => {
+            console.warn("Failed to sync last accessed timestamp to cloud:", err);
+          });
+        }
       } catch (e) {
         console.warn("Failed to record profile access:", e);
       }
@@ -4180,6 +4195,18 @@
             firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeOld}`).remove();
           }
 
+          // Copy last_accessed in Firebase
+          firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeOld}`).once('value').then(snap => {
+            if (snap.exists()) {
+              const val = snap.val();
+              const newEntry = (val && typeof val === 'object')
+                ? { user: cleanNewName, timestamp: val.timestamp || Date.now() }
+                : { user: cleanNewName, timestamp: val };
+              firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeNew}`).set(newEntry);
+              firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeOld}`).remove();
+            }
+          }).catch(err => console.warn("Cloud access rename error:", err));
+
           // Update _profiles in Firebase
           const validProfiles = userProfiles.filter(u => u !== 'No Profile');
           firebaseDb.ref('tip_grade_calculator').update({
@@ -4208,6 +4235,7 @@
         firebaseDb.ref(`tip_grade_calculator/data_${safeUser}`).remove();
         firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
         firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeUser}`).remove();
+        firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeUser}`).remove();
         delete profilePasswords[user];
         localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
@@ -4642,6 +4670,29 @@
                 localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
               }
 
+              // Sync last accessed timestamps from cloud
+              if (cloudData.hasOwnProperty('last_accessed__global') && cloudData.last_accessed__global && typeof cloudData.last_accessed__global === 'object') {
+                try {
+                  const remoteAccess = cloudData.last_accessed__global;
+                  const localRaw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+                  const localMap = localRaw ? JSON.parse(localRaw) : {};
+                  let accessChanged = false;
+                  Object.keys(remoteAccess).forEach(key => {
+                    const entry = remoteAccess[key];
+                    const targetUser = (entry && typeof entry === 'object' && entry.user) ? entry.user : key;
+                    const remoteTs = (entry && typeof entry === 'object') ? Number(entry.timestamp) : Number(entry);
+                    if (remoteTs > (Number(localMap[targetUser]) || 0)) {
+                      localMap[targetUser] = remoteTs;
+                      accessChanged = true;
+                    }
+                  });
+                  if (accessChanged) {
+                    localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(localMap));
+                    renderProfileModalList();
+                  }
+                } catch (e) {}
+              }
+
               // Cache ALL grade data from Firebase to localStorage BEFORE any lock checks.
               // This ensures data is available to render after the user successfully unlocks
               // (important in incognito where localStorage starts empty).
@@ -4720,6 +4771,94 @@
             // Listener was rejected (e.g. Firebase security rules deny access)
             console.warn("Firebase listener cancelled:", err);
             setCloudStatus(false, err);
+          });
+
+          // Dedicated real-time listener for last accessed profile timestamps across devices
+          firebaseDb.ref('tip_grade_calculator/last_accessed__global').on('value', accessSnap => {
+            const remoteMap = accessSnap.val();
+            if (remoteMap && typeof remoteMap === 'object') {
+              try {
+                const localRaw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+                const localMap = localRaw ? JSON.parse(localRaw) : {};
+                let changed = false;
+
+                Object.keys(remoteMap).forEach(key => {
+                  const entry = remoteMap[key];
+                  let targetUser = key;
+                  let remoteTs = 0;
+                  if (entry && typeof entry === 'object') {
+                    targetUser = entry.user || key;
+                    remoteTs = Number(entry.timestamp) || 0;
+                  } else {
+                    remoteTs = Number(entry) || 0;
+                    if (!userProfiles.includes(targetUser)) {
+                      const matched = userProfiles.find(p => p.replace(/[\.#\$\[\]]/g, '_') === key);
+                      if (matched) targetUser = matched;
+                    }
+                  }
+
+                  if (remoteTs > (Number(localMap[targetUser]) || 0)) {
+                    localMap[targetUser] = remoteTs;
+                    changed = true;
+                  }
+                });
+
+                // Also upload local timestamps that are newer or missing from cloud (e.g. from PC to phone)
+                const updates = {};
+                let needsUpload = false;
+                Object.keys(localMap).forEach(u => {
+                  const localTs = Number(localMap[u]) || 0;
+                  const sUser = u.replace(/[\.#\$\[\]]/g, '_');
+                  const remoteEntry = remoteMap[sUser];
+                  const remoteTs = (remoteEntry && typeof remoteEntry === 'object')
+                    ? (Number(remoteEntry.timestamp) || 0)
+                    : (Number(remoteEntry) || 0);
+
+                  if (localTs > remoteTs) {
+                    updates[`tip_grade_calculator/last_accessed__global/${sUser}`] = {
+                      user: u,
+                      timestamp: localTs
+                    };
+                    needsUpload = true;
+                  }
+                });
+
+                if (needsUpload && firebaseDb) {
+                  firebaseDb.ref().update(updates).catch(e => console.warn("Failed seeding local access timestamps to cloud:", e));
+                }
+
+                if (changed) {
+                  localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(localMap));
+                  renderProfileModalList();
+                }
+              } catch (e) {
+                console.warn("Failed to process cloud last_accessed:", e);
+              }
+            } else {
+              // Firebase last_accessed__global is empty: seed all existing local timestamps to cloud
+              try {
+                const localRaw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+                if (localRaw) {
+                  const localMap = JSON.parse(localRaw);
+                  const updates = {};
+                  let needsUpload = false;
+                  Object.keys(localMap).forEach(u => {
+                    const localTs = Number(localMap[u]) || 0;
+                    if (localTs > 0) {
+                      const sUser = u.replace(/[\.#\$\[\]]/g, '_');
+                      updates[`tip_grade_calculator/last_accessed__global/${sUser}`] = {
+                        user: u,
+                        timestamp: localTs
+                      };
+                      needsUpload = true;
+                    }
+                  });
+                  if (needsUpload && firebaseDb) {
+                    firebaseDb.ref().update(updates).catch(e => console.warn("Initial seeding of access timestamps error:", e));
+                  }
+                }
+              } catch (e) {}
+            }
           });
 
           // Dedicated real-time listener for password changes across devices
