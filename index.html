@@ -2105,14 +2105,16 @@
         height: 20px !important;
       }
       .profile-modal-item-rename,
-      .profile-modal-item-delete {
+      .profile-modal-item-delete,
+      .profile-modal-item-lock {
         width: 32px !important;
         height: 32px !important;
         min-width: 32px !important;
         min-height: 32px !important;
       }
       .profile-modal-item-rename svg,
-      .profile-modal-item-delete svg {
+      .profile-modal-item-delete svg,
+      .profile-modal-item-lock svg {
         width: 15px !important;
         height: 15px !important;
       }
@@ -2548,6 +2550,20 @@
     .profile-modal-item-rename:hover svg {
       stroke: var(--accent-primary) !important;
       transform: scale(1.15);
+    }
+
+    .profile-modal-item-lock {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .profile-modal-item-lock:hover {
+      background: rgba(249, 115, 22, 0.15) !important;
+      transform: scale(1.1);
     }
 
     .btn-confirm-primary {
@@ -4104,7 +4120,6 @@
           <div class="col-name" style="cursor: pointer;">
             <div class="profile-name-text">
               <span class="profile-name-val">${p}</span>
-              ${isLocked ? `<span class="profile-badge-lock" title="Password Protected"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ''}
               ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
             </div>
           </div>
@@ -4115,7 +4130,13 @@
             <button type="button" class="profile-btn-load" title="Load profile '${p}'">
               Load &rarr;
             </button>
-            ${!isLocked ? `
+            ${isLocked ? `
+            <button type="button" class="btn-icon-only profile-modal-item-lock" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Profile '${p}' is Password Protected">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </button>` : `
             <button type="button" class="btn-icon-only profile-modal-item-rename" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Rename profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -4126,7 +4147,7 @@
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
               </svg>
-            </button>` : ''}
+            </button>`}
           </div>
         `;
 
@@ -4145,6 +4166,19 @@
           renameBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             handleRenameProfile(p);
+          });
+        }
+
+        const lockItemBtn = row.querySelector('.profile-modal-item-lock');
+        if (lockItemBtn) {
+          lockItemBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (p === activeUser) {
+              closeProfilePromptModal();
+              openLockModal();
+            } else {
+              selectProfileFromModal(p);
+            }
           });
         }
 
