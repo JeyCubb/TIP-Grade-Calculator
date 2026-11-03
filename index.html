@@ -3306,11 +3306,13 @@
       const lockBtn = document.getElementById('btn-profile-lock');
       const lockIcon = document.getElementById('lock-icon');
       const deleteUserBtn = document.getElementById('btn-delete-user');
+      const renameUserBtn = document.getElementById('btn-rename-user');
       if (!lockBtn || !lockIcon) return;
 
       if (!activeUser || activeUser === 'No Profile') {
         lockBtn.style.display = 'none';
         if (deleteUserBtn) deleteUserBtn.style.display = 'none';
+        if (renameUserBtn) renameUserBtn.style.display = 'none';
         return;
       }
 
@@ -3326,6 +3328,7 @@
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         `;
         if (deleteUserBtn) deleteUserBtn.style.display = 'none';
+        if (renameUserBtn) renameUserBtn.style.display = 'none';
       } else {
         // Unlocked state
         lockBtn.classList.remove('is-locked');
@@ -3335,6 +3338,7 @@
           <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
         `;
         if (deleteUserBtn) deleteUserBtn.style.display = 'inline-flex';
+        if (renameUserBtn) renameUserBtn.style.display = 'inline-flex';
       }
     }
 
@@ -3868,10 +3872,14 @@
         return;
       }
 
-      // Security check: if profile is locked and not authenticated, require password first
-      if (getProfilePassword(p) && !isProfileAuthenticated(p)) {
-        promptProfilePassword(p, () => {
-          doPromptRename(p);
+      if (getProfilePassword(p)) {
+        showCustomAlert({
+          title: 'Profile Locked',
+          subtitle: 'Password protection active',
+          iconBg: 'rgba(245, 158, 11, 0.15)',
+          iconColor: 'var(--color-warning)',
+          iconSvg: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+          htmlContent: `<p style="margin:0; font-size:0.85rem; color:var(--text-secondary);">Profile <strong style="color:var(--text-primary);">&quot;${p}&quot;</strong> is locked. Unlock the profile before renaming.</p>`
         });
         return;
       }
@@ -4107,13 +4115,13 @@
             <button type="button" class="profile-btn-load" title="Load profile '${p}'">
               Load &rarr;
             </button>
+            ${!isLocked ? `
             <button type="button" class="btn-icon-only profile-modal-item-rename" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Rename profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
               </svg>
             </button>
-            ${!isLocked ? `
             <button type="button" class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
