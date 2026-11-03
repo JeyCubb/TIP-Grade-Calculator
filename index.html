@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
@@ -220,6 +220,38 @@
       color: var(--accent-primary);
       width: auto;
       cursor: pointer;
+    }
+
+    .profile-selector-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: transparent;
+      border: none;
+      color: var(--accent-primary);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0.1rem 0.25rem;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .profile-selector-btn:hover {
+      filter: brightness(1.2);
+    }
+
+    .profile-caret-icon {
+      opacity: 0.7;
+      transition: transform 0.2s ease;
+    }
+
+    .user-profile-bar:hover .profile-caret-icon,
+    .profile-selector-btn:hover .profile-caret-icon {
+      opacity: 1;
+      transform: translateY(1px);
     }
 
     .theme-toggle-btn {
@@ -1065,6 +1097,45 @@
 
       .user-profile-bar select {
         font-size: 0.725rem;
+      }
+
+      .profile-selector-btn {
+        font-size: 0.725rem;
+        padding: 0.05rem 0.15rem;
+      }
+
+      .profile-modal-grid-header {
+        grid-template-columns: 32px 1.2fr 1.1fr auto !important;
+        font-size: 0.62rem !important;
+        padding: 0.25rem 0.35rem !important;
+        gap: 0.3rem !important;
+      }
+
+      .profile-modal-row {
+        grid-template-columns: 32px 1.2fr 1.1fr auto !important;
+        padding: 0.4rem 0.35rem !important;
+        gap: 0.3rem !important;
+      }
+
+      .profile-name-val {
+        font-size: 0.78rem !important;
+        max-width: 85px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      .accessed-date {
+        font-size: 0.68rem !important;
+      }
+
+      .accessed-time {
+        font-size: 0.58rem !important;
+      }
+
+      .profile-btn-load {
+        font-size: 0.65rem !important;
+        padding: 0.18rem 0.35rem !important;
       }
 
       .theme-toggle-btn {
@@ -1991,9 +2062,12 @@
 
       /* Profile Prompt Modal (Desktop) */
       .profile-modal-dialog {
-        max-width: 480px !important;
+        max-width: 600px !important;
         padding: 1.4rem !important;
         gap: 1.05rem !important;
+      }
+      .profile-selector-btn {
+        font-size: 1.15rem !important;
       }
       .profile-modal-title {
         font-size: 1.35rem !important;
@@ -2056,7 +2130,7 @@
       border-radius: var(--radius-lg);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
       width: 100%;
-      max-width: 440px;
+      max-width: 600px;
       padding: 1.15rem;
       display: flex;
       flex-direction: column;
@@ -2139,9 +2213,173 @@
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      max-height: 230px;
+      max-height: 260px;
       overflow-y: auto;
       padding-right: 0.2rem;
+    }
+
+    .profile-modal-grid-header {
+      display: grid;
+      grid-template-columns: 40px 1.4fr 1.3fr auto;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1.5px solid var(--border-color);
+      margin-bottom: 0.35rem;
+    }
+
+    .profile-modal-grid-header .col-fav {
+      text-align: center;
+      color: #f59e0b;
+      font-size: 0.85rem;
+    }
+
+    .profile-modal-row {
+      display: grid;
+      grid-template-columns: 40px 1.4fr 1.3fr auto;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.6rem;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .profile-modal-row:hover {
+      border-color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.08);
+      transform: translateY(-1px);
+    }
+
+    .profile-modal-row.is-active {
+      border-color: rgba(249, 115, 22, 0.6);
+      background: rgba(249, 115, 22, 0.12);
+    }
+
+    .profile-modal-row.is-favorited {
+      border-left: 3.5px solid #f59e0b;
+    }
+
+    .profile-modal-row .col-fav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-fav-star {
+      background: transparent;
+      border: none;
+      padding: 0.2rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-fav-star:hover {
+      color: #f59e0b;
+      transform: scale(1.25);
+    }
+
+    .btn-fav-star.favorited {
+      color: #f59e0b;
+    }
+
+    .btn-fav-star.favorited svg {
+      filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.5));
+    }
+
+    .profile-name-text {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .profile-name-val {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+    }
+
+    .profile-badge-lock {
+      font-size: 0.72rem;
+      color: var(--accent-primary);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .profile-badge-active {
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 0.1rem 0.35rem;
+      border-radius: var(--radius-full);
+      background: rgba(249, 115, 22, 0.2);
+      color: var(--accent-primary);
+      border: 1px solid rgba(249, 115, 22, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .accessed-dt {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .accessed-date {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .accessed-time {
+      font-size: 0.66rem;
+      color: var(--text-muted);
+    }
+
+    .accessed-empty {
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .profile-modal-row .col-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      justify-content: flex-end;
+    }
+
+    .profile-btn-load {
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      color: var(--accent-primary);
+      font-family: inherit;
+      font-size: 0.725rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .profile-btn-load:hover {
+      background: var(--accent-primary);
+      color: #ffffff;
+      border-color: var(--accent-primary);
+      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.3);
     }
 
     .profile-modal-item {
@@ -2651,8 +2889,12 @@
 
         <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <select id="user-selector" title="Select User Profile"></select>
+          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="active-profile-label">No Profile</span>
+            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
           <button class="btn btn-sm" id="btn-add-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New User Profile">+</button>
           <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
           <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
@@ -2728,13 +2970,19 @@
           </div>
           <div>
             <h2 class="profile-modal-title">Select a Profile</h2>
+            <div class="profile-modal-subtitle">Choose a profile, pin favorites to top, or create a new profile</div>
           </div>
         </div>
         <button class="profile-modal-close-btn" id="btn-close-profile-modal" title="Close dialog">&times;</button>
       </div>
 
       <div class="profile-modal-body">
-        <div class="profile-modal-section-label">Available Profiles</div>
+        <div class="profile-modal-grid-header">
+          <div class="col-fav" title="Favorite / Pin on this device to keep at top"><svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+          <div class="col-name">Name</div>
+          <div class="col-accessed">Last Accessed</div>
+          <div class="col-actions">Action</div>
+        </div>
         <div class="profile-modal-list" id="profile-modal-list"></div>
 
         <div class="profile-modal-add-section">
@@ -2847,6 +3095,78 @@
     const STORAGE_KEY_ACTIVE_USER = 'tip_gc_active_profile_v2';
     const STORAGE_KEY_PASSWORDS = 'tip_gc_profile_passwords';
     const STORAGE_KEY_UNLOCKED = 'tip_gc_unlocked_profiles_session';
+    const STORAGE_KEY_FAVORITES = 'tip_gc_fav_profiles';
+    const STORAGE_KEY_LAST_ACCESSED = 'tip_gc_last_accessed';
+
+    function getFavoriteProfiles() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_FAVORITES);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function toggleProfileFavorite(user) {
+      if (!user || user === 'No Profile') return false;
+      try {
+        let favs = getFavoriteProfiles();
+        if (favs.includes(user)) {
+          favs = favs.filter(u => u !== user);
+        } else {
+          favs.push(user);
+        }
+        localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favs));
+        return favs.includes(user);
+      } catch (e) {
+        console.warn("Failed to toggle profile favorite:", e);
+        return false;
+      }
+    }
+
+    function getProfileLastAccessed(user) {
+      if (!user || user === 'No Profile') return null;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+        const map = raw ? JSON.parse(raw) : {};
+        return map[user] || null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function recordProfileAccess(user) {
+      if (!user || user === 'No Profile') return;
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+        const map = raw ? JSON.parse(raw) : {};
+        map[user] = Date.now();
+        localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(map));
+      } catch (e) {
+        console.warn("Failed to record profile access:", e);
+      }
+    }
+
+    function formatLastAccessed(ts) {
+      if (!ts) {
+        return `<div class="accessed-dt"><span class="accessed-empty">Never</span></div>`;
+      }
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) {
+        return `<div class="accessed-dt"><span class="accessed-empty">Never</span></div>`;
+      }
+      const dateStr = d.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+      const timeStr = d.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+      return `<div class="accessed-dt"><span class="accessed-date">${dateStr}</span><span class="accessed-time">${timeStr}</span></div>`;
+    }
     
     let activeUser = 'No Profile';
     let userProfiles = ['No Profile'];
@@ -3052,6 +3372,9 @@
             // On success
             activeUser = desiredProfile;
             localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
             updateProfileUrl();
             renderUserProfileDropdown();
             updateProfileLockUI();
@@ -3061,6 +3384,9 @@
             // On cancel, remain on No Profile
             activeUser = 'No Profile';
             localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
             updateProfileUrl();
             renderUserProfileDropdown();
             updateProfileLockUI();
@@ -3071,6 +3397,9 @@
         }, 150);
       } else {
         activeUser = desiredProfile;
+      }
+      if (activeUser && activeUser !== 'No Profile') {
+        recordProfileAccess(activeUser);
       }
 
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -3095,14 +3424,20 @@
 
     function renderUserProfileDropdown() {
       const select = document.getElementById('user-selector');
-      select.innerHTML = '';
-      userProfiles.forEach(u => {
-        const opt = document.createElement('option');
-        opt.value = u;
-        opt.textContent = u;
-        if (u === activeUser) opt.selected = true;
-        select.appendChild(opt);
-      });
+      if (select) {
+        select.innerHTML = '';
+        userProfiles.forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u;
+          opt.textContent = u;
+          if (u === activeUser) opt.selected = true;
+          select.appendChild(opt);
+        });
+      }
+      const label = document.getElementById('active-profile-label');
+      if (label) {
+        label.textContent = activeUser || 'No Profile';
+      }
     }
 
     function promptProfilePassword(targetUser, onSuccess, onCancel) {
@@ -3259,6 +3594,9 @@
           localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
         }
         localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        if (activeUser && activeUser !== 'No Profile') {
+          recordProfileAccess(activeUser);
+        }
         updateProfileUrl();
         renderUserProfileDropdown();
         renderProfileModalList();
@@ -3289,6 +3627,9 @@
             localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
           }
           localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
           updateProfileUrl();
           renderUserProfileDropdown();
           renderProfileModalList();
@@ -3351,36 +3692,90 @@
         selectableProfiles.push('JeyCub');
       }
 
+      const favs = getFavoriteProfiles();
+
+      // Sort profiles:
+      // 1. Favorites pinned to top (device-only)
+      // 2. Most recently accessed timestamp descending
+      // 3. Alphabetical fallback
+      selectableProfiles.sort((a, b) => {
+        const aFav = favs.includes(a);
+        const bFav = favs.includes(b);
+        if (aFav && !bFav) return -1;
+        if (!aFav && bFav) return 1;
+
+        const aTime = getProfileLastAccessed(a) || 0;
+        const bTime = getProfileLastAccessed(b) || 0;
+        if (aTime !== bTime) {
+          return bTime - aTime;
+        }
+
+        return a.localeCompare(b);
+      });
+
       selectableProfiles.forEach(p => {
         const isLocked = !!getProfilePassword(p);
-        const item = document.createElement('div');
-        item.className = 'profile-modal-item';
-        item.innerHTML = `
-          <div class="profile-modal-item-name" style="flex: 1; cursor: pointer;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>${p}</span>
-            ${isLocked ? `<span style="font-size: 0.75rem; color: var(--accent-primary); display: inline-flex; align-items: center; margin-left: 0.25rem;" title="Password Protected"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ''}
+        const isFav = favs.includes(p);
+        const isActive = (p === activeUser);
+        const lastAccessedTs = getProfileLastAccessed(p);
+        const lastAccessedHtml = formatLastAccessed(lastAccessedTs);
+
+        const row = document.createElement('div');
+        row.className = `profile-modal-row ${isActive ? 'is-active' : ''} ${isFav ? 'is-favorited' : ''}`;
+        row.innerHTML = `
+          <div class="col-fav">
+            <button type="button" class="btn-fav-star ${isFav ? 'favorited' : ''}" title="${isFav ? 'Unpin from top (Device Only)' : 'Pin to top (Device Only)'}" data-user="${p}">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="${isFav ? '#f59e0b' : 'none'}" stroke="${isFav ? '#f59e0b' : 'var(--text-muted)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </button>
           </div>
-          <div style="display: flex; align-items: center; gap: 0.35rem;">
-            <span class="profile-modal-item-badge" style="cursor: pointer;">Load Profile &rarr;</span>
+          <div class="col-name" style="cursor: pointer;">
+            <div class="profile-name-text">
+              <span class="profile-name-val">${p}</span>
+              ${isLocked ? `<span class="profile-badge-lock" title="Password Protected"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>` : ''}
+              ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
+            </div>
+          </div>
+          <div class="col-accessed" style="cursor: pointer;">
+            ${lastAccessedHtml}
+          </div>
+          <div class="col-actions">
+            <button type="button" class="profile-btn-load" title="Load profile '${p}'">
+              Load &rarr;
+            </button>
             ${!isLocked ? `
-            <button class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
+            <button type="button" class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
               </svg>
             </button>` : ''}
           </div>
         `;
-        item.querySelector('.profile-modal-item-name').addEventListener('click', () => {
+
+        // Favorite Star Click Event (Device-only pinning to top)
+        const starBtn = row.querySelector('.btn-fav-star');
+        if (starBtn) {
+          starBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleProfileFavorite(p);
+            renderProfileModalList();
+          });
+        }
+
+        // Clicking name, accessed, or load button loads the profile
+        row.querySelector('.col-name').addEventListener('click', () => {
           selectProfileFromModal(p);
         });
-        item.querySelector('.profile-modal-item-badge').addEventListener('click', () => {
+        row.querySelector('.col-accessed').addEventListener('click', () => {
           selectProfileFromModal(p);
         });
-        const deleteBtn = item.querySelector('.profile-modal-item-delete');
+        row.querySelector('.profile-btn-load').addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectProfileFromModal(p);
+        });
+
+        const deleteBtn = row.querySelector('.profile-modal-item-delete');
         if (deleteBtn) {
           deleteBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
@@ -3410,11 +3805,26 @@
               deleteProfileFromCloud(p);
               localStorage.removeItem(`tip_gc_data_${p}`);
               localStorage.removeItem(`tip_gc_sheet_${p}`);
+              const curFavs = getFavoriteProfiles().filter(u => u !== p);
+              localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(curFavs));
+              try {
+                const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+                if (raw) {
+                  const map = JSON.parse(raw);
+                  delete map[p];
+                  localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(map));
+                }
+              } catch (err) {}
+
               userProfiles = userProfiles.filter(u => u !== p);
               localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
               if (activeUser === p) {
                 activeUser = userProfiles.includes('JeyCub') ? 'JeyCub' : (userProfiles.find(u => u !== 'No Profile') || 'No Profile');
                 localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
+                recordProfileAccess(activeUser);
                 updateProfileUrl();
                 loadUserData(activeUser);
                 loadSheetData();
@@ -3424,7 +3834,7 @@
             }
           });
         }
-        listEl.appendChild(item);
+        listEl.appendChild(row);
       });
     }
 
@@ -3662,6 +4072,9 @@
                 const targetLockedUser = activeUser;
                 activeUser = 'No Profile';
                 localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
                 updateProfileUrl();
                 renderUserProfileDropdown();
                 renderProfileModalList();
@@ -3671,6 +4084,9 @@
                 promptProfilePassword(targetLockedUser, () => {
                   activeUser = targetLockedUser;
                   localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
                   updateProfileUrl();
                   renderUserProfileDropdown();
                   renderProfileModalList();
@@ -3680,6 +4096,9 @@
                 }, () => {
                   activeUser = 'No Profile';
                   localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
                   updateProfileUrl();
                   renderUserProfileDropdown();
                   renderProfileModalList();
@@ -3729,6 +4148,9 @@
               const targetLockedUser = activeUser;
               activeUser = 'No Profile';
               localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
               updateProfileUrl();
               renderUserProfileDropdown();
               renderProfileModalList();
@@ -3738,6 +4160,9 @@
               promptProfilePassword(targetLockedUser, () => {
                 activeUser = targetLockedUser;
                 localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
                 updateProfileUrl();
                 renderUserProfileDropdown();
                 renderProfileModalList();
@@ -3747,6 +4172,9 @@
               }, () => {
                 activeUser = 'No Profile';
                 localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+          if (activeUser && activeUser !== 'No Profile') {
+            recordProfileAccess(activeUser);
+          }
                 updateProfileUrl();
                 renderUserProfileDropdown();
                 renderProfileModalList();
@@ -4503,10 +4931,16 @@
     });
 
     // Profile Switcher Events
+    const btnProfileSelector = document.getElementById('btn-profile-selector');
+    if (btnProfileSelector) {
+      btnProfileSelector.addEventListener('click', (e) => {
+        e.preventDefault();
+        openProfilePromptModal();
+      });
+    }
+
     document.getElementById('user-selector').addEventListener('change', (e) => {
       const target = e.target.value;
-      // On mobile, blur the select first so the native OS picker fully dismisses
-      // before the password modal tries to open (otherwise it can appear behind the picker)
       e.target.blur();
       setTimeout(() => {
         switchProfileWithAuth(target);
@@ -4514,25 +4948,14 @@
     });
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
-      const name = prompt("Enter new profile name:");
-      if (name && name.trim()) {
-        const cleanName = name.trim();
-        saveUserData(); // Save previous profile before switching
-        if (!userProfiles.includes(cleanName)) {
-          userProfiles.push(cleanName);
-          localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+      openProfilePromptModal();
+      setTimeout(() => {
+        const input = document.getElementById('modal-new-profile-input');
+        if (input) {
+          input.focus();
+          input.select();
         }
-        activeUser = cleanName;
-        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
-        updateProfileUrl();
-        renderUserProfileDropdown();
-        renderProfileModalList();
-        updateProfileLockUI();
-        loadUserData(activeUser);
-        loadSheetData();
-        saveUserData(); // Persist initial state for newly created profile
-        saveSheetData(); // Persist initial sheet for newly created profile
-      }
+      }, 100);
     });
 
     document.getElementById('btn-delete-user').addEventListener('click', async () => {
