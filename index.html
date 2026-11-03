@@ -2487,10 +2487,23 @@
     }
 
     /* Generic App Confirmation & Alert Modal */
+    #app-confirm-modal {
+      z-index: 12000 !important;
+    }
+
     #app-confirm-modal .profile-modal-dialog {
       max-width: 410px !important;
       padding: 1.25rem !important;
       gap: 0.75rem;
+    }
+
+    .profile-modal-item-rename {
+      transition: transform 0.15s ease;
+    }
+
+    .profile-modal-item-rename:hover svg {
+      stroke: var(--accent-primary) !important;
+      transform: scale(1.15);
     }
 
     .btn-confirm-primary {
@@ -2895,6 +2908,12 @@
             <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <select id="user-selector" title="Select User Profile" style="display: none;"></select>
+          <button class="btn btn-sm" id="btn-rename-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; display: inline-flex; align-items: center; justify-content: center;" title="Rename Active Profile">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
           <button class="btn btn-sm" id="btn-add-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem;" title="Add New User Profile">+</button>
           <button class="btn btn-sm" id="btn-delete-user" style="padding: 0.1rem 0.35rem; font-size: 0.725rem; color: var(--color-error);" title="Delete Selected Profile">&times;</button>
           <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
@@ -3656,6 +3675,309 @@
       switchProfileWithAuth(username);
     }
 
+    function showCustomPrompt({
+      title = 'Rename Profile',
+      subtitle = '',
+      defaultValue = '',
+      placeholder = 'Enter new username',
+      confirmText = 'Rename',
+      cancelText = 'Cancel',
+      validate = null
+    } = {}) {
+      return new Promise((resolve) => {
+        const modal = document.getElementById('app-confirm-modal');
+        if (!modal) {
+          resolve(prompt(title, defaultValue));
+          return;
+        }
+
+        const iconEl = document.getElementById('app-confirm-modal-icon');
+        const titleEl = document.getElementById('app-confirm-modal-title');
+        const subtitleEl = document.getElementById('app-confirm-modal-subtitle');
+        const contentEl = document.getElementById('app-confirm-modal-content');
+        const confirmBtn = document.getElementById('app-confirm-modal-confirm');
+        const cancelBtn = document.getElementById('app-confirm-modal-cancel');
+        const closeBtn = document.getElementById('app-confirm-modal-close');
+
+        if (iconEl) {
+          iconEl.style.background = 'rgba(249, 115, 22, 0.15)';
+          iconEl.style.color = 'var(--accent-primary)';
+          iconEl.innerHTML = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          `;
+        }
+
+        if (titleEl) titleEl.textContent = title;
+        if (subtitleEl) {
+          subtitleEl.textContent = subtitle;
+          subtitleEl.style.display = subtitle ? 'block' : 'none';
+        }
+
+        if (contentEl) {
+          contentEl.innerHTML = `
+            <div style="display:flex; flex-direction:column; gap:0.4rem; margin-top:0.35rem;">
+              <input type="text" id="custom-prompt-input" value="${defaultValue}" placeholder="${placeholder}" maxlength="25"
+                style="width:100%; box-sizing:border-box; padding:0.45rem 0.65rem; font-size:0.85rem; font-family:inherit; background:var(--bg-input); border:1.5px solid var(--border-color); border-radius:var(--radius-md); color:var(--text-primary); outline:none; transition:var(--transition);" />
+              <div id="custom-prompt-error" style="color:var(--color-error); font-size:0.75rem; font-weight:600; display:none;"></div>
+            </div>
+          `;
+        }
+
+        const input = document.getElementById('custom-prompt-input');
+        const errorEl = document.getElementById('custom-prompt-error');
+
+        if (confirmBtn) {
+          confirmBtn.textContent = confirmText;
+          confirmBtn.className = 'btn btn-sm btn-confirm-primary';
+        }
+        if (cancelBtn) {
+          cancelBtn.textContent = cancelText;
+          cancelBtn.style.display = 'inline-flex';
+        }
+
+        let isDone = false;
+        function finish(result) {
+          if (isDone) return;
+          isDone = true;
+          modal.classList.remove('open');
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 220);
+          cleanup();
+          resolve(result);
+        }
+
+        function onConfirm() {
+          const val = input ? input.value.trim() : '';
+          if (typeof validate === 'function') {
+            const err = validate(val);
+            if (err) {
+              if (errorEl) {
+                errorEl.textContent = err;
+                errorEl.style.display = 'block';
+              }
+              if (input) {
+                input.style.borderColor = 'var(--color-error)';
+                input.focus();
+                input.select();
+              }
+              return;
+            }
+          }
+          finish(val);
+        }
+
+        function onCancel() {
+          finish(null);
+        }
+
+        function onKeyDown(e) {
+          if (e.key === 'Escape') {
+            e.stopPropagation();
+            finish(null);
+          }
+          if (e.key === 'Enter') {
+            e.stopPropagation();
+            onConfirm();
+          }
+        }
+
+        function onOverlayClick(e) {
+          if (e.target === modal) finish(null);
+        }
+
+        function cleanup() {
+          confirmBtn?.removeEventListener('click', onConfirm);
+          cancelBtn?.removeEventListener('click', onCancel);
+          closeBtn?.removeEventListener('click', onCancel);
+          modal?.removeEventListener('click', onOverlayClick);
+          document.removeEventListener('keydown', onKeyDown);
+        }
+
+        confirmBtn?.addEventListener('click', onConfirm);
+        cancelBtn?.addEventListener('click', onCancel);
+        closeBtn?.addEventListener('click', onCancel);
+        modal?.addEventListener('click', onOverlayClick);
+        document.addEventListener('keydown', onKeyDown);
+
+        modal.style.display = 'flex';
+        requestAnimationFrame(() => {
+          modal.classList.add('open');
+          if (input) {
+            input.focus();
+            input.select();
+          }
+        });
+      });
+    }
+
+    async function handleRenameProfile(p) {
+      if (!p || p === 'No Profile') {
+        showCustomAlert({
+          title: 'Cannot Rename',
+          subtitle: 'Protected guest state',
+          iconBg: 'rgba(245, 158, 11, 0.15)',
+          iconColor: 'var(--color-warning)',
+          iconSvg: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+          htmlContent: '<p style="margin:0; font-size:0.85rem; color:var(--text-secondary);">Cannot rename the default <strong style="color:var(--text-primary);">No Profile</strong> guest state.</p>'
+        });
+        return;
+      }
+
+      // Security check: if profile is locked and not authenticated, require password first
+      if (getProfilePassword(p) && !isProfileAuthenticated(p)) {
+        promptProfilePassword(p, () => {
+          doPromptRename(p);
+        });
+        return;
+      }
+
+      doPromptRename(p);
+    }
+
+    async function doPromptRename(oldName) {
+      const newName = await showCustomPrompt({
+        title: 'Rename Profile',
+        subtitle: `Enter a new username for "${oldName}"`,
+        defaultValue: oldName,
+        placeholder: 'Enter new username',
+        confirmText: 'Save New Name',
+        cancelText: 'Cancel',
+        validate: (val) => {
+          if (!val || !val.trim()) return 'Profile name cannot be blank.';
+          const clean = val.trim();
+          if (clean === 'No Profile') return '"No Profile" is a reserved name.';
+          if (clean.toLowerCase() !== oldName.toLowerCase() && userProfiles.some(u => u.toLowerCase() === clean.toLowerCase())) {
+            return `A profile named "${clean}" already exists.`;
+          }
+          return '';
+        }
+      });
+
+      if (!newName || newName.trim() === oldName) return;
+
+      const cleanNewName = newName.trim();
+      executeRename(oldName, cleanNewName);
+    }
+
+    function executeRename(oldName, cleanNewName) {
+      // 1. Local Storage Migration
+      const oldData = localStorage.getItem(`tip_gc_data_${oldName}`);
+      if (oldData) {
+        localStorage.setItem(`tip_gc_data_${cleanNewName}`, oldData);
+        localStorage.removeItem(`tip_gc_data_${oldName}`);
+      }
+
+      const oldSheet = localStorage.getItem(`tip_gc_sheet_${oldName}`);
+      if (oldSheet) {
+        localStorage.setItem(`tip_gc_sheet_${cleanNewName}`, oldSheet);
+        localStorage.removeItem(`tip_gc_sheet_${oldName}`);
+      }
+
+      // Passwords
+      if (profilePasswords[oldName]) {
+        profilePasswords[cleanNewName] = profilePasswords[oldName];
+        delete profilePasswords[oldName];
+        localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
+      }
+
+      // Favorites (Device-only)
+      let favs = getFavoriteProfiles();
+      if (favs.includes(oldName)) {
+        favs = favs.map(u => (u === oldName ? cleanNewName : u));
+        localStorage.setItem(STORAGE_KEY_FAVORITES, JSON.stringify(favs));
+      }
+
+      // Last Accessed (Device-only)
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_LAST_ACCESSED);
+        if (raw) {
+          const map = JSON.parse(raw);
+          if (map[oldName] !== undefined) {
+            map[cleanNewName] = map[oldName];
+            delete map[oldName];
+          } else {
+            map[cleanNewName] = Date.now();
+          }
+          localStorage.setItem(STORAGE_KEY_LAST_ACCESSED, JSON.stringify(map));
+        }
+      } catch (e) {}
+
+      // Unlocked sessions
+      if (unlockedProfiles.includes(oldName)) {
+        unlockedProfiles = unlockedProfiles.map(u => (u === oldName ? cleanNewName : u));
+        try {
+          sessionStorage.setItem(STORAGE_KEY_UNLOCKED, JSON.stringify(unlockedProfiles));
+        } catch (e) {}
+      }
+
+      // In-memory & stored userProfiles
+      userProfiles = userProfiles.map(u => (u === oldName ? cleanNewName : u));
+      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+
+      // Active user check
+      const wasActive = (activeUser === oldName);
+      if (wasActive) {
+        activeUser = cleanNewName;
+        localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
+        if (activeUser && activeUser !== 'No Profile') {
+          recordProfileAccess(activeUser);
+        }
+        updateProfileUrl();
+      }
+
+      // 2. Cloud Migration (Firebase)
+      if (firebaseDb) {
+        try {
+          const safeOld = oldName.replace(/[\.#\$\[\]]/g, '_');
+          const safeNew = cleanNewName.replace(/[\.#\$\[\]]/g, '_');
+
+          // Copy data_* in Firebase
+          firebaseDb.ref(`tip_grade_calculator/data_${safeOld}`).once('value').then(snap => {
+            if (snap.exists()) {
+              firebaseDb.ref(`tip_grade_calculator/data_${safeNew}`).set(snap.val());
+              firebaseDb.ref(`tip_grade_calculator/data_${safeOld}`).remove();
+            }
+          }).catch(err => console.warn("Cloud data rename error:", err));
+
+          // Copy sheet_* in Firebase
+          firebaseDb.ref(`tip_grade_calculator/sheet_${safeOld}`).once('value').then(snap => {
+            if (snap.exists()) {
+              firebaseDb.ref(`tip_grade_calculator/sheet_${safeNew}`).set(snap.val());
+              firebaseDb.ref(`tip_grade_calculator/sheet_${safeOld}`).remove();
+            }
+          }).catch(err => console.warn("Cloud sheet rename error:", err));
+
+          // Copy password in Firebase
+          if (profilePasswords[cleanNewName]) {
+            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeNew}`).set(profilePasswords[cleanNewName]);
+            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeOld}`).remove();
+          }
+
+          // Update _profiles in Firebase
+          const validProfiles = userProfiles.filter(u => u !== 'No Profile');
+          firebaseDb.ref('tip_grade_calculator').update({
+            _profiles: validProfiles,
+            _lastSender: clientId
+          });
+        } catch (err) {
+          console.warn("Cloud rename error:", err);
+        }
+      }
+
+      // 3. Re-render UI
+      renderUserProfileDropdown();
+      renderProfileModalList();
+      updateProfileLockUI();
+      if (wasActive) {
+        loadUserData(activeUser);
+        loadSheetData();
+      }
+    }
+
     function deleteProfileFromCloud(user) {
       if (!firebaseDb || !user || user === 'No Profile') return;
       try {
@@ -3744,6 +4066,12 @@
             <button type="button" class="profile-btn-load" title="Load profile '${p}'">
               Load &rarr;
             </button>
+            <button type="button" class="btn-icon-only profile-modal-item-rename" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Rename profile '${p}'">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
             ${!isLocked ? `
             <button type="button" class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -3760,6 +4088,14 @@
             e.stopPropagation();
             toggleProfileFavorite(p);
             renderProfileModalList();
+          });
+        }
+
+        const renameBtn = row.querySelector('.profile-modal-item-rename');
+        if (renameBtn) {
+          renameBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleRenameProfile(p);
           });
         }
 
@@ -4946,6 +5282,13 @@
         switchProfileWithAuth(target);
       }, 80);
     });
+
+    const btnRenameUser = document.getElementById('btn-rename-user');
+    if (btnRenameUser) {
+      btnRenameUser.addEventListener('click', () => {
+        handleRenameProfile(activeUser);
+      });
+    }
 
     document.getElementById('btn-add-user').addEventListener('click', () => {
       openProfilePromptModal();
