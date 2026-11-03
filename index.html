@@ -2060,88 +2060,96 @@
         text-align: right;
       }
 
-      /* Profile Prompt Modal (Desktop - Wider and More Spacious) */
+      /* Profile Prompt Modal (Desktop - Wider Laterally, Compact Vertically) */
       .profile-modal-dialog {
-        max-width: 840px !important;
-        padding: 1.75rem 2.2rem !important;
-        gap: 1.15rem !important;
+        max-width: 900px !important;
+        width: min(900px, 94vw) !important;
+        max-height: min(90vh, 580px) !important;
+        padding: 1.1rem 1.85rem !important;
+        gap: 0.65rem !important;
+        box-sizing: border-box !important;
       }
       .profile-selector-btn {
-        font-size: 1.15rem !important;
+        font-size: 1.05rem !important;
+      }
+      .profile-modal-header {
+        padding-bottom: 0.35rem !important;
       }
       .profile-modal-title {
-        font-size: 1.45rem !important;
+        font-size: 1.3rem !important;
       }
       .profile-modal-subtitle {
-        font-size: 0.95rem !important;
+        font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
         grid-template-columns: 48px 1.85fr 1.6fr auto !important;
-        font-size: 0.82rem !important;
-        padding: 0.55rem 0.95rem !important;
+        font-size: 0.78rem !important;
+        padding: 0.35rem 0.85rem !important;
+        margin-bottom: 0.15rem !important;
       }
       .profile-modal-row {
         grid-template-columns: 48px 1.85fr 1.6fr auto !important;
-        padding: 0.75rem 0.95rem !important;
+        padding: 0.42rem 0.85rem !important;
       }
       .profile-modal-list {
-        max-height: 380px !important;
+        max-height: 220px !important;
+        gap: 0.3rem !important;
       }
       .profile-name-val {
-        font-size: 1.12rem !important;
+        font-size: 1.02rem !important;
       }
       .accessed-date {
-        font-size: 0.92rem !important;
+        font-size: 0.85rem !important;
       }
       .accessed-time {
-        font-size: 0.80rem !important;
+        font-size: 0.74rem !important;
       }
       .profile-btn-load {
-        font-size: 0.85rem !important;
-        padding: 0.35rem 0.85rem !important;
+        font-size: 0.82rem !important;
+        padding: 0.28rem 0.75rem !important;
       }
       .btn-fav-star svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
       }
       .profile-modal-item-rename,
       .profile-modal-item-delete,
       .profile-modal-item-lock {
-        width: 32px !important;
-        height: 32px !important;
-        min-width: 32px !important;
-        min-height: 32px !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
       }
       .profile-modal-item-rename svg,
       .profile-modal-item-delete svg,
       .profile-modal-item-lock svg {
-        width: 15px !important;
-        height: 15px !important;
+        width: 14px !important;
+        height: 14px !important;
       }
       .profile-modal-row .col-actions {
-        gap: 0.45rem !important;
+        gap: 0.4rem !important;
       }
-      .profile-modal-item {
-        padding: 0.75rem 1rem !important;
-      }
-      .profile-modal-item-name {
-        font-size: 1.15rem !important;
-      }
-      .profile-modal-item-badge {
-        font-size: 0.85rem !important;
+      .profile-modal-add-section {
+        margin-top: 0.25rem !important;
+        padding-top: 0.35rem !important;
       }
       .profile-modal-add-row input {
-        font-size: 1.05rem !important;
-        padding: 0.55rem 0.95rem !important;
+        font-size: 0.95rem !important;
+        padding: 0.4rem 0.85rem !important;
       }
       .btn-create-profile,
       #btn-modal-add-profile {
-        font-size: 1.05rem !important;
-        padding: 0.55rem 1.35rem !important;
+        font-size: 0.95rem !important;
+        padding: 0.42rem 1.15rem !important;
+      }
+      .profile-modal-footer {
+        margin-top: 0.1rem !important;
+        padding-top: 0.35rem !important;
+        gap: 0.25rem !important;
       }
       .profile-modal-guest-btn {
-        font-size: 1.05rem !important;
-        padding: 0.6rem 1rem !important;
+        font-size: 0.95rem !important;
+        padding: 0.42rem 0.85rem !important;
       }
     }
 
@@ -2163,6 +2171,7 @@
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.22s ease-out;
+      overflow-y: auto;
     }
 
     .profile-modal-overlay.open {
