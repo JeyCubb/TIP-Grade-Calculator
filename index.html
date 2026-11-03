@@ -2261,6 +2261,8 @@
       gap: 0.4rem;
       max-height: 260px;
       overflow-y: auto;
+      overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
       padding-right: 0.2rem;
     }
 
@@ -7252,9 +7254,36 @@
     });
 
     window.addEventListener('wheel', (e) => {
-      // If user is inside an overflow scrollable table or modal, allow internal scrolling
-      if (e.target && (e.target.closest('.sheet-table-wrapper') || e.target.closest('.scheme-dropdown-content'))) return;
+      // 1. If any modal is currently visible/open, do not jump-scroll the background page
+      const isAnyModalOpen = document.querySelector('.profile-modal-overlay.open, .profile-modal-overlay[style*="display: flex"], .custom-modal-backdrop.open');
+      if (isAnyModalOpen) {
+        // If the wheel event is inside the profile modal list, allow native container scroll
+        if (e.target && e.target.closest('.profile-modal-list')) {
+          return;
+        }
+        // If hovering over any part of the modal dialog, scroll the list smoothly
+        const list = isAnyModalOpen.querySelector('.profile-modal-list');
+        if (list && e.target && e.target.closest('.profile-modal-dialog')) {
+          list.scrollTop += e.deltaY;
+          e.preventDefault();
+          return;
+        }
+        // Otherwise prevent scrolling background page while a modal is open
+        e.preventDefault();
+        return;
+      }
 
+      // 2. If user is inside an overflow scrollable table or dropdown, allow internal scrolling
+      if (e.target && (
+        e.target.closest('.sheet-table-wrapper') || 
+        e.target.closest('.scheme-dropdown-content') ||
+        e.target.closest('.profile-modal-list') ||
+        e.target.closest('.profile-modal-dialog')
+      )) {
+        return;
+      }
+
+      // 3. Instant Top / Bottom Scroll on Mouse Wheel for main background page
       if (e.deltaY > 0) {
         e.preventDefault();
         scrollToBottom();
