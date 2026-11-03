@@ -1105,7 +1105,7 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 30px 1fr 110px 100px !important;
+        grid-template-columns: 30px 1fr 100px 145px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
         gap: 0.3rem !important;
@@ -1115,7 +1115,7 @@
       }
 
       .profile-modal-row {
-        grid-template-columns: 30px 1fr 110px 100px !important;
+        grid-template-columns: 30px 1fr 100px 145px !important;
         padding: 0.4rem 0.4rem !important;
         gap: 0.3rem !important;
       }
@@ -2085,7 +2085,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px 1fr 185px 155px !important;
+        grid-template-columns: 44px 1fr 185px 175px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
@@ -2095,13 +2095,13 @@
         text-align: right !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px 1fr 185px 155px !important;
+        grid-template-columns: 44px 1fr 185px 175px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
       .profile-modal-list {
-        max-height: 220px !important;
-        gap: 0.3rem !important;
+        max-height: 270px !important;
+        gap: 0.35rem !important;
       }
       .profile-name-val {
         font-size: 1.02rem !important;
@@ -2285,7 +2285,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 140px;
+      grid-template-columns: 36px 1fr 160px 170px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2310,7 +2310,7 @@
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 140px;
+      grid-template-columns: 36px 1fr 160px 170px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -2428,7 +2428,18 @@
       align-items: center;
       gap: 0.35rem;
       justify-content: flex-end;
-      overflow: hidden;
+    }
+
+    .profile-btn-load.is-active {
+      background: rgba(16, 185, 129, 0.18) !important;
+      border-color: rgba(16, 185, 129, 0.5) !important;
+      color: #10b981 !important;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
+    }
+
+    .profile-btn-load.is-active:hover {
+      background: rgba(16, 185, 129, 0.28) !important;
+      border-color: #10b981 !important;
     }
 
     .profile-btn-load {
@@ -3683,7 +3694,11 @@
 
     function switchProfileWithAuth(targetUser) {
       if (!targetUser) return;
-      if (targetUser === activeUser) return;
+      if (targetUser === activeUser) {
+        loadUserData(activeUser);
+        loadSheetData();
+        return;
+      }
 
       if (targetUser === 'No Profile' || isProfileAuthenticated(targetUser)) {
         // Switching to an open profile — revoke the outgoing locked profile's session now
@@ -4151,9 +4166,13 @@
             ${lastAccessedHtml}
           </div>
           <div class="col-actions">
+            ${isActive ? `
+            <button type="button" class="profile-btn-load is-active" title="Profile '${p}' is currently active">
+              Loaded &#10003;
+            </button>` : `
             <button type="button" class="profile-btn-load" title="Load profile '${p}'">
               Load &rarr;
-            </button>
+            </button>`}
             ${isLocked ? `
             <button type="button" class="btn-icon-only profile-modal-item-lock" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Profile '${p}' is Password Protected">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
