@@ -2722,37 +2722,34 @@
           </div>
           
           <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
+
+          <!-- Relocated Mode Selection inside Results Card -->
+          <div class="mode-select-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px solid var(--border-color);">
+            <div class="segmented-control">
+              <div class="segmented-option">
+                <input type="radio" name="mode" id="mode-prelim" value="prelim" />
+                <label for="mode-prelim" class="segmented-label">
+                  Prelims
+                </label>
+              </div>
+              <div class="segmented-option">
+                <input type="radio" name="mode" id="mode-term" value="term" checked />
+                <label for="mode-term" class="segmented-label">
+                  Midterms / Finals
+                </label>
+              </div>
+            </div>
+
+            <div class="prev-term-row" id="prev-grade-row" style="display: none;">
+              <span style="font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
+              <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
+              <span id="prev-error" class="warn"></span>
+            </div>
+          </div>
         </div>
       </section>
     </div>
 
-    <!-- 2. Mode Selection Card (Order 2 - Below Calculator) -->
-    <section class="card mode-card">
-      <div class="segmented-control">
-        <div class="segmented-option">
-          <input type="radio" name="mode" id="mode-prelim" value="prelim" />
-          <label for="mode-prelim" class="segmented-label">
-            Prelims
-          </label>
-        </div>
-        <div class="segmented-option">
-          <input type="radio" name="mode" id="mode-term" value="term" checked />
-          <label for="mode-term" class="segmented-label">
-            Midterms / Finals
-          </label>
-        </div>
-      </div>
-
-      <div class="prev-term-row" id="prev-grade-row" style="display: none;">
-        <span style="font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
-        <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
-        <span id="prev-error" class="warn"></span>
-      </div>
-
-      <button class="btn btn-sm" id="btn-reset-data" style="font-size: 0.725rem; color: var(--text-muted); margin-left: auto; padding: 0.25rem 0.6rem;" title="Reset current profile data">Reset</button>
-    </section>
-
-    
     </div><!-- End #calc-view-container -->
 
     <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
