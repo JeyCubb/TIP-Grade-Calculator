@@ -1105,19 +1105,22 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 30px 1fr 100px 115px !important;
+        grid-template-columns: 30px 1fr 100px 55px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
         gap: 0.3rem !important;
       }
       .profile-modal-grid-header .col-actions {
-        text-align: right !important;
+        text-align: center !important;
       }
 
       .profile-modal-row {
-        grid-template-columns: 30px 1fr 100px 115px !important;
+        grid-template-columns: 30px 1fr 100px 55px !important;
         padding: 0.4rem 0.4rem !important;
         gap: 0.3rem !important;
+      }
+      .profile-modal-row .col-actions {
+        justify-content: center !important;
       }
 
       .profile-name-val {
@@ -2085,17 +2088,17 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px 1fr 185px 135px !important;
+        grid-template-columns: 44px 1fr 185px 70px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
         gap: 0.65rem !important;
       }
       .profile-modal-grid-header .col-actions {
-        text-align: right !important;
+        text-align: center !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px 1fr 185px 135px !important;
+        grid-template-columns: 44px 1fr 185px 70px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
@@ -2285,7 +2288,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 135px;
+      grid-template-columns: 36px 1fr 160px 65px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2305,12 +2308,12 @@
     }
 
     .profile-modal-grid-header .col-actions {
-      text-align: right;
+      text-align: center;
     }
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 135px;
+      grid-template-columns: 36px 1fr 160px 65px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -2464,7 +2467,7 @@
       display: flex;
       align-items: center;
       gap: 0.35rem;
-      justify-content: flex-end;
+      justify-content: center;
     }
 
     .profile-btn-load.is-active {
@@ -4177,6 +4180,7 @@
 
         const row = document.createElement('div');
         row.className = `profile-modal-row ${isActive ? 'is-active' : ''} ${isFav ? 'is-favorited' : ''}`;
+        row.title = isActive ? `Profile '${p}' is currently active` : `Click anywhere to load profile '${p}'`;
         row.innerHTML = `
           <div class="col-fav">
             <button type="button" class="btn-fav-star ${isFav ? 'favorited' : ''}" title="${isFav ? 'Unpin from top (Device Only)' : 'Pin to top (Device Only)'}" data-user="${p}">
@@ -4214,13 +4218,6 @@
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
               </svg>
             </button>`}
-            ${isActive ? `
-            <button type="button" class="profile-btn-load is-active" title="Profile '${p}' is currently active">
-              Loaded
-            </button>` : `
-            <button type="button" class="profile-btn-load" title="Load profile '${p}'">
-              Load
-            </button>`}
           </div>
         `;
 
@@ -4247,6 +4244,11 @@
           });
         }
 
+        // Clicking anywhere on the row loads the profile
+        row.addEventListener('click', () => {
+          selectProfileFromModal(p);
+        });
+
         // Clicking name directly triggers rename (or informs if locked)
         const colName = row.querySelector('.col-name');
         if (colName) {
@@ -4255,15 +4257,6 @@
             handleRenameProfile(p);
           });
         }
-
-        // Clicking accessed date or load button loads the profile
-        row.querySelector('.col-accessed').addEventListener('click', () => {
-          selectProfileFromModal(p);
-        });
-        row.querySelector('.profile-btn-load').addEventListener('click', (e) => {
-          e.stopPropagation();
-          selectProfileFromModal(p);
-        });
 
         const deleteBtn = row.querySelector('.profile-modal-item-delete');
         if (deleteBtn) {
