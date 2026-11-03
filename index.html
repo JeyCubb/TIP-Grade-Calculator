@@ -4332,58 +4332,36 @@
 
       const examMin = 50;
       const examMax = 100;
-      const rawUserScore = examScoreEl.value.trim();
-      const hasUserTypedScore = rawUserScore !== '';
 
       if (neededExam50 <= examMin) {
-        if (hasUserTypedScore) {
-          const userScoreVal = parseFloat(rawUserScore) || 0;
-          const confirmOverwrite = await showCustomConfirm({
-            title: `Target ${targetEq} Already Met!`,
-            subtitle: `0.00 exam score is enough to reach Target ${targetEq}`,
-            iconBg: 'rgba(16, 185, 129, 0.15)',
-            iconColor: 'var(--color-success)',
-            iconSvg: `
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="9 12 12 15 16 10"></polyline>
-              </svg>
-            `,
-            htmlContent: `
-              <div style="background: var(--bg-input); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 0.5rem; display: flex; flex-direction: column; gap: 0.55rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.775rem; color: var(--text-secondary); font-weight: 600;">Current Entered Score:</span>
-                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--accent-primary);">${userScoreVal.toFixed(2)} / ${total.toFixed(0)}</span>
-                </div>
-                <div style="height: 1px; background: var(--border-color); opacity: 0.5;"></div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-size: 0.775rem; color: var(--text-secondary); font-weight: 600;">Minimum Needed:</span>
-                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700; color: var(--color-success);">0.00 / ${total.toFixed(0)}</span>
-                </div>
-              </div>
-              <p style="margin: 0; font-size: 0.825rem; color: var(--text-secondary); line-height: 1.45;">
-                Your class standing is already high enough that <strong style="color: var(--text-primary);">Target ${targetEq}</strong> is secured even with an exam score of <strong style="color: var(--color-success);">0.00</strong>.
-              </p>
-              <p style="margin: 0.35rem 0 0 0; font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
-                Do you want to set your exam score to <strong style="color: var(--text-primary);">0.00</strong>, or keep your entered <strong style="color: var(--text-primary);">${userScoreVal.toFixed(2)}</strong>?
-              </p>
-            `,
-            confirmText: 'Set to 0.00',
-            cancelText: `Keep ${userScoreVal.toFixed(2)}`,
-            showCancel: true
-          });
-
-          if (!confirmOverwrite) {
-            summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score.\n(Your score kept at: ${userScoreVal.toFixed(2)} / ${total.toFixed(0)}).`;
-            saveUserData();
-            return;
-          }
-        }
         examScoreEl.value = '0.00';
         examScoreEl.classList.add('green');
         recomputeAll();
         summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score (0.00 / ${total.toFixed(0)}).`;
         saveUserData();
+
+        showCustomAlert({
+          title: `Target ${targetEq} Met!`,
+          subtitle: `Exam score automatically set to 0.00`,
+          iconBg: 'rgba(16, 185, 129, 0.15)',
+          iconColor: 'var(--color-success)',
+          iconSvg: `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="9 12 12 15 16 10"></polyline>
+            </svg>
+          `,
+          htmlContent: `
+            <div style="background: var(--bg-input); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 0.75rem 0.9rem; margin-bottom: 0.45rem; display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Minimum Exam Needed:</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--color-success);">0.00 / ${total.toFixed(0)}</span>
+            </div>
+            <p style="margin: 0; font-size: 0.825rem; color: var(--text-secondary); line-height: 1.45;">
+              Target <strong style="color: var(--text-primary);">${targetEq}</strong> is already secured by your class standing alone. Exam score has been set to <strong style="color: var(--color-success);">0.00</strong>.
+            </p>
+          `,
+          okText: 'Got it'
+        });
         return;
       }
       if (neededExam50 > examMax) {
