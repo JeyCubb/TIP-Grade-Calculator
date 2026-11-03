@@ -1105,7 +1105,7 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 30px 1fr 100px 145px !important;
+        grid-template-columns: 30px 1fr 100px 115px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
         gap: 0.3rem !important;
@@ -1115,7 +1115,7 @@
       }
 
       .profile-modal-row {
-        grid-template-columns: 30px 1fr 100px 145px !important;
+        grid-template-columns: 30px 1fr 100px 115px !important;
         padding: 0.4rem 0.4rem !important;
         gap: 0.3rem !important;
       }
@@ -2085,7 +2085,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px 1fr 185px 175px !important;
+        grid-template-columns: 44px 1fr 185px 135px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
@@ -2095,7 +2095,7 @@
         text-align: right !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px 1fr 185px 175px !important;
+        grid-template-columns: 44px 1fr 185px 135px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
@@ -2285,7 +2285,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 170px;
+      grid-template-columns: 36px 1fr 160px 135px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2310,7 +2310,7 @@
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 170px;
+      grid-template-columns: 36px 1fr 160px 135px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -2368,17 +2368,54 @@
       filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.5));
     }
 
-    .profile-name-text {
+    .profile-modal-row .col-name {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      flex-wrap: wrap;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .profile-name-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.15rem 0.4rem;
+      margin-left: -0.4rem;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s ease, color 0.15s ease;
+      max-width: 100%;
+    }
+
+    .profile-modal-row .col-name:hover .profile-name-text {
+      background: rgba(249, 115, 22, 0.14);
+    }
+
+    .profile-modal-row .col-name:hover .profile-name-val {
+      color: var(--accent-primary);
+      text-decoration: underline dotted 1.5px;
+      text-underline-offset: 3px;
+    }
+
+    .profile-name-edit-icon {
+      opacity: 0;
+      transform: translateX(-3px) scale(0.85);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      color: var(--accent-primary);
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .profile-modal-row .col-name:hover .profile-name-edit-icon {
+      opacity: 1;
+      transform: translateX(0) scale(1);
     }
 
     .profile-name-val {
       font-weight: 700;
       font-size: 0.85rem;
       color: var(--text-primary);
+      transition: color 0.15s ease;
     }
 
     .profile-badge-lock {
@@ -4148,10 +4185,17 @@
               </svg>
             </button>
           </div>
-          <div class="col-name" style="cursor: pointer;">
+          <div class="col-name" style="cursor: pointer;" title="${isLocked ? `Profile '${p}' is locked. Click to view info.` : `Click to rename profile '${p}'`}">
             <div class="profile-name-text">
               <span class="profile-name-val">${p}</span>
               ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
+              ${!isLocked ? `
+              <span class="profile-name-edit-icon" title="Click to rename">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </span>` : ''}
             </div>
           </div>
           <div class="col-accessed" style="cursor: pointer;">
@@ -4165,12 +4209,6 @@
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
               </svg>
             </button>` : `
-            <button type="button" class="btn-icon-only profile-modal-item-rename" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Rename profile '${p}'">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-              </svg>
-            </button>
             <button type="button" class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
@@ -4196,14 +4234,6 @@
           });
         }
 
-        const renameBtn = row.querySelector('.profile-modal-item-rename');
-        if (renameBtn) {
-          renameBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            handleRenameProfile(p);
-          });
-        }
-
         const lockItemBtn = row.querySelector('.profile-modal-item-lock');
         if (lockItemBtn) {
           lockItemBtn.addEventListener('click', (e) => {
@@ -4217,10 +4247,16 @@
           });
         }
 
-        // Clicking name, accessed, or load button loads the profile
-        row.querySelector('.col-name').addEventListener('click', () => {
-          selectProfileFromModal(p);
-        });
+        // Clicking name directly triggers rename (or informs if locked)
+        const colName = row.querySelector('.col-name');
+        if (colName) {
+          colName.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleRenameProfile(p);
+          });
+        }
+
+        // Clicking accessed date or load button loads the profile
         row.querySelector('.col-accessed').addEventListener('click', () => {
           selectProfileFromModal(p);
         });
