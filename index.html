@@ -2706,7 +2706,7 @@
     }
 
     .profile-modal-item-lock.is-locked {
-      color: #f59e0b;
+      color: var(--color-error);
     }
 
     .profile-modal-item-lock.is-unlocked {
@@ -2718,8 +2718,8 @@
     }
 
     .profile-modal-item-lock.is-locked:hover {
-      background: rgba(245, 158, 11, 0.15) !important;
-      color: #fbbf24;
+      background: var(--color-error-bg) !important;
+      color: #f87171;
     }
 
     .profile-modal-item-lock.is-unlocked:hover {
@@ -2795,15 +2795,17 @@
     }
 
     .btn-profile-lock.is-locked {
-      background: rgba(249, 115, 22, 0.15);
-      border-color: var(--accent-primary);
-      color: var(--accent-primary);
-      box-shadow: 0 0 8px rgba(249, 115, 22, 0.3);
+      background: var(--color-error-bg);
+      border-color: var(--color-error);
+      color: var(--color-error);
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
     }
 
     .btn-profile-lock.is-locked:hover {
-      background: rgba(249, 115, 22, 0.25);
-      box-shadow: 0 0 12px rgba(249, 115, 22, 0.45);
+      background: rgba(239, 68, 68, 0.25);
+      border-color: #f87171;
+      color: #f87171;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
     }
   </style>
 </head>
