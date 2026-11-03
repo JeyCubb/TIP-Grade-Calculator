@@ -1104,6 +1104,75 @@
         padding: 0.05rem 0.15rem;
       }
 
+      /* Profile Selector Modal Mobile Adaptations */
+      .profile-modal-overlay {
+        padding: 0.5rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .profile-modal-dialog {
+        width: 100% !important;
+        max-width: 440px !important;
+        max-height: calc(100vh - 1.25rem) !important;
+        padding: 0.95rem 0.85rem !important;
+        gap: 0.55rem !important;
+        box-sizing: border-box !important;
+        border-radius: var(--radius-md) !important;
+        overflow-y: auto !important;
+      }
+
+      .profile-modal-header {
+        padding-bottom: 0.35rem !important;
+      }
+
+      .profile-modal-title {
+        font-size: 1.15rem !important;
+      }
+
+      .profile-modal-subtitle {
+        font-size: 0.72rem !important;
+      }
+
+      .profile-modal-avatar-icon {
+        width: 32px !important;
+        height: 32px !important;
+      }
+
+      .profile-modal-avatar-icon svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+
+      .profile-modal-list {
+        max-height: 220px !important;
+        gap: 0.35rem !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
+      .profile-modal-add-section {
+        margin-top: 0.25rem !important;
+        padding-top: 0.35rem !important;
+      }
+
+      .profile-modal-add-row input {
+        font-size: 0.85rem !important;
+        padding: 0.35rem 0.65rem !important;
+      }
+
+      .profile-modal-add-row button {
+        font-size: 0.78rem !important;
+        padding: 0.35rem 0.65rem !important;
+      }
+
+      .profile-modal-guest-btn {
+        font-size: 0.75rem !important;
+        padding: 0.35rem 0.65rem !important;
+      }
+
       .profile-modal-grid-header {
         grid-template-columns: 30px 1fr 100px 65px !important;
         font-size: 0.62rem !important;
@@ -3571,7 +3640,8 @@
       renderUserProfileDropdown();
       updateProfileLockUI();
 
-      if (activeUser === 'No Profile') {
+      const isPhoneDevice = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+      if (isPhoneDevice || activeUser === 'No Profile') {
         openProfilePromptModal();
       }
     }
@@ -4365,10 +4435,13 @@
       modal.style.display = 'flex';
       setTimeout(() => {
         modal.classList.add('open');
-        const input = document.getElementById('modal-new-profile-input');
-        if (input) {
-          input.focus();
-          input.select();
+        const isTouchMobile = window.innerWidth <= 768 || ('ontouchstart' in window) || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+        if (!isTouchMobile) {
+          const input = document.getElementById('modal-new-profile-input');
+          if (input) {
+            input.focus();
+            input.select();
+          }
         }
       }, 60);
     }
@@ -5452,6 +5525,18 @@
     const btnProfileSelector = document.getElementById('btn-profile-selector');
     if (btnProfileSelector) {
       btnProfileSelector.addEventListener('click', (e) => {
+        e.preventDefault();
+        openProfilePromptModal();
+      });
+    }
+
+    const userProfileBar = document.querySelector('.user-profile-bar');
+    if (userProfileBar) {
+      userProfileBar.style.cursor = 'pointer';
+      userProfileBar.addEventListener('click', (e) => {
+        if (e.target.closest('#btn-profile-lock') || e.target.closest('.btn-profile-lock')) {
+          return;
+        }
         e.preventDefault();
         openProfilePromptModal();
       });
