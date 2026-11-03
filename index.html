@@ -1105,7 +1105,7 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 30px 1fr 100px 55px !important;
+        grid-template-columns: 30px 1fr 100px 65px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
         gap: 0.3rem !important;
@@ -1115,7 +1115,7 @@
       }
 
       .profile-modal-row {
-        grid-template-columns: 30px 1fr 100px 55px !important;
+        grid-template-columns: 30px 1fr 100px 65px !important;
         padding: 0.4rem 0.4rem !important;
         gap: 0.3rem !important;
       }
@@ -2088,7 +2088,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px 1fr 185px 70px !important;
+        grid-template-columns: 44px 1fr 185px 85px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
@@ -2098,7 +2098,7 @@
         text-align: center !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px 1fr 185px 70px !important;
+        grid-template-columns: 44px 1fr 185px 85px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
@@ -2288,7 +2288,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 65px;
+      grid-template-columns: 36px 1fr 160px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2313,7 +2313,7 @@
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 65px;
+      grid-template-columns: 36px 1fr 160px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -2631,14 +2631,31 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent-primary);
       transition: all 0.15s ease;
       cursor: pointer;
+      border-radius: var(--radius-sm);
+    }
+
+    .profile-modal-item-lock.is-locked {
+      color: #f59e0b;
+    }
+
+    .profile-modal-item-lock.is-unlocked {
+      color: var(--text-muted);
     }
 
     .profile-modal-item-lock:hover {
-      background: rgba(249, 115, 22, 0.15) !important;
-      transform: scale(1.1);
+      transform: scale(1.15);
+    }
+
+    .profile-modal-item-lock.is-locked:hover {
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #fbbf24;
+    }
+
+    .profile-modal-item-lock.is-unlocked:hover {
+      background: rgba(249, 115, 22, 0.12) !important;
+      color: var(--accent-primary);
     }
 
     .btn-confirm-primary {
@@ -4206,18 +4223,22 @@
             ${lastAccessedHtml}
           </div>
           <div class="col-actions">
-            ${isLocked ? `
-            <button type="button" class="btn-icon-only profile-modal-item-lock" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Profile '${p}' is Password Protected">
+            <button type="button" class="btn-icon-only profile-modal-item-lock ${isLocked ? 'is-locked' : 'is-unlocked'}" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="${isLocked ? `Profile '${p}' is locked. Click to manage/unlock.` : `Profile '${p}' is not locked. Click to lock with password.`}">
+              ${isLocked ? `
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            </button>` : `
+              </svg>` : `
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0"/>
+              </svg>`}
+            </button>
             <button type="button" class="btn-icon-only profile-modal-item-delete" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="Delete profile '${p}'">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
               </svg>
-            </button>`}
+            </button>
           </div>
         `;
 
@@ -4235,11 +4256,25 @@
         if (lockItemBtn) {
           lockItemBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (p === activeUser) {
-              closeProfilePromptModal();
-              openLockModal();
+            if (isLocked) {
+              if (p === activeUser) {
+                closeProfilePromptModal();
+                openLockModal();
+              } else {
+                selectProfileFromModal(p);
+              }
             } else {
-              selectProfileFromModal(p);
+              // Not locked -> user wants to set password lock
+              if (p === activeUser) {
+                closeProfilePromptModal();
+                openLockModal();
+              } else {
+                closeProfilePromptModal();
+                switchProfileWithAuth(p);
+                setTimeout(() => {
+                  openLockModal();
+                }, 150);
+              }
             }
           });
         }
