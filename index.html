@@ -7291,29 +7291,29 @@
     }
 
     function computeRowGrade(row) {
+      const manual_g = parseFloat(row.grade);
+      // 1. MANUAL / RECORDED GRADE: If an explicit final equivalent (1.00 - 5.00) is stored directly, use it
+      if (!isNaN(manual_g) && manual_g >= 1.00 && manual_g <= 5.00) {
+        return manual_g;
+      }
+
       const f = parseFloat(row.final);
       const m = parseFloat(row.midterm);
       const p = parseFloat(row.prelim);
-      const manual_g = parseFloat(row.grade);
 
-      // 1. FINALS: If Finals grade is encoded, compute official rating (disregarding prelims and midterms)
+      // 2. FINALS: If Finals grade is encoded, compute official rating
       if (!isNaN(f)) {
         return parseFloat(tipPercentToEquiv(f)) || f;
       }
 
-      // 2. MIDTERMS: If Midterms grade is encoded (and no Finals), focus on Midterms and disregard Prelims
+      // 3. MIDTERMS: If Midterms grade is encoded (and no Finals), focus on Midterms and disregard Prelims
       if (!isNaN(m)) {
         return parseFloat(tipPercentToEquiv(m)) || m;
       }
 
-      // 3. PRELIMS: If Prelims grade is encoded (and no Midterms / Finals), use Prelims
+      // 4. PRELIMS: If Prelims grade is encoded (and no Midterms / Finals), use Prelims
       if (!isNaN(p)) {
         return parseFloat(tipPercentToEquiv(p)) || p;
-      }
-
-      // 4. MANUAL GRADE: If an explicit final equivalent (1.00 - 5.00) is stored directly
-      if (!isNaN(manual_g)) {
-        return parseFloat(tipPercentToEquiv(manual_g)) || manual_g;
       }
 
       // 5. EMPTY: Disregard from GWA calculation
@@ -7797,6 +7797,9 @@
           const row = userSheetData[activeSheetYear][semKey][idx];
           if (row) {
             row[field] = target.value;
+            if (field === 'prelim' || field === 'midterm' || field === 'final') {
+              row.grade = '';
+            }
             saveSheetData();
             updateSheetCalculationsOnly();
           }
