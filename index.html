@@ -1252,6 +1252,20 @@
         font-size: 0.6rem;
       }
 
+      .total-gwa-pill {
+        padding: 0.22rem 0.55rem;
+        font-size: 0.65rem;
+        margin: 0 auto;
+      }
+
+      .total-gwa-pill .total-gwa-label {
+        font-size: 0.58rem;
+      }
+
+      .total-gwa-pill .total-gwa-val {
+        font-size: 0.75rem;
+      }
+
       .sem-switcher-bar {
         padding: 0.15rem;
         gap: 0.2rem;
@@ -1398,6 +1412,48 @@
       white-space: nowrap;
       transition: var(--transition);
       font-family: inherit;
+    }
+
+    .total-gwa-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      background: rgba(249, 115, 22, 0.12);
+      border: 1.5px solid rgba(249, 115, 22, 0.45);
+      color: var(--text-primary);
+      font-size: 0.72rem;
+      font-weight: 700;
+      white-space: nowrap;
+      user-select: none;
+      -webkit-user-select: none;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      flex-shrink: 0;
+      margin: 0 auto;
+    }
+
+    .total-gwa-pill:hover {
+      border-color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.2);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .total-gwa-pill .total-gwa-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .total-gwa-pill .total-gwa-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-primary);
     }
 
     .year-tab-btn:hover {
@@ -3084,10 +3140,16 @@
 
     <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
     <div id="sheet-view-container" class="sheet-view-container" style="display: none;">
-      <!-- Top Bar: Year Selector Tabs (Left) & Semester Switcher (Right) -->
+      <!-- Top Bar: Year Selector Tabs (Left), Total GWA (Middle), & Semester Switcher (Right) -->
       <div class="year-tabs-wrapper">
         <div class="year-tabs-bar" id="year-tabs-container">
           <!-- Dynamic Year Tabs -->
+        </div>
+
+        <!-- Total GWA in Top Middle -->
+        <div class="total-gwa-pill" id="total-gwa-display" title="Total Cumulative GWA across all completed subjects">
+          <span class="total-gwa-label">Total GWA:</span>
+          <span class="total-gwa-val">--</span>
         </div>
 
         <!-- Semester Switcher Bar (Top Right) -->
@@ -7174,6 +7236,54 @@
       return NaN;
     }
 
+    function calculateTotalGwa() {
+      if (!userSheetData || typeof userSheetData !== 'object') return { gwa: 0, units: 0, count: 0 };
+      let totalWeightedSum = 0;
+      let totalGradedUnits = 0;
+      let totalValidCount = 0;
+
+      Object.keys(userSheetData).forEach(yearKey => {
+        const yearData = userSheetData[yearKey];
+        if (!yearData) return;
+        ['sem1', 'sem2'].forEach(semKey => {
+          const semRows = yearData[semKey];
+          if (!semRows || !Array.isArray(semRows)) return;
+          semRows.forEach(r => {
+            const g = computeRowGrade(r);
+            const u = parseFloat(r.units) || (yearKey === 'SHS' ? 1 : 0);
+            if (!isNaN(g) && (yearKey === 'SHS' || u > 0)) {
+              totalWeightedSum += g * (yearKey === 'SHS' ? 1 : u);
+              totalGradedUnits += u;
+              totalValidCount++;
+            }
+          });
+        });
+      });
+
+      const gwa = (totalGradedUnits > 0 && totalValidCount > 0)
+        ? (totalWeightedSum / totalGradedUnits)
+        : 0;
+
+      return {
+        gwa,
+        units: totalGradedUnits,
+        count: totalValidCount
+      };
+    }
+
+    function updateTotalGwaDisplay() {
+      const el = document.getElementById('total-gwa-display');
+      if (!el) return;
+      const { gwa, units, count } = calculateTotalGwa();
+      const valEl = el.querySelector('.total-gwa-val');
+      if (valEl) {
+        valEl.textContent = gwa > 0 ? gwa.toFixed(2) : '--';
+      }
+      el.title = gwa > 0
+        ? `Total Cumulative GWA: ${gwa.toFixed(2)} (${units} units, ${count} graded subjects)`
+        : `Total Cumulative GWA: No graded subjects yet`;
+    }
+
     function calculateYearGwa(yearKey) {
       if (!userSheetData || !userSheetData[yearKey]) return 0;
       const data = userSheetData[yearKey];
@@ -7437,6 +7547,7 @@
       localStorage.setItem('tip_gc_active_sheet_sem', activeSemester);
 
       renderSheetYearTabs(annualGwa);
+      updateTotalGwaDisplay();
     }
 
     // Semester Switcher Event Listeners
@@ -7525,6 +7636,7 @@
         annualGwa = annualGwaCalc.sem2Gwa;
       }
       renderSheetYearTabs(annualGwa);
+      updateTotalGwaDisplay();
     }
 
     // Hidden Shortcut: Typing '+' in Units adds a subject, typing '-' removes a subject
