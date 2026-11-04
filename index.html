@@ -2815,10 +2815,109 @@
       color: #f87171;
       box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
     }
+
+    /* Temporary Mode Styles */
+    .btn-temp-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      -webkit-user-select: none;
+      white-space: nowrap;
+      height: 28px;
+    }
+
+    .btn-temp-mode:hover {
+      background: rgba(245, 158, 11, 0.12);
+      border-color: #f59e0b;
+      color: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    .btn-temp-mode.is-active {
+      background: rgba(245, 158, 11, 0.2) !important;
+      border: 1.5px solid #f59e0b !important;
+      color: #fbbf24 !important;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      animation: tempPulse 2.2s infinite ease-in-out;
+    }
+
+    @keyframes tempPulse {
+      0%, 100% {
+        box-shadow: 0 0 6px rgba(245, 158, 11, 0.25);
+        border-color: #f59e0b;
+      }
+      50% {
+        box-shadow: 0 0 14px rgba(245, 158, 11, 0.65);
+        border-color: #fbbf24;
+      }
+    }
+
+    .temp-mode-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: rgba(245, 158, 11, 0.14);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: var(--radius-sm);
+      padding: 0.4rem 0.85rem;
+      margin-bottom: 0.65rem;
+      font-size: 0.775rem;
+      color: #fbbf24;
+      font-weight: 600;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .temp-mode-banner .btn-exit-temp {
+      background: #f59e0b;
+      color: #1a1505;
+      font-weight: 700;
+      font-size: 0.72rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.2rem 0.6rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .temp-mode-banner .btn-exit-temp:hover {
+      background: #fbbf24;
+      transform: scale(1.04);
+    }
+
+    @media (max-width: 600px) {
+      .btn-temp-mode {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.65rem;
+        height: 26px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="app-container">
+    <!-- Temporary Mode Banner -->
+    <div id="temp-mode-banner" class="temp-mode-banner" style="display: none;">
+      <div style="display: flex; align-items: center; gap: 0.45rem;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+        </svg>
+        <span><strong>Temporary Mode Active:</strong> Edits will NOT be saved. Refreshing or switching profiles will reset and remove.</span>
+      </div>
+      <button type="button" id="btn-exit-temp" class="btn-exit-temp" title="Exit Temporary Mode and restore original grades">Exit & Reset</button>
+    </div>
+
     <!-- Calculator View Container -->
     <div id="calc-view-container">
 
@@ -3093,6 +3192,12 @@
         <div>
           <h1 class="brand-title"><span>JeyCub</span> Grade Calculator</h1>
         </div>
+        <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+          </svg>
+          <span class="temp-mode-text">Temp Mode</span>
+        </button>
       </div>
 
       <!-- User Profile & Grading Scheme Bar -->
@@ -3540,7 +3645,7 @@
     const saveIndicatorEl = document.getElementById('save-indicator');
 
     function triggerSaveToast() {
-      if (!saveIndicatorEl || activeUser === 'No Profile') return;
+      if (isTemporaryMode || !saveIndicatorEl || activeUser === 'No Profile') return;
       saveIndicatorEl.classList.add('visible');
       clearTimeout(saveTimeout);
       saveTimeout = setTimeout(() => {
@@ -3838,6 +3943,9 @@
 
     function switchProfileWithAuth(targetUser) {
       if (!targetUser) return;
+      if (isTemporaryMode) {
+        disableTemporaryMode(false);
+      }
       if (targetUser === activeUser) {
         loadUserData(activeUser);
         loadSheetData();
@@ -5012,7 +5120,7 @@
     const cloudSyncTimers = {};
 
     function syncToCloud(type, user, data) {
-      if (!firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
+      if (isTemporaryMode || !firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
       const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
       const key = `${type}_${safeUser}`;
       clearTimeout(cloudSyncTimers[key]);
@@ -5035,6 +5143,7 @@
     }
 
     function saveUserData() {
+      if (isTemporaryMode) return;
       if (!activeUser || activeUser === 'No Profile') return;
       const validProfiles = userProfiles.filter(u => u !== 'No Profile');
       localStorage.setItem(STORAGE_KEY_ACTIVE_USER, activeUser);
@@ -5069,6 +5178,9 @@
     }
 
     function loadUserData(username) {
+      if (isTemporaryMode && username !== tempBackupActiveUser) {
+        disableTemporaryMode(false);
+      }
       activeUser = username || 'No Profile';
       if (typeof loadSheetData === "function") loadSheetData();
 
@@ -5620,7 +5732,99 @@
       saveUserData();
     }
 
+    // ----- TEMPORARY MODE ENGINE -----
+    let isTemporaryMode = false;
+    let tempBackupActiveUser = null;
+    let tempBackupUserData = null;
+    let tempBackupSheetData = null;
+
+    function enableTemporaryMode() {
+      if (isTemporaryMode) return;
+      isTemporaryMode = true;
+
+      // Backup clean state in memory
+      tempBackupActiveUser = activeUser;
+      tempBackupUserData = localStorage.getItem(`tip_gc_data_${activeUser}`);
+      tempBackupSheetData = userSheetData ? JSON.stringify(userSheetData) : null;
+
+      updateTemporaryModeUI();
+
+      showCustomAlert({
+        title: 'Temporary Mode Active',
+        subtitle: 'Sandbox / Simulation Mode',
+        iconBg: 'rgba(245, 158, 11, 0.15)',
+        iconColor: '#f59e0b',
+        iconSvg: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>',
+        htmlContent: `
+          <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+            You are now in <strong style="color: #fbbf24;">Temporary Mode</strong>.
+          </p>
+          <ul style="margin: 0.5rem 0 0; padding-left: 1.1rem; font-size: 0.8rem; color: var(--text-muted); line-height: 1.55;">
+            <li>Experiment freely with grades in the Calculator or GWA Sheet.</li>
+            <li><strong>Edits will NOT be saved</strong> to your profile or cloud storage.</li>
+            <li>Refreshing or switching profiles will immediately <strong>reset and remove</strong> all changes.</li>
+          </ul>
+        `,
+        okText: 'Start Testing'
+      });
+    }
+
+    function disableTemporaryMode(restoreBackup = true) {
+      if (!isTemporaryMode) return;
+      isTemporaryMode = false;
+
+      if (restoreBackup) {
+        if (typeof loadUserData === 'function') loadUserData(activeUser);
+        if (typeof loadSheetData === 'function') loadSheetData();
+      }
+
+      tempBackupUserData = null;
+      tempBackupSheetData = null;
+      tempBackupActiveUser = null;
+
+      updateTemporaryModeUI();
+    }
+
+    function toggleTemporaryMode() {
+      if (isTemporaryMode) {
+        disableTemporaryMode(true);
+      } else {
+        enableTemporaryMode();
+      }
+    }
+
+    function updateTemporaryModeUI() {
+      const btn = document.getElementById('btn-temp-mode');
+      const banner = document.getElementById('temp-mode-banner');
+      if (btn) {
+        if (isTemporaryMode) {
+          btn.classList.add('is-active');
+          btn.title = 'Temporary Mode is Active! Click to exit and reset all changes.';
+          const textSpan = btn.querySelector('.temp-mode-text');
+          if (textSpan) textSpan.textContent = 'Temp: ON';
+        } else {
+          btn.classList.remove('is-active');
+          btn.title = 'Temporary Mode: Edits are not saved and will reset on refresh or profile switch';
+          const textSpan = btn.querySelector('.temp-mode-text');
+          if (textSpan) textSpan.textContent = 'Temp Mode';
+        }
+      }
+      if (banner) {
+        banner.style.display = isTemporaryMode ? 'flex' : 'none';
+      }
+    }
+
     // ----- EVENT LISTENERS -----
+    const btnTempMode = document.getElementById('btn-temp-mode');
+    if (btnTempMode) {
+      btnTempMode.addEventListener('click', toggleTemporaryMode);
+    }
+
+    const btnExitTemp = document.getElementById('btn-exit-temp');
+    if (btnExitTemp) {
+      btnExitTemp.addEventListener('click', () => disableTemporaryMode(true));
+    }
+
     document.getElementById('add-category').addEventListener('click', () => {
       addCategory();
     });
@@ -6903,6 +7107,7 @@
     }
 
     function saveSheetData() {
+      if (isTemporaryMode) return;
       if (!userSheetData) return;
       localStorage.setItem(getSheetStorageKey(), JSON.stringify(userSheetData));
       syncToCloud('sheet', activeUser, userSheetData);
