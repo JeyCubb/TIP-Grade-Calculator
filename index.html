@@ -3167,7 +3167,7 @@
         </div>
 
         <!-- Total GWA in Top Middle -->
-        <div class="total-gwa-pill" id="total-gwa-display" title="Total Cumulative GWA across all completed subjects">
+        <div class="total-gwa-pill" id="total-gwa-display" title="Total Cumulative GWA across all completed subjects" style="display: none;">
           <span class="total-gwa-label">Total GWA:</span>
           <span class="total-gwa-val">--</span>
         </div>
@@ -5905,6 +5905,7 @@
       if (banner) {
         banner.style.display = isTemporaryMode ? 'flex' : 'none';
       }
+      updateTotalGwaDisplay();
     }
 
     // ----- EVENT LISTENERS -----
@@ -7305,6 +7306,11 @@
     function updateTotalGwaDisplay() {
       const el = document.getElementById('total-gwa-display');
       if (!el) return;
+      if (!isTemporaryMode) {
+        el.style.display = 'none';
+        return;
+      }
+      el.style.display = 'inline-flex';
       const { gwa, units, count } = calculateTotalGwa();
       const valEl = el.querySelector('.total-gwa-val');
       if (valEl) {
