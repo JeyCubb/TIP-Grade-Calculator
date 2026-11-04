@@ -6335,6 +6335,28 @@
     // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
     // ==========================================================================
     const DEFAULT_BLANK_CURRICULUM = {
+  "4th Year": {
+    "sem1": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ],
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ]
+  },
   "3rd Year": {
     "sem1": [
       {
@@ -6740,6 +6762,28 @@
 };
 
     const DEFAULT_JACOB_CURRICULUM = {
+  "4th Year": {
+    "sem1": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ],
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ]
+  },
   "3rd Year": {
     "sem1": [
       {
@@ -7191,6 +7235,14 @@
         saveSheetData();
       }
 
+      if (!userSheetData['4th Year']) {
+        userSheetData['4th Year'] = {
+          sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
+          sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }]
+        };
+        saveSheetData();
+      }
+
       if (savedYear && userSheetData[savedYear]) {
         activeSheetYear = savedYear;
       } else if (!userSheetData[activeSheetYear]) {
@@ -7269,37 +7321,35 @@
     }
 
     function calculateTotalGwa() {
-      if (!userSheetData || typeof userSheetData !== 'object') return { gwa: 0, units: 0, count: 0 };
-      let totalWeightedSum = 0;
-      let totalGradedUnits = 0;
-      let totalValidCount = 0;
+      if (!userSheetData || typeof userSheetData !== 'object') return { gwa: 0, count: 0, gwa1: 0, gwa2: 0, gwa3: 0, gwa4: 0, divisor: 4 };
 
-      Object.keys(userSheetData).forEach(yearKey => {
-        const yearData = userSheetData[yearKey];
-        if (!yearData) return;
-        ['sem1', 'sem2'].forEach(semKey => {
-          const semRows = yearData[semKey];
-          if (!semRows || !Array.isArray(semRows)) return;
-          semRows.forEach(r => {
-            const g = computeRowGrade(r);
-            const u = parseFloat(r.units) || (yearKey === 'SHS' ? 1 : 0);
-            if (!isNaN(g) && (yearKey === 'SHS' || u > 0)) {
-              totalWeightedSum += g * (yearKey === 'SHS' ? 1 : u);
-              totalGradedUnits += u;
-              totalValidCount++;
-            }
-          });
-        });
-      });
+      const gwa1 = calculateYearGwa('1st Year');
+      const gwa2 = calculateYearGwa('2nd Year');
+      const gwa3 = calculateYearGwa('3rd Year');
+      const gwa4 = calculateYearGwa('4th Year');
 
-      const gwa = (totalGradedUnits > 0 && totalValidCount > 0)
-        ? (totalWeightedSum / totalGradedUnits)
-        : 0;
+      const yearsWithGrades = [
+        { name: '1st Year', gwa: gwa1 },
+        { name: '2nd Year', gwa: gwa2 },
+        { name: '3rd Year', gwa: gwa3 },
+        { name: '4th Year', gwa: gwa4 }
+      ].filter(y => y.gwa > 0);
+
+      if (yearsWithGrades.length === 0) return { gwa: 0, count: 0, gwa1: 0, gwa2: 0, gwa3: 0, gwa4: 0, divisor: 4 };
+
+      // User specified formula: (4th year + 3rd + 2nd + 1st) / 4
+      const sum = gwa1 + gwa2 + gwa3 + gwa4;
+      const divisor = (gwa4 > 0) ? 4 : yearsWithGrades.length;
+      const gwa = sum / divisor;
 
       return {
         gwa,
-        units: totalGradedUnits,
-        count: totalValidCount
+        gwa1,
+        gwa2,
+        gwa3,
+        gwa4,
+        divisor,
+        count: yearsWithGrades.length
       };
     }
 
@@ -7311,16 +7361,22 @@
         return;
       }
       el.style.display = 'inline-flex';
-      const { gwa, units, count } = calculateTotalGwa();
+      const res = calculateTotalGwa();
       const valEl = el.querySelector('.total-gwa-val');
       if (valEl) {
-        valEl.textContent = gwa > 0 ? gwa.toFixed(2) : '--';
+        valEl.textContent = res.gwa > 0 ? res.gwa.toFixed(2) : '--';
       }
-      el.title = gwa > 0
-        ? `Total Cumulative GWA: ${gwa.toFixed(2)} (${units} units, ${count} graded subjects)`
-        : `Total Cumulative GWA: No graded subjects yet`;
+      if (res.gwa > 0) {
+        const parts = [];
+        if (res.gwa4 > 0) parts.push(`4th: ${res.gwa4.toFixed(2)}`);
+        if (res.gwa3 > 0) parts.push(`3rd: ${res.gwa3.toFixed(2)}`);
+        if (res.gwa2 > 0) parts.push(`2nd: ${res.gwa2.toFixed(2)}`);
+        if (res.gwa1 > 0) parts.push(`1st: ${res.gwa1.toFixed(2)}`);
+        el.title = `Total GWA = (${parts.join(' + ')}) / ${res.divisor} = ${res.gwa.toFixed(2)}`;
+      } else {
+        el.title = `Total Cumulative GWA: No graded subjects yet`;
+      }
     }
-
     function calculateYearGwa(yearKey) {
       if (!userSheetData || !userSheetData[yearKey]) return 0;
       const data = userSheetData[yearKey];
