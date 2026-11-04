@@ -2760,35 +2760,55 @@
       transform: scale(1.15);
     }
 
+
     .profile-modal-item-lock {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-      cursor: pointer;
-      border-radius: var(--radius-sm);
+      width: 26px !important;
+      height: 26px !important;
+      min-width: 26px !important;
+      min-height: 26px !important;
+      padding: 0 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.15s ease !important;
+      cursor: pointer !important;
+      border-radius: var(--radius-sm) !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
     }
 
     .profile-modal-item-lock.is-locked {
-      color: var(--color-error);
+      color: var(--color-error) !important;
+    }
+    .profile-modal-item-lock.is-locked svg {
+      stroke: var(--color-error) !important;
     }
 
     .profile-modal-item-lock.is-unlocked {
-      color: var(--text-muted);
+      color: var(--text-muted) !important;
+    }
+    .profile-modal-item-lock.is-unlocked svg {
+      stroke: var(--text-muted) !important;
     }
 
     .profile-modal-item-lock:hover {
-      transform: scale(1.15);
+      transform: scale(1.15) !important;
     }
 
     .profile-modal-item-lock.is-locked:hover {
       background: var(--color-error-bg) !important;
-      color: #f87171;
+      color: #f87171 !important;
+    }
+    .profile-modal-item-lock.is-locked:hover svg {
+      stroke: #f87171 !important;
     }
 
     .profile-modal-item-lock.is-unlocked:hover {
-      background: rgba(249, 115, 22, 0.12) !important;
-      color: var(--accent-primary);
+      background: rgba(255, 255, 255, 0.08) !important;
+      color: var(--text-primary) !important;
+    }
+    .profile-modal-item-lock.is-unlocked:hover svg {
+      stroke: var(--text-primary) !important;
     }
 
     .btn-confirm-primary {
@@ -4501,7 +4521,7 @@
             ${lastAccessedHtml}
           </div>
           <div class="col-actions">
-            <button type="button" class="btn-icon-only profile-modal-item-lock ${isLocked ? 'is-locked' : 'is-unlocked'}" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="${isLocked ? `Profile '${p}' is locked. Click to manage/unlock.` : `Profile '${p}' is not locked. Click to lock with password.`}">
+            <button type="button" class="profile-modal-item-lock ${isLocked ? 'is-locked' : 'is-unlocked'}" style="width: 26px; height: 26px; min-width: 26px; min-height: 26px; padding: 0;" title="${isLocked ? `Profile '${p}' is locked. Click to manage/unlock.` : `Profile '${p}' is not locked. Click to lock with password.`}">
               ${isLocked ? `
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
