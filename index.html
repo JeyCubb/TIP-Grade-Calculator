@@ -2502,6 +2502,7 @@
     .profile-modal-row .col-name {
       display: flex;
       align-items: center;
+      gap: 0.45rem;
       min-width: 0;
       cursor: pointer;
     }
@@ -2517,11 +2518,11 @@
       max-width: 100%;
     }
 
-    .profile-modal-row .col-name:hover .profile-name-text {
+    .profile-name-text:hover {
       background: rgba(249, 115, 22, 0.14);
     }
 
-    .profile-modal-row .col-name:hover .profile-name-val {
+    .profile-name-text:hover .profile-name-val {
       color: var(--accent-primary);
     }
 
@@ -2542,7 +2543,7 @@
       flex-shrink: 0;
     }
 
-    .profile-modal-row .col-name:hover .profile-name-edit-icon {
+    .profile-name-text:hover .profile-name-edit-icon {
       opacity: 1;
       transform: translateX(0) scale(1);
     }
@@ -4515,10 +4516,9 @@
               </svg>
             </button>
           </div>
-          <div class="col-name" style="cursor: pointer;" title="${isLocked ? `Profile '${p}' is locked. Click to load.` : `Click to load. Hold to rename profile '${p}'.`}">
-            <div class="profile-name-text">
+          <div class="col-name" style="cursor: pointer;">
+            <div class="profile-name-text" title="${isLocked ? `Profile '${p}' is locked. Click to load.` : `Click to load. Hold to rename profile '${p}'.`}">
               <span class="profile-name-val">${p}</span>
-              ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
               ${!isLocked ? `
               <span class="profile-name-edit-icon" title="Hold to rename">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -4527,6 +4527,7 @@
                 </svg>
               </span>` : ''}
             </div>
+            ${isActive ? `<span class="profile-badge-active" title="Currently Active Profile">Active</span>` : ''}
           </div>
           <div class="col-accessed" style="cursor: pointer;">
             ${lastAccessedHtml}
