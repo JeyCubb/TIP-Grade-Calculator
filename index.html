@@ -1175,38 +1175,59 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 30px 1fr 100px 65px !important;
+        grid-template-columns: 28px minmax(0, 1fr) 76px 56px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
-        gap: 0.3rem !important;
+        gap: 0.35rem !important;
       }
       .profile-modal-grid-header .col-actions {
         text-align: center !important;
       }
 
       .profile-modal-row {
-        grid-template-columns: 30px 1fr 100px 65px !important;
-        padding: 0.4rem 0.4rem !important;
-        gap: 0.3rem !important;
+        grid-template-columns: 28px minmax(0, 1fr) 76px 56px !important;
+        padding: 0.38rem 0.45rem !important;
+        gap: 0.35rem !important;
       }
       .profile-modal-row .col-actions {
         justify-content: center !important;
       }
 
+      .profile-modal-row .col-name {
+        min-width: 0 !important;
+        overflow: hidden !important;
+        gap: 0.3rem !important;
+      }
+
+      .profile-name-text {
+        min-width: 0 !important;
+        flex-shrink: 1 !important;
+      }
+
       .profile-name-val {
         font-size: 0.78rem !important;
-        max-width: 85px !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
         white-space: nowrap !important;
       }
 
+      .profile-badge-active {
+        font-size: 0.58rem !important;
+        padding: 0.08rem 0.28rem !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
+      }
+
       .accessed-date {
-        font-size: 0.68rem !important;
+        font-size: 0.66rem !important;
+        white-space: nowrap !important;
       }
 
       .accessed-time {
-        font-size: 0.58rem !important;
+        font-size: 0.56rem !important;
+        white-space: nowrap !important;
       }
 
       .profile-btn-load {
@@ -2214,7 +2235,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px 1fr 185px 85px !important;
+        grid-template-columns: 44px minmax(0, 1fr) 185px 85px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
@@ -2224,7 +2245,7 @@
         text-align: center !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px 1fr 185px 85px !important;
+        grid-template-columns: 44px minmax(0, 1fr) 185px 85px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
@@ -2414,7 +2435,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 75px;
+      grid-template-columns: 36px minmax(0, 1fr) 140px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2439,7 +2460,7 @@
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px 1fr 160px 75px;
+      grid-template-columns: 36px minmax(0, 1fr) 140px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -2505,6 +2526,7 @@
       align-items: center;
       gap: 0.45rem;
       min-width: 0;
+      overflow: hidden;
       cursor: pointer;
     }
 
@@ -2516,7 +2538,9 @@
       margin-left: -0.4rem;
       border-radius: var(--radius-sm);
       transition: background 0.15s ease, color 0.15s ease;
+      min-width: 0;
       max-width: 100%;
+      flex-shrink: 1;
     }
 
     .profile-name-text:hover {
@@ -2554,6 +2578,10 @@
       font-size: 0.85rem;
       color: var(--text-primary);
       transition: color 0.15s ease;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .profile-badge-lock {
@@ -2573,6 +2601,8 @@
       border: 1px solid rgba(249, 115, 22, 0.4);
       text-transform: uppercase;
       letter-spacing: 0.04em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .accessed-dt {
