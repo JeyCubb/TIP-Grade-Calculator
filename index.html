@@ -84,6 +84,36 @@
       font-size: 21px; /* Scaled up by 5 units from 16px */
     }
 
+    /* Custom Sleek Scrollbar */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(249, 115, 22, 0.45) transparent;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(249, 115, 22, 0.4);
+      border-radius: 9999px;
+      transition: background 0.2s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(249, 115, 22, 0.75);
+    }
+
+    ::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background-color: var(--bg-main);
@@ -2430,7 +2460,31 @@
       overflow-y: auto;
       overscroll-behavior: contain;
       -webkit-overflow-scrolling: touch;
-      padding-right: 0.2rem;
+      padding-right: 0.35rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(249, 115, 22, 0.45) rgba(255, 255, 255, 0.03);
+    }
+
+    .profile-modal-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .profile-modal-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 9999px;
+      margin: 3px 0;
+    }
+
+    .profile-modal-list::-webkit-scrollbar-thumb {
+      background: rgba(249, 115, 22, 0.45);
+      border-radius: 9999px;
+      border: 1px solid rgba(249, 115, 22, 0.15);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .profile-modal-list::-webkit-scrollbar-thumb:hover {
+      background: rgba(249, 115, 22, 0.8);
+      border-color: rgba(249, 115, 22, 0.4);
     }
 
     .profile-modal-grid-header {
