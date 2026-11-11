@@ -1175,7 +1175,7 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: 28px minmax(0, 1fr) 76px 56px !important;
+        grid-template-columns: minmax(0, 1fr) 76px 56px !important;
         font-size: 0.62rem !important;
         padding: 0.25rem 0.4rem !important;
         gap: 0.35rem !important;
@@ -1185,7 +1185,7 @@
       }
 
       .profile-modal-row {
-        grid-template-columns: 28px minmax(0, 1fr) 76px 56px !important;
+        grid-template-columns: minmax(0, 1fr) 76px 56px !important;
         padding: 0.38rem 0.45rem !important;
         gap: 0.35rem !important;
       }
@@ -2235,7 +2235,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: 44px minmax(0, 1fr) 185px 85px !important;
+        grid-template-columns: minmax(0, 1fr) 185px 85px !important;
         font-size: 0.78rem !important;
         padding: 0.35rem 1rem !important;
         margin-bottom: 0.15rem !important;
@@ -2245,7 +2245,7 @@
         text-align: center !important;
       }
       .profile-modal-row {
-        grid-template-columns: 44px minmax(0, 1fr) 185px 85px !important;
+        grid-template-columns: minmax(0, 1fr) 185px 85px !important;
         padding: 0.42rem 1rem !important;
         gap: 0.65rem !important;
       }
@@ -2435,7 +2435,7 @@
 
     .profile-modal-grid-header {
       display: grid;
-      grid-template-columns: 36px minmax(0, 1fr) 140px 75px;
+      grid-template-columns: minmax(0, 1fr) 140px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.3rem 0.75rem;
@@ -2448,19 +2448,13 @@
       margin-bottom: 0.35rem;
     }
 
-    .profile-modal-grid-header .col-fav {
-      text-align: center;
-      color: #f59e0b;
-      font-size: 0.85rem;
-    }
-
     .profile-modal-grid-header .col-actions {
       text-align: center;
     }
 
     .profile-modal-row {
       display: grid;
-      grid-template-columns: 36px minmax(0, 1fr) 140px 75px;
+      grid-template-columns: minmax(0, 1fr) 140px 75px;
       align-items: center;
       gap: 0.6rem;
       padding: 0.45rem 0.75rem;
@@ -3439,7 +3433,6 @@
           </div>
           <div>
             <h2 class="profile-modal-title">Profile Selector</h2>
-            <div class="profile-modal-subtitle">Choose a profile, pin favorites to top, or create a new profile</div>
           </div>
         </div>
         <button class="profile-modal-close-btn" id="btn-close-profile-modal" title="Close dialog">&times;</button>
@@ -3447,7 +3440,6 @@
 
       <div class="profile-modal-body">
         <div class="profile-modal-grid-header">
-          <div class="col-fav" title="Favorite / Pin on this device to keep at top"><svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
           <div class="col-name">Name</div>
           <div class="col-accessed">Last Accessed</div>
           <div class="col-actions">Action</div>
@@ -4508,18 +4500,10 @@
         selectableProfiles.push('JeyCub');
       }
 
-      const favs = getFavoriteProfiles();
-
       // Sort profiles:
-      // 1. Favorites pinned to top (device-only)
-      // 2. Most recently accessed timestamp descending
-      // 3. Alphabetical fallback
+      // 1. Most recently accessed timestamp descending
+      // 2. Alphabetical fallback
       selectableProfiles.sort((a, b) => {
-        const aFav = favs.includes(a);
-        const bFav = favs.includes(b);
-        if (aFav && !bFav) return -1;
-        if (!aFav && bFav) return 1;
-
         const aTime = getProfileLastAccessed(a) || 0;
         const bTime = getProfileLastAccessed(b) || 0;
         if (aTime !== bTime) {
@@ -4531,22 +4515,14 @@
 
       selectableProfiles.forEach(p => {
         const isLocked = !!getProfilePassword(p);
-        const isFav = favs.includes(p);
         const isActive = (p === activeUser);
         const lastAccessedTs = getProfileLastAccessed(p);
         const lastAccessedHtml = formatLastAccessed(lastAccessedTs);
 
         const row = document.createElement('div');
-        row.className = `profile-modal-row ${isActive ? 'is-active' : ''} ${isFav ? 'is-favorited' : ''}`;
+        row.className = `profile-modal-row ${isActive ? 'is-active' : ''}`;
         row.title = isActive ? `Profile '${p}' is currently active (Hold name to rename)` : `Click to load profile '${p}' (Hold name to rename)`;
         row.innerHTML = `
-          <div class="col-fav">
-            <button type="button" class="btn-fav-star ${isFav ? 'favorited' : ''}" title="${isFav ? 'Unpin from top (Device Only)' : 'Pin to top (Device Only)'}" data-user="${p}">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="${isFav ? '#f59e0b' : 'none'}" stroke="${isFav ? '#f59e0b' : 'var(--text-muted)'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-            </button>
-          </div>
           <div class="col-name" style="cursor: pointer;">
             <div class="profile-name-text" title="${isLocked ? `Profile '${p}' is locked. Click to load.` : `Click to load. Hold to rename profile '${p}'.`}">
               <span class="profile-name-val">${p}</span>
@@ -4582,16 +4558,6 @@
             </button>
           </div>
         `;
-
-        // Favorite Star Click Event (Device-only pinning to top)
-        const starBtn = row.querySelector('.btn-fav-star');
-        if (starBtn) {
-          starBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleProfileFavorite(p);
-            renderProfileModalList();
-          });
-        }
 
         const lockItemBtn = row.querySelector('.profile-modal-item-lock');
         if (lockItemBtn) {
@@ -4641,7 +4607,7 @@
 
         function onPointerDown(e) {
           if (e.button !== undefined && e.button !== 0) return; // Only primary/left click or touch
-          if (e.target.closest('.btn-fav-star') || e.target.closest('.profile-modal-item-lock') || e.target.closest('.profile-modal-item-delete')) {
+          if (e.target.closest('.profile-modal-item-lock') || e.target.closest('.profile-modal-item-delete')) {
             return;
           }
           isHoldTriggered = false;
