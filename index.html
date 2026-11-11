@@ -3580,7 +3580,7 @@
 
   
     /* ==========================================================================
-       SCHEDULE CREATOR FULL-SPACE EXPANSION & UNBLOCKED MODERN LAYOUT
+       DESKTOP FULL-SPACE & LEVEL CARDS FOR GRADE CALCULATOR & SCHEDULE CREATOR
        ========================================================================== */
     body.view-sched,
     body[data-view="sched"] {
@@ -3591,6 +3591,123 @@
     }
 
     @media (min-width: 769px) {
+      /* Shared desktop fluid width for all views */
+      .app-container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* -------------------------------------------------------------
+         1. CALCULATOR VIEW ON DESKTOP: FULL-WIDTH, LEVEL & FIT 100VH
+         ------------------------------------------------------------- */
+      html[data-active-view="calc"] body,
+      body.view-calc,
+      body:not(.view-sched):not(.view-sheet) {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+        padding: 0.35rem 0.65rem !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] .app-container,
+      body.view-calc .app-container,
+      body:not(.view-sched):not(.view-sheet) .app-container {
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+      }
+
+      html[data-active-view="calc"] #calc-view-container,
+      body.view-calc #calc-view-container,
+      body:not(.view-sched):not(.view-sheet) #calc-view-container {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+      }
+
+      html[data-active-view="calc"] .main-grid,
+      body.view-calc .main-grid,
+      body:not(.view-sched):not(.view-sheet) .main-grid {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1.45fr) minmax(420px, 1fr) !important;
+        gap: 0.65rem !important;
+        align-items: stretch !important;
+        overflow: hidden !important;
+        margin-bottom: 0 !important;
+      }
+
+      /* Class Standing Card */
+      html[data-active-view="calc"] #card-cs-section,
+      body.view-calc #card-cs-section,
+      body:not(.view-sched):not(.view-sheet) #card-cs-section {
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        padding: 0.65rem 0.85rem !important;
+      }
+
+      html[data-active-view="calc"] #categories,
+      body.view-calc #categories,
+      body:not(.view-sched):not(.view-sheet) #categories {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        padding-right: 4px !important;
+      }
+
+      /* Exam & Target Solver Card */
+      html[data-active-view="calc"] #card-exam-section,
+      body.view-calc #card-exam-section,
+      body:not(.view-sched):not(.view-sheet) #card-exam-section {
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow-y: auto !important;
+        box-sizing: border-box !important;
+        padding: 0.65rem 0.85rem !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+      }
+
+      html[data-active-view="calc"] .view-nav-bar,
+      body.view-calc .view-nav-bar,
+      body:not(.view-sched):not(.view-sheet) .view-nav-bar {
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+        padding: 0.15rem 0.4rem !important;
+      }
+
+      html[data-active-view="calc"] .app-header,
+      body.view-calc .app-header,
+      body:not(.view-sched):not(.view-sheet) .app-header {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+        padding: 0.35rem 0.65rem !important;
+      }
+
+      /* -------------------------------------------------------------
+         2. SCHEDULE CREATOR VIEW ON DESKTOP: LEVEL & FIT 100VH
+         ------------------------------------------------------------- */
       body.view-sched,
       body[data-view="sched"],
       html[data-active-view="sched"] body {
@@ -3604,8 +3721,8 @@
       body.view-sched .app-container,
       body[data-view="sched"] .app-container,
       html[data-active-view="sched"] .app-container {
-        height: calc(100vh - 0.7rem) !important;
-        max-height: calc(100vh - 0.7rem) !important;
+        height: 100% !important;
+        max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
@@ -3622,6 +3739,7 @@
         min-height: 0 !important;
         display: flex !important;
         flex-direction: column !important;
+        justify-content: space-between !important;
         overflow: hidden !important;
         gap: 0.35rem !important;
       }
@@ -3667,23 +3785,38 @@
         box-sizing: border-box !important;
         display: flex !important;
         flex-direction: column !important;
+        overflow: hidden !important;
+        padding: 0.55rem 0.75rem !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sched .sched-sidebar-header,
+      html[data-active-view="sched"] .sched-sidebar-header {
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sched #sched-subject-list,
+      html[data-active-view="sched"] #sched-subject-list {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
         overflow-y: auto !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-        padding: 0.55rem 0.75rem !important;
-        gap: 0.35rem !important;
+        padding-right: 4px !important;
       }
 
       body.view-sched .sched-toolbar,
       html[data-active-view="sched"] .sched-toolbar {
         flex-shrink: 0 !important;
-        padding: 0.4rem 0.75rem !important;
+        padding: 0.35rem 0.65rem !important;
+        margin: 0 !important;
       }
 
       body.view-sched .app-header,
       html[data-active-view="sched"] .app-header {
         flex-shrink: 0 !important;
         padding: 0.35rem 0.65rem !important;
+        margin: 0 !important;
       }
     }
 
@@ -3998,19 +4131,21 @@
       border-top: none;
     }
 
-    /* Timetable Grid full fluid height & width */
-    .sched-calendar-card {
-      background: var(--bg-card) !important;
-      border: 1px solid var(--border-color) !important;
-      border-radius: var(--radius-md) !important;
-      padding: 0.75rem 0.85rem !important;
-      box-shadow: var(--shadow-sm) !important;
-      width: 100% !important;
-      overflow-x: auto !important;
-    }
-    .sched-grid-wrapper {
-      width: 100% !important;
-      min-width: 0 !important;
+    /* Timetable Grid mobile fluid layout */
+    @media (max-width: 768px) {
+      .sched-calendar-card {
+        background: var(--bg-card) !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: var(--radius-md) !important;
+        padding: 0.75rem 0.85rem !important;
+        box-shadow: var(--shadow-sm) !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+      }
+      .sched-grid-wrapper {
+        width: 100% !important;
+        min-width: 0 !important;
+      }
     }
     .sched-grid-header {
       grid-template-columns: 80px repeat(5, 1fr) !important;
@@ -4600,9 +4735,8 @@
           ? h.replace('#', '')
           : (localStorage.getItem('tip_gc_active_view') || 'calc');
         document.documentElement.setAttribute('data-active-view', v);
-        if (v === 'sched') {
-          document.documentElement.classList.add('view-sched');
-        }
+        document.documentElement.classList.remove('view-sched', 'view-sheet', 'view-calc');
+        document.documentElement.classList.add('view-' + v);
       } catch (e) {}
     })();
   </script>
@@ -4616,7 +4750,6 @@
       width: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
-      gap: 0.5rem !important;
     }
     html[data-active-view="sched"] .user-profile-bar,
     html[data-active-view="sched"] .btn-temp-mode,
@@ -10370,6 +10503,9 @@ Room: ${sec.room}${pillConflictTitle}"
       document.body.classList.toggle('view-sched', viewName === 'sched');
       document.body.classList.toggle('view-sheet', viewName === 'sheet');
       document.body.classList.toggle('view-calc', viewName === 'calc');
+      document.documentElement.classList.toggle('view-sched', viewName === 'sched');
+      document.documentElement.classList.toggle('view-sheet', viewName === 'sheet');
+      document.documentElement.classList.toggle('view-calc', viewName === 'calc');
       document.body.setAttribute('data-view', viewName);
       document.documentElement.setAttribute('data-active-view', viewName);
       const headerSchemeEl = document.getElementById('header-scheme-dropdown');
