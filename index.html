@@ -3725,8 +3725,11 @@
       color: #ffffff;
       display: block;
       white-space: normal;
-      word-break: normal;
-      overflow-wrap: break-word;
+      word-break: keep-all;
+      overflow-wrap: normal;
+      text-wrap: balance;
+      text-wrap: pretty;
+      hyphens: none;
       text-shadow: 0 1px 2px rgba(0,0,0,0.6);
       letter-spacing: -0.01em;
     }
@@ -3876,7 +3879,7 @@
         width: 100% !important;
         max-width: 100% !important;
         display: grid !important;
-        grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+        grid-template-columns: 36px repeat(5, minmax(0, 1fr)) !important;
         gap: 1.5px !important;
         padding-bottom: 0.25rem !important;
         margin-bottom: 0.2rem !important;
@@ -3896,18 +3899,19 @@
         width: 100% !important;
         max-width: 100% !important;
         display: grid !important;
-        grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+        grid-template-columns: 36px repeat(5, minmax(0, 1fr)) !important;
         grid-auto-rows: 23px !important;
         gap: 1.5px !important;
         box-sizing: border-box !important;
       }
 
       .sched-time-label {
-        font-size: 0.50rem !important;
+        font-size: 0.46rem !important;
         font-weight: 700 !important;
-        padding-right: 0.15rem !important;
+        padding-right: 0.18rem !important;
         line-height: 1 !important;
         justify-content: flex-end !important;
+        letter-spacing: -0.02em !important;
       }
 
       .sched-grid-slot {
@@ -3925,13 +3929,16 @@
       }
 
       .sched-event-title-main {
-        font-size: 0.52rem !important;
+        font-size: 0.48rem !important;
         font-weight: 800 !important;
-        line-height: 1.05 !important;
+        line-height: 1.06 !important;
         display: block !important;
         white-space: normal !important;
-        word-break: normal !important;
-        overflow-wrap: break-word !important;
+        word-break: keep-all !important;
+        overflow-wrap: normal !important;
+        text-wrap: balance !important;
+        text-wrap: pretty !important;
+        hyphens: none !important;
       }
 
       .sched-event-meta {
@@ -9441,7 +9448,36 @@ Room: ${sec.room}"
         card.title = `${ev.title}\nSection: ${ev.sectionId}\nRoom: ${ev.room}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}`;
         gridEl.appendChild(card);
       });
+
+      // Auto balance & shrink-to-fit titles to prevent overflowing or word breaking
+      requestAnimationFrame(() => {
+        fitScheduleEventTitles();
+      });
     }
+
+    function fitScheduleEventTitles() {
+      const cards = document.querySelectorAll('.sched-event-block');
+      cards.forEach(card => {
+        const titleEl = card.querySelector('.sched-event-title-main');
+        if (!titleEl) return;
+
+        titleEl.style.fontSize = '';
+        const maxW = card.clientWidth - 4;
+        if (maxW <= 0) return;
+
+        let computedSize = parseFloat(window.getComputedStyle(titleEl).fontSize) || 10;
+        const minSize = 6.0;
+
+        while (titleEl.scrollWidth > maxW && computedSize > minSize) {
+          computedSize -= 0.25;
+          titleEl.style.fontSize = computedSize + 'px';
+        }
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      fitScheduleEventTitles();
+    });
 
     function formatTimeMinutes(min) {
       const h = Math.floor(min / 60);
