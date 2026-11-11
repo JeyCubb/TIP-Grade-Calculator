@@ -3712,10 +3712,11 @@
       gap: 0.75rem;
       max-height: 720px;
       overflow-y: auto;
-      scroll-snap-type: y mandatory;
-      -webkit-scroll-snap-type: y mandatory;
-      scroll-padding-top: 0.45rem;
-      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory !important;
+      -webkit-scroll-snap-type: y mandatory !important;
+      scroll-padding-top: 0px !important;
+      scroll-behavior: smooth !important;
+      overscroll-behavior-y: contain !important;
       -webkit-overflow-scrolling: touch;
     }
     .sched-sidebar-header {
@@ -4280,8 +4281,9 @@
         padding-right: 4px !important;
         scroll-snap-type: y mandatory !important;
         -webkit-scroll-snap-type: y mandatory !important;
-        scroll-padding-top: 0.35rem !important;
+        scroll-padding-top: 0px !important;
         scroll-behavior: smooth !important;
+        overscroll-behavior-y: contain !important;
       }
 
       body.view-sched .app-header,
@@ -4382,8 +4384,8 @@
       border-radius: 8px !important;
       margin-bottom: 0.35rem !important;
       transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-      scroll-snap-align: start;
-      scroll-snap-stop: normal;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
     }
     .sched-course-row:last-child {
       margin-bottom: 0 !important;
@@ -5042,9 +5044,10 @@
         box-sizing: border-box !important;
         scroll-snap-type: y mandatory !important;
         -webkit-scroll-snap-type: y mandatory !important;
-        scroll-padding-top: 0.45rem !important;
+        scroll-padding-top: 0px !important;
         scroll-behavior: smooth !important;
         -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior-y: contain !important;
       }
 
       .sched-course-row {
@@ -5054,7 +5057,7 @@
         overflow-x: hidden !important;
         padding: 0.4rem 0.45rem !important;
         scroll-snap-align: start !important;
-        scroll-snap-stop: normal !important;
+        scroll-snap-stop: always !important;
       }
 
       .sched-course-header-new {
@@ -11123,7 +11126,7 @@ Room: ${sec.room}${pillConflictTitle}"
       if (statUnits) statUnits.textContent = `${totalUnits} / 27`;
     }
 
-    // Bind schedule preset buttons
+    // Bind schedule preset buttons & aggressive subject scroll snap
     function initScheduleButtons() {
       const btnA = document.getElementById('btn-preset-choice-a');
       const btnB = document.getElementById('btn-preset-choice-b');
@@ -11135,6 +11138,49 @@ Room: ${sec.room}${pillConflictTitle}"
         saveScheduleCreatorState();
         renderScheduleView();
       });
+
+      // Aggressive Subject Scroll Snap: locks each mouse wheel tick strictly to next/prev subject
+      const subjectListEl = document.getElementById('sched-subject-list');
+      const sidebarCardEl = document.querySelector('.sched-sidebar-card');
+      let isSubjectSnapping = false;
+
+      function onSubjectWheel(e) {
+        if (Math.abs(e.deltaY) < 14) return;
+        const container = (subjectListEl && subjectListEl.scrollHeight > subjectListEl.clientHeight + 10)
+          ? subjectListEl
+          : sidebarCardEl;
+        if (!container) return;
+
+        const rows = Array.from(container.querySelectorAll('.sched-course-row'));
+        if (rows.length <= 1) return;
+
+        e.preventDefault();
+        if (isSubjectSnapping) return;
+        isSubjectSnapping = true;
+
+        const containerTop = container.getBoundingClientRect().top;
+        let targetRow = null;
+
+        if (e.deltaY > 0) {
+          // Scroll down: find next row below current top threshold
+          targetRow = rows.find(r => (r.getBoundingClientRect().top - containerTop) > 18) || rows[rows.length - 1];
+        } else {
+          // Scroll up: find previous row above current top threshold
+          const reversed = [...rows].reverse();
+          targetRow = reversed.find(r => (containerTop - r.getBoundingClientRect().top) > 18) || rows[0];
+        }
+
+        if (targetRow) {
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        setTimeout(() => {
+          isSubjectSnapping = false;
+        }, 150);
+      }
+
+      if (subjectListEl) subjectListEl.addEventListener('wheel', onSubjectWheel, { passive: false });
+      if (sidebarCardEl) sidebarCardEl.addEventListener('wheel', onSubjectWheel, { passive: false });
     }
 
 
