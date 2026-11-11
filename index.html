@@ -3211,14 +3211,15 @@
     }
     .sched-conflict-alert {
       display: none;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      color: #fca5a5;
+      background: rgba(255, 0, 85, 0.18);
+      border: 1px solid #ff0055;
+      color: #ff3377;
+      box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-sm);
       font-weight: 700;
       font-size: 0.78rem;
-      animation: pulse 1.5s infinite;
+      animation: neonPulseRed 1.8s infinite ease-in-out;
     }
 
     /* Two-Column Layout */
@@ -3363,10 +3364,10 @@
       line-height: 1.1;
     }
     .sched-event-conflict {
-      opacity: 0.5 !important;
-      border: 2px dashed #ef4444 !important;
-      border-left: 3px solid #ef4444 !important;
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5) !important;
+      opacity: 0.65 !important;
+      border: 2px dashed #ff0055 !important;
+      border-left: 3px solid #ff0055 !important;
+      box-shadow: 0 0 12px rgba(255, 0, 85, 0.65) !important;
       z-index: 2 !important;
       transition: opacity 0.15s ease, z-index 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
     }
@@ -3374,7 +3375,7 @@
     .sched-event-conflict:hover {
       opacity: 0.95 !important;
       z-index: 10 !important;
-      box-shadow: 0 0 16px rgba(239, 68, 68, 0.85) !important;
+      box-shadow: 0 0 18px rgba(255, 0, 85, 0.95) !important;
       transform: scale(1.02) !important;
     }
 
@@ -3650,6 +3651,72 @@
     }
     .sched-pill-none:hover {
       background: rgba(239, 68, 68, 0.2) !important;
+    }
+
+    /* Neon Red Conflict Styling for Subjects & Sections Sidebar */
+    .sched-course-row.has-conflict {
+      background: rgba(255, 0, 85, 0.08) !important;
+      border-left: 3px solid #ff0055 !important;
+      box-shadow: inset 0 0 14px rgba(255, 0, 85, 0.12) !important;
+    }
+
+    .sched-course-row.has-conflict .sched-course-title-main {
+      color: #ff3377 !important;
+      text-shadow: 0 0 10px rgba(255, 0, 85, 0.45) !important;
+    }
+
+    .sched-course-row.has-conflict .sched-course-dot {
+      background: #ff0055 !important;
+      box-shadow: 0 0 8px #ff0055, 0 0 14px rgba(255, 0, 85, 0.6) !important;
+      animation: neonPulseRed 1.8s infinite ease-in-out !important;
+    }
+
+    .sched-pill.sched-pill-conflict {
+      background: rgba(255, 0, 85, 0.22) !important;
+      border-color: #ff0055 !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 12px rgba(255, 0, 85, 0.8), inset 0 0 8px rgba(255, 0, 85, 0.4) !important;
+      animation: neonPulseRed 1.8s infinite ease-in-out !important;
+    }
+
+    .sched-pill.sched-pill-conflict .pill-sec {
+      color: #ff3377 !important;
+      font-weight: 850 !important;
+      text-shadow: 0 0 8px rgba(255, 0, 85, 0.9) !important;
+    }
+
+    .sched-pill.sched-pill-potential-conflict:not(.active) {
+      border-color: rgba(255, 0, 85, 0.5) !important;
+      border-style: dashed !important;
+      color: #fda4af !important;
+      background: rgba(255, 0, 85, 0.05) !important;
+    }
+
+    .sched-conflict-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      background: rgba(255, 0, 85, 0.25);
+      border: 1px solid #ff0055;
+      color: #ff3377;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 0.08rem 0.35rem;
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      box-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
+      text-shadow: 0 0 4px rgba(255, 0, 85, 0.6);
+      animation: neonPulseRed 1.8s infinite ease-in-out;
+    }
+
+    @keyframes neonPulseRed {
+      0%, 100% {
+        box-shadow: 0 0 8px rgba(255, 0, 85, 0.65), inset 0 0 4px rgba(255, 0, 85, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 16px rgba(255, 0, 85, 0.95), inset 0 0 8px rgba(255, 0, 85, 0.6);
+      }
     }
 
     /* Timetable Grid full fluid height & width */
@@ -9278,59 +9345,8 @@
       updateScheduleStats();
     }
 
-    function renderScheduleSidebar() {
-      const listEl = document.getElementById('sched-subject-list');
-      if (!listEl) return;
-
-      listEl.innerHTML = '';
-      SCHEDULE_COURSES.forEach(course => {
-        const selectedSec = userScheduleSelection[course.code];
-        const row = document.createElement('div');
-        row.className = 'sched-course-row' + (selectedSec ? ' active' : '');
-
-        let pillsHtml = '';
-        course.sections.forEach(sec => {
-          const isAct = selectedSec === sec.id;
-          pillsHtml += `
-            <button class="sched-pill ${isAct ? 'active' : ''}" 
-                    onclick="toggleScheduleSection('${course.code}', '${sec.id}')"
-                    title="${course.title} (${course.code})
-Section: ${sec.id} (${sec.desc})
-Room: ${sec.room}"
-                    style="${isAct ? `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;` : ''}">
-              <span class="pill-sec" style="${isAct ? `color: ${course.border}; font-weight: 800;` : ''}">${sec.id}</span>
-              <span class="pill-desc">${sec.desc}</span>
-            </button>
-          `;
-        });
-
-
-
-        row.innerHTML = `
-          <div class="sched-course-header-new">
-            <div class="sched-course-title-group">
-              <span class="sched-course-dot" style="background: ${course.color}; box-shadow: 0 0 6px ${course.color};"></span>
-              <span class="sched-course-title-main" style="color: ${course.border};">${course.title}</span>
-            </div>
-            <div class="sched-course-subgroup">
-              <span class="sched-course-code-grey">${course.code}</span>
-              <span class="sched-course-units-grey">&bull; ${course.units} Units</span>
-            </div>
-          </div>
-          <div class="sched-pills-row">${pillsHtml}</div>
-        `;
-
-        listEl.appendChild(row);
-      });
-    }
-
-    function renderScheduleGrid() {
-      const gridEl = document.getElementById('sched-calendar-grid');
-      if (!gridEl) return;
-
-      // Collect all active slots
+    function getScheduleConflicts() {
       const activeEvents = [];
-
       SCHEDULE_COURSES.forEach(course => {
         const secId = userScheduleSelection[course.code];
         if (!secId) return;
@@ -9354,20 +9370,133 @@ Room: ${sec.room}"
         });
       });
 
-      // Conflict detection
-      const conflicts = new Set();
+      const conflictingIndices = new Set();
+      const conflictingCourseCodes = new Set();
+      const conflictingSections = new Set(); // Key: `${code}__${secId}`
+
       for (let i = 0; i < activeEvents.length; i++) {
         for (let j = i + 1; j < activeEvents.length; j++) {
           const a = activeEvents[i];
           const b = activeEvents[j];
-          if (a.day === b.day) {
-            if (Math.max(a.start, b.start) < Math.min(a.end, b.end)) {
-              conflicts.add(i);
-              conflicts.add(j);
-            }
+          if (a.day === b.day && Math.max(a.start, b.start) < Math.min(a.end, b.end)) {
+            conflictingIndices.add(i);
+            conflictingIndices.add(j);
+            conflictingCourseCodes.add(a.code);
+            conflictingCourseCodes.add(b.code);
+            conflictingSections.add(`${a.code}__${a.sectionId}`);
+            conflictingSections.add(`${b.code}__${b.sectionId}`);
           }
         }
       }
+
+      // Potential conflicts for unselected sections against currently selected other courses
+      const potentialConflictSections = new Set();
+      SCHEDULE_COURSES.forEach(course => {
+        course.sections.forEach(sec => {
+          if (userScheduleSelection[course.code] === sec.id) return;
+          const hasConflict = sec.slots.some(slot => {
+            return activeEvents.some(act => {
+              return act.code !== course.code && act.day === slot.day && Math.max(act.start, slot.start) < Math.min(act.end, slot.end);
+            });
+          });
+          if (hasConflict) {
+            potentialConflictSections.add(`${course.code}__${sec.id}`);
+          }
+        });
+      });
+
+      return {
+        activeEvents,
+        conflictingIndices,
+        courseCodes: conflictingCourseCodes,
+        sections: conflictingSections,
+        potentialSections: potentialConflictSections
+      };
+    }
+
+    function renderScheduleSidebar() {
+      const listEl = document.getElementById('sched-subject-list');
+      if (!listEl) return;
+
+      const conflicts = getScheduleConflicts();
+      listEl.innerHTML = '';
+      SCHEDULE_COURSES.forEach(course => {
+        const selectedSec = userScheduleSelection[course.code];
+        const hasConflict = conflicts.courseCodes.has(course.code);
+        const row = document.createElement('div');
+        row.className = 'sched-course-row' + (selectedSec ? ' active' : '') + (hasConflict ? ' has-conflict' : '');
+
+        let pillsHtml = '';
+        course.sections.forEach(sec => {
+          const isAct = selectedSec === sec.id;
+          const secKey = `${course.code}__${sec.id}`;
+          const isConflict = isAct && conflicts.sections.has(secKey);
+          const isPotential = !isAct && conflicts.potentialSections.has(secKey);
+
+          let pillClass = 'sched-pill';
+          if (isAct) pillClass += ' active';
+          if (isConflict) pillClass += ' sched-pill-conflict';
+          if (isPotential) pillClass += ' sched-pill-potential-conflict';
+
+          const conflictNotice = isConflict 
+            ? '\n⚠️ CONFLICT: Time slot overlaps with another selected subject!' 
+            : (isPotential ? '\n⚠️ Notice: This section conflicts with another selected subject' : '');
+
+          const activeStyle = (isAct && !isConflict)
+            ? `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;`
+            : '';
+
+          const secStyle = (isAct && !isConflict)
+            ? `color: ${course.border}; font-weight: 800;`
+            : '';
+
+          pillsHtml += `
+            <button class="${pillClass}" 
+                    onclick="toggleScheduleSection('${course.code}', '${sec.id}')"
+                    title="${course.title} (${course.code})
+Section: ${sec.id} (${sec.desc})
+Room: ${sec.room}${conflictNotice}"
+                    style="${activeStyle}">
+              <span class="pill-sec" style="${secStyle}">
+                ${sec.id}${isConflict ? ' ⚠️' : ''}
+              </span>
+              <span class="pill-desc">${sec.desc}</span>
+            </button>
+          `;
+        });
+
+        const dotStyle = hasConflict
+          ? `background: #ff0055; box-shadow: 0 0 8px #ff0055;`
+          : `background: ${course.color}; box-shadow: 0 0 6px ${course.color};`;
+
+        const titleStyle = hasConflict
+          ? `color: #ff3377;`
+          : `color: ${course.border};`;
+
+        row.innerHTML = `
+          <div class="sched-course-header-new">
+            <div class="sched-course-title-group">
+              <span class="sched-course-dot" style="${dotStyle}"></span>
+              <span class="sched-course-title-main" style="${titleStyle}">${course.title}</span>
+              ${hasConflict ? '<span class="sched-conflict-badge">⚠️ Conflict</span>' : ''}
+            </div>
+            <div class="sched-course-subgroup">
+              <span class="sched-course-code-grey">${course.code}</span>
+              <span class="sched-course-units-grey">&bull; ${course.units} Units</span>
+            </div>
+          </div>
+          <div class="sched-pills-row">${pillsHtml}</div>
+        `;
+
+        listEl.appendChild(row);
+      });
+    }
+
+    function renderScheduleGrid() {
+      const gridEl = document.getElementById('sched-calendar-grid');
+      if (!gridEl) return;
+
+      const { activeEvents, conflictingIndices: conflicts } = getScheduleConflicts();
 
       const conflictWarning = document.getElementById('sched-conflict-warning');
       if (conflictWarning) {
@@ -9437,9 +9566,9 @@ Room: ${sec.room}"
         card.style.gridColumn = `${col}`;
         card.style.gridRow = `${startStep} / span ${spanSteps}`;
         card.style.background = ev.color;
-        card.style.borderLeftColor = isConflict ? '#ef4444' : ev.border;
+        card.style.borderLeftColor = isConflict ? '#ff0055' : ev.border;
         if (isConflict) {
-          card.style.opacity = '0.5';
+          card.style.opacity = '0.65';
         }
 
         card.innerHTML = `
