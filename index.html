@@ -535,6 +535,19 @@
       margin-bottom: 0.35rem;
     }
 
+    .mode-select-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      flex-wrap: nowrap;
+      margin-top: 0.55rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border-color);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
     .segmented-control {
       display: inline-flex;
       background: var(--bg-input);
@@ -1485,15 +1498,47 @@
         height: 28px;
       }
 
+      .mode-select-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.35rem !important;
+        margin-top: 0.45rem !important;
+        padding-top: 0.45rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .segmented-control {
+        flex-shrink: 0;
+        max-width: none;
+      }
+
       .segmented-label {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.725rem;
+        padding: 0.22rem 0.45rem;
+        font-size: 0.70rem;
+        white-space: nowrap;
+      }
+
+      .prev-term-row {
+        flex-shrink: 0;
+        padding: 0.18rem 0.45rem !important;
+        gap: 0.3rem !important;
+        border-radius: var(--radius-full) !important;
+      }
+
+      .prev-term-row span {
+        font-size: 0.70rem !important;
+        white-space: nowrap !important;
       }
 
       .prev-term-row input {
-        width: 48px;
-        padding: 0.15rem 0.3rem;
-        font-size: 0.725rem;
+        width: 44px !important;
+        padding: 0.12rem 0.25rem !important;
+        font-size: 0.72rem !important;
+        text-align: center !important;
       }
 
       /* Mobile GWA Sheet View Adaptations */
@@ -2386,6 +2431,18 @@
         margin-top: 0.25rem !important;
         font-size: 1.20rem !important;
         padding: 0.3rem 1.15rem !important;
+      }
+
+      .mode-select-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.65rem !important;
+        flex-wrap: nowrap !important;
+        margin-top: 0.65rem !important;
+        padding-top: 0.65rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .segmented-control {
@@ -5131,7 +5188,7 @@
           <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
 
           <!-- Relocated Mode Selection inside Results Card -->
-          <div class="mode-select-wrapper" style="display: flex; align-items: center; justify-content: center; gap: 0.45rem; flex-wrap: wrap; margin-top: 0.55rem; padding-top: 0.55rem; border-top: 1px solid var(--border-color);">
+          <div class="mode-select-wrapper">
             <div class="segmented-control">
               <div class="segmented-option">
                 <input type="radio" name="mode" id="mode-prelim" value="prelim" />
