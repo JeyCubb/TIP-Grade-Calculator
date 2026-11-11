@@ -4235,23 +4235,41 @@
       body.view-sched .sched-event-block,
       html[data-active-view="sched"] .sched-event-block {
         min-height: 0 !important;
-        padding: 0.15rem 0.35rem !important;
-        font-size: 0.72rem !important;
+        padding: 0.18rem 0.35rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
       }
 
       body.view-sched .sched-event-title-main,
       html[data-active-view="sched"] .sched-event-title-main {
-        font-size: 0.70rem !important;
-        line-height: 1.15 !important;
+        font-size: 0.72rem;
+        font-weight: 800 !important;
+        line-height: 1.12 !important;
+        display: block !important;
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+        text-wrap: balance !important;
+        text-wrap: pretty !important;
+        hyphens: none !important;
         overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        white-space: nowrap !important;
+        text-overflow: clip !important;
       }
 
       body.view-sched .sched-event-meta,
       html[data-active-view="sched"] .sched-event-meta {
         font-size: 0.62rem !important;
         line-height: 1.1 !important;
+        margin-top: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 4px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        flex-shrink: 0 !important;
       }
 
       body.view-sched .sched-sidebar-card,
@@ -4749,13 +4767,14 @@
       color: #ffffff;
       display: block;
       white-space: normal;
-      word-break: keep-all;
-      overflow-wrap: normal;
+      word-break: normal;
+      overflow-wrap: break-word;
       text-wrap: balance;
       text-wrap: pretty;
       hyphens: none;
       text-shadow: 0 1px 2px rgba(0,0,0,0.6);
       letter-spacing: -0.01em;
+      text-overflow: clip;
     }
     .sched-event-code-sub {
       font-size: 0.65rem;
@@ -11076,21 +11095,24 @@ Room: ${sec.room}${pillConflictTitle}"
     }
 
     function fitScheduleEventTitles() {
+      const isMobile = window.innerWidth <= 768;
+      const minSize = isMobile ? 6.0 : 7.5;
       const cards = document.querySelectorAll('.sched-event-block');
       cards.forEach(card => {
         const titleEl = card.querySelector('.sched-event-title-main');
         if (!titleEl) return;
 
-        titleEl.style.fontSize = '';
-        const maxW = card.clientWidth - 4;
-        if (maxW <= 0) return;
+        titleEl.style.removeProperty('font-size');
+        const maxH = card.clientHeight;
+        const maxW = card.clientWidth;
+        if (maxH <= 0 || maxW <= 0) return;
 
-        let computedSize = parseFloat(window.getComputedStyle(titleEl).fontSize) || 10;
-        const minSize = 6.0;
+        let computedSize = parseFloat(window.getComputedStyle(titleEl).fontSize) || (isMobile ? 8.5 : 11.5);
 
-        while (titleEl.scrollWidth > maxW && computedSize > minSize) {
+        // Shrink-to-fit: balance multi-line paragraph title so it fits cleanly inside event card without clipping
+        while ((card.scrollHeight > card.clientHeight + 1 || titleEl.scrollHeight > titleEl.clientHeight + 1) && computedSize > minSize) {
           computedSize -= 0.25;
-          titleEl.style.fontSize = computedSize + 'px';
+          titleEl.style.setProperty('font-size', computedSize + 'px', 'important');
         }
       });
     }
