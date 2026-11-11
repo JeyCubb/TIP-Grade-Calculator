@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JeyCub Grade Calculator</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖩</text></svg>">
   <!-- Google Fonts -->
@@ -3245,7 +3245,7 @@
       overflow-x: auto;
     }
     .sched-grid-wrapper {
-      min-width: 580px;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -3655,7 +3655,7 @@
     }
     .sched-grid-wrapper {
       width: 100% !important;
-      min-width: 650px !important;
+      min-width: 0 !important;
     }
     .sched-grid-header {
       grid-template-columns: 80px repeat(5, 1fr) !important;
@@ -3775,6 +3775,265 @@
       border-color: var(--accent-primary) !important;
       color: #ffffff !important;
       box-shadow: 0 4px 14px var(--accent-glow) !important;
+    }
+
+
+    /* ==========================================================================
+       MOBILE PHONE ZOOM-OUT SCHEDULE STYLES (Full Week Fits on Phone)
+       ========================================================================== */
+    .day-short {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      *, *::before, *::after {
+        box-sizing: border-box !important;
+      }
+
+      html, body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      .day-full {
+        display: none !important;
+      }
+      .day-short {
+        display: inline !important;
+      }
+
+      body.view-sched,
+      body[data-view="sched"] {
+        padding: 0.2rem 0.2rem 0.6rem 0.2rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      body.view-sched .app-container,
+      body[data-view="sched"] .app-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        gap: 0.35rem !important;
+      }
+
+      #sched-view-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      /* Decouple layout on mobile so sidebar content cannot stretch calendar */
+      body.view-sched .sched-main-layout,
+      body[data-view="sched"] .sched-main-layout {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        gap: 0.65rem !important;
+      }
+
+      .sched-view-container,
+      .sched-main-layout,
+      .sched-calendar-card,
+      .sched-sidebar-card,
+      .sched-toolbar {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* Timetable Card Zoomed-Out to fit full 5-day week on mobile phone screen */
+      .sched-calendar-card {
+        padding: 0.35rem 0.2rem !important;
+        border-radius: var(--radius-sm) !important;
+        overflow: hidden !important;
+      }
+
+      .sched-grid-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .sched-grid-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+        gap: 1.5px !important;
+        padding-bottom: 0.25rem !important;
+        margin-bottom: 0.2rem !important;
+        box-sizing: border-box !important;
+      }
+
+      .sched-day-label {
+        font-size: 0.60rem !important;
+        font-weight: 800 !important;
+        padding: 0.15rem 0 !important;
+        text-align: center !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .sched-grid-body {
+        width: 100% !important;
+        max-width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 28px repeat(5, minmax(0, 1fr)) !important;
+        grid-auto-rows: 23px !important;
+        gap: 1.5px !important;
+        box-sizing: border-box !important;
+      }
+
+      .sched-time-label {
+        font-size: 0.50rem !important;
+        font-weight: 700 !important;
+        padding-right: 0.15rem !important;
+        line-height: 1 !important;
+        justify-content: flex-end !important;
+      }
+
+      .sched-grid-slot {
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.04) !important;
+        border-right: 1px dashed rgba(255, 255, 255, 0.04) !important;
+      }
+
+      .sched-event-block {
+        padding: 2px 2px !important;
+        border-radius: 3px !important;
+        border-left-width: 2px !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+      }
+
+      .sched-event-title-main {
+        font-size: 0.52rem !important;
+        font-weight: 800 !important;
+        line-height: 1.05 !important;
+        -webkit-line-clamp: 2 !important;
+        word-break: break-word !important;
+      }
+
+      .sched-event-meta {
+        font-size: 0.44rem !important;
+        gap: 1px !important;
+        padding-top: 1px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        min-width: 0 !important;
+      }
+
+      .sched-event-sec-badge {
+        font-size: 0.44rem !important;
+        padding: 0.02rem 0.15rem !important;
+        border-radius: 2px !important;
+      }
+
+      .sched-event-room {
+        font-size: 0.42rem !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+      }
+
+      /* Toolbar on phone */
+      .sched-toolbar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        padding: 0.45rem 0.55rem !important;
+        gap: 0.4rem !important;
+      }
+
+      .sched-toolbar-left {
+        width: 100% !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.3rem !important;
+      }
+
+      .sched-toolbar-title {
+        width: 100% !important;
+        font-size: 0.78rem !important;
+        margin-bottom: 0.15rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        line-height: 1.2 !important;
+      }
+
+      .sched-preset-btn {
+        flex: 1 1 calc(33% - 4px) !important;
+        min-width: 0 !important;
+        font-size: 0.62rem !important;
+        padding: 0.25rem 0.15rem !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+      }
+
+      .sched-toolbar-stats {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        font-size: 0.72rem !important;
+      }
+
+      /* Sidebar & Section Controls on phone */
+      .sched-sidebar-card {
+        padding: 0.5rem !important;
+        max-height: 480px !important;
+        overflow-x: hidden !important;
+      }
+
+      .sched-course-header-new {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .sched-course-title-main {
+        font-size: 0.80rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        line-height: 1.2 !important;
+      }
+
+      .sched-course-title-group {
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+      }
+
+      .sched-course-subgroup {
+        font-size: 0.65rem !important;
+      }
+
+      .sched-pills-row {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        gap: 0.25rem !important;
+      }
+
+      .sched-pill {
+        font-size: 0.65rem !important;
+        padding: 0.18rem 0.4rem !important;
+      }
+
+      .sched-pill .pill-sec {
+        font-size: 0.66rem !important;
+      }
+
+      .sched-pill .pill-desc {
+        font-size: 0.58rem !important;
+      }
     }
 
 </style>
@@ -4046,11 +4305,11 @@
           <div class="sched-grid-wrapper">
             <div class="sched-grid-header">
               <div class="sched-day-label">Time</div>
-              <div class="sched-day-label">Monday</div>
-              <div class="sched-day-label">Tuesday</div>
-              <div class="sched-day-label">Wednesday</div>
-              <div class="sched-day-label">Thursday</div>
-              <div class="sched-day-label">Friday</div>
+              <div class="sched-day-label"><span class="day-full">Monday</span><span class="day-short">Mon</span></div>
+              <div class="sched-day-label"><span class="day-full">Tuesday</span><span class="day-short">Tue</span></div>
+              <div class="sched-day-label"><span class="day-full">Wednesday</span><span class="day-short">Wed</span></div>
+              <div class="sched-day-label"><span class="day-full">Thursday</span><span class="day-short">Thu</span></div>
+              <div class="sched-day-label"><span class="day-full">Friday</span><span class="day-short">Fri</span></div>
             </div>
             <div class="sched-grid-body" id="sched-calendar-grid">
               <!-- Dynamically populated by JS -->
@@ -9044,7 +9303,8 @@ Room: ${sec.room}"
       const totalSteps = Math.ceil((endMin - startMin) / 30);
 
       gridEl.innerHTML = '';
-      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, 32px)`;
+      const isMob = window.innerWidth <= 768;
+      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, ${isMob ? '23px' : '32px'})`;
 
       // Draw background grid lines and time labels
       for (let step = 0; step < totalSteps; step++) {
@@ -9053,7 +9313,8 @@ Room: ${sec.room}"
         const m = currMin % 60;
         const ampm = h >= 12 ? 'PM' : 'AM';
         const displayH = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-        const timeStr = `${displayH}:${m === 0 ? '00' : m} ${ampm}`;
+        const isMobilePhone = window.innerWidth <= 768;
+        const timeStr = isMobilePhone ? `${displayH}:${m === 0 ? '00' : m}` : `${displayH}:${m === 0 ? '00' : m} ${ampm}`;
 
         // Time label column (col 1)
         const timeEl = document.createElement('div');
@@ -9424,5 +9685,8 @@ Room: ${sec.room}"
       }
     }, { passive: false });
   </script>
+
+
+
 </body>
 </html>
