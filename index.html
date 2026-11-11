@@ -1324,6 +1324,19 @@
         flex: 0 0 auto;
       }
 
+      .sem-select-dropdown {
+        padding: 0.22rem 1.6rem 0.22rem 0.65rem;
+        font-size: 0.58rem;
+      }
+
+      .sem-select-arrow {
+        right: 0.45rem;
+      }
+      .sem-select-arrow svg {
+        width: 10px;
+        height: 10px;
+      }
+
       .sem-switch-btn {
         padding: 0.2rem 0.45rem;
         font-size: 0.58rem;
@@ -1526,9 +1539,63 @@
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-full);
-      padding: 0.25rem;
+      padding: 0.2rem;
       margin-left: auto;
       flex-shrink: 0;
+    }
+
+    .sem-select-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .sem-select-dropdown {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: var(--accent-primary);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: var(--radius-full);
+      padding: 0.32rem 1.95rem 0.32rem 0.85rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      box-shadow: 0 2px 8px var(--accent-glow);
+      transition: var(--transition);
+      outline: none;
+      letter-spacing: 0.01em;
+    }
+
+    .sem-select-dropdown:hover,
+    .sem-select-dropdown:focus {
+      background: var(--accent-primary-hover);
+      box-shadow: 0 3px 12px var(--accent-glow);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .sem-select-dropdown option {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-weight: 600;
+      padding: 0.45rem;
+    }
+
+    .sem-select-arrow {
+      position: absolute;
+      right: 0.65rem;
+      pointer-events: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      transition: transform 0.2s ease;
+    }
+
+    .sem-select-wrapper:hover .sem-select-arrow {
+      transform: translateY(1px);
     }
 
     .sem-switch-btn {
@@ -3069,6 +3136,321 @@
         padding: 0.18rem 0.5rem;
       }
     }
+  
+    /* ==========================================================================
+       SCHEDULE CREATOR VIEW STYLES
+       ========================================================================== */
+    .sched-view-container {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .sched-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .sched-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .sched-toolbar-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .sched-preset-btn {
+      background: var(--bg-card-hover);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+    .sched-preset-btn:hover {
+      background: var(--accent-primary);
+      color: #fff;
+      border-color: var(--accent-primary);
+      transform: translateY(-1px);
+    }
+    .sched-toolbar-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .sched-stat-badge {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+    .sched-conflict-alert {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.78rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    /* Two-Column Layout */
+    .sched-main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .sched-main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Column: Visual Timetable Calendar */
+    .sched-calendar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .sched-grid-wrapper {
+      min-width: 580px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .sched-grid-header {
+      display: grid;
+      grid-template-columns: 65px repeat(5, 1fr);
+      gap: 3px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
+    }
+    .sched-day-label {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem;
+    }
+    .sched-grid-body {
+      display: grid;
+      grid-template-columns: 65px repeat(5, 1fr);
+      grid-auto-rows: 28px;
+      gap: 2px;
+      position: relative;
+    }
+    .sched-time-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 0.5rem;
+      border-right: 1px solid var(--border-color);
+      user-select: none;
+    }
+    .sched-grid-slot {
+      border: 1px dashed rgba(255, 255, 255, 0.04);
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.12);
+      transition: background 0.1s;
+    }
+    .sched-grid-slot:hover {
+      background: rgba(249, 115, 22, 0.04);
+    }
+
+    /* Rendered Subject Event Box on Grid */
+    .sched-event-block {
+      border-radius: 5px;
+      padding: 0.3rem 0.45rem;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+      border-left: 3.5px solid;
+      z-index: 2;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .sched-event-block:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+    .sched-event-code {
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 1.1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sched-event-title {
+      font-size: 0.68rem;
+      opacity: 0.9;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+    .sched-event-meta {
+      font-size: 0.62rem;
+      opacity: 0.8;
+      font-weight: 600;
+      margin-top: 2px;
+      display: flex;
+      gap: 4px;
+    }
+    .sched-event-conflict {
+      border: 2px solid #ef4444 !important;
+      background: #7f1d1d !important;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.6) !important;
+      animation: pulse 1s infinite alternate;
+    }
+
+    /* Right Column: Subject & Section Toggle Box */
+    .sched-sidebar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 0.85rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 720px;
+      overflow-y: auto;
+    }
+    .sched-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+    .sched-sidebar-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .sched-course-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.75rem;
+      transition: border-color 0.15s;
+    }
+    .sched-course-card.active {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 1px var(--accent-primary);
+    }
+    .sched-course-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+    .sched-course-code {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .sched-course-units {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .sched-course-name {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+    .sched-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .sched-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .sched-pill:hover {
+      border-color: var(--accent-primary);
+      color: var(--text-primary);
+      background: var(--bg-card-hover);
+    }
+    .sched-pill.active {
+      background: var(--accent-primary);
+      color: #fff;
+      border-color: var(--accent-primary);
+      font-weight: 700;
+    }
+    .sched-pill-none {
+      padding: 0.25rem 0.45rem;
+      font-size: 0.68rem;
+      align-self: center;
+    }
+    .sched-pill .pill-sec {
+      font-size: 0.74rem;
+      font-weight: 800;
+    }
+    .sched-pill .pill-time {
+      font-size: 0.6rem;
+      opacity: 0.85;
+      font-weight: 500;
+    }
+
   </style>
 </head>
 <body>
@@ -3336,6 +3718,9 @@
       </button>
       <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
         <span>📊</span> GWA Sheet
+      </button>
+          <button class="view-nav-btn" id="btn-view-sched" data-view="sched" title="Schedule Creator">
+        <span>📅</span> Schedule Creator
       </button>
     </nav>
 
@@ -7945,39 +8330,457 @@
     }
 
     // View Navigation Switching
+    
+    // ==========================================================================
+    // SCHEDULE CREATOR JAVASCRIPT MODULE
+    // ==========================================================================
+    const SCHEDULE_COURSES = [
+      {
+        code: 'ME 411',
+        title: 'Methods of Research for ME',
+        units: 1,
+        color: '#8b5cf6',
+        border: '#a78bfa',
+        sections: [
+          { id: 'ME32S1', desc: 'Wed 9:30–10:30 AM', room: 'Q-5508', slots: [{ day: 2, start: 570, end: 630, room: 'Q-5508' }] },
+          { id: 'ME32S2', desc: 'Thu 9:30–10:30 AM', room: 'Q-5507', slots: [{ day: 3, start: 570, end: 630, room: 'Q-5507' }] },
+          { id: 'ME32S3', desc: 'Fri 3:30–4:30 PM', room: 'Q-5508', slots: [{ day: 4, start: 930, end: 990, room: 'Q-5508' }] }
+        ]
+      },
+      {
+        code: 'ME 404',
+        title: 'Machine Design 1',
+        units: 3,
+        color: '#0284c7',
+        border: '#38bdf8',
+        sections: [
+          { id: 'ME32S1', desc: 'Tu/Th 7:30–9:00 AM', room: 'Q-5504', slots: [{ day: 1, start: 450, end: 540, room: 'Q-5504' }, { day: 3, start: 450, end: 540, room: 'Q-5504' }] },
+          { id: 'ME32S2', desc: 'We/Fr 1:30–3:00 PM', room: 'Q-5508', slots: [{ day: 2, start: 810, end: 900, room: 'Q-5508' }, { day: 4, start: 810, end: 900, room: 'Q-5508' }] },
+          { id: 'ME32S3', desc: 'Tu/Th 7:30–9:00 PM', room: 'Q-5504', slots: [{ day: 1, start: 1170, end: 1260, room: 'Q-5504' }, { day: 3, start: 1170, end: 1260, room: 'Q-5504' }] }
+        ]
+      },
+      {
+        code: 'ME 407',
+        title: 'Refrigeration Systems',
+        units: 3,
+        color: '#06b6d4',
+        border: '#22d3ee',
+        sections: [
+          { id: 'ME32S1', desc: 'Tu/Th 9:00–10:30 AM', room: 'Q-5504', slots: [{ day: 1, start: 540, end: 630, room: 'Q-5504' }, { day: 3, start: 540, end: 630, room: 'Q-5504' }] },
+          { id: 'ME32S2', desc: 'Tu/Th 1:30–3:00 PM', room: 'Q-5504', slots: [{ day: 1, start: 810, end: 900, room: 'Q-5504' }, { day: 3, start: 810, end: 900, room: 'Q-5504' }] },
+          { id: 'ME32S3', desc: 'Tu/Th 12:00–1:30 PM', room: 'Q-5507', slots: [{ day: 1, start: 720, end: 810, room: 'Q-5507' }, { day: 3, start: 720, end: 810, room: 'Q-5507' }] }
+        ]
+      },
+      {
+        code: 'ME 409',
+        title: 'Combustion Engineering',
+        units: 2,
+        color: '#d97706',
+        border: '#fbbf24',
+        sections: [
+          { id: 'ME32S1', desc: 'We/Fr 1:30–2:30 PM', room: 'Q-5507', slots: [{ day: 2, start: 810, end: 870, room: 'Q-5507' }, { day: 4, start: 810, end: 870, room: 'Q-5507' }] },
+          { id: 'ME32S2', desc: 'We/Fr 11:30 AM–12:30 PM', room: 'Q-5508', slots: [{ day: 2, start: 690, end: 750, room: 'Q-5508' }, { day: 4, start: 690, end: 750, room: 'Q-5508' }] },
+          { id: 'ME32S3', desc: 'We/Fr 12:30–1:30 PM', room: 'Q-5507', slots: [{ day: 2, start: 750, end: 810, room: 'Q-5507' }, { day: 4, start: 750, end: 810, room: 'Q-5507' }] }
+        ]
+      },
+      {
+        code: 'ME 406',
+        title: 'Fluid Machineries',
+        units: 3,
+        color: '#4f46e5',
+        border: '#818cf8',
+        sections: [
+          { id: 'ME32S1', desc: 'We/Fr 2:30–4:00 PM', room: 'Q-5507', slots: [{ day: 2, start: 870, end: 960, room: 'Q-5507' }, { day: 4, start: 870, end: 960, room: 'Q-5507' }] },
+          { id: 'ME32S2', desc: 'We/Fr 3:00–4:30 PM', room: 'Q-5504', slots: [{ day: 2, start: 900, end: 990, room: 'Q-5504' }, { day: 4, start: 900, end: 990, room: 'Q-5504' }] },
+          { id: 'ME32S3', desc: 'Tu/Th 10:30 AM–12:00 PM', room: 'Q-5507', slots: [{ day: 1, start: 630, end: 720, room: 'Q-5507' }, { day: 3, start: 630, end: 720, room: 'Q-5507' }] }
+        ]
+      },
+      {
+        code: 'EMAN 001',
+        title: 'Engineering Management',
+        units: 2,
+        color: '#ea580c',
+        border: '#fb923c',
+        sections: [
+          { id: 'ME32S1', desc: 'Tue 10:30 AM–12:30 PM', room: 'Q-5504', slots: [{ day: 1, start: 630, end: 750, room: 'Q-5504' }] },
+          { id: 'ME32S2', desc: 'Thu 10:30 AM–12:30 PM', room: 'Q-5504', slots: [{ day: 3, start: 630, end: 750, room: 'Q-5504' }] },
+          { id: 'ME32S3', desc: 'Wed 7:30–9:30 PM', room: 'Q-5504', slots: [{ day: 2, start: 1170, end: 1290, room: 'Q-5504' }] },
+          { id: 'ECE22S1', desc: 'Mo 5:30–6:30 & We 7:30–8:30', room: 'Q-5320', slots: [{ day: 0, start: 1050, end: 1110, room: 'Q-5320' }, { day: 2, start: 1170, end: 1230, room: 'Q-5320' }] },
+          { id: 'ECE32S1', desc: 'Tu/Th 12:00–1:00 PM', room: 'Q-9405', slots: [{ day: 1, start: 720, end: 780, room: 'Q-9405' }, { day: 3, start: 720, end: 780, room: 'Q-9405' }] }
+        ]
+      },
+      {
+        code: 'ME 401',
+        title: 'Mechanical Engineering Lab 1',
+        units: 1,
+        color: '#0d9488',
+        border: '#2dd4bf',
+        sections: [
+          { id: 'ME32S1', desc: 'Thu 10:30 AM–1:30 PM', room: 'Q-2105', slots: [{ day: 3, start: 630, end: 810, room: 'Q-2105' }] },
+          { id: 'ME32S2', desc: 'Tue 10:30 AM–1:30 PM', room: 'Q-2105', slots: [{ day: 1, start: 630, end: 810, room: 'Q-2105' }] },
+          { id: 'ME32S3', desc: 'Wed 1:30–4:30 PM', room: 'Q-2105', slots: [{ day: 2, start: 810, end: 990, room: 'Q-2105' }] }
+        ]
+      },
+      {
+        code: 'ME 007',
+        title: 'Materials Science and Engineering for ME',
+        units: 3,
+        color: '#16a34a',
+        border: '#4ade80',
+        sections: [
+          { id: 'ME32S1', desc: 'We 10:30-12:30 (L) & Fr 10:30-1:30 (Lab)', room: 'Q-2106', slots: [{ day: 2, start: 630, end: 750, room: 'Q-2106', tag: 'LEC' }, { day: 4, start: 630, end: 810, room: 'Q-2106', tag: 'LAB' }] },
+          { id: 'ME32S2', desc: 'Tu 3-5 PM (L) & Th 3-6 PM (Lab)', room: 'Q-2106', slots: [{ day: 1, start: 900, end: 1020, room: 'Q-2106', tag: 'LEC' }, { day: 3, start: 900, end: 1080, room: 'Q-2106', tag: 'LAB' }] },
+          { id: 'ME32S3', desc: 'We 5:30-7:30 (L) & Fr 4:30-7:30 (Lab)', room: 'Q-2106', slots: [{ day: 2, start: 1050, end: 1170, room: 'Q-2106', tag: 'LEC' }, { day: 4, start: 990, end: 1170, room: 'Q-2106', tag: 'LAB' }] }
+        ]
+      },
+      {
+        code: 'ECE 006',
+        title: 'Control Engineering',
+        units: 3,
+        color: '#db2777',
+        border: '#f472b6',
+        sections: [
+          { id: 'ME32S1', desc: 'Tu 1:30-4:30 (Lab) & Th 2:30-4:30 (Lec)', room: 'Q-5322/5507', slots: [{ day: 1, start: 810, end: 990, room: 'Q-5322', tag: 'LAB' }, { day: 3, start: 870, end: 990, room: 'Q-5507', tag: 'LEC' }] },
+          { id: 'ME32S2', desc: 'Tu 7:30-10:30 (Lab) & Th 7:30-9:30 (Lec)', room: 'Q-5322/5507', slots: [{ day: 1, start: 450, end: 630, room: 'Q-5322', tag: 'LAB' }, { day: 3, start: 450, end: 570, room: 'Q-5507', tag: 'LEC' }] },
+          { id: 'ME32S3', desc: 'Tu 4:30-6:30 (Lec) & Th 4:30-7:30 (Lab)', room: 'Q-5507/5322', slots: [{ day: 1, start: 990, end: 1110, room: 'Q-5507', tag: 'LEC' }, { day: 3, start: 990, end: 1170, room: 'Q-5322', tag: 'LAB' }] },
+          { id: 'ME31S1', desc: 'We 2:30-4:30 (Lec) & Fr 1:30-4:30 (Lab)', room: 'Q-5414/5322', slots: [{ day: 2, start: 870, end: 990, room: 'Q-5414', tag: 'LEC' }, { day: 4, start: 810, end: 990, room: 'Q-5322', tag: 'LAB' }] }
+        ]
+      },
+      {
+        code: 'GEE 002',
+        title: 'General Education Elective 2',
+        units: 3,
+        color: '#64748b',
+        border: '#94a3b8',
+        sections: [
+          { id: 'ME32S1', desc: 'M/W/F 8:30–9:30 AM', room: 'Q-5507', slots: [{ day: 0, start: 510, end: 570, room: 'Q-5507' }, { day: 2, start: 510, end: 570, room: 'Q-5507' }, { day: 4, start: 510, end: 570, room: 'Q-5507' }] },
+          { id: 'ME32S2', desc: 'M/W/F 10:30–11:30 AM', room: 'Q-5508', slots: [{ day: 0, start: 630, end: 690, room: 'Q-5508' }, { day: 2, start: 630, end: 690, room: 'Q-5508' }, { day: 4, start: 630, end: 690, room: 'Q-5508' }] },
+          { id: 'ME32S3', desc: 'M/W/F 11:30 AM–12:30 PM', room: 'Q-5503', slots: [{ day: 0, start: 690, end: 750, room: 'Q-5503' }, { day: 2, start: 690, end: 750, room: 'Q-5503' }, { day: 4, start: 690, end: 750, room: 'Q-5503' }] },
+          { id: 'ME22S2', desc: 'M/W/F 2:30–3:30 PM', room: 'Q-9506', slots: [{ day: 0, start: 870, end: 930, room: 'Q-9506' }, { day: 2, start: 870, end: 930, room: 'Q-9506' }, { day: 4, start: 870, end: 930, room: 'Q-9506' }] },
+          { id: 'ME22S3', desc: 'M/W/F 9:30–10:30 AM', room: 'Q-5507', slots: [{ day: 0, start: 570, end: 630, room: 'Q-5507' }, { day: 2, start: 570, end: 630, room: 'Q-5507' }, { day: 4, start: 570, end: 630, room: 'Q-5507' }] },
+          { id: 'BAFM22S1', desc: 'Tu/Th 10:30 AM–12:00 PM', room: 'Q-9301', slots: [{ day: 1, start: 630, end: 720, room: 'Q-9301' }, { day: 3, start: 630, end: 720, room: 'Q-9301' }] }
+        ]
+      },
+      {
+        code: 'GEE 003',
+        title: 'General Education Elective 3',
+        units: 3,
+        color: '#475569',
+        border: '#64748b',
+        sections: [
+          { id: 'ME32S1', desc: 'M/W/F 7:30–8:30 AM', room: 'Q-5504', slots: [{ day: 0, start: 450, end: 510, room: 'Q-5504' }, { day: 2, start: 450, end: 510, room: 'Q-5504' }, { day: 4, start: 450, end: 510, room: 'Q-5504' }] },
+          { id: 'ME32S2', desc: 'M/W/F 9:30–10:30 AM', room: 'Q-5414', slots: [{ day: 0, start: 570, end: 630, room: 'Q-5414' }, { day: 2, start: 570, end: 630, room: 'Q-5414' }, { day: 4, start: 570, end: 630, room: 'Q-5414' }] },
+          { id: 'ME32S3', desc: 'Tu/Th 1:30–3:00 PM', room: 'Q-5508', slots: [{ day: 1, start: 810, end: 900, room: 'Q-5508' }, { day: 3, start: 810, end: 900, room: 'Q-5508' }] },
+          { id: 'ARCH22S4', desc: 'Tu/Th 7:30–9:00 AM', room: 'Q-9503', slots: [{ day: 1, start: 450, end: 540, room: 'Q-9503' }, { day: 3, start: 450, end: 540, room: 'Q-9503' }] },
+          { id: 'ARCH22S5', desc: 'Tu/Th 9:00–10:30 AM', room: 'Q-9503', slots: [{ day: 1, start: 540, end: 630, room: 'Q-9503' }, { day: 3, start: 540, end: 630, room: 'Q-9503' }] },
+          { id: 'ARCH22S3', desc: 'Tu/Th 12:00–1:30 PM', room: 'Q-9503', slots: [{ day: 1, start: 720, end: 810, room: 'Q-9503' }, { day: 3, start: 720, end: 810, room: 'Q-9503' }] }
+        ]
+      }
+    ];
+
+    // State management
+    let userScheduleSelection = {};
+
+    function initScheduleCreatorState() {
+      const saved = localStorage.getItem('tip_sched_selection_v1');
+      if (saved) {
+        try {
+          userScheduleSelection = JSON.parse(saved);
+        } catch (e) {
+          applySchedulePreset('A');
+        }
+      } else {
+        applySchedulePreset('A');
+      }
+    }
+
+    function saveScheduleCreatorState() {
+      localStorage.setItem('tip_sched_selection_v1', JSON.stringify(userScheduleSelection));
+    }
+
+    function applySchedulePreset(preset) {
+      userScheduleSelection = {};
+      if (preset === 'A') {
+        SCHEDULE_COURSES.forEach(c => {
+          userScheduleSelection[c.code] = 'ME32S1';
+        });
+      } else if (preset === 'B') {
+        SCHEDULE_COURSES.forEach(c => {
+          if (c.code === 'ME 401') userScheduleSelection[c.code] = 'ME32S2';
+          else if (c.code === 'EMAN 001') userScheduleSelection[c.code] = 'ME32S2';
+          else userScheduleSelection[c.code] = 'ME32S1';
+        });
+      }
+      saveScheduleCreatorState();
+      renderScheduleView();
+    }
+
+    function toggleScheduleSection(courseCode, sectionId) {
+      if (userScheduleSelection[courseCode] === sectionId) {
+        delete userScheduleSelection[courseCode];
+      } else {
+        userScheduleSelection[courseCode] = sectionId;
+      }
+      saveScheduleCreatorState();
+      renderScheduleView();
+    }
+
+    function renderScheduleView() {
+      renderScheduleSidebar();
+      renderScheduleGrid();
+      updateScheduleStats();
+    }
+
+    function renderScheduleSidebar() {
+      const listEl = document.getElementById('sched-subject-list');
+      if (!listEl) return;
+
+      listEl.innerHTML = '';
+      SCHEDULE_COURSES.forEach(course => {
+        const selectedSec = userScheduleSelection[course.code];
+        const card = document.createElement('div');
+        card.className = 'sched-course-card' + (selectedSec ? ' active' : '');
+
+        let pillsHtml = '';
+        course.sections.forEach(sec => {
+          const isAct = selectedSec === sec.id;
+          pillsHtml += `
+            <button class="sched-pill ${isAct ? 'active' : ''}" onclick="toggleScheduleSection('${course.code}', '${sec.id}')">
+              <span class="pill-sec">${sec.id}</span>
+              <span class="pill-time">${sec.desc}</span>
+            </button>
+          `;
+        });
+
+        if (selectedSec) {
+          pillsHtml += `
+            <button class="sched-pill sched-pill-none" onclick="toggleScheduleSection('${course.code}', '${selectedSec}')" title="Deselect">
+              ✕
+            </button>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="sched-course-header">
+            <span class="sched-course-code" style="color: ${course.border};">${course.code}</span>
+            <span class="sched-course-units">${course.units} Units</span>
+          </div>
+          <div class="sched-course-name">${course.title}</div>
+          <div class="sched-pills-row">${pillsHtml}</div>
+        `;
+
+        listEl.appendChild(card);
+      });
+    }
+
+    function renderScheduleGrid() {
+      const gridEl = document.getElementById('sched-calendar-grid');
+      if (!gridEl) return;
+
+      // Collect all active slots
+      const activeEvents = [];
+      let latestSlotEnd = 1020; // Default 17:00 (5:00 PM)
+
+      SCHEDULE_COURSES.forEach(course => {
+        const secId = userScheduleSelection[course.code];
+        if (!secId) return;
+        const sec = course.sections.find(s => s.id === secId);
+        if (!sec) return;
+
+        sec.slots.forEach(slot => {
+          if (slot.end > latestSlotEnd) {
+            latestSlotEnd = slot.end;
+          }
+          activeEvents.push({
+            code: course.code,
+            title: course.title,
+            units: course.units,
+            color: course.color,
+            border: course.border,
+            sectionId: sec.id,
+            day: slot.day,
+            start: slot.start,
+            end: slot.end,
+            room: slot.room || sec.room || '',
+            tag: slot.tag || ''
+          });
+        });
+      });
+
+      // Conflict detection
+      const conflicts = new Set();
+      for (let i = 0; i < activeEvents.length; i++) {
+        for (let j = i + 1; j < activeEvents.length; j++) {
+          const a = activeEvents[i];
+          const b = activeEvents[j];
+          if (a.day === b.day) {
+            if (Math.max(a.start, b.start) < Math.min(a.end, b.end)) {
+              conflicts.add(i);
+              conflicts.add(j);
+            }
+          }
+        }
+      }
+
+      const conflictWarning = document.getElementById('sched-conflict-warning');
+      if (conflictWarning) {
+        if (conflicts.size > 0) {
+          conflictWarning.style.display = 'block';
+          conflictWarning.textContent = `⚠️ ${conflicts.size / 2 | 0} Time Conflict(s)!`;
+        } else {
+          conflictWarning.style.display = 'none';
+        }
+      }
+
+      // Determine grid row range: 7:30 AM (450 min) to latestSlotEnd (step 30 min)
+      const startMin = 450; // 7:30 AM
+      const endMin = Math.max(1020, latestSlotEnd); // at least 17:00
+      const totalSteps = Math.ceil((endMin - startMin) / 30);
+
+      gridEl.innerHTML = '';
+      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, 28px)`;
+
+      // Draw background grid lines and time labels
+      for (let step = 0; step < totalSteps; step++) {
+        const currMin = startMin + step * 30;
+        const h = Math.floor(currMin / 60);
+        const m = currMin % 60;
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        const displayH = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+        const timeStr = `${displayH}:${m === 0 ? '00' : m} ${ampm}`;
+
+        // Time label column (col 1)
+        const timeEl = document.createElement('div');
+        timeEl.className = 'sched-time-label';
+        timeEl.style.gridColumn = '1';
+        timeEl.style.gridRow = `${step + 1}`;
+        timeEl.textContent = timeStr;
+        gridEl.appendChild(timeEl);
+
+        // 5 day slots (cols 2 to 6)
+        for (let d = 0; d < 5; d++) {
+          const slotEl = document.createElement('div');
+          slotEl.className = 'sched-grid-slot';
+          slotEl.style.gridColumn = `${d + 2}`;
+          slotEl.style.gridRow = `${step + 1}`;
+          gridEl.appendChild(slotEl);
+        }
+      }
+
+      // Render active events
+      activeEvents.forEach((ev, idx) => {
+        const startStep = Math.floor((ev.start - startMin) / 30) + 1;
+        const spanSteps = Math.ceil((ev.end - ev.start) / 30);
+        const col = ev.day + 2;
+        const isConflict = conflicts.has(idx);
+
+        const card = document.createElement('div');
+        card.className = 'sched-event-block' + (isConflict ? ' sched-event-conflict' : '');
+        card.style.gridColumn = `${col}`;
+        card.style.gridRow = `${startStep} / span ${spanSteps}`;
+        card.style.background = isConflict ? '#7f1d1d' : ev.color;
+        card.style.borderLeftColor = isConflict ? '#ef4444' : ev.border;
+
+        card.innerHTML = `
+          <div class="sched-event-code">
+            <span>${ev.code} ${ev.tag ? '(' + ev.tag + ')' : ''}</span>
+            <span style="font-size: 0.65rem; opacity: 0.85;">${ev.sectionId}</span>
+          </div>
+          <div class="sched-event-title">${ev.title}</div>
+          <div class="sched-event-meta">
+            <span>${ev.room}</span>
+            <span>&bull;</span>
+            <span>${formatTimeMinutes(ev.start)}–${formatTimeMinutes(ev.end)}</span>
+          </div>
+        `;
+
+        card.title = `${ev.code} - ${ev.title}\nSection: ${ev.sectionId}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}\nRoom: ${ev.room}`;
+        gridEl.appendChild(card);
+      });
+    }
+
+    function formatTimeMinutes(min) {
+      const h = Math.floor(min / 60);
+      const m = min % 60;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const dh = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+      return `${dh}:${m === 0 ? '00' : m} ${ampm}`;
+    }
+
+    function updateScheduleStats() {
+      let totalUnits = 0;
+      let count = 0;
+      SCHEDULE_COURSES.forEach(c => {
+        if (userScheduleSelection[c.code]) {
+          totalUnits += c.units;
+          count++;
+        }
+      });
+
+      const statCourses = document.getElementById('sched-stat-courses');
+      const statUnits = document.getElementById('sched-stat-units');
+      if (statCourses) statCourses.textContent = `${count} / ${SCHEDULE_COURSES.length}`;
+      if (statUnits) statUnits.textContent = `${totalUnits} / 27`;
+    }
+
+    // Bind schedule preset buttons
+    function initScheduleButtons() {
+      const btnA = document.getElementById('btn-preset-choice-a');
+      const btnB = document.getElementById('btn-preset-choice-b');
+      const btnClr = document.getElementById('btn-sched-clear-all');
+      if (btnA) btnA.addEventListener('click', () => applySchedulePreset('A'));
+      if (btnB) btnB.addEventListener('click', () => applySchedulePreset('B'));
+      if (btnClr) btnClr.addEventListener('click', () => {
+        userScheduleSelection = {};
+        saveScheduleCreatorState();
+        renderScheduleView();
+      });
+    }
+
+
+    // View Navigation Switching
     const btnViewCalc = document.getElementById('btn-view-calc');
     const btnViewSheet = document.getElementById('btn-view-sheet');
+    const btnViewSched = document.getElementById('btn-view-sched');
     const calcContainer = document.getElementById('calc-view-container');
     const sheetContainer = document.getElementById('sheet-view-container');
+    const schedContainer = document.getElementById('sched-view-container');
 
     function switchView(viewName) {
       const headerSchemeEl = document.getElementById('header-scheme-dropdown');
 
+      btnViewCalc.classList.toggle('active', viewName === 'calc');
+      btnViewSheet.classList.toggle('active', viewName === 'sheet');
+      if (btnViewSched) btnViewSched.classList.toggle('active', viewName === 'sched');
+
+      calcContainer.style.display = viewName === 'calc' ? 'block' : 'none';
+      sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
+      if (schedContainer) schedContainer.style.display = viewName === 'sched' ? 'flex' : 'none';
+
       if (viewName === 'sheet') {
-        btnViewSheet.classList.add('active');
-        btnViewCalc.classList.remove('active');
-        calcContainer.style.display = 'none';
-        sheetContainer.style.display = 'flex';
         if (headerSchemeEl) headerSchemeEl.style.display = 'inline-block';
         renderSheetView();
-        localStorage.setItem('tip_gc_active_view', 'sheet');
-        window.location.hash = 'sheet';
       } else {
-        btnViewCalc.classList.add('active');
-        btnViewSheet.classList.remove('active');
-        calcContainer.style.display = 'block';
-        sheetContainer.style.display = 'none';
         if (headerSchemeEl) {
           headerSchemeEl.style.display = 'none';
           headerSchemeEl.removeAttribute('open');
         }
-        localStorage.setItem('tip_gc_active_view', 'calc');
-        window.location.hash = 'calc';
       }
+
+      if (viewName === 'sched') {
+        renderScheduleView();
+      }
+
+      localStorage.setItem('tip_gc_active_view', viewName);
+      window.location.hash = viewName;
     }
 
     btnViewCalc.addEventListener('click', () => switchView('calc'));
     btnViewSheet.addEventListener('click', () => switchView('sheet'));
+    if (btnViewSched) btnViewSched.addEventListener('click', () => switchView('sched'));
+
+    initScheduleCreatorState();
+    initScheduleButtons();
 
     initUserProfilesAndSubjects();
     // loadUserData is called inside initUserProfilesAndSubjects for the authenticated path,
@@ -7989,13 +8792,14 @@
     initFirebase();
 
     // Restore last viewed tab/page on refresh
-    const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc'))
+    const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
       ? window.location.hash.replace('#', '')
       : (localStorage.getItem('tip_gc_active_view') || 'calc');
     switchView(initialView);
 
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#sheet') switchView('sheet');
+      else if (window.location.hash === '#sched') switchView('sched');
       else if (window.location.hash === '#calc') switchView('calc');
     });
 
