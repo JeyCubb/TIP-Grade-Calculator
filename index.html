@@ -3740,6 +3740,17 @@
       font-size: 0.62rem;
     }
 
+
+    /* Hide Profile Access Controls in Schedule Creator View (Outside of Profiles) */
+    body.view-sched .user-profile-bar,
+    body[data-view="sched"] .user-profile-bar,
+    body.view-sched .btn-temp-mode,
+    body[data-view="sched"] .btn-temp-mode,
+    body.view-sched .save-indicator,
+    body[data-view="sched"] .save-indicator {
+      display: none !important;
+    }
+
 </style>
 </head>
 <body>
@@ -5508,6 +5519,10 @@
     }
 
     function openProfilePromptModal() {
+      // Schedule Creator is outside of user profiles — never prompt profile modal in sched view
+      if (window.location.hash === '#sched' || document.body.classList.contains('view-sched')) {
+        return;
+      }
       const modal = document.getElementById('profile-prompt-modal');
       if (!modal) return;
 
@@ -9127,6 +9142,7 @@ Room: ${sec.room}"
       }
 
       if (viewName === 'sched') {
+        closeProfilePromptModal();
         renderScheduleView();
       }
 
