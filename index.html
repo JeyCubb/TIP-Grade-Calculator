@@ -7,9 +7,9 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖩</text></svg>">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <!-- Firebase Realtime Database SDKs for Cross-Device Sync -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <!-- Firebase Realtime Database SDKs for Cross-Device Sync (Deferred to eliminate initial paint blocking) -->
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
   <style>
     /* ==========================================================================
        Design System & Design Tokens (Solid Coppery Orange & Minimal White Theme)
@@ -4178,7 +4178,7 @@
           : (localStorage.getItem('tip_gc_active_view') || 'calc');
         document.documentElement.setAttribute('data-active-view', v);
         if (v === 'sched') {
-          document.documentElement.classList.add('view-sched-active');
+          document.documentElement.classList.add('view-sched');
         }
       } catch (e) {}
     })();
@@ -4188,6 +4188,19 @@
     html[data-active-view="sched"] #calc-view-container { display: none !important; }
     html[data-active-view="sched"] #sheet-view-container { display: none !important; }
     html[data-active-view="sched"] #sched-view-container { display: flex !important; }
+    html[data-active-view="sched"] .app-container {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      gap: 0.5rem !important;
+    }
+    html[data-active-view="sched"] .user-profile-bar,
+    html[data-active-view="sched"] .btn-temp-mode,
+    html[data-active-view="sched"] .save-indicator,
+    html[data-active-view="sched"] .view-nav-bar {
+      display: none !important;
+    }
 
     html[data-active-view="sheet"] #calc-view-container { display: none !important; }
     html[data-active-view="sheet"] #sheet-view-container { display: flex !important; }
@@ -6131,6 +6144,12 @@
 
     function initFirebase() {
       try {
+        if (typeof firebase === 'undefined') {
+          window.addEventListener('load', () => {
+            initFirebase();
+          }, { once: true });
+          return;
+        }
         if (typeof firebase !== 'undefined') {
           const config = {
             databaseURL: "https://jeycub-stardew-farm-calendar-default-rtdb.firebaseio.com/"
@@ -9726,23 +9745,30 @@ Room: ${sec.room}${conflictNotice}"
       ? window.location.hash.replace('#', '')
       : (localStorage.getItem('tip_gc_active_view') || 'calc');
     if (earlyView === 'sched') {
-      renderScheduleView();
+      switchView('sched');
     }
 
     initUserProfilesAndSubjects();
     // loadUserData is called inside initUserProfilesAndSubjects for the authenticated path,
     // and inside the promptProfilePassword callbacks for the locked-profile path.
-    // Only call it here for truly open profiles (no password guard needed).
+    // Defer heavy grade computations if user is already viewing the Schedule Creator.
     if (activeUser !== 'No Profile') {
-      loadUserData(activeUser);
+      if (earlyView === 'sched') {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => loadUserData(activeUser));
+        } else {
+          setTimeout(() => loadUserData(activeUser), 50);
+        }
+      } else {
+        loadUserData(activeUser);
+      }
     }
     initFirebase();
 
-    // Restore last viewed tab/page on refresh
-    const initialView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
-      ? window.location.hash.replace('#', '')
-      : (localStorage.getItem('tip_gc_active_view') || 'calc');
-    switchView(initialView);
+    // Restore last viewed tab/page on refresh if not already switched
+    if (earlyView !== 'sched') {
+      switchView(earlyView);
+    }
 
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#sheet') switchView('sheet');
