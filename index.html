@@ -9295,15 +9295,7 @@ Room: ${sec.room}"
           `;
         });
 
-        if (selectedSec) {
-          pillsHtml += `
-            <button class="sched-pill sched-pill-none" 
-                    onclick="toggleScheduleSection('${course.code}', '${selectedSec}')" 
-                    title="Deselect ${course.title}">
-              ✕
-            </button>
-          `;
-        }
+
 
         row.innerHTML = `
           <div class="sched-course-header-new">
