@@ -9330,7 +9330,6 @@ Room: ${sec.room}"
 
       // Collect all active slots
       const activeEvents = [];
-      let latestSlotEnd = 1020; // Default 17:00 (5:00 PM)
 
       SCHEDULE_COURSES.forEach(course => {
         const secId = userScheduleSelection[course.code];
@@ -9339,9 +9338,6 @@ Room: ${sec.room}"
         if (!sec) return;
 
         sec.slots.forEach(slot => {
-          if (slot.end > latestSlotEnd) {
-            latestSlotEnd = slot.end;
-          }
           activeEvents.push({
             code: course.code,
             title: course.title,
@@ -9383,9 +9379,18 @@ Room: ${sec.room}"
         }
       }
 
-      // Determine grid row range: 7:30 AM (450 min) to latestSlotEnd (step 30 min)
-      const startMin = 450; // 7:30 AM
-      const endMin = Math.max(1050, latestSlotEnd); // through 17:30 to render full 5:00 PM slot
+      // Determine grid row range dynamically based on active events:
+      // Only show necessary hours (from earliest class start to latest class end, e.g. stopping at 4:00 / 4:30 PM)
+      let earliestSlotStart = 450; // 7:30 AM default
+      let latestSlotEnd = 990;     // 4:30 PM default
+
+      if (activeEvents.length > 0) {
+        earliestSlotStart = Math.min(...activeEvents.map(e => e.start));
+        latestSlotEnd = Math.max(...activeEvents.map(e => e.end));
+      }
+
+      const startMin = Math.floor(earliestSlotStart / 30) * 30;
+      const endMin = Math.ceil(latestSlotEnd / 30) * 30;
       const totalSteps = Math.ceil((endMin - startMin) / 30);
 
       gridEl.innerHTML = '';
