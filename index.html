@@ -3363,10 +3363,19 @@
       line-height: 1.1;
     }
     .sched-event-conflict {
-      border: 2px solid #ef4444 !important;
-      background: #7f1d1d !important;
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.6) !important;
-      animation: pulse 1s infinite alternate;
+      opacity: 0.5 !important;
+      border: 2px dashed #ef4444 !important;
+      border-left: 3px solid #ef4444 !important;
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5) !important;
+      z-index: 2 !important;
+      transition: opacity 0.15s ease, z-index 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
+    }
+
+    .sched-event-conflict:hover {
+      opacity: 0.95 !important;
+      z-index: 10 !important;
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.85) !important;
+      transform: scale(1.02) !important;
     }
 
     /* Right Column: Subject & Section Toggle Box */
@@ -9421,8 +9430,11 @@ Room: ${sec.room}"
         card.className = 'sched-event-block' + (isConflict ? ' sched-event-conflict' : '');
         card.style.gridColumn = `${col}`;
         card.style.gridRow = `${startStep} / span ${spanSteps}`;
-        card.style.background = isConflict ? '#7f1d1d' : ev.color;
+        card.style.background = ev.color;
         card.style.borderLeftColor = isConflict ? '#ef4444' : ev.border;
+        if (isConflict) {
+          card.style.opacity = '0.5';
+        }
 
         card.innerHTML = `
           <div class="sched-event-title-main">${ev.title} ${ev.tag ? '(' + ev.tag + ')' : ''}</div>
