@@ -199,8 +199,9 @@
       background: var(--accent-primary);
       border-color: var(--accent-primary);
       color: #ffffff;
-      transform: translateY(-1px) scale(1.05);
-      box-shadow: 0 4px 14px var(--accent-glow);
+      transform: translateY(-2px) scale(1.15);
+      box-shadow: 0 6px 16px var(--accent-glow);
+      z-index: 5;
     }
 
     .reviewer-link-icon:active {
@@ -472,7 +473,12 @@
     .btn:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-color-hover);
-      transform: translateY(-1px);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 4px 12px var(--shadow-sm);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
     }
 
     .btn-primary {
@@ -484,7 +490,8 @@
 
     .btn-primary:hover {
       background: var(--accent-primary-hover);
-      box-shadow: 0 6px 18px var(--accent-glow);
+      box-shadow: 0 6px 20px var(--accent-glow);
+      transform: translateY(-2px) scale(1.04);
     }
 
     .btn-sm {
@@ -1426,7 +1433,13 @@
 
     .view-nav-btn:hover {
       color: var(--text-primary);
-      background: rgba(249, 115, 22, 0.06);
+      background: rgba(249, 115, 22, 0.08);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 2px 8px var(--shadow-sm);
+    }
+
+    .view-nav-btn:active {
+      transform: scale(0.97);
     }
 
     .view-nav-btn.active {
@@ -1524,6 +1537,13 @@
     .year-tab-btn:hover {
       color: var(--text-primary);
       border-color: var(--border-color-hover);
+      transform: translateY(-2px) scale(1.06);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+    }
+
+    .year-tab-btn:active {
+      transform: scale(0.97);
     }
 
     .year-tab-btn.active {
@@ -1572,8 +1592,9 @@
     .sem-select-dropdown:hover,
     .sem-select-dropdown:focus {
       background: var(--accent-primary-hover);
-      box-shadow: 0 3px 12px var(--accent-glow);
+      box-shadow: 0 4px 14px var(--accent-glow);
       border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05) translateY(-1px);
     }
 
     .sem-select-dropdown option {
@@ -3186,13 +3207,19 @@
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      transition: all 0.15s ease;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+      position: relative;
     }
     .sched-preset-btn:hover {
       background: var(--accent-primary);
       color: #fff;
       border-color: var(--accent-primary);
-      transform: translateY(-1px);
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 6px 16px var(--accent-glow);
+      z-index: 5;
+    }
+    .sched-preset-btn:active {
+      transform: scale(0.97);
     }
     .sched-toolbar-stats {
       display: flex;
@@ -3617,22 +3644,35 @@
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
       font-size: 0.7rem;
-      padding: 0.22rem 0.55rem;
-      border-radius: 4px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 5px;
       cursor: pointer;
-      transition: all 0.12s ease;
+      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
       line-height: 1.2;
+      position: relative;
     }
     .sched-pill:hover {
-      border-color: var(--text-muted);
+      border-color: var(--accent-primary);
       color: var(--text-primary);
+      background: var(--bg-card-hover);
+      transform: scale(1.1) translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-glow);
+      z-index: 10;
+    }
+    .sched-pill:active {
+      transform: scale(0.97);
     }
     .sched-pill.active {
       box-shadow: 0 0 0 1px currentColor;
       font-weight: 700;
+    }
+    .sched-pill.active:hover {
+      transform: scale(1.1) translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 12px currentColor;
+      z-index: 10;
     }
     .sched-pill .pill-sec {
       font-weight: 700;
@@ -3679,6 +3719,12 @@
       animation: neonPulseRed 1.8s infinite ease-in-out !important;
     }
 
+    .sched-pill.sched-pill-conflict:hover {
+      transform: scale(1.1) translateY(-2px) !important;
+      box-shadow: 0 6px 18px rgba(255, 0, 85, 0.8), 0 0 16px rgba(255, 0, 85, 0.9) !important;
+      z-index: 10 !important;
+    }
+
     .sched-pill.sched-pill-conflict .pill-sec {
       color: #ff3377 !important;
       font-weight: 850 !important;
@@ -3690,6 +3736,15 @@
       border-style: dashed !important;
       color: #fda4af !important;
       background: rgba(255, 0, 85, 0.05) !important;
+    }
+
+    .sched-pill.sched-pill-potential-conflict:not(.active):hover {
+      transform: scale(1.1) translateY(-2px) !important;
+      border-color: #ff0055 !important;
+      color: #ffffff !important;
+      background: rgba(255, 0, 85, 0.15) !important;
+      box-shadow: 0 4px 14px rgba(255, 0, 85, 0.5) !important;
+      z-index: 10 !important;
     }
 
     .sched-conflict-badge {
@@ -4152,8 +4207,9 @@
       background: var(--accent-primary);
       border-color: var(--accent-primary);
       color: #ffffff;
-      transform: translateY(-1px) scale(1.05);
-      box-shadow: 0 4px 14px var(--accent-glow);
+      transform: translateY(-2px) scale(1.15);
+      box-shadow: 0 6px 16px var(--accent-glow);
+      z-index: 5;
     }
 
     .brand-nav-btn:active {
