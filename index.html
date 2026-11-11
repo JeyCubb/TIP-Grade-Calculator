@@ -810,11 +810,11 @@
       margin-bottom: 0.35rem;
     }
 
-    #card-exam-section {
+    #card-cs-section {
       order: 1;
     }
 
-    #card-cs-section {
+    #card-exam-section {
       order: 2;
     }
 
@@ -1124,6 +1124,8 @@
       justify-content: space-between;
       gap: 0.4rem;
       margin-top: 0.05rem;
+      box-sizing: border-box;
+      max-width: 100%;
     }
 
     .final-val {
@@ -1278,17 +1280,28 @@
       }
 
       .final-grade-card {
-        padding: 0.35rem;
-        gap: 0.15rem;
+        padding: 0.35rem 0.5rem;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        max-width: 100%;
+        overflow: hidden;
+      }
+
+      .final-grade-title-group {
+        min-width: 0;
+        flex-shrink: 1;
       }
 
       .final-val {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
       }
 
       .eq-badge {
         font-size: 0.7rem;
-        padding: 0.15rem 0.5rem;
+        padding: 0.15rem 0.45rem;
+        flex-shrink: 0;
+        white-space: nowrap;
       }
 
       .mode-card {
@@ -3752,7 +3765,7 @@
          ------------------------------------------------------------- */
       html[data-active-view="calc"] body,
       body.view-calc,
-      body:not(.view-sched):not(.view-sheet) {
+      body[data-view="calc"] {
         height: 100vh !important;
         max-height: 100vh !important;
         overflow: hidden !important;
@@ -3762,7 +3775,7 @@
 
       html[data-active-view="calc"] .app-container,
       body.view-calc .app-container,
-      body:not(.view-sched):not(.view-sheet) .app-container {
+      body[data-view="calc"] .app-container {
         height: 100% !important;
         max-height: 100% !important;
         display: flex !important;
@@ -3774,7 +3787,7 @@
 
       html[data-active-view="calc"] #calc-view-container,
       body.view-calc #calc-view-container,
-      body:not(.view-sched):not(.view-sheet) #calc-view-container {
+      body[data-view="calc"] #calc-view-container {
         flex: 1 1 0 !important;
         min-height: 0 !important;
         display: flex !important;
@@ -3785,7 +3798,7 @@
 
       html[data-active-view="calc"] .main-grid,
       body.view-calc .main-grid,
-      body:not(.view-sched):not(.view-sheet) .main-grid {
+      body[data-view="calc"] .main-grid {
         flex: 1 1 0 !important;
         min-height: 0 !important;
         display: grid !important;
@@ -3799,7 +3812,7 @@
       /* Class Standing Card */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
-      body:not(.view-sched):not(.view-sheet) #card-cs-section {
+      body[data-view="calc"] #card-cs-section {
         height: 100% !important;
         max-height: 100% !important;
         display: flex !important;
@@ -3811,7 +3824,7 @@
 
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
-      body:not(.view-sched):not(.view-sheet) #categories {
+      body[data-view="calc"] #categories {
         flex: 1 1 auto !important;
         min-height: 0 !important;
         overflow-y: auto !important;
@@ -3823,7 +3836,7 @@
       /* Exam & Target Solver Card */
       html[data-active-view="calc"] #card-exam-section,
       body.view-calc #card-exam-section,
-      body:not(.view-sched):not(.view-sheet) #card-exam-section {
+      body[data-view="calc"] #card-exam-section {
         height: 100% !important;
         max-height: 100% !important;
         display: flex !important;
@@ -3838,7 +3851,7 @@
 
       html[data-active-view="calc"] .view-nav-bar,
       body.view-calc .view-nav-bar,
-      body:not(.view-sched):not(.view-sheet) .view-nav-bar {
+      body[data-view="calc"] .view-nav-bar {
         flex-shrink: 0 !important;
         margin: 0 !important;
         padding: 0.15rem 0.4rem !important;
@@ -3846,7 +3859,7 @@
 
       html[data-active-view="calc"] .app-header,
       body.view-calc .app-header,
-      body:not(.view-sched):not(.view-sheet) .app-header {
+      body[data-view="calc"] .app-header {
         flex-shrink: 0 !important;
         margin-top: auto !important;
         padding: 0.35rem 0.65rem !important;
@@ -4890,11 +4903,29 @@
     })();
   </script>
   <style>
-    /* Instant zero-delay view activation on refresh */
-    html[data-active-view="sched"] #calc-view-container { display: none !important; }
-    html[data-active-view="sched"] #sheet-view-container { display: none !important; }
-    html[data-active-view="sched"] #sched-view-container { display: flex !important; }
-    html[data-active-view="sched"] .app-container {
+    /* Instant zero-delay view activation on refresh & ironclad view isolation */
+    html[data-active-view="sched"] #calc-view-container,
+    html.view-sched #calc-view-container,
+    body.view-sched #calc-view-container,
+    body[data-view="sched"] #calc-view-container {
+      display: none !important;
+    }
+    html[data-active-view="sched"] #sheet-view-container,
+    html.view-sched #sheet-view-container,
+    body.view-sched #sheet-view-container,
+    body[data-view="sched"] #sheet-view-container {
+      display: none !important;
+    }
+    html[data-active-view="sched"] #sched-view-container,
+    html.view-sched #sched-view-container,
+    body.view-sched #sched-view-container,
+    body[data-view="sched"] #sched-view-container {
+      display: flex !important;
+    }
+    html[data-active-view="sched"] .app-container,
+    html.view-sched .app-container,
+    body.view-sched .app-container,
+    body[data-view="sched"] .app-container {
       max-width: 100% !important;
       width: 100% !important;
       margin: 0 !important;
@@ -4903,17 +4934,61 @@
     html[data-active-view="sched"] .user-profile-bar,
     html[data-active-view="sched"] .btn-temp-mode,
     html[data-active-view="sched"] .save-indicator,
-    html[data-active-view="sched"] .view-nav-bar {
+    html[data-active-view="sched"] .view-nav-bar,
+    html.view-sched .user-profile-bar,
+    html.view-sched .btn-temp-mode,
+    html.view-sched .save-indicator,
+    html.view-sched .view-nav-bar,
+    body.view-sched .user-profile-bar,
+    body.view-sched .btn-temp-mode,
+    body.view-sched .save-indicator,
+    body.view-sched .view-nav-bar,
+    body[data-view="sched"] .user-profile-bar,
+    body[data-view="sched"] .btn-temp-mode,
+    body[data-view="sched"] .save-indicator,
+    body[data-view="sched"] .view-nav-bar {
       display: none !important;
     }
 
-    html[data-active-view="sheet"] #calc-view-container { display: none !important; }
-    html[data-active-view="sheet"] #sheet-view-container { display: flex !important; }
-    html[data-active-view="sheet"] #sched-view-container { display: none !important; }
+    html[data-active-view="sheet"] #calc-view-container,
+    html.view-sheet #calc-view-container,
+    body.view-sheet #calc-view-container,
+    body[data-view="sheet"] #calc-view-container {
+      display: none !important;
+    }
+    html[data-active-view="sheet"] #sheet-view-container,
+    html.view-sheet #sheet-view-container,
+    body.view-sheet #sheet-view-container,
+    body[data-view="sheet"] #sheet-view-container {
+      display: flex !important;
+    }
+    html[data-active-view="sheet"] #sched-view-container,
+    html.view-sheet #sched-view-container,
+    body.view-sheet #sched-view-container,
+    body[data-view="sheet"] #sched-view-container {
+      display: none !important;
+    }
 
-    html[data-active-view="calc"] #sheet-view-container { display: none !important; }
-    html[data-active-view="calc"] #sched-view-container { display: none !important; }
-    html[data-active-view="calc"] #calc-view-container { display: block !important; }
+    html[data-active-view="calc"] #sheet-view-container,
+    html.view-calc #sheet-view-container,
+    body.view-calc #sheet-view-container,
+    body[data-view="calc"] #sheet-view-container,
+    body:not(.view-sheet) #sheet-view-container {
+      display: none !important;
+    }
+    html[data-active-view="calc"] #sched-view-container,
+    html.view-calc #sched-view-container,
+    body.view-calc #sched-view-container,
+    body[data-view="calc"] #sched-view-container,
+    body:not(.view-sched) #sched-view-container {
+      display: none !important;
+    }
+    html[data-active-view="calc"] #calc-view-container,
+    html.view-calc #calc-view-container,
+    body.view-calc #calc-view-container,
+    body[data-view="calc"] #calc-view-container {
+      display: block !important;
+    }
   </style>
 
 </head>
@@ -7452,21 +7527,25 @@
     const htmlEl = document.documentElement;
 
     function updateThemeUI(theme) {
-      htmlEl.setAttribute('data-theme', theme);
-      localStorage.setItem('tip_gc_theme', theme);
-      if (themeToggleBtn) {
-        themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
-        themeToggleBtn.innerHTML = theme === 'dark'
-          ? `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>`
-          : `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>`;
-      }
-      if (typeof renderScheduleSidebar === 'function' && (document.body.classList.contains('view-sched') || window.location.hash === '#sched')) {
-        renderScheduleSidebar();
-        renderScheduleGrid();
+      try {
+        htmlEl.setAttribute('data-theme', theme);
+        localStorage.setItem('tip_gc_theme', theme);
+        if (themeToggleBtn) {
+          themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+          themeToggleBtn.innerHTML = theme === 'dark'
+            ? `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+              </svg>`
+            : `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>`;
+        }
+        if (window.isScheduleInitialized && typeof renderScheduleSidebar === 'function' && typeof renderScheduleGrid === 'function' && (document.body && document.body.classList.contains('view-sched'))) {
+          renderScheduleSidebar();
+          renderScheduleGrid();
+        }
+      } catch (err) {
+        console.error('Error updating theme UI:', err);
       }
     }
 
@@ -10124,6 +10203,7 @@
       } else {
         applySchedulePreset('A');
       }
+      window.isScheduleInitialized = true;
     }
 
     function saveScheduleCreatorState() {
