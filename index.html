@@ -3753,6 +3753,15 @@
     .sched-pill .pill-desc {
       font-size: 0.64rem;
       opacity: 0.85;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .sched-pill .pill-day {
+      font-weight: 700;
+    }
+    .sched-pill .pill-time {
+      white-space: nowrap;
     }
     .sched-pill-none {
       padding: 0.2rem 0.45rem !important;
@@ -4343,15 +4352,36 @@
       }
 
       .sched-pill .pill-desc {
-        font-size: 0.52rem !important;
-        font-weight: 500 !important;
-        opacity: 0.82 !important;
-        line-height: 1.15 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
         margin-top: 2px !important;
+        line-height: 1.15 !important;
+        gap: 1px !important;
+      }
+
+      .sched-pill .pill-day {
+        font-size: 0.52rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.02em !important;
+        opacity: 0.9 !important;
+        white-space: nowrap !important;
         display: block !important;
-        text-align: center !important;
-        word-break: normal !important;
-        white-space: normal !important;
+        line-height: 1.1 !important;
+      }
+
+      .sched-pill .pill-time {
+        font-size: 0.48rem !important;
+        font-weight: 500 !important;
+        opacity: 0.85 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 100% !important;
+        display: block !important;
+        line-height: 1.1 !important;
       }
     }
 
@@ -9925,6 +9955,19 @@
       });
     }
 
+    function formatPillDesc(desc) {
+      if (!desc) return '';
+      if (desc.includes(' & ')) {
+        const parts = desc.split(' & ');
+        return `<span class="pill-day">${parts[0].trim()}</span><span class="pill-time">&amp; ${parts[1].trim()}</span>`;
+      }
+      const match = desc.match(/^([A-Za-z/]+)\s+(.+)$/);
+      if (match) {
+        return `<span class="pill-day">${match[1]}</span><span class="pill-time">${match[2]}</span>`;
+      }
+      return `<span class="pill-time">${desc}</span>`;
+    }
+
     function renderScheduleSidebar() {
       const listEl = document.getElementById('sched-subject-list');
       if (!listEl) return;
@@ -9992,7 +10035,7 @@ Room: ${sec.room}${pillConflictTitle}"
               <span class="pill-sec" style="${secStyle}">
                 ${sec.id}${isConflict ? ' ⚠️' : ''}
               </span>
-              <span class="pill-desc">${sec.desc}</span>
+              <span class="pill-desc">${formatPillDesc(sec.desc)}</span>
             </button>
           `;
         });
