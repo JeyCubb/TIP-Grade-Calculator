@@ -3300,7 +3300,7 @@
     /* Rendered Subject Event Box on Grid */
     .sched-event-block {
       border-radius: 5px;
-      padding: 0.3rem 0.45rem;
+      padding: 0.22rem 0.38rem;
       color: #fff;
       display: flex;
       flex-direction: column;
@@ -3629,6 +3629,80 @@
     }
     .sched-grid-body {
       grid-template-columns: 80px repeat(5, 1fr) !important;
+    }
+
+
+    /* Course Descriptive Title Colored & Large Hierarchy */
+    .sched-course-header-new {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .sched-course-title-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .sched-course-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .sched-course-title-main {
+      font-size: 0.95rem;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .sched-course-subgroup {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .sched-course-code-grey {
+      color: var(--text-muted) !important;
+      letter-spacing: 0.02em;
+    }
+    .sched-course-units-grey {
+      color: var(--text-muted);
+      opacity: 0.85;
+    }
+
+    /* Grid event card typography focus on title */
+    .sched-event-title-main {
+      font-size: 0.72rem;
+      font-weight: 800;
+      line-height: 1.12;
+      color: #ffffff;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    .sched-event-code-sub {
+      font-size: 0.65rem;
+      font-weight: 600;
+      margin-top: 2px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sched-event-code-grey {
+      color: rgba(255, 255, 255, 0.72) !important;
+    }
+    .sched-event-sec-badge {
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.05rem 0.3rem;
+      border-radius: 3px;
+      font-size: 0.62rem;
     }
 
 </style>
@@ -8785,8 +8859,10 @@
           pillsHtml += `
             <button class="sched-pill ${isAct ? 'active' : ''}" 
                     onclick="toggleScheduleSection('${course.code}', '${sec.id}')"
-                    title="${course.code} ${sec.id} (${sec.desc}) - Room: ${sec.room}"
-                    style="${isAct ? `background: ${course.color}25; border-color: ${course.border}; color: #fff;` : ''}">
+                    title="${course.title} (${course.code})
+Section: ${sec.id} (${sec.desc})
+Room: ${sec.room}"
+                    style="${isAct ? `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;` : ''}">
               <span class="pill-sec" style="${isAct ? `color: ${course.border}; font-weight: 800;` : ''}">${sec.id}</span>
               <span class="pill-desc">${sec.desc}</span>
             </button>
@@ -8797,20 +8873,22 @@
           pillsHtml += `
             <button class="sched-pill sched-pill-none" 
                     onclick="toggleScheduleSection('${course.code}', '${selectedSec}')" 
-                    title="Deselect ${course.code}">
+                    title="Deselect ${course.title}">
               ✕
             </button>
           `;
         }
 
         row.innerHTML = `
-          <div class="sched-course-info">
-            <div class="sched-course-code-wrap">
-              <span class="sched-course-badge" style="background: ${course.color}; border: 1px solid ${course.border};"></span>
-              <span class="sched-course-code" style="color: ${course.border};">${course.code}</span>
-              <span class="sched-course-units">${course.units}u</span>
+          <div class="sched-course-header-new">
+            <div class="sched-course-title-group">
+              <span class="sched-course-dot" style="background: ${course.color}; box-shadow: 0 0 6px ${course.color};"></span>
+              <span class="sched-course-title-main" style="color: ${course.border};">${course.title}</span>
             </div>
-            <div class="sched-course-title" title="${course.title}">${course.title}</div>
+            <div class="sched-course-subgroup">
+              <span class="sched-course-code-grey">${course.code}</span>
+              <span class="sched-course-units-grey">&bull; ${course.units} Units</span>
+            </div>
           </div>
           <div class="sched-pills-row">${pillsHtml}</div>
         `;
@@ -8928,11 +9006,11 @@
         card.style.borderLeftColor = isConflict ? '#ef4444' : ev.border;
 
         card.innerHTML = `
-          <div class="sched-event-code">
-            <span>${ev.code} ${ev.tag ? '(' + ev.tag + ')' : ''}</span>
-            <span style="font-size: 0.65rem; opacity: 0.85;">${ev.sectionId}</span>
+          <div class="sched-event-title-main">${ev.title} ${ev.tag ? '(' + ev.tag + ')' : ''}</div>
+          <div class="sched-event-code-sub">
+            <span class="sched-event-code-grey">${ev.code}</span>
+            <span class="sched-event-sec-badge">${ev.sectionId}</span>
           </div>
-          <div class="sched-event-title">${ev.title}</div>
           <div class="sched-event-meta">
             <span>${ev.room}</span>
             <span>&bull;</span>
