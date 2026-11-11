@@ -4037,6 +4037,36 @@
     }
 
 </style>
+  <!-- Zero-Delay View Pre-Resolver: Instantly displays target view on refresh without layout flash or delay -->
+  <script>
+    (function() {
+      try {
+        var h = window.location.hash;
+        var v = (h === '#sheet' || h === '#sched' || h === '#calc')
+          ? h.replace('#', '')
+          : (localStorage.getItem('tip_gc_active_view') || 'calc');
+        document.documentElement.setAttribute('data-active-view', v);
+        if (v === 'sched') {
+          document.documentElement.classList.add('view-sched-active');
+        }
+      } catch (e) {}
+    })();
+  </script>
+  <style>
+    /* Instant zero-delay view activation on refresh */
+    html[data-active-view="sched"] #calc-view-container { display: none !important; }
+    html[data-active-view="sched"] #sheet-view-container { display: none !important; }
+    html[data-active-view="sched"] #sched-view-container { display: flex !important; }
+
+    html[data-active-view="sheet"] #calc-view-container { display: none !important; }
+    html[data-active-view="sheet"] #sheet-view-container { display: flex !important; }
+    html[data-active-view="sheet"] #sched-view-container { display: none !important; }
+
+    html[data-active-view="calc"] #sheet-view-container { display: none !important; }
+    html[data-active-view="calc"] #sched-view-container { display: none !important; }
+    html[data-active-view="calc"] #calc-view-container { display: block !important; }
+  </style>
+
 </head>
 <body>
   <div class="app-container">
@@ -9414,6 +9444,7 @@ Room: ${sec.room}"
       document.body.classList.toggle('view-sheet', viewName === 'sheet');
       document.body.classList.toggle('view-calc', viewName === 'calc');
       document.body.setAttribute('data-view', viewName);
+      document.documentElement.setAttribute('data-active-view', viewName);
       const headerSchemeEl = document.getElementById('header-scheme-dropdown');
 
       btnViewCalc.classList.toggle('active', viewName === 'calc');
@@ -9462,6 +9493,14 @@ Room: ${sec.room}"
 
     initScheduleCreatorState();
     initScheduleButtons();
+
+    // Fast-path immediate schedule render if viewing schedule
+    const earlyView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
+      ? window.location.hash.replace('#', '')
+      : (localStorage.getItem('tip_gc_active_view') || 'calc');
+    if (earlyView === 'sched') {
+      renderScheduleView();
+    }
 
     initUserProfilesAndSubjects();
     // loadUserData is called inside initUserProfilesAndSubjects for the authenticated path,
