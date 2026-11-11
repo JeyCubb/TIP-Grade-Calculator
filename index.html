@@ -52,13 +52,13 @@
     }
 
     [data-theme="light"] {
-      --bg-main: #fdfbf9;
-      --bg-header: rgba(255, 255, 255, 0.95);
+      --bg-main: #f3efe9;
+      --bg-header: rgba(255, 255, 255, 0.96);
       --bg-card: #ffffff;
-      --bg-card-hover: #fcf4ee;
+      --bg-card-hover: #faf4ed;
       --bg-input: #f8eee7;
-      --border-color: #e6d6cb;
-      --border-color-hover: #d9bfad;
+      --border-color: #e2d7ce;
+      --border-color-hover: #d2c1b4;
 
       --text-primary: #1c1510;
       --text-secondary: #57483e;
@@ -68,9 +68,156 @@
       --accent-primary-hover: #c2410c;
       --accent-glow: rgba(234, 88, 12, 0.2);
 
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.12);
+      --color-success: #059669;
+      --color-success-bg: rgba(5, 150, 105, 0.12);
+      --color-error: #e11d48;
+      --color-error-bg: rgba(225, 29, 72, 0.12);
+      --color-warning: #d97706;
+      --color-warning-bg: rgba(217, 119, 6, 0.12);
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ==========================================================================
+       LIGHT THEME SPECIFIC COMPONENT REFINEMENTS
+       ========================================================================== */
+    [data-theme="light"] body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+    }
+
+    [data-theme="light"] .sched-course-row {
+      background: #faf7f4 !important;
+      border: 1px solid #e8ded6 !important;
+    }
+
+    [data-theme="light"] .sched-course-row:hover {
+      background: #f5ede5 !important;
+      border-color: #d8c7ba !important;
+    }
+
+    [data-theme="light"] .sched-course-row.active {
+      background: #fff8f3 !important;
+      border-color: rgba(234, 88, 12, 0.45) !important;
+    }
+
+    [data-theme="light"] .sched-pill {
+      background: #ffffff !important;
+      border: 1px solid #e2d7ce !important;
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="light"] .sched-pill:hover {
+      background: #fef8f4 !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="light"] .sched-pill .pill-sec {
+      color: var(--text-primary);
+    }
+
+    [data-theme="light"] .sched-pill .pill-time {
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="light"] .sched-grid-slot {
+      background: #fbf9f6 !important;
+      border: 1px dashed rgba(0, 0, 0, 0.07) !important;
+    }
+
+    [data-theme="light"] .sched-grid-slot:hover {
+      background: rgba(234, 88, 12, 0.05) !important;
+    }
+
+    [data-theme="light"] .sched-grid-header {
+      border-bottom: 2px solid var(--border-color) !important;
+    }
+
+    [data-theme="light"] .sched-day-label,
+    [data-theme="light"] .sched-time-label {
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="light"] .sched-preset-btn {
+      background: #ffffff !important;
+      border: 1px solid #e2d7ce !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="light"] .sched-preset-btn:hover {
+      background: var(--accent-primary) !important;
+      color: #ffffff !important;
+      border-color: var(--accent-primary) !important;
+    }
+
+    [data-theme="light"] .sched-stat-badge {
+      background: #f5ede5 !important;
+      border-color: #e2d7ce !important;
+      color: var(--accent-primary) !important;
+    }
+
+    [data-theme="light"] .sched-conflict-alert,
+    [data-theme="light"] .sched-conflict-badge {
+      background: rgba(225, 29, 72, 0.1) !important;
+      border-color: rgba(225, 29, 72, 0.45) !important;
+      color: #be123c !important;
+    }
+
+    [data-theme="light"] .sched-pill-conflict {
+      background: rgba(225, 29, 72, 0.1) !important;
+      border-color: #e11d48 !important;
+      color: #9f1239 !important;
+    }
+
+    [data-theme="light"] .sched-pill-conflict .pill-sec {
+      color: #e11d48 !important;
+    }
+
+    [data-theme="light"] .sched-conflict-tooltip {
+      background: #ffffff !important;
+      border: 1px solid #fecdd3 !important;
+      color: #1c1510 !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 10px rgba(225, 29, 72, 0.15) !important;
+    }
+
+    [data-theme="light"] .sched-tooltip-row {
+      color: #334155 !important;
+      border-top: 1px solid #f1f5f9 !important;
+    }
+
+    [data-theme="light"] .brand-nav-btn,
+    [data-theme="light"] .reviewer-link-icon {
+      background: rgba(234, 88, 12, 0.08) !important;
+      border: 1.5px solid rgba(234, 88, 12, 0.28) !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    [data-theme="light"] .theme-toggle-btn {
+      background: #ffffff !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+    }
+
+    [data-theme="light"] .theme-toggle-btn:hover {
+      background: var(--bg-card-hover) !important;
+      border-color: var(--border-color-hover) !important;
+    }
+
+    [data-theme="light"] .view-nav-bar {
+      background: #ffffff !important;
+      border: 1px solid var(--border-color) !important;
+    }
+
+    [data-theme="light"] .view-nav-btn {
+      color: var(--text-secondary) !important;
+    }
+
+    [data-theme="light"] .view-nav-btn.active {
+      background: var(--accent-primary) !important;
+      color: #ffffff !important;
     }
 
     /* Base Reset */
@@ -4730,6 +4877,8 @@
   <script>
     (function() {
       try {
+        var savedTheme = localStorage.getItem('tip_gc_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
         var h = window.location.hash;
         var v = (h === '#sheet' || h === '#sched' || h === '#calc')
           ? h.replace('#', '')
@@ -7302,11 +7451,36 @@
     const themeToggleBtn = document.getElementById('theme-toggle');
     const htmlEl = document.documentElement;
 
-    themeToggleBtn.addEventListener('click', () => {
-      const currentTheme = htmlEl.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      htmlEl.setAttribute('data-theme', newTheme);
-    });
+    function updateThemeUI(theme) {
+      htmlEl.setAttribute('data-theme', theme);
+      localStorage.setItem('tip_gc_theme', theme);
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+        themeToggleBtn.innerHTML = theme === 'dark'
+          ? `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+            </svg>`
+          : `<svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>`;
+      }
+      if (typeof renderScheduleSidebar === 'function' && (document.body.classList.contains('view-sched') || window.location.hash === '#sched')) {
+        renderScheduleSidebar();
+        renderScheduleGrid();
+      }
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = htmlEl.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        updateThemeUI(newTheme);
+      });
+    }
+
+    // Initialize saved theme on start
+    const initialTheme = localStorage.getItem('tip_gc_theme') || 'dark';
+    updateThemeUI(initialTheme);
 
     function currentMode() {
       const checked = document.querySelector('input[name="mode"]:checked');
@@ -10190,6 +10364,7 @@
       if (!listEl) return;
 
       const conflicts = getScheduleConflicts();
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
       listEl.innerHTML = '';
       SCHEDULE_COURSES.forEach(course => {
         const selectedSec = userScheduleSelection[course.code];
@@ -10233,11 +10408,15 @@
           }
 
           const activeStyle = (isAct && !isConflict)
-            ? `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;`
+            ? (isLight
+                ? `background: ${course.color}15; border-color: ${course.color}; color: #1c1510; box-shadow: 0 1px 4px ${course.color}35;`
+                : `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;`)
             : '';
 
           const secStyle = (isAct && !isConflict)
-            ? `color: ${course.border}; font-weight: 800;`
+            ? (isLight
+                ? `color: ${course.color}; font-weight: 800;`
+                : `color: ${course.border}; font-weight: 800;`)
             : '';
 
           pillsHtml += `
@@ -10257,8 +10436,12 @@ Room: ${sec.room}${pillConflictTitle}"
           `;
         });
 
-        const dotStyle = `background: ${course.color}; box-shadow: 0 0 6px ${course.color};`;
-        const titleStyle = `color: ${course.border};`;
+        const dotStyle = isLight
+          ? `background: ${course.color}; box-shadow: 0 0 4px ${course.color}60;`
+          : `background: ${course.color}; box-shadow: 0 0 6px ${course.color};`;
+        const titleStyle = isLight
+          ? `color: ${course.color}; font-weight: 800;`
+          : `color: ${course.border};`;
 
         let conflictBadgeHtml = '';
         if (hasConflict) {
