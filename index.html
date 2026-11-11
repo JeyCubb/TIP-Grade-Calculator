@@ -4036,6 +4036,52 @@
       }
     }
 
+
+    /* When in Schedule View, hide .view-nav-bar so schedule toolbar sits directly above brand title */
+    body.view-sched .view-nav-bar,
+    body[data-view="sched"] .view-nav-bar,
+    html[data-active-view="sched"] .view-nav-bar {
+      display: none !important;
+    }
+
+    /* Brand Header Navigation Buttons (Calculator 🖩, Reviewer 📖, Schedule 📅) */
+    .brand-icon,
+    .brand-nav-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.45);
+      color: var(--accent-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
+      flex-shrink: 0;
+    }
+
+    .brand-nav-btn:hover {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+
+    .brand-nav-btn:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    .brand-nav-btn.active {
+      background: var(--accent-primary) !important;
+      border-color: var(--accent-primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px var(--accent-glow) !important;
+    }
+
 </style>
   <!-- Zero-Delay View Pre-Resolver: Instantly displays target view on refresh without layout flash or delay -->
   <script>
@@ -4398,9 +4444,9 @@
     <!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
     <header class="app-header">
       <div class="brand-group">
-        <div class="brand-icon" style="font-size: 1.2rem; display: flex; align-items: center; justify-content: center;">
+        <button type="button" class="brand-nav-btn active" id="btn-header-calc" title="Calculator View" aria-label="Calculator View">
           🖩
-        </div>
+        </button>
         <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="reviewer-link-icon" title="Open JeyCub Terms Reviewer" aria-label="Open JeyCub Terms Reviewer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -9434,6 +9480,7 @@ Room: ${sec.room}"
     const btnViewCalc = document.getElementById('btn-view-calc');
     const btnViewSheet = document.getElementById('btn-view-sheet');
     const btnHeaderSched = document.getElementById('btn-header-sched');
+    const btnHeaderCalc = document.getElementById('btn-header-calc');
     let lastViewBeforeSched = 'calc';
     const calcContainer = document.getElementById('calc-view-container');
     const sheetContainer = document.getElementById('sheet-view-container');
@@ -9453,6 +9500,7 @@ Room: ${sec.room}"
         lastViewBeforeSched = viewName;
       }
       if (btnHeaderSched) btnHeaderSched.classList.toggle('active', viewName === 'sched');
+      if (btnHeaderCalc) btnHeaderCalc.classList.toggle('active', viewName === 'calc');
 
       calcContainer.style.display = viewName === 'calc' ? 'block' : 'none';
       sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
@@ -9489,6 +9537,9 @@ Room: ${sec.room}"
           switchView('sched');
         }
       });
+    }
+    if (btnHeaderCalc) {
+      btnHeaderCalc.addEventListener('click', () => switchView('calc'));
     }
 
     initScheduleCreatorState();
