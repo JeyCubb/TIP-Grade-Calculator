@@ -4655,8 +4655,8 @@
           <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
             ⚡ Choice A (ME32S1 Block)
           </button>
-          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Swapped Lab variant">
-            🔄 Choice B (Swapped Lab)
+          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Choice B (ME32S2 Fluid Machineries)">
+            🔄 Choice B (ME32S2 Fluid)
           </button>
           <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
             🧹 Clear All
@@ -9474,8 +9474,7 @@
         });
       } else if (preset === 'B') {
         SCHEDULE_COURSES.forEach(c => {
-          if (c.code === 'ME 401') userScheduleSelection[c.code] = 'ME32S2';
-          else if (c.code === 'EMAN 001') userScheduleSelection[c.code] = 'ME32S2';
+          if (c.code === 'ME 406') userScheduleSelection[c.code] = 'ME32S2';
           else userScheduleSelection[c.code] = 'ME32S1';
         });
       }
