@@ -3647,20 +3647,24 @@
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
-      padding: 0.45rem 0.55rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm);
-      transition: background 0.15s ease, border-color 0.15s ease;
+      padding: 0.5rem 0.6rem;
+      background: rgba(255, 255, 255, 0.02) !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+      border-radius: 8px !important;
+      margin-bottom: 0.35rem !important;
+      transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
     .sched-course-row:last-child {
-      border-bottom: none;
+      margin-bottom: 0 !important;
     }
     .sched-course-row:hover {
-      background: rgba(255, 255, 255, 0.025);
+      background: rgba(255, 255, 255, 0.035) !important;
+      border-color: rgba(255, 255, 255, 0.09) !important;
     }
     .sched-course-row.active {
-      background: rgba(249, 115, 22, 0.04);
-      border-left: 2.5px solid var(--accent-primary);
+      background: rgba(255, 255, 255, 0.035) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      border-left: 3px solid var(--accent-primary) !important;
     }
     .sched-course-info {
       display: flex;
@@ -3801,17 +3805,21 @@
     }
 
     .sched-pill.sched-pill-potential-conflict:not(.active) {
-      border-color: rgba(244, 63, 94, 0.45) !important;
-      border-style: dashed !important;
-      color: #fda4af !important;
-      background: rgba(244, 63, 94, 0.04) !important;
+      border-color: rgba(244, 63, 94, 0.28) !important;
+      border-style: solid !important;
+      color: var(--text-secondary) !important;
+      background: rgba(244, 63, 94, 0.035) !important;
+    }
+
+    .sched-pill.sched-pill-potential-conflict:not(.active) .pill-sec {
+      color: #fb7185 !important;
     }
 
     .sched-pill.sched-pill-potential-conflict:not(.active):hover {
-      transform: scale(1.08) translateY(-1px) !important;
+      transform: scale(1.06) translateY(-1px) !important;
       border-color: #f43f5e !important;
       color: #ffffff !important;
-      background: rgba(244, 63, 94, 0.14) !important;
+      background: rgba(244, 63, 94, 0.16) !important;
       box-shadow: 0 3px 10px rgba(244, 63, 94, 0.3) !important;
       z-index: 10 !important;
     }
@@ -4303,43 +4311,47 @@
       .sched-pills-row {
         width: 100% !important;
         max-width: 100% !important;
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 0.25rem !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.3rem !important;
         box-sizing: border-box !important;
-      }
-
-      .sched-pills-row > .sched-pill:only-child {
-        grid-column: 1 / -1 !important;
       }
 
       .sched-pill {
-        width: 100% !important;
+        flex: 1 1 calc(33.333% - 0.3rem) !important;
+        min-width: 92px !important;
         max-width: 100% !important;
-        min-width: 0 !important;
+        min-height: 46px !important;
         box-sizing: border-box !important;
-        padding: 0.22rem 0.35rem !important;
+        padding: 0.3rem 0.25rem !important;
         display: flex !important;
+        flex-direction: column !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: center !important;
+        text-align: center !important;
+        border-radius: 6px !important;
         overflow: hidden !important;
-        gap: 0.25rem !important;
       }
 
       .sched-pill .pill-sec {
-        font-size: 0.65rem !important;
+        font-size: 0.68rem !important;
         font-weight: 800 !important;
+        letter-spacing: 0.02em !important;
+        line-height: 1.15 !important;
+        display: block !important;
         white-space: nowrap !important;
-        flex-shrink: 0 !important;
       }
 
       .sched-pill .pill-desc {
-        font-size: 0.55rem !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        min-width: 0 !important;
-        text-align: right !important;
+        font-size: 0.52rem !important;
+        font-weight: 500 !important;
+        opacity: 0.82 !important;
+        line-height: 1.15 !important;
+        margin-top: 2px !important;
+        display: block !important;
+        text-align: center !important;
+        word-break: normal !important;
+        white-space: normal !important;
       }
     }
 
