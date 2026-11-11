@@ -178,44 +178,65 @@
       box-shadow: 0 4px 12px var(--accent-glow);
     }
 
+    .brand-nav-btn,
     .reviewer-link-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px solid rgba(249, 115, 22, 0.45);
-      color: var(--accent-primary);
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+      min-height: 32px !important;
+      max-width: 32px !important;
+      max-height: 32px !important;
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 8px !important;
+      background: rgba(249, 115, 22, 0.1) !important;
+      border: 1.5px solid rgba(249, 115, 22, 0.38) !important;
+      color: var(--accent-primary) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-decoration: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .brand-emoji {
+      font-size: 1.15rem;
+      line-height: 1;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
-      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
     }
 
+    .brand-nav-btn:hover,
     .reviewer-link-icon:hover {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: #ffffff;
-      transform: translateY(-2px) scale(1.15);
-      box-shadow: 0 6px 16px var(--accent-glow);
+      background: var(--accent-primary) !important;
+      border-color: var(--accent-primary) !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) scale(1.14);
+      box-shadow: 0 6px 16px var(--accent-glow) !important;
       z-index: 5;
     }
 
+    .brand-nav-btn:active,
     .reviewer-link-icon:active {
-      transform: translateY(0) scale(0.97);
+      transform: translateY(0) scale(0.96);
     }
 
-    .reviewer-link-icon svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.2s ease;
-    }
-
-    .reviewer-link-icon:hover svg {
-      transform: scale(1.08);
+    .brand-nav-btn.active,
+    .reviewer-link-icon.active {
+      background: var(--accent-primary) !important;
+      border-color: var(--accent-primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 0 12px var(--accent-glow) !important;
     }
 
     .brand-title {
@@ -1119,14 +1140,18 @@
       }
 
       .brand-icon,
+      .brand-nav-btn,
       .reviewer-link-icon {
-        width: 28px;
-        height: 28px;
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        border-radius: 7px !important;
       }
-
-      .reviewer-link-icon svg {
-        width: 14px;
-        height: 14px;
+      .brand-emoji {
+        font-size: 1rem !important;
       }
 
       .user-profile-bar {
@@ -1967,15 +1992,18 @@
       }
 
       .brand-icon,
+      .brand-nav-btn,
       .reviewer-link-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 0.85rem !important;
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        min-height: 26px !important;
+        max-width: 26px !important;
+        max-height: 26px !important;
+        border-radius: 6px !important;
       }
-
-      .reviewer-link-icon svg {
-        width: 13px;
-        height: 13px;
+      .brand-emoji {
+        font-size: 0.9rem !important;
       }
 
       .card {
@@ -3920,30 +3948,7 @@
     }
 
 
-    .sched-nav-icon-btn {
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px solid rgba(249, 115, 22, 0.45);
-      color: var(--accent-primary);
-      cursor: pointer;
-      padding: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .sched-nav-icon-btn:hover {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: #ffffff;
-      transform: translateY(-1px) scale(1.05);
-      box-shadow: 0 4px 14px var(--accent-glow);
-    }
-    .sched-nav-icon-btn.active {
-      background: var(--accent-primary) !important;
-      border-color: var(--accent-primary) !important;
-      color: #ffffff !important;
-      box-shadow: 0 4px 14px var(--accent-glow) !important;
-    }
+    /* .sched-nav-icon-btn is unified into .brand-nav-btn */
 
 
     /* ==========================================================================
@@ -4218,43 +4223,53 @@
       display: none !important;
     }
 
-    /* Brand Header Navigation Buttons (Calculator 🖩, Reviewer 📖, Schedule 📅) */
+    /* Symmetrical Brand Navigation Buttons (Calculator 🖩, Reviewer 📖, Schedule 📅) */
     .brand-icon,
     .brand-nav-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px solid rgba(249, 115, 22, 0.45);
-      color: var(--accent-primary);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
+      width: 34px !important;
+      height: 34px !important;
+      min-width: 34px !important;
+      min-height: 34px !important;
+      max-width: 34px !important;
+      max-height: 34px !important;
+      aspect-ratio: 1 / 1 !important;
+      border-radius: 9px !important;
+      background: rgba(249, 115, 22, 0.1) !important;
+      border: 1.5px solid rgba(249, 115, 22, 0.38) !important;
+      color: var(--accent-primary) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.2rem !important;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.15);
-      flex-shrink: 0;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      box-sizing: border-box !important;
+      text-decoration: none !important;
+      position: relative !important;
     }
 
     .brand-nav-btn:hover {
-      background: var(--accent-primary);
-      border-color: var(--accent-primary);
-      color: #ffffff;
-      transform: translateY(-2px) scale(1.15);
-      box-shadow: 0 6px 16px var(--accent-glow);
-      z-index: 5;
+      background: var(--accent-primary) !important;
+      border-color: var(--accent-primary) !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) scale(1.14) !important;
+      box-shadow: 0 6px 16px var(--accent-glow) !important;
+      z-index: 5 !important;
     }
 
     .brand-nav-btn:active {
-      transform: translateY(0) scale(0.97);
+      transform: translateY(0) scale(0.96) !important;
     }
 
     .brand-nav-btn.active {
       background: var(--accent-primary) !important;
       border-color: var(--accent-primary) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 14px var(--accent-glow) !important;
+      box-shadow: 0 0 12px var(--accent-glow) !important;
     }
 
 </style>
@@ -4633,21 +4648,13 @@
     <header class="app-header">
       <div class="brand-group">
         <button type="button" class="brand-nav-btn active" id="btn-header-calc" title="Calculator View" aria-label="Calculator View">
-          🖩
+          <span class="brand-emoji">🖩</span>
         </button>
-        <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="reviewer-link-icon" title="Open JeyCub Terms Reviewer" aria-label="Open JeyCub Terms Reviewer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-          </svg>
+        <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn" id="btn-header-reviewer" title="Open JeyCub Terms Reviewer" aria-label="Open JeyCub Terms Reviewer">
+          <span class="brand-emoji">📖</span>
         </a>
-        <button type="button" class="reviewer-link-icon sched-nav-icon-btn" id="btn-header-sched" title="Toggle Schedule Creator" aria-label="Toggle Schedule Creator">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
+        <button type="button" class="brand-nav-btn" id="btn-header-sched" title="Toggle Schedule Creator" aria-label="Toggle Schedule Creator">
+          <span class="brand-emoji">📅</span>
         </button>
         <div>
           <h1 class="brand-title"><span>JeyCub</span> Grade Calculator</h1>
