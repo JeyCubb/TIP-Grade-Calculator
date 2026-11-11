@@ -3266,15 +3266,14 @@
     }
     .sched-conflict-alert {
       display: none;
-      background: rgba(255, 0, 85, 0.18);
-      border: 1px solid #ff0055;
-      color: #ff3377;
-      box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+      background: rgba(244, 63, 94, 0.14);
+      border: 1px solid rgba(244, 63, 94, 0.5);
+      color: #fb7185;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
       padding: 0.25rem 0.65rem;
       border-radius: var(--radius-sm);
       font-weight: 700;
       font-size: 0.78rem;
-      animation: neonPulseRed 1.8s infinite ease-in-out;
     }
 
     /* Two-Column Layout */
@@ -3419,53 +3418,46 @@
       line-height: 1.1;
     }
     .sched-event-conflict {
-      background: linear-gradient(135deg, rgba(255, 0, 85, 0.45), rgba(180, 0, 60, 0.38)) !important;
-      border: 2px solid #ff0055 !important;
-      border-left: 5px solid #ff0055 !important;
-      box-shadow: 0 0 16px rgba(255, 0, 85, 0.8), inset 0 0 10px rgba(255, 0, 85, 0.35) !important;
-      color: #ffffff !important;
+      border: 1.5px solid #f43f5e !important;
+      border-left: 4.5px solid #f43f5e !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45) !important;
       z-index: 5 !important;
-      animation: neonGridConflictPulse 2s infinite ease-in-out !important;
       transition: opacity 0.15s ease, z-index 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
     }
 
     .sched-event-conflict:hover {
       opacity: 1 !important;
       z-index: 30 !important;
-      box-shadow: 0 0 24px rgba(255, 0, 85, 0.95), inset 0 0 14px rgba(255, 0, 85, 0.5) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(244, 63, 94, 0.4) !important;
+      transform: scale(1.02) !important;
+    }
+
+    .sched-event-block.sched-partner-focused {
+      outline: 2.5px solid #f43f5e !important;
+      outline-offset: 1px !important;
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.6) !important;
+      z-index: 40 !important;
       transform: scale(1.03) !important;
     }
 
     .sched-event-block.sched-event-interfered-hover {
-      background: linear-gradient(135deg, rgba(255, 0, 85, 0.7), rgba(220, 20, 60, 0.58)) !important;
-      border: 2px solid #ff0055 !important;
-      border-left: 5px solid #ff0055 !important;
-      box-shadow: 0 0 24px rgba(255, 0, 85, 0.95), inset 0 0 14px rgba(255, 0, 85, 0.5) !important;
-      transform: scale(1.04) !important;
+      border: 2px solid #f43f5e !important;
+      border-left: 4.5px solid #f43f5e !important;
+      box-shadow: 0 0 14px rgba(244, 63, 94, 0.5) !important;
+      transform: scale(1.03) !important;
       z-index: 35 !important;
-      animation: neonPulseRed 1.2s infinite ease-in-out !important;
     }
 
     .sched-event-conflict-tag {
       display: inline-block;
       font-size: 0.55rem;
-      font-weight: 850;
+      font-weight: 800;
       color: #ffffff;
-      background: #ff0055;
-      padding: 0.05rem 0.3rem;
+      background: #e11d48;
+      padding: 0.05rem 0.32rem;
       border-radius: 3px;
-      letter-spacing: 0.04em;
-      box-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+      letter-spacing: 0.03em;
       margin-left: auto;
-    }
-
-    @keyframes neonGridConflictPulse {
-      0%, 100% {
-        box-shadow: 0 0 12px rgba(255, 0, 85, 0.7), inset 0 0 6px rgba(255, 0, 85, 0.3);
-      }
-      50% {
-        box-shadow: 0 0 22px rgba(255, 0, 85, 0.95), inset 0 0 12px rgba(255, 0, 85, 0.5);
-      }
     }
 
     /* Right Column: Subject & Section Toggle Box */
@@ -3755,85 +3747,140 @@
       background: rgba(239, 68, 68, 0.2) !important;
     }
 
-    /* Neon Red Conflict Styling for Subjects & Sections Sidebar */
+    /* Refined, Elegant Conflict Styling for Subjects & Sections Sidebar */
     .sched-course-row.has-conflict {
-      background: rgba(255, 0, 85, 0.08) !important;
-      border-left: 3px solid #ff0055 !important;
-      box-shadow: inset 0 0 14px rgba(255, 0, 85, 0.12) !important;
+      background: rgba(244, 63, 94, 0.04) !important;
+      border-left: 3px solid #f43f5e !important;
+      box-shadow: none !important;
     }
 
     .sched-course-row.has-conflict .sched-course-title-main {
-      color: #ff3377 !important;
-      text-shadow: 0 0 10px rgba(255, 0, 85, 0.45) !important;
+      text-shadow: none !important;
     }
 
-    .sched-course-row.has-conflict .sched-course-dot {
-      background: #ff0055 !important;
-      box-shadow: 0 0 8px #ff0055, 0 0 14px rgba(255, 0, 85, 0.6) !important;
-      animation: neonPulseRed 1.8s infinite ease-in-out !important;
+    .sched-course-row.sched-partner-focused {
+      outline: 2px solid #f43f5e !important;
+      outline-offset: -1px !important;
+      background: rgba(244, 63, 94, 0.08) !important;
+      box-shadow: 0 0 12px rgba(244, 63, 94, 0.35) !important;
+      transition: all 0.2s ease !important;
     }
 
     .sched-pill.sched-pill-conflict {
-      background: rgba(255, 0, 85, 0.22) !important;
-      border-color: #ff0055 !important;
+      background: rgba(244, 63, 94, 0.16) !important;
+      border-color: rgba(244, 63, 94, 0.7) !important;
       color: #ffffff !important;
-      box-shadow: 0 0 12px rgba(255, 0, 85, 0.8), inset 0 0 8px rgba(255, 0, 85, 0.4) !important;
-      animation: neonPulseRed 1.8s infinite ease-in-out !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
     }
 
     .sched-pill.sched-pill-conflict:hover {
-      transform: scale(1.1) translateY(-2px) !important;
-      box-shadow: 0 6px 18px rgba(255, 0, 85, 0.8), 0 0 16px rgba(255, 0, 85, 0.9) !important;
+      transform: scale(1.08) translateY(-1px) !important;
+      border-color: #f43f5e !important;
+      background: rgba(244, 63, 94, 0.26) !important;
+      box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4) !important;
       z-index: 10 !important;
     }
 
     .sched-pill.sched-pill-conflict .pill-sec {
-      color: #ff3377 !important;
-      font-weight: 850 !important;
-      text-shadow: 0 0 8px rgba(255, 0, 85, 0.9) !important;
+      color: #fb7185 !important;
+      font-weight: 800 !important;
     }
 
     .sched-pill.sched-pill-potential-conflict:not(.active) {
-      border-color: rgba(255, 0, 85, 0.5) !important;
+      border-color: rgba(244, 63, 94, 0.45) !important;
       border-style: dashed !important;
       color: #fda4af !important;
-      background: rgba(255, 0, 85, 0.05) !important;
+      background: rgba(244, 63, 94, 0.04) !important;
     }
 
     .sched-pill.sched-pill-potential-conflict:not(.active):hover {
-      transform: scale(1.1) translateY(-2px) !important;
-      border-color: #ff0055 !important;
+      transform: scale(1.08) translateY(-1px) !important;
+      border-color: #f43f5e !important;
       color: #ffffff !important;
-      background: rgba(255, 0, 85, 0.15) !important;
-      box-shadow: 0 4px 14px rgba(255, 0, 85, 0.5) !important;
+      background: rgba(244, 63, 94, 0.14) !important;
+      box-shadow: 0 3px 10px rgba(244, 63, 94, 0.3) !important;
       z-index: 10 !important;
+    }
+
+    /* Conflict Badge with Sleek Hover Tooltip */
+    .sched-conflict-badge-wrap {
+      display: inline-flex;
+      position: relative;
+      align-items: center;
     }
 
     .sched-conflict-badge {
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      background: rgba(255, 0, 85, 0.25);
-      border: 1px solid #ff0055;
-      color: #ff3377;
-      font-size: 0.62rem;
-      font-weight: 800;
-      padding: 0.08rem 0.35rem;
-      border-radius: var(--radius-sm);
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
-      box-shadow: 0 0 8px rgba(255, 0, 85, 0.6);
-      text-shadow: 0 0 4px rgba(255, 0, 85, 0.6);
-      animation: neonPulseRed 1.8s infinite ease-in-out;
+      gap: 4px;
+      background: rgba(244, 63, 94, 0.14);
+      border: 1px solid rgba(244, 63, 94, 0.5);
+      color: #fb7185;
+      font-size: 0.64rem;
+      font-weight: 750;
+      padding: 0.08rem 0.42rem;
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+      cursor: help;
+      transition: all 0.18s ease;
+      user-select: none;
     }
 
-    @keyframes neonPulseRed {
-      0%, 100% {
-        box-shadow: 0 0 8px rgba(255, 0, 85, 0.65), inset 0 0 4px rgba(255, 0, 85, 0.3);
-      }
-      50% {
-        box-shadow: 0 0 16px rgba(255, 0, 85, 0.95), inset 0 0 8px rgba(255, 0, 85, 0.6);
-      }
+    .sched-conflict-badge-wrap:hover .sched-conflict-badge {
+      background: rgba(244, 63, 94, 0.28);
+      border-color: #f43f5e;
+      color: #ffffff;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(244, 63, 94, 0.35);
+    }
+
+    /* Floating Tooltip displaying conflicting subjects */
+    .sched-conflict-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 260px;
+      max-width: 340px;
+      background: #181216;
+      border: 1px solid rgba(244, 63, 94, 0.6);
+      border-radius: 8px;
+      padding: 8px 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(244, 63, 94, 0.2);
+      z-index: 1000;
+      pointer-events: none;
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+      transform: translateY(-4px);
+    }
+
+    .sched-conflict-badge-wrap:hover .sched-conflict-tooltip {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .sched-tooltip-head {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #fb7185;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sched-tooltip-row {
+      font-size: 0.72rem;
+      color: #e2e8f0;
+      line-height: 1.35;
+      padding: 2px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sched-tooltip-row:first-of-type {
+      border-top: none;
     }
 
     /* Timetable Grid full fluid height & width */
@@ -9489,6 +9536,11 @@
       const conflictingIndices = new Set();
       const conflictingCourseCodes = new Set();
       const conflictingSections = new Set(); // Key: `${code}__${secId}`
+      const courseConflictsMap = {};  // courseCode -> Array of partner conflict objects
+      const sectionConflictsMap = {}; // `${code}__${secId}` -> Array of partner conflict objects
+      const eventConflictsMap = {};   // eventIndex -> Array of partner conflict objects
+
+      const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
       for (let i = 0; i < activeEvents.length; i++) {
         for (let j = i + 1; j < activeEvents.length; j++) {
@@ -9499,25 +9551,80 @@
             conflictingIndices.add(j);
             conflictingCourseCodes.add(a.code);
             conflictingCourseCodes.add(b.code);
-            conflictingSections.add(`${a.code}__${a.sectionId}`);
-            conflictingSections.add(`${b.code}__${b.sectionId}`);
+            const aSecKey = `${a.code}__${a.sectionId}`;
+            const bSecKey = `${b.code}__${b.sectionId}`;
+            conflictingSections.add(aSecKey);
+            conflictingSections.add(bSecKey);
+
+            const overlapStart = Math.max(a.start, b.start);
+            const overlapEnd = Math.min(a.end, b.end);
+            const dayName = dayNames[a.day] || '';
+            const overlapTimeStr = `${dayName} ${formatTimeMinutes(overlapStart)}–${formatTimeMinutes(overlapEnd)}`;
+
+            const conflictForA = {
+              withCode: b.code,
+              withTitle: b.title,
+              withSection: b.sectionId,
+              withRoom: b.room,
+              dayName,
+              overlapStart,
+              overlapEnd,
+              overlapTimeStr,
+              partnerIndex: j
+            };
+            const conflictForB = {
+              withCode: a.code,
+              withTitle: a.title,
+              withSection: a.sectionId,
+              withRoom: a.room,
+              dayName,
+              overlapStart,
+              overlapEnd,
+              overlapTimeStr,
+              partnerIndex: i
+            };
+
+            if (!courseConflictsMap[a.code]) courseConflictsMap[a.code] = [];
+            courseConflictsMap[a.code].push(conflictForA);
+            if (!courseConflictsMap[b.code]) courseConflictsMap[b.code] = [];
+            courseConflictsMap[b.code].push(conflictForB);
+
+            if (!sectionConflictsMap[aSecKey]) sectionConflictsMap[aSecKey] = [];
+            sectionConflictsMap[aSecKey].push(conflictForA);
+            if (!sectionConflictsMap[bSecKey]) sectionConflictsMap[bSecKey] = [];
+            sectionConflictsMap[bSecKey].push(conflictForB);
+
+            if (!eventConflictsMap[i]) eventConflictsMap[i] = [];
+            eventConflictsMap[i].push(conflictForA);
+            if (!eventConflictsMap[j]) eventConflictsMap[j] = [];
+            eventConflictsMap[j].push(conflictForB);
           }
         }
       }
 
       // Potential conflicts for unselected sections against currently selected other courses
       const potentialConflictSections = new Set();
+      const potentialConflictsMap = {};
       SCHEDULE_COURSES.forEach(course => {
         course.sections.forEach(sec => {
           if (userScheduleSelection[course.code] === sec.id) return;
-          const hasConflict = sec.slots.some(slot => {
-            return activeEvents.some(act => {
-              return act.code !== course.code && act.day === slot.day && Math.max(act.start, slot.start) < Math.min(act.end, slot.end);
+          const secKey = `${course.code}__${sec.id}`;
+          sec.slots.forEach(slot => {
+            activeEvents.forEach(act => {
+              if (act.code !== course.code && act.day === slot.day && Math.max(act.start, slot.start) < Math.min(act.end, slot.end)) {
+                potentialConflictSections.add(secKey);
+                if (!potentialConflictsMap[secKey]) potentialConflictsMap[secKey] = [];
+                const dayName = dayNames[slot.day] || '';
+                const overlapTimeStr = `${dayName} ${formatTimeMinutes(Math.max(act.start, slot.start))}–${formatTimeMinutes(Math.min(act.end, slot.end))}`;
+                potentialConflictsMap[secKey].push({
+                  withCode: act.code,
+                  withTitle: act.title,
+                  withSection: act.sectionId,
+                  overlapTimeStr
+                });
+              }
             });
           });
-          if (hasConflict) {
-            potentialConflictSections.add(`${course.code}__${sec.id}`);
-          }
         });
       });
 
@@ -9526,8 +9633,32 @@
         conflictingIndices,
         courseCodes: conflictingCourseCodes,
         sections: conflictingSections,
-        potentialSections: potentialConflictSections
+        potentialSections: potentialConflictSections,
+        courseConflictsMap,
+        sectionConflictsMap,
+        potentialConflictsMap,
+        eventConflictsMap
       };
+    }
+
+    function highlightConflictPartners(partnerCodes) {
+      if (!partnerCodes || !partnerCodes.length) return;
+      document.querySelectorAll('.sched-course-row').forEach(row => {
+        if (partnerCodes.includes(row.dataset.courseCode)) {
+          row.classList.add('sched-partner-focused');
+        }
+      });
+      document.querySelectorAll('.sched-event-block').forEach(card => {
+        if (partnerCodes.includes(card.dataset.courseCode)) {
+          card.classList.add('sched-partner-focused');
+        }
+      });
+    }
+
+    function clearConflictPartners() {
+      document.querySelectorAll('.sched-partner-focused').forEach(el => {
+        el.classList.remove('sched-partner-focused');
+      });
     }
 
     function highlightInterferingOnGrid(courseCode, sectionId) {
@@ -9572,6 +9703,7 @@
         const hasConflict = conflicts.courseCodes.has(course.code);
         const row = document.createElement('div');
         row.className = 'sched-course-row' + (selectedSec ? ' active' : '') + (hasConflict ? ' has-conflict' : '');
+        row.dataset.courseCode = course.code;
 
         let pillsHtml = '';
         course.sections.forEach(sec => {
@@ -9585,9 +9717,27 @@
           if (isConflict) pillClass += ' sched-pill-conflict';
           if (isPotential) pillClass += ' sched-pill-potential-conflict';
 
-          const conflictNotice = isConflict 
-            ? '\n⚠️ CONFLICT: Time slot overlaps with another selected subject!' 
-            : (isPotential ? '\n⚠️ Notice: This section conflicts with another selected subject' : '');
+          let pillConflictTitle = '';
+          let pillPartnerCodes = [];
+          if (isConflict) {
+            const secConflicts = conflicts.sectionConflictsMap[secKey] || [];
+            pillPartnerCodes = [...new Set(secConflicts.map(p => p.withCode))];
+            const secSummaries = [...new Set(secConflicts.map(p => `• ${p.withTitle} (${p.withSection}) [${p.overlapTimeStr}]`))];
+            if (secSummaries.length > 0) {
+              pillConflictTitle = `\n\n⚠️ CONFLICTS WITH:\n${secSummaries.join('\n')}`;
+            } else {
+              pillConflictTitle = '\n⚠️ CONFLICT: Time slot overlaps with another selected subject!';
+            }
+          } else if (isPotential) {
+            const potConflicts = conflicts.potentialConflictsMap[secKey] || [];
+            pillPartnerCodes = [...new Set(potConflicts.map(p => p.withCode))];
+            const potSummaries = [...new Set(potConflicts.map(p => `• ${p.withTitle} (${p.withSection}) [${p.overlapTimeStr}]`))];
+            if (potSummaries.length > 0) {
+              pillConflictTitle = `\n\n⚠️ Notice: Conflicts with:\n${potSummaries.join('\n')}`;
+            } else {
+              pillConflictTitle = '\n⚠️ Notice: This section conflicts with another selected subject';
+            }
+          }
 
           const activeStyle = (isAct && !isConflict)
             ? `background: ${course.color}28; border-color: ${course.border}; color: #fff; box-shadow: 0 0 8px ${course.color}40;`
@@ -9600,11 +9750,11 @@
           pillsHtml += `
             <button class="${pillClass}" 
                     onclick="toggleScheduleSection('${course.code}', '${sec.id}')"
-                    onmouseenter="highlightInterferingOnGrid('${course.code}', '${sec.id}')"
-                    onmouseleave="clearInterferingHighlights()"
+                    onmouseenter="highlightConflictPartners(${JSON.stringify(pillPartnerCodes)}); highlightInterferingOnGrid('${course.code}', '${sec.id}')"
+                    onmouseleave="clearConflictPartners(); clearInterferingHighlights()"
                     title="${course.title} (${course.code})
 Section: ${sec.id} (${sec.desc})
-Room: ${sec.room}${conflictNotice}"
+Room: ${sec.room}${pillConflictTitle}"
                     style="${activeStyle}">
               <span class="pill-sec" style="${secStyle}">
                 ${sec.id}${isConflict ? ' ⚠️' : ''}
@@ -9614,20 +9764,38 @@ Room: ${sec.room}${conflictNotice}"
           `;
         });
 
-        const dotStyle = hasConflict
-          ? `background: #ff0055; box-shadow: 0 0 8px #ff0055;`
-          : `background: ${course.color}; box-shadow: 0 0 6px ${course.color};`;
+        const dotStyle = `background: ${course.color}; box-shadow: 0 0 6px ${course.color};`;
+        const titleStyle = `color: ${course.border};`;
 
-        const titleStyle = hasConflict
-          ? `color: #ff3377;`
-          : `color: ${course.border};`;
+        let conflictBadgeHtml = '';
+        if (hasConflict) {
+          const partnerConflicts = conflicts.courseConflictsMap[course.code] || [];
+          const partnerCodes = [...new Set(partnerConflicts.map(p => p.withCode))];
+          const uniqueSummaries = [...new Set(partnerConflicts.map(p => `${p.withTitle} (${p.withSection}) &bull; ${p.overlapTimeStr}`))];
+          const textSummaries = [...new Set(partnerConflicts.map(p => `• ${p.withTitle} (${p.withSection}) - ${p.overlapTimeStr}`))];
+          const badgeTitle = `⚠️ Time Conflict:\n${textSummaries.join('\n')}`;
+
+          conflictBadgeHtml = `
+            <div class="sched-conflict-badge-wrap"
+                 onmouseenter="highlightConflictPartners(${JSON.stringify(partnerCodes)})"
+                 onmouseleave="clearConflictPartners()">
+              <span class="sched-conflict-badge" title="${badgeTitle.replace(/"/g, '&quot;')}">
+                ⚠️ Conflict
+              </span>
+              <div class="sched-conflict-tooltip">
+                <div class="sched-tooltip-head">⚠️ Conflicting Subject${uniqueSummaries.length > 1 ? 's' : ''}</div>
+                ${uniqueSummaries.map(s => `<div class="sched-tooltip-row">${s}</div>`).join('')}
+              </div>
+            </div>
+          `;
+        }
 
         row.innerHTML = `
           <div class="sched-course-header-new">
             <div class="sched-course-title-group">
               <span class="sched-course-dot" style="${dotStyle}"></span>
               <span class="sched-course-title-main" style="${titleStyle}">${course.title}</span>
-              ${hasConflict ? '<span class="sched-conflict-badge">⚠️ Conflict</span>' : ''}
+              ${conflictBadgeHtml}
             </div>
             <div class="sched-course-subgroup">
               <span class="sched-course-code-grey">${course.code}</span>
@@ -9645,7 +9813,7 @@ Room: ${sec.room}${conflictNotice}"
       const gridEl = document.getElementById('sched-calendar-grid');
       if (!gridEl) return;
 
-      const { activeEvents, conflictingIndices: conflicts } = getScheduleConflicts();
+      const { activeEvents, conflictingIndices: conflicts, eventConflictsMap } = getScheduleConflicts();
 
       const conflictWarning = document.getElementById('sched-conflict-warning');
       if (conflictWarning) {
@@ -9721,10 +9889,10 @@ Room: ${sec.room}${conflictNotice}"
         card.dataset.end = ev.end;
 
         if (isConflict) {
-          card.style.background = 'linear-gradient(135deg, rgba(255, 0, 85, 0.48), rgba(190, 0, 60, 0.42))';
-          card.style.border = '2px solid #ff0055';
-          card.style.borderLeft = '5px solid #ff0055';
-          card.style.boxShadow = '0 0 16px rgba(255, 0, 85, 0.8), inset 0 0 10px rgba(255, 0, 85, 0.35)';
+          card.style.background = ev.color;
+          card.style.border = '1.5px solid #f43f5e';
+          card.style.borderLeft = '4.5px solid #f43f5e';
+          card.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.45)';
 
           // Offset overlapping cards on the same day so both remain fully visible and clickable
           const dayConflicts = activeEvents.filter(other => 
@@ -9737,7 +9905,11 @@ Room: ${sec.room}${conflictNotice}"
             card.style.zIndex = `${10 + overlapIdx}`;
           }
 
+          const partners = (eventConflictsMap && eventConflictsMap[idx]) || [];
+          const partnerCodes = [...new Set(partners.map(p => p.withCode))];
+
           card.addEventListener('mouseenter', () => {
+            if (partnerCodes.length > 0) highlightConflictPartners(partnerCodes);
             document.querySelectorAll('.sched-event-block').forEach(other => {
               if (other === card) return;
               if (Number(other.dataset.day) === ev.day && Math.max(Number(other.dataset.start), ev.start) < Math.min(Number(other.dataset.end), ev.end)) {
@@ -9746,6 +9918,7 @@ Room: ${sec.room}${conflictNotice}"
             });
           });
           card.addEventListener('mouseleave', () => {
+            clearConflictPartners();
             clearInterferingHighlights();
           });
         } else {
@@ -9762,7 +9935,17 @@ Room: ${sec.room}${conflictNotice}"
           </div>
         `;
 
-        card.title = `${ev.title}\nSection: ${ev.sectionId}\nRoom: ${ev.room}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}${isConflict ? '\n⚠️ WARNING: Active time conflict with another enrolled subject!' : ''}`;
+        let partnerSummaries = [];
+        if (isConflict && eventConflictsMap && eventConflictsMap[idx]) {
+          const partners = eventConflictsMap[idx];
+          partnerSummaries = [...new Set(partners.map(p => `• ${p.withTitle} (${p.withSection}) [${p.overlapTimeStr}]`))];
+        }
+
+        const conflictText = partnerSummaries.length > 0
+          ? `\n\n⚠️ CONFLICTS WITH:\n${partnerSummaries.join('\n')}`
+          : (isConflict ? '\n\n⚠️ WARNING: Active time conflict with another enrolled subject!' : '');
+
+        card.title = `${ev.title}\nSection: ${ev.sectionId}\nRoom: ${ev.room}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}${conflictText}`;
         gridEl.appendChild(card);
       });
 
