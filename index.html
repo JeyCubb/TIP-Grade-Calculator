@@ -3521,6 +3521,22 @@
       gap: 0.5rem !important;
       max-height: calc(100vh - 145px) !important;
       overflow-y: auto !important;
+      overscroll-behavior: contain !important;
+      scrollbar-width: thin !important;
+      scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+    }
+    .sched-sidebar-card::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sched-sidebar-card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sched-sidebar-card::-webkit-scrollbar-thumb {
+      background: rgba(249, 115, 22, 0.45);
+      border-radius: 4px;
+    }
+    .sched-sidebar-card::-webkit-scrollbar-thumb:hover {
+      background: rgba(249, 115, 22, 0.75);
     }
     .sched-course-row {
       display: flex;
@@ -9310,12 +9326,15 @@ Room: ${sec.room}"
         return;
       }
 
-      // 4. If user is inside an overflow scrollable table or dropdown, allow internal scrolling
+      // 4. If user is inside an overflow scrollable table, schedule panel, or dropdown, allow internal scrolling
       if (e.target && (
         e.target.closest('.sheet-table-wrapper') || 
         e.target.closest('.scheme-dropdown-content') ||
         e.target.closest('.profile-modal-list') ||
-        e.target.closest('.profile-modal-dialog')
+        e.target.closest('.profile-modal-dialog') ||
+        e.target.closest('.sched-sidebar-card') ||
+        e.target.closest('.sched-calendar-card') ||
+        e.target.closest('#sched-view-container')
       )) {
         return;
       }
