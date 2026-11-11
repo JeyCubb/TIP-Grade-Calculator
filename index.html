@@ -4038,7 +4038,9 @@
       }
 
       body.view-sched,
-      body[data-view="sched"] {
+      body[data-view="sched"],
+      html[data-active-view="sched"] body,
+      html.view-sched body {
         padding: 0.2rem 0.2rem 0.6rem 0.2rem !important;
         width: 100% !important;
         max-width: 100% !important;
@@ -4046,7 +4048,9 @@
       }
 
       body.view-sched .app-container,
-      body[data-view="sched"] .app-container {
+      body[data-view="sched"] .app-container,
+      html[data-active-view="sched"] .app-container,
+      html.view-sched .app-container {
         width: 100% !important;
         max-width: 100% !important;
         overflow-x: hidden !important;
@@ -4063,7 +4067,9 @@
 
       /* Decouple layout on mobile so sidebar content cannot stretch calendar */
       body.view-sched .sched-main-layout,
-      body[data-view="sched"] .sched-main-layout {
+      body[data-view="sched"] .sched-main-layout,
+      html[data-active-view="sched"] .sched-main-layout,
+      html.view-sched .sched-main-layout {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
@@ -4189,21 +4195,29 @@
 
       /* Toolbar on phone */
       .sched-toolbar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
         flex-direction: column !important;
         align-items: stretch !important;
-        padding: 0.45rem 0.55rem !important;
-        gap: 0.4rem !important;
+        padding: 0.45rem 0.5rem !important;
+        gap: 0.35rem !important;
       }
 
       .sched-toolbar-left {
         width: 100% !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
+        max-width: 100% !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         gap: 0.3rem !important;
+        box-sizing: border-box !important;
       }
 
       .sched-toolbar-title {
+        grid-column: 1 / -1 !important;
         width: 100% !important;
+        max-width: 100% !important;
         font-size: 0.78rem !important;
         margin-bottom: 0.15rem !important;
         white-space: normal !important;
@@ -4211,32 +4225,59 @@
         line-height: 1.2 !important;
       }
 
+      .sched-btn-sub {
+        display: none !important;
+      }
+
       .sched-preset-btn {
-        flex: 1 1 calc(33% - 4px) !important;
+        width: 100% !important;
+        max-width: 100% !important;
         min-width: 0 !important;
-        font-size: 0.62rem !important;
-        padding: 0.25rem 0.15rem !important;
+        font-size: 0.68rem !important;
+        font-weight: 700 !important;
+        padding: 0.38rem 0.2rem !important;
+        text-align: center !important;
         justify-content: center !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
         white-space: nowrap !important;
+        box-sizing: border-box !important;
       }
 
       .sched-toolbar-stats {
         width: 100% !important;
+        max-width: 100% !important;
         display: flex !important;
         justify-content: space-between !important;
+        align-items: center !important;
         font-size: 0.72rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.25rem !important;
+        box-sizing: border-box !important;
       }
 
       /* Sidebar & Section Controls on phone */
       .sched-sidebar-card {
-        padding: 0.5rem !important;
+        padding: 0.45rem !important;
         max-height: 480px !important;
         overflow-x: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      .sched-course-row {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: hidden !important;
+        padding: 0.4rem 0.45rem !important;
       }
 
       .sched-course-header-new {
         width: 100% !important;
         max-width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .sched-course-title-main {
@@ -4258,21 +4299,43 @@
       .sched-pills-row {
         width: 100% !important;
         max-width: 100% !important;
-        flex-wrap: wrap !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 0.25rem !important;
+        box-sizing: border-box !important;
+      }
+
+      .sched-pills-row > .sched-pill:only-child {
+        grid-column: 1 / -1 !important;
       }
 
       .sched-pill {
-        font-size: 0.65rem !important;
-        padding: 0.18rem 0.4rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        padding: 0.22rem 0.35rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        gap: 0.25rem !important;
       }
 
       .sched-pill .pill-sec {
-        font-size: 0.66rem !important;
+        font-size: 0.65rem !important;
+        font-weight: 800 !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
       }
 
       .sched-pill .pill-desc {
-        font-size: 0.58rem !important;
+        font-size: 0.55rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-width: 0 !important;
+        text-align: right !important;
       }
     }
 
@@ -4331,6 +4394,70 @@
       border-color: var(--accent-primary) !important;
       color: #ffffff !important;
       box-shadow: 0 0 12px var(--accent-glow) !important;
+    }
+
+    @media (max-width: 768px) {
+      .brand-icon,
+      .brand-nav-btn {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        border-radius: 7px !important;
+        font-size: 1.05rem !important;
+      }
+
+      .app-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        padding: 0.35rem 0.5rem !important;
+      }
+
+      body.view-sched .app-header,
+      body[data-view="sched"] .app-header,
+      html[data-active-view="sched"] .app-header {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sched .brand-group,
+      body[data-view="sched"] .brand-group,
+      html[data-active-view="sched"] .brand-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.3rem !important;
+        min-width: 0 !important;
+        max-width: calc(100% - 34px) !important;
+        overflow: hidden !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .brand-title {
+        font-size: 0.80rem !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+      }
+
+      .theme-toggle-btn {
+        width: 28px !important;
+        height: 28px !important;
+        min-width: 28px !important;
+        min-height: 28px !important;
+        max-width: 28px !important;
+        max-height: 28px !important;
+        border-radius: 7px !important;
+        flex-shrink: 0 !important;
+      }
     }
 
 </style>
@@ -4676,10 +4803,10 @@
             <span>📅</span> BSME 3rd Year 2nd Sem Schedule Creator
           </div>
           <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
-            ⚡ Choice A (ME32S1 Block)
+            ⚡ Choice A<span class="sched-btn-sub"> (ME32S1 Block)</span>
           </button>
           <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Choice B (ME32S2 Fluid Machineries)">
-            🔄 Choice B (ME32S2 Fluid)
+            🔄 Choice B<span class="sched-btn-sub"> (ME32S2 Fluid)</span>
           </button>
           <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
             🧹 Clear All
