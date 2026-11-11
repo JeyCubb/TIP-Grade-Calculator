@@ -3708,60 +3708,87 @@
     .sched-pills-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.3rem;
-      align-items: center;
+      gap: 0.35rem;
+      width: 100%;
+      box-sizing: border-box;
     }
     .sched-pill {
+      flex: 1 1 calc(33.333% - 0.35rem);
+      min-width: 110px;
+      max-width: 100%;
+      min-height: 52px;
+      box-sizing: border-box;
       background: var(--bg-main);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
-      font-size: 0.7rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 5px;
+      padding: 0.35rem 0.45rem;
+      border-radius: 7px;
       cursor: pointer;
       transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.35rem;
-      line-height: 1.2;
+      justify-content: center;
+      text-align: center;
       position: relative;
     }
     .sched-pill:hover {
       border-color: var(--accent-primary);
       color: var(--text-primary);
       background: var(--bg-card-hover);
-      transform: scale(1.1) translateY(-2px);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-glow);
-      z-index: 10;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 10px var(--accent-glow);
+      z-index: 5;
     }
     .sched-pill:active {
-      transform: scale(0.97);
+      transform: translateY(0) scale(0.98);
     }
     .sched-pill.active {
-      box-shadow: 0 0 0 1px currentColor;
+      box-shadow: 0 0 0 1px currentColor, 0 0 12px currentColor;
       font-weight: 700;
     }
     .sched-pill.active:hover {
-      transform: scale(1.1) translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 12px currentColor;
-      z-index: 10;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 14px currentColor;
+      z-index: 5;
     }
     .sched-pill .pill-sec {
-      font-weight: 700;
-      font-size: 0.72rem;
+      font-weight: 800;
+      font-size: 0.76rem;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      display: block;
+      white-space: nowrap;
     }
     .sched-pill .pill-desc {
-      font-size: 0.64rem;
-      opacity: 0.85;
-      display: inline-flex;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      width: 100%;
+      margin-top: 3px;
+      line-height: 1.15;
+      gap: 1px;
     }
     .sched-pill .pill-day {
+      font-size: 0.58rem;
       font-weight: 700;
+      letter-spacing: 0.02em;
+      opacity: 0.9;
+      white-space: nowrap;
+      display: block;
+      line-height: 1.1;
     }
     .sched-pill .pill-time {
+      font-size: 0.54rem;
+      font-weight: 500;
+      opacity: 0.85;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      display: block;
+      line-height: 1.1;
     }
     .sched-pill-none {
       padding: 0.2rem 0.45rem !important;
@@ -3801,11 +3828,11 @@
     }
 
     .sched-pill.sched-pill-conflict:hover {
-      transform: scale(1.08) translateY(-1px) !important;
+      transform: translateY(-2px) !important;
       border-color: #f43f5e !important;
       background: rgba(244, 63, 94, 0.26) !important;
       box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4) !important;
-      z-index: 10 !important;
+      z-index: 5 !important;
     }
 
     .sched-pill.sched-pill-conflict .pill-sec {
@@ -3825,12 +3852,12 @@
     }
 
     .sched-pill.sched-pill-potential-conflict:not(.active):hover {
-      transform: scale(1.06) translateY(-1px) !important;
+      transform: translateY(-2px) !important;
       border-color: #f43f5e !important;
       color: #ffffff !important;
       background: rgba(244, 63, 94, 0.16) !important;
       box-shadow: 0 3px 10px rgba(244, 63, 94, 0.3) !important;
-      z-index: 10 !important;
+      z-index: 5 !important;
     }
 
     /* Conflict Badge with Sleek Hover Tooltip */
