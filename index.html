@@ -3439,49 +3439,61 @@
       animation: fadeIn 0.25s ease-out;
     }
 
-    .sched-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
-      padding: 0.75rem 1rem;
-      box-shadow: var(--shadow-sm);
+    /* Schedule Header Toolbar */
+    #sched-header-toolbar {
+      display: none;
     }
-    .sched-toolbar-left {
+    .sched-preset-group {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-    .sched-toolbar-title {
-      display: none !important;
+      gap: 0.35rem;
+      flex-shrink: 0;
     }
     .sched-preset-btn {
       background: var(--bg-card-hover);
       border: 1px solid var(--border-color);
       color: var(--text-primary);
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 0.4rem 0.75rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.22rem 0.55rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      transition: transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
-      position: relative;
+      gap: 0.3rem;
+      transition: var(--transition);
+      white-space: nowrap;
     }
     .sched-preset-btn:hover {
-      background: var(--accent-primary);
-      color: #fff;
+      background: rgba(249, 115, 22, 0.12);
       border-color: var(--accent-primary);
-      transform: scale(1.08) translateY(-2px);
-      box-shadow: 0 6px 16px var(--accent-glow);
-      z-index: 5;
+      color: var(--accent-primary);
+    }
+    .sched-preset-btn:active {
+      transform: scale(0.97);
+    }
+    .sched-toolbar-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .sched-stat-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .sched-stat-badge {
+      color: var(--accent-primary);
+      font-weight: 800;
+      background: rgba(249, 115, 22, 0.12);
+      padding: 0.12rem 0.45rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(249, 115, 22, 0.25);
     }
     .sched-preset-btn:active {
       transform: scale(0.97);
@@ -4272,25 +4284,73 @@
         scroll-behavior: smooth !important;
       }
 
-      body.view-sched .sched-toolbar,
-      html[data-active-view="sched"] .sched-toolbar {
-        flex-shrink: 0 !important;
-        padding: 0.2rem 0.65rem !important;
-        margin: 0 !important;
-        min-height: 0 !important;
-      }
-
-      body.view-sched .sched-toolbar-title,
-      html[data-active-view="sched"] .sched-toolbar-title {
-        display: none !important;
-      }
-
       body.view-sched .app-header,
       html[data-active-view="sched"] .app-header {
         flex-shrink: 0 !important;
-        padding: 0.15rem 0.65rem !important;
+        padding: 0.22rem 0.65rem !important;
         margin: 0 !important;
-        min-height: 28px !important;
+        min-height: 36px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.5rem !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sched .brand-group,
+      html[data-active-view="sched"] .brand-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sched #sched-header-toolbar,
+      html[data-active-view="sched"] #sched-header-toolbar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        gap: 0.65rem !important;
+        margin: 0 0.5rem !important;
+      }
+
+      body.view-sched .sched-preset-group,
+      html[data-active-view="sched"] .sched-preset-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sched .sched-toolbar-stats,
+      html[data-active-view="sched"] .sched-toolbar-stats {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.55rem !important;
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+        color: var(--text-secondary) !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sched .sched-stat-item,
+      html[data-active-view="sched"] .sched-stat-item {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.25rem !important;
+      }
+
+      body.view-sched .sched-stat-badge,
+      html[data-active-view="sched"] .sched-stat-badge {
+        color: var(--accent-primary) !important;
+        font-weight: 800 !important;
+        background: rgba(249, 115, 22, 0.12) !important;
+        padding: 0.12rem 0.45rem !important;
+        border-radius: var(--radius-sm) !important;
+        border: 1px solid rgba(249, 115, 22, 0.25) !important;
       }
 
       body.view-sched .brand-title,
@@ -4910,49 +4970,36 @@
         max-width: 100% !important;
       }
 
-      /* Toolbar on phone */
-      .sched-toolbar {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
+      /* Schedule Header Toolbar on phone */
+      body.view-sched #sched-header-toolbar,
+      html[data-active-view="sched"] #sched-header-toolbar {
+        display: flex !important;
         flex-direction: column !important;
         align-items: stretch !important;
-        padding: 0.45rem 0.5rem !important;
-        gap: 0.35rem !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
+        order: 10 !important;
+        padding-top: 0.25rem !important;
+        border-top: 1px solid var(--border-color) !important;
       }
 
-      .sched-toolbar-left {
-        width: 100% !important;
-        max-width: 100% !important;
+      body.view-sched .sched-preset-group,
+      html[data-active-view="sched"] .sched-preset-group {
         display: grid !important;
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 0.3rem !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
         box-sizing: border-box !important;
       }
 
-      .sched-toolbar-title {
-        grid-column: 1 / -1 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        font-size: 0.78rem !important;
-        margin-bottom: 0.15rem !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-        line-height: 1.2 !important;
-      }
-
-      .sched-btn-sub {
-        display: none !important;
-      }
-
-      .sched-preset-btn {
+      body.view-sched .sched-preset-btn,
+      html[data-active-view="sched"] .sched-preset-btn {
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
-        font-size: 0.68rem !important;
+        font-size: 0.65rem !important;
         font-weight: 700 !important;
-        padding: 0.38rem 0.2rem !important;
+        padding: 0.3rem 0.2rem !important;
         text-align: center !important;
         justify-content: center !important;
         overflow: hidden !important;
@@ -4961,17 +5008,24 @@
         box-sizing: border-box !important;
       }
 
-      .sched-preset-btn:hover {
+      body.view-sched .sched-btn-sub,
+      html[data-active-view="sched"] .sched-btn-sub {
+        display: none !important;
+      }
+
+      body.view-sched .sched-preset-btn:hover,
+      html[data-active-view="sched"] .sched-preset-btn:hover {
         transform: none !important;
       }
 
-      .sched-toolbar-stats {
+      body.view-sched .sched-toolbar-stats,
+      html[data-active-view="sched"] .sched-toolbar-stats {
         width: 100% !important;
         max-width: 100% !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-        font-size: 0.72rem !important;
+        font-size: 0.70rem !important;
         flex-wrap: wrap !important;
         gap: 0.25rem !important;
         box-sizing: border-box !important;
@@ -5175,7 +5229,7 @@
       body[data-view="sched"] .app-header,
       html[data-active-view="sched"] .app-header {
         display: flex !important;
-        flex-wrap: nowrap !important;
+        flex-wrap: wrap !important;
         align-items: center !important;
         justify-content: space-between !important;
         gap: 0.35rem !important;
@@ -5611,29 +5665,6 @@
           </div>
         </div>
       </div>
-    
-      <!-- Schedule Toolbar -->
-      <div class="sched-toolbar">
-        <div class="sched-toolbar-left">
-          <div class="sched-toolbar-title">
-            <span>📅</span> BSME 3rd Year 2nd Sem Schedule Creator
-          </div>
-          <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
-            ⚡ Choice A<span class="sched-btn-sub"> (ME32S1 Block)</span>
-          </button>
-          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Choice B (ME32S2 Fluid Machineries)">
-            🔄 Choice B<span class="sched-btn-sub"> (ME32S2 Fluid)</span>
-          </button>
-          <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
-            🧹 Clear All
-          </button>
-        </div>
-        <div class="sched-toolbar-stats">
-          <div id="sched-conflict-warning" class="sched-conflict-alert">⚠️ Time Conflict!</div>
-          <div>Enrolled: <span class="sched-stat-badge" id="sched-stat-courses">0 / 11</span></div>
-          <div>Units: <span class="sched-stat-badge" id="sched-stat-units">0 / 27</span></div>
-        </div>
-      </div>
     </div><!-- End #sched-view-container -->
 
 
@@ -5748,8 +5779,28 @@
         </button>
       </div>
 
+      <!-- Schedule Toolbar Controls (Integrated into bottom bar on Schedule Creator view) -->
+      <div class="sched-header-toolbar" id="sched-header-toolbar">
+        <div class="sched-preset-group">
+          <button type="button" class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
+            ⚡ Choice A<span class="sched-btn-sub"> (ME32S1 Block)</span>
+          </button>
+          <button type="button" class="sched-preset-btn" id="btn-preset-choice-b" title="Load Choice B (ME32S2 Fluid Machineries)">
+            🔄 Choice B<span class="sched-btn-sub"> (ME32S2 Fluid)</span>
+          </button>
+          <button type="button" class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
+            🧹 Clear All
+          </button>
+        </div>
+        <div class="sched-toolbar-stats">
+          <div id="sched-conflict-warning" class="sched-conflict-alert" style="display: none;">⚠️ Time Conflict!</div>
+          <div class="sched-stat-item">Enrolled: <span class="sched-stat-badge" id="sched-stat-courses">0 / 11</span></div>
+          <div class="sched-stat-item">Units: <span class="sched-stat-badge" id="sched-stat-units">0 / 27</span></div>
+        </div>
+      </div>
+
       <!-- User Profile & Grading Scheme Bar -->
-      <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+      <div class="header-profile-group" style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
         <!-- TIP Grading Scheme Dropdown (Visible only in GWA Sheet View) -->
         <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
           <summary class="scheme-dropdown-summary" title="Click to view 75-base grading scale">
