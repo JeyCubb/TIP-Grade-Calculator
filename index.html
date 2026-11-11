@@ -3698,6 +3698,11 @@
       gap: 0.75rem;
       max-height: 720px;
       overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      -webkit-scroll-snap-type: y mandatory;
+      scroll-padding-top: 0.45rem;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
     .sched-sidebar-header {
       display: flex;
@@ -3705,6 +3710,7 @@
       align-items: center;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 0.5rem;
+      scroll-snap-align: start;
     }
     .sched-sidebar-title {
       font-size: 0.95rem;
@@ -4067,6 +4073,10 @@
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         padding-right: 4px !important;
+        scroll-snap-type: y mandatory !important;
+        -webkit-scroll-snap-type: y mandatory !important;
+        scroll-padding-top: 0.35rem !important;
+        scroll-behavior: smooth !important;
       }
 
       body.view-sched .sched-toolbar,
@@ -4119,6 +4129,8 @@
       border-radius: 8px !important;
       margin-bottom: 0.35rem !important;
       transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      scroll-snap-align: start;
+      scroll-snap-stop: normal;
     }
     .sched-course-row:last-child {
       margin-bottom: 0 !important;
@@ -4777,9 +4789,15 @@
         padding: 0.45rem !important;
         max-height: 480px !important;
         overflow-x: hidden !important;
+        overflow-y: auto !important;
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
+        scroll-snap-type: y mandatory !important;
+        -webkit-scroll-snap-type: y mandatory !important;
+        scroll-padding-top: 0.45rem !important;
+        scroll-behavior: smooth !important;
+        -webkit-overflow-scrolling: touch !important;
       }
 
       .sched-course-row {
@@ -4788,6 +4806,8 @@
         box-sizing: border-box !important;
         overflow-x: hidden !important;
         padding: 0.4rem 0.45rem !important;
+        scroll-snap-align: start !important;
+        scroll-snap-stop: normal !important;
       }
 
       .sched-course-header-new {
