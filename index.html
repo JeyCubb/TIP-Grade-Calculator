@@ -3456,12 +3456,7 @@
       flex-wrap: wrap;
     }
     .sched-toolbar-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      display: none !important;
     }
     .sched-preset-btn {
       background: var(--bg-card-hover);
@@ -3981,18 +3976,70 @@
         display: flex !important;
         flex-direction: column !important;
         overflow: hidden !important;
-        padding: 0.55rem 0.75rem !important;
+        padding: 0.35rem 0.65rem !important;
       }
 
       body.view-sched .sched-grid-wrapper,
       html[data-active-view="sched"] .sched-grid-wrapper {
         flex: 1 1 0 !important;
         min-height: 0 !important;
+        height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        overflow-y: auto !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overflow: hidden !important; /* All time slots fit perfectly without vertical scrolling */
+      }
+
+      body.view-sched .sched-grid-header,
+      html[data-active-view="sched"] .sched-grid-header {
+        padding-bottom: 0.2rem !important;
+        margin-bottom: 0.2rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sched .sched-day-label,
+      html[data-active-view="sched"] .sched-day-label {
+        font-size: 0.74rem !important;
+        padding: 0.12rem !important;
+      }
+
+      body.view-sched .sched-grid-body,
+      html[data-active-view="sched"] .sched-grid-body {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        display: grid !important;
+        grid-template-columns: 76px repeat(5, 1fr) !important;
+        grid-auto-rows: minmax(0, 1fr) !important;
+        gap: 2px !important;
+      }
+
+      body.view-sched .sched-time-label,
+      html[data-active-view="sched"] .sched-time-label {
+        font-size: 0.65rem !important;
+        line-height: 1 !important;
+        padding-right: 0.35rem !important;
+      }
+
+      body.view-sched .sched-event-block,
+      html[data-active-view="sched"] .sched-event-block {
+        min-height: 0 !important;
+        padding: 0.15rem 0.35rem !important;
+        font-size: 0.72rem !important;
+      }
+
+      body.view-sched .sched-event-title-main,
+      html[data-active-view="sched"] .sched-event-title-main {
+        font-size: 0.70rem !important;
+        line-height: 1.15 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      body.view-sched .sched-event-meta,
+      html[data-active-view="sched"] .sched-event-meta {
+        font-size: 0.62rem !important;
+        line-height: 1.1 !important;
       }
 
       body.view-sched .sched-sidebar-card,
@@ -4003,7 +4050,7 @@
         display: flex !important;
         flex-direction: column !important;
         overflow: hidden !important;
-        padding: 0.55rem 0.75rem !important;
+        padding: 0.35rem 0.65rem !important;
         gap: 0.35rem !important;
       }
 
@@ -4025,15 +4072,27 @@
       body.view-sched .sched-toolbar,
       html[data-active-view="sched"] .sched-toolbar {
         flex-shrink: 0 !important;
-        padding: 0.35rem 0.65rem !important;
+        padding: 0.2rem 0.65rem !important;
         margin: 0 !important;
+        min-height: 0 !important;
+      }
+
+      body.view-sched .sched-toolbar-title,
+      html[data-active-view="sched"] .sched-toolbar-title {
+        display: none !important;
       }
 
       body.view-sched .app-header,
       html[data-active-view="sched"] .app-header {
         flex-shrink: 0 !important;
-        padding: 0.35rem 0.65rem !important;
+        padding: 0.15rem 0.65rem !important;
         margin: 0 !important;
+        min-height: 28px !important;
+      }
+
+      body.view-sched .brand-title,
+      html[data-active-view="sched"] .brand-title {
+        display: none !important;
       }
     }
 
@@ -10654,7 +10713,10 @@ Room: ${sec.room}${pillConflictTitle}"
 
       gridEl.innerHTML = '';
       const isMob = window.innerWidth <= 768;
-      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, ${isMob ? '23px' : '28px'})`;
+      gridEl.style.gridTemplateRows = isMob
+        ? `repeat(${totalSteps}, 23px)`
+        : `repeat(${totalSteps}, minmax(0, 1fr))`;
+      gridEl.style.height = isMob ? 'auto' : '100%';
 
       // Draw background grid lines and time labels
       for (let step = 0; step < totalSteps; step++) {
@@ -10768,6 +10830,9 @@ Room: ${sec.room}${pillConflictTitle}"
 
     window.addEventListener('resize', () => {
       fitScheduleEventTitles();
+      if (document.body && document.body.classList.contains('view-sched')) {
+        renderScheduleGrid();
+      }
     });
 
     function formatTimeMinutes(min) {
