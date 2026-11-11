@@ -3391,19 +3391,53 @@
       line-height: 1.1;
     }
     .sched-event-conflict {
-      opacity: 0.65 !important;
-      border: 2px dashed #ff0055 !important;
-      border-left: 3px solid #ff0055 !important;
-      box-shadow: 0 0 12px rgba(255, 0, 85, 0.65) !important;
-      z-index: 2 !important;
+      background: linear-gradient(135deg, rgba(255, 0, 85, 0.45), rgba(180, 0, 60, 0.38)) !important;
+      border: 2px solid #ff0055 !important;
+      border-left: 5px solid #ff0055 !important;
+      box-shadow: 0 0 16px rgba(255, 0, 85, 0.8), inset 0 0 10px rgba(255, 0, 85, 0.35) !important;
+      color: #ffffff !important;
+      z-index: 5 !important;
+      animation: neonGridConflictPulse 2s infinite ease-in-out !important;
       transition: opacity 0.15s ease, z-index 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease !important;
     }
 
     .sched-event-conflict:hover {
-      opacity: 0.95 !important;
-      z-index: 10 !important;
-      box-shadow: 0 0 18px rgba(255, 0, 85, 0.95) !important;
-      transform: scale(1.02) !important;
+      opacity: 1 !important;
+      z-index: 30 !important;
+      box-shadow: 0 0 24px rgba(255, 0, 85, 0.95), inset 0 0 14px rgba(255, 0, 85, 0.5) !important;
+      transform: scale(1.03) !important;
+    }
+
+    .sched-event-block.sched-event-interfered-hover {
+      background: linear-gradient(135deg, rgba(255, 0, 85, 0.7), rgba(220, 20, 60, 0.58)) !important;
+      border: 2px solid #ff0055 !important;
+      border-left: 5px solid #ff0055 !important;
+      box-shadow: 0 0 24px rgba(255, 0, 85, 0.95), inset 0 0 14px rgba(255, 0, 85, 0.5) !important;
+      transform: scale(1.04) !important;
+      z-index: 35 !important;
+      animation: neonPulseRed 1.2s infinite ease-in-out !important;
+    }
+
+    .sched-event-conflict-tag {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 850;
+      color: #ffffff;
+      background: #ff0055;
+      padding: 0.05rem 0.3rem;
+      border-radius: 3px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 0 8px rgba(255, 0, 85, 0.8);
+      margin-left: auto;
+    }
+
+    @keyframes neonGridConflictPulse {
+      0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 0, 85, 0.7), inset 0 0 6px rgba(255, 0, 85, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 22px rgba(255, 0, 85, 0.95), inset 0 0 12px rgba(255, 0, 85, 0.5);
+      }
     }
 
     /* Right Column: Subject & Section Toggle Box */
@@ -9489,6 +9523,37 @@
       };
     }
 
+    function highlightInterferingOnGrid(courseCode, sectionId) {
+      clearInterferingHighlights();
+      const course = SCHEDULE_COURSES.find(c => c.code === courseCode);
+      if (!course) return;
+      const sec = course.sections.find(s => s.id === sectionId);
+      if (!sec) return;
+
+      const cards = document.querySelectorAll('.sched-event-block');
+      cards.forEach(card => {
+        if (card.dataset.courseCode === courseCode) return; // Don't flag self
+
+        const cDay = Number(card.dataset.day);
+        const cStart = Number(card.dataset.start);
+        const cEnd = Number(card.dataset.end);
+
+        const interferes = sec.slots.some(slot => {
+          return slot.day === cDay && Math.max(slot.start, cStart) < Math.min(slot.end, cEnd);
+        });
+
+        if (interferes) {
+          card.classList.add('sched-event-interfered-hover');
+        }
+      });
+    }
+
+    function clearInterferingHighlights() {
+      document.querySelectorAll('.sched-event-block.sched-event-interfered-hover').forEach(card => {
+        card.classList.remove('sched-event-interfered-hover');
+      });
+    }
+
     function renderScheduleSidebar() {
       const listEl = document.getElementById('sched-subject-list');
       if (!listEl) return;
@@ -9528,6 +9593,8 @@
           pillsHtml += `
             <button class="${pillClass}" 
                     onclick="toggleScheduleSection('${course.code}', '${sec.id}')"
+                    onmouseenter="highlightInterferingOnGrid('${course.code}', '${sec.id}')"
+                    onmouseleave="clearInterferingHighlights()"
                     title="${course.title} (${course.code})
 Section: ${sec.id} (${sec.desc})
 Room: ${sec.room}${conflictNotice}"
@@ -9640,10 +9707,43 @@ Room: ${sec.room}${conflictNotice}"
         card.className = 'sched-event-block' + (isConflict ? ' sched-event-conflict' : '');
         card.style.gridColumn = `${col}`;
         card.style.gridRow = `${startStep} / span ${spanSteps}`;
-        card.style.background = ev.color;
-        card.style.borderLeftColor = isConflict ? '#ff0055' : ev.border;
+        card.dataset.courseCode = ev.code;
+        card.dataset.sectionId = ev.sectionId;
+        card.dataset.day = ev.day;
+        card.dataset.start = ev.start;
+        card.dataset.end = ev.end;
+
         if (isConflict) {
-          card.style.opacity = '0.65';
+          card.style.background = 'linear-gradient(135deg, rgba(255, 0, 85, 0.48), rgba(190, 0, 60, 0.42))';
+          card.style.border = '2px solid #ff0055';
+          card.style.borderLeft = '5px solid #ff0055';
+          card.style.boxShadow = '0 0 16px rgba(255, 0, 85, 0.8), inset 0 0 10px rgba(255, 0, 85, 0.35)';
+
+          // Offset overlapping cards on the same day so both remain fully visible and clickable
+          const dayConflicts = activeEvents.filter(other => 
+            other.day === ev.day && Math.max(other.start, ev.start) < Math.min(other.end, ev.end)
+          );
+          if (dayConflicts.length > 1) {
+            const overlapIdx = dayConflicts.indexOf(ev);
+            card.style.width = '88%';
+            card.style.left = overlapIdx === 0 ? '0' : '12%';
+            card.style.zIndex = `${10 + overlapIdx}`;
+          }
+
+          card.addEventListener('mouseenter', () => {
+            document.querySelectorAll('.sched-event-block').forEach(other => {
+              if (other === card) return;
+              if (Number(other.dataset.day) === ev.day && Math.max(Number(other.dataset.start), ev.start) < Math.min(Number(other.dataset.end), ev.end)) {
+                other.classList.add('sched-event-interfered-hover');
+              }
+            });
+          });
+          card.addEventListener('mouseleave', () => {
+            clearInterferingHighlights();
+          });
+        } else {
+          card.style.background = ev.color;
+          card.style.borderLeftColor = ev.border;
         }
 
         card.innerHTML = `
@@ -9651,10 +9751,11 @@ Room: ${sec.room}${conflictNotice}"
           <div class="sched-event-meta">
             <span class="sched-event-sec-badge">${ev.sectionId}</span>
             ${ev.room ? `<span class="sched-event-room">${ev.room}</span>` : ''}
+            ${isConflict ? '<span class="sched-event-conflict-tag">⚠️ CONFLICT</span>' : ''}
           </div>
         `;
 
-        card.title = `${ev.title}\nSection: ${ev.sectionId}\nRoom: ${ev.room}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}`;
+        card.title = `${ev.title}\nSection: ${ev.sectionId}\nRoom: ${ev.room}\nTime: ${formatTimeMinutes(ev.start)} - ${formatTimeMinutes(ev.end)}${isConflict ? '\n⚠️ WARNING: Active time conflict with another enrolled subject!' : ''}`;
         gridEl.appendChild(card);
       });
 
