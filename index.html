@@ -3589,47 +3589,104 @@
       width: 100% !important;
       max-width: 100vw !important;
     }
-    body.view-sched .app-container,
-    body[data-view="sched"] .app-container {
-      max-width: 100% !important;
-      width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      gap: 0.5rem !important;
-    }
-    body.view-sched .sched-view-container {
-      width: 100% !important;
-      max-width: 100% !important;
-    }
-    body.view-sched .sched-main-layout {
-      display: grid !important;
-      grid-template-columns: minmax(0, 1.8fr) minmax(420px, 1.1fr) !important;
-      gap: 1rem !important;
-      width: 100% !important;
-      align-items: start !important;
-    }
-    @media (max-width: 1200px) {
-      body.view-sched .sched-main-layout {
-        grid-template-columns: 1fr !important;
+
+    @media (min-width: 769px) {
+      body.view-sched,
+      body[data-view="sched"],
+      html[data-active-view="sched"] body {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+        padding: 0.35rem 0.65rem !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sched .app-container,
+      body[data-view="sched"] .app-container,
+      html[data-active-view="sched"] .app-container {
+        height: calc(100vh - 0.7rem) !important;
+        max-height: calc(100vh - 0.7rem) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      body.view-sched #sched-view-container,
+      body[data-view="sched"] #sched-view-container,
+      html[data-active-view="sched"] #sched-view-container {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sched .sched-main-layout,
+      body[data-view="sched"] .sched-main-layout,
+      html[data-active-view="sched"] .sched-main-layout {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1.8fr) minmax(420px, 1.1fr) !important;
+        gap: 0.65rem !important;
+        align-items: stretch !important; /* PERFECTLY LEVEL: Both columns stretch to the exact same bottom line! */
+        overflow: hidden !important;
+      }
+
+      body.view-sched .sched-calendar-card,
+      html[data-active-view="sched"] .sched-calendar-card {
+        height: 100% !important;
+        max-height: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        padding: 0.55rem 0.75rem !important;
+      }
+
+      body.view-sched .sched-grid-wrapper,
+      html[data-active-view="sched"] .sched-grid-wrapper {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+      }
+
+      body.view-sched .sched-sidebar-card,
+      html[data-active-view="sched"] .sched-sidebar-card {
+        height: 100% !important;
+        max-height: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        padding: 0.55rem 0.75rem !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sched .sched-toolbar,
+      html[data-active-view="sched"] .sched-toolbar {
+        flex-shrink: 0 !important;
+        padding: 0.4rem 0.75rem !important;
+      }
+
+      body.view-sched .app-header,
+      html[data-active-view="sched"] .app-header {
+        flex-shrink: 0 !important;
+        padding: 0.35rem 0.65rem !important;
       }
     }
 
-    /* Unblocked Streamlined Subject Rows */
-    .sched-sidebar-card {
-      background: var(--bg-card) !important;
-      border: 1px solid var(--border-color) !important;
-      border-radius: var(--radius-md) !important;
-      padding: 0.75rem 0.85rem !important;
-      box-shadow: var(--shadow-sm) !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 0.5rem !important;
-      max-height: calc(100vh - 145px) !important;
-      overflow-y: auto !important;
-      overscroll-behavior: contain !important;
-      scrollbar-width: thin !important;
-      scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-    }
     .sched-sidebar-card::-webkit-scrollbar {
       width: 6px;
     }
@@ -10144,7 +10201,7 @@ Room: ${sec.room}${pillConflictTitle}"
 
       gridEl.innerHTML = '';
       const isMob = window.innerWidth <= 768;
-      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, ${isMob ? '23px' : '32px'})`;
+      gridEl.style.gridTemplateRows = `repeat(${totalSteps}, ${isMob ? '23px' : '28px'})`;
 
       // Draw background grid lines and time labels
       for (let step = 0; step < totalSteps; step++) {
