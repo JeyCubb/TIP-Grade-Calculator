@@ -4377,6 +4377,106 @@
       html[data-active-view="sched"] .brand-title {
         display: none !important;
       }
+
+      /* -------------------------------------------------------------
+         3. CURRICULUM & GWA SHEET VIEW ON DESKTOP: LEVEL & FIT 100VH
+         ------------------------------------------------------------- */
+      body.view-sheet,
+      body[data-view="sheet"],
+      html[data-active-view="sheet"] body {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+        padding: 0.35rem 0.65rem !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sheet .app-container,
+      body[data-view="sheet"] .app-container,
+      html[data-active-view="sheet"] .app-container {
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      body.view-sheet #sheet-view-container,
+      body[data-view="sheet"] #sheet-view-container,
+      html[data-active-view="sheet"] #sheet-view-container {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sheet .year-tabs-wrapper,
+      html[data-active-view="sheet"] .year-tabs-wrapper {
+        flex-shrink: 0 !important;
+        margin-bottom: 0.2rem !important;
+      }
+
+      body.view-sheet .sheet-semester-grid,
+      html[data-active-view="sheet"] .sheet-semester-grid {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+      }
+
+      body.view-sheet .semester-card,
+      html[data-active-view="sheet"] .semester-card {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        padding: 0.4rem 0.65rem !important;
+      }
+
+      body.view-sheet .sheet-table-wrapper,
+      html[data-active-view="sheet"] .sheet-table-wrapper {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+      }
+
+      body.view-sheet .sheet-footer-row,
+      html[data-active-view="sheet"] .sheet-footer-row {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+        padding-top: 0.3rem !important;
+      }
+
+      body.view-sheet .view-nav-bar,
+      html[data-active-view="sheet"] .view-nav-bar {
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+        padding: 0.15rem 0.35rem !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sheet .app-header,
+      html[data-active-view="sheet"] .app-header {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+        padding: 0.28rem 0.65rem !important;
+        box-sizing: border-box !important;
+      }
     }
 
     .sched-sidebar-card::-webkit-scrollbar {
@@ -7817,6 +7917,40 @@
       const raw = localStorage.getItem(storageKey);
 
       if (!raw) {
+        if (activeUser === 'JeyCub' || activeUser === 'Jacob') {
+          document.getElementById('mode-term').checked = true;
+          updateModeUI();
+          prevGradeEl.value = '96.55';
+          examScoreEl.value = '9';
+          examTotalEl.value = '10';
+          targetEqEl.value = '1.25';
+          updateTargetSelectUI('1.25');
+          addCategory('Assessment Tasks', 100);
+          const firstCat = document.querySelector('.category');
+          if (firstCat) {
+            const row1 = firstCat.querySelector('.item-row');
+            if (row1) {
+              row1.querySelector('.item-score').value = '23';
+              row1.querySelector('.item-total').value = '24';
+            }
+            addItem(firstCat);
+            const rows = firstCat.querySelectorAll('.item-row');
+            if (rows[1]) {
+              rows[1].querySelector('.item-score').value = '1';
+              rows[1].querySelector('.item-total').value = '1';
+            }
+            addItem(firstCat);
+            const rows2 = firstCat.querySelectorAll('.item-row');
+            if (rows2[2]) {
+              rows2[2].querySelector('.item-score').value = '1';
+              rows2[2].querySelector('.item-total').value = '1';
+            }
+            recomputeCategory(firstCat);
+          }
+          recomputeAll();
+          saveUserData();
+          return;
+        }
         updateModeUI();
         prevGradeEl.value = '';
         examScoreEl.value = '';
@@ -9978,15 +10112,12 @@
         const btn = document.createElement('button');
         const isActive = yearKey === activeSheetYear;
         btn.className = `year-tab-btn ${isActive ? 'active' : ''}`;
-        
-        if (isActive) {
-          if (currentAnnualGwa > 0) {
-            btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: 600; opacity: 0.95; font-size: 0.775rem;">• GWA: <strong>${currentAnnualGwa.toFixed(2)}</strong></span>`;
-          } else {
-            btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;">• GWA: --</span>`;
-          }
+
+        const yGwa = isActive ? (currentAnnualGwa || calculateYearGwa(yearKey)) : calculateYearGwa(yearKey);
+        if (yGwa > 0) {
+          btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: ${isActive ? '600' : '500'}; opacity: ${isActive ? '0.95' : '0.8'}; font-size: 0.775rem;"> • GWA: <strong>${yGwa.toFixed(2)}</strong></span>`;
         } else {
-          btn.textContent = yearKey;
+          btn.innerHTML = `<span>${yearKey}</span>${isActive ? '<span style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;"> • GWA: --</span>' : ''}`;
         }
 
         btn.title = `Switch Year Level (Ctrl + ← / →)`;
