@@ -3751,6 +3751,32 @@
       display: none !important;
     }
 
+
+    .sched-nav-icon-btn {
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.45);
+      color: var(--accent-primary);
+      cursor: pointer;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sched-nav-icon-btn:hover {
+      background: var(--accent-primary);
+      border-color: var(--accent-primary);
+      color: #ffffff;
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 4px 14px var(--accent-glow);
+    }
+    .sched-nav-icon-btn.active {
+      background: var(--accent-primary) !important;
+      border-color: var(--accent-primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px var(--accent-glow) !important;
+    }
+
 </style>
 </head>
 <body>
@@ -4077,9 +4103,7 @@
       <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
         <span>📊</span> GWA Sheet
       </button>
-          <button class="view-nav-btn" id="btn-view-sched" data-view="sched" title="Schedule Creator">
-        <span>📅</span> Schedule Creator
-      </button>
+    
     </nav>
 
     <!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
@@ -4094,6 +4118,14 @@
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
           </svg>
         </a>
+        <button type="button" class="reviewer-link-icon sched-nav-icon-btn" id="btn-header-sched" title="Toggle Schedule Creator" aria-label="Toggle Schedule Creator">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </button>
         <div>
           <h1 class="brand-title"><span>JeyCub</span> Grade Calculator</h1>
         </div>
@@ -9110,7 +9142,8 @@ Room: ${sec.room}"
     // View Navigation Switching
     const btnViewCalc = document.getElementById('btn-view-calc');
     const btnViewSheet = document.getElementById('btn-view-sheet');
-    const btnViewSched = document.getElementById('btn-view-sched');
+    const btnHeaderSched = document.getElementById('btn-header-sched');
+    let lastViewBeforeSched = 'calc';
     const calcContainer = document.getElementById('calc-view-container');
     const sheetContainer = document.getElementById('sheet-view-container');
     const schedContainer = document.getElementById('sched-view-container');
@@ -9124,7 +9157,10 @@ Room: ${sec.room}"
 
       btnViewCalc.classList.toggle('active', viewName === 'calc');
       btnViewSheet.classList.toggle('active', viewName === 'sheet');
-      if (btnViewSched) btnViewSched.classList.toggle('active', viewName === 'sched');
+      if (viewName !== 'sched') {
+        lastViewBeforeSched = viewName;
+      }
+      if (btnHeaderSched) btnHeaderSched.classList.toggle('active', viewName === 'sched');
 
       calcContainer.style.display = viewName === 'calc' ? 'block' : 'none';
       sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
@@ -9152,7 +9188,16 @@ Room: ${sec.room}"
 
     btnViewCalc.addEventListener('click', () => switchView('calc'));
     btnViewSheet.addEventListener('click', () => switchView('sheet'));
-    if (btnViewSched) btnViewSched.addEventListener('click', () => switchView('sched'));
+    if (btnHeaderSched) {
+      btnHeaderSched.addEventListener('click', () => {
+        const isCurrentlySched = document.body.classList.contains('view-sched') || window.location.hash === '#sched';
+        if (isCurrentlySched) {
+          switchView(lastViewBeforeSched || 'calc');
+        } else {
+          switchView('sched');
+        }
+      });
+    }
 
     initScheduleCreatorState();
     initScheduleButtons();
