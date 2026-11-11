@@ -3896,33 +3896,224 @@
       /* Exam & Target Solver Card */
       html[data-active-view="calc"] #card-exam-section,
       body.view-calc #card-exam-section,
-      body[data-view="calc"] #card-exam-section {
+      body[data-view="calc"] #card-exam-section,
+      body:not(.view-sched):not(.view-sheet) #card-exam-section {
         height: 100% !important;
         max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
+        gap: 0.2rem !important;
         overflow-y: auto !important;
         box-sizing: border-box !important;
-        padding: 0.65rem 0.85rem !important;
+        padding: 0.55rem 0.75rem !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
       }
 
+      /* Desktop controls inside Exam Card: compact, proportional, and perfectly fitted */
+      html[data-active-view="calc"] #exam-score,
+      html[data-active-view="calc"] #exam-total,
+      body.view-calc #exam-score,
+      body.view-calc #exam-total,
+      body:not(.view-sched):not(.view-sheet) #exam-score,
+      body:not(.view-sched):not(.view-sheet) #exam-total {
+        font-size: 0.95rem !important;
+        padding: 0.22rem 0.45rem !important;
+        height: 32px !important;
+      }
+
+      html[data-active-view="calc"] .target-row,
+      body.view-calc .target-row,
+      body:not(.view-sched):not(.view-sheet) .target-row {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.4rem !important;
+      }
+
+      html[data-active-view="calc"] .target-label,
+      body.view-calc .target-label,
+      body:not(.view-sched):not(.view-sheet) .target-label {
+        font-size: 0.85rem !important;
+        margin: 0 !important;
+      }
+
+      html[data-active-view="calc"] .target-select-wrapper,
+      body.view-calc .target-select-wrapper,
+      body:not(.view-sched):not(.view-sheet) .target-select-wrapper {
+        flex: 1 !important;
+        max-width: 170px !important;
+      }
+
+      html[data-active-view="calc"] .target-select-display,
+      body.view-calc .target-select-display,
+      body:not(.view-sched):not(.view-sheet) .target-select-display {
+        font-size: 0.85rem !important;
+        padding: 0.22rem 0.6rem !important;
+        height: 30px !important;
+      }
+
+      html[data-active-view="calc"] #compute,
+      body.view-calc #compute,
+      body:not(.view-sched):not(.view-sheet) #compute {
+        font-size: 0.82rem !important;
+        padding: 0.28rem 0.75rem !important;
+        height: 32px !important;
+        margin-top: 0.1rem !important;
+      }
+
+      html[data-active-view="calc"] .weights-row,
+      body.view-calc .weights-row,
+      body:not(.view-sched):not(.view-sheet) .weights-row {
+        font-size: 0.72rem !important;
+        margin: 0.1rem 0 !important;
+      }
+
+      html[data-active-view="calc"] #card-exam-section .hr,
+      body.view-calc #card-exam-section .hr,
+      body:not(.view-sched):not(.view-sheet) #card-exam-section .hr {
+        margin: 0.2rem 0 !important;
+      }
+
+      html[data-active-view="calc"] .result-dashboard,
+      body.view-calc .result-dashboard,
+      body:not(.view-sched):not(.view-sheet) .result-dashboard {
+        margin-top: auto !important;
+        padding: 0.35rem 0.55rem !important;
+        gap: 0.2rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      html[data-active-view="calc"] .stat-row,
+      body.view-calc .stat-row,
+      body:not(.view-sched):not(.view-sheet) .stat-row {
+        font-size: 0.8rem !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card,
+      body.view-calc .final-grade-card,
+      body:not(.view-sched):not(.view-sheet) .final-grade-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0.25rem 0.55rem !important;
+        gap: 0.4rem !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-title-group,
+      body.view-calc .final-grade-title-group,
+      body:not(.view-sched):not(.view-sheet) .final-grade-title-group {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: baseline !important;
+        gap: 0.45rem !important;
+      }
+
+      html[data-active-view="calc"] .final-val,
+      body.view-calc .final-val,
+      body:not(.view-sched):not(.view-sheet) .final-val {
+        font-size: 1.45rem !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+      }
+
+      html[data-active-view="calc"] .eq-badge,
+      body.view-calc .eq-badge,
+      body:not(.view-sched):not(.view-sheet) .eq-badge {
+        font-size: 0.82rem !important;
+        padding: 0.18rem 0.65rem !important;
+        margin-top: 0 !important;
+        white-space: nowrap !important;
+      }
+
+      html[data-active-view="calc"] .mode-select-wrapper,
+      body.view-calc .mode-select-wrapper,
+      body:not(.view-sched):not(.view-sheet) .mode-select-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.45rem !important;
+        margin-top: 0.25rem !important;
+        padding-top: 0.25rem !important;
+        border-top: 1px solid var(--border-color) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+      }
+
+      html[data-active-view="calc"] .segmented-control,
+      body.view-calc .segmented-control,
+      body:not(.view-sched):not(.view-sheet) .segmented-control {
+        display: inline-flex !important;
+        padding: 2px !important;
+        gap: 2px !important;
+        max-width: none !important;
+      }
+
+      html[data-active-view="calc"] .segmented-label,
+      body.view-calc .segmented-label,
+      body:not(.view-sched):not(.view-sheet) .segmented-label {
+        font-size: 0.78rem !important;
+        padding: 0.2rem 0.55rem !important;
+      }
+
+      html[data-active-view="calc"] .prev-term-row,
+      body.view-calc .prev-term-row,
+      body:not(.view-sched):not(.view-sheet) .prev-term-row {
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 0.18rem 0.55rem !important;
+        gap: 0.35rem !important;
+        border-radius: var(--radius-full) !important;
+      }
+
+      html[data-active-view="calc"] .prev-term-row span,
+      body.view-calc .prev-term-row span,
+      body:not(.view-sched):not(.view-sheet) .prev-term-row span {
+        font-size: 0.78rem !important;
+        white-space: nowrap !important;
+      }
+
+      html[data-active-view="calc"] .prev-term-row input,
+      body.view-calc .prev-term-row input,
+      body:not(.view-sched):not(.view-sheet) .prev-term-row input {
+        width: 48px !important;
+        font-size: 0.8rem !important;
+        padding: 0.12rem 0.3rem !important;
+        height: 22px !important;
+      }
+
       html[data-active-view="calc"] .view-nav-bar,
       body.view-calc .view-nav-bar,
-      body[data-view="calc"] .view-nav-bar {
+      body[data-view="calc"] .view-nav-bar,
+      body:not(.view-sched):not(.view-sheet) .view-nav-bar {
         flex-shrink: 0 !important;
         margin: 0 !important;
-        padding: 0.15rem 0.4rem !important;
+        padding: 0.15rem 0.35rem !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] .view-nav-btn,
+      body.view-calc .view-nav-btn,
+      body[data-view="calc"] .view-nav-btn,
+      body:not(.view-sched):not(.view-sheet) .view-nav-btn {
+        font-size: 0.75rem !important;
+        padding: 0.22rem 0.65rem !important;
       }
 
       html[data-active-view="calc"] .app-header,
       body.view-calc .app-header,
-      body[data-view="calc"] .app-header {
+      body[data-view="calc"] .app-header,
+      body:not(.view-sched):not(.view-sheet) .app-header {
         flex-shrink: 0 !important;
         margin-top: auto !important;
-        padding: 0.35rem 0.65rem !important;
+        padding: 0.28rem 0.65rem !important;
+        box-sizing: border-box !important;
       }
 
       /* -------------------------------------------------------------
