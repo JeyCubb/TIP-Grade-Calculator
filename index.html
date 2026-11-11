@@ -3986,29 +3986,6 @@
 
     <!-- Schedule Creator View Container -->
     <div id="sched-view-container" class="sched-view-container" style="display: none;">
-      <!-- Schedule Toolbar -->
-      <div class="sched-toolbar">
-        <div class="sched-toolbar-left">
-          <div class="sched-toolbar-title">
-            <span>📅</span> BSME 3rd Year 2nd Sem Schedule Creator
-          </div>
-          <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
-            ⚡ Choice A (ME32S1 Block)
-          </button>
-          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Swapped Lab variant">
-            🔄 Choice B (Swapped Lab)
-          </button>
-          <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
-            🧹 Clear All
-          </button>
-        </div>
-        <div class="sched-toolbar-stats">
-          <div id="sched-conflict-warning" class="sched-conflict-alert">⚠️ Time Conflict!</div>
-          <div>Enrolled: <span class="sched-stat-badge" id="sched-stat-courses">0 / 11</span></div>
-          <div>Units: <span class="sched-stat-badge" id="sched-stat-units">0 / 27</span></div>
-        </div>
-      </div>
-
       <!-- Main Two-Column Layout -->
       <div class="sched-main-layout">
         <!-- Left Column: Visual Calendar -->
@@ -4037,6 +4014,29 @@
           <div id="sched-subject-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
             <!-- Dynamically populated by JS -->
           </div>
+        </div>
+      </div>
+    
+      <!-- Schedule Toolbar -->
+      <div class="sched-toolbar">
+        <div class="sched-toolbar-left">
+          <div class="sched-toolbar-title">
+            <span>📅</span> BSME 3rd Year 2nd Sem Schedule Creator
+          </div>
+          <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
+            ⚡ Choice A (ME32S1 Block)
+          </button>
+          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Swapped Lab variant">
+            🔄 Choice B (Swapped Lab)
+          </button>
+          <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
+            🧹 Clear All
+          </button>
+        </div>
+        <div class="sched-toolbar-stats">
+          <div id="sched-conflict-warning" class="sched-conflict-alert">⚠️ Time Conflict!</div>
+          <div>Enrolled: <span class="sched-stat-badge" id="sched-stat-courses">0 / 11</span></div>
+          <div>Units: <span class="sched-stat-badge" id="sched-stat-units">0 / 27</span></div>
         </div>
       </div>
     </div><!-- End #sched-view-container -->
