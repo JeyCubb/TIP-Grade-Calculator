@@ -3252,7 +3252,7 @@
     }
     .sched-grid-header {
       display: grid;
-      grid-template-columns: 65px repeat(5, 1fr);
+      grid-template-columns: 76px repeat(5, 1fr);
       gap: 3px;
       border-bottom: 2px solid var(--border-color);
       padding-bottom: 0.4rem;
@@ -3269,21 +3269,23 @@
     }
     .sched-grid-body {
       display: grid;
-      grid-template-columns: 65px repeat(5, 1fr);
-      grid-auto-rows: 28px;
+      grid-template-columns: 76px repeat(5, 1fr);
+      grid-auto-rows: 30px;
       gap: 2px;
       position: relative;
     }
     .sched-time-label {
-      font-size: 0.7rem;
+      font-size: 0.67rem;
       font-weight: 600;
       color: var(--text-muted);
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding-right: 0.5rem;
+      padding-right: 0.4rem;
       border-right: 1px solid var(--border-color);
       user-select: none;
+      white-space: nowrap;
+      line-height: 1;
     }
     .sched-grid-slot {
       border: 1px dashed rgba(255, 255, 255, 0.04);
@@ -3710,6 +3712,64 @@
         </div>
       </div>
     </div><!-- End #sheet-view-container -->
+
+    <!-- Schedule Creator View Container -->
+    <div id="sched-view-container" class="sched-view-container" style="display: none;">
+      <!-- Schedule Toolbar -->
+      <div class="sched-toolbar">
+        <div class="sched-toolbar-left">
+          <div class="sched-toolbar-title">
+            <span>📅</span> BSME 3rd Year 2nd Sem Schedule Creator
+          </div>
+          <button class="sched-preset-btn" id="btn-preset-choice-a" title="Load recommended ME32S1 pure block">
+            ⚡ Choice A (ME32S1 Block)
+          </button>
+          <button class="sched-preset-btn" id="btn-preset-choice-b" title="Load Swapped Lab variant">
+            🔄 Choice B (Swapped Lab)
+          </button>
+          <button class="sched-preset-btn" id="btn-sched-clear-all" title="Deselect all sections">
+            🧹 Clear All
+          </button>
+        </div>
+        <div class="sched-toolbar-stats">
+          <div id="sched-conflict-warning" class="sched-conflict-alert">⚠️ Time Conflict!</div>
+          <div>Enrolled: <span class="sched-stat-badge" id="sched-stat-courses">0 / 11</span></div>
+          <div>Units: <span class="sched-stat-badge" id="sched-stat-units">0 / 27</span></div>
+        </div>
+      </div>
+
+      <!-- Main Two-Column Layout -->
+      <div class="sched-main-layout">
+        <!-- Left Column: Visual Calendar -->
+        <div class="sched-calendar-card">
+          <div class="sched-grid-wrapper">
+            <div class="sched-grid-header">
+              <div class="sched-day-label">Time</div>
+              <div class="sched-day-label">Monday</div>
+              <div class="sched-day-label">Tuesday</div>
+              <div class="sched-day-label">Wednesday</div>
+              <div class="sched-day-label">Thursday</div>
+              <div class="sched-day-label">Friday</div>
+            </div>
+            <div class="sched-grid-body" id="sched-calendar-grid">
+              <!-- Dynamically populated by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Subject & Section Toggle List -->
+        <div class="sched-sidebar-card">
+          <div class="sched-sidebar-header">
+            <div class="sched-sidebar-title">Subjects &amp; Sections</div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">Toggle to add/remove</div>
+          </div>
+          <div id="sched-subject-list" style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div><!-- End #sched-view-container -->
+
 
     <!-- View Switcher Navigation Bar (Bottom of Page) -->
     <nav class="view-nav-bar">
@@ -8755,7 +8815,8 @@
 
       calcContainer.style.display = viewName === 'calc' ? 'block' : 'none';
       sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
-      if (schedContainer) schedContainer.style.display = viewName === 'sched' ? 'flex' : 'none';
+      const sContainer = schedContainer || document.getElementById('sched-view-container');
+      if (sContainer) sContainer.style.display = viewName === 'sched' ? 'flex' : 'none';
 
       if (viewName === 'sheet') {
         if (headerSchemeEl) headerSchemeEl.style.display = 'inline-block';
