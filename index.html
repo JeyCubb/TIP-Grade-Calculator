@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>JeyCub Grade Calculator</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="alternate icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22bodyGrad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%220%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23fb923c%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23ea580c%22/%3E%3C/linearGradient%3E%3ClinearGradient%20id%3D%22screenGrad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%220%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%231c1917%22/%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%230c0a09%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20x%3D%226%22%20y%3D%224%22%20width%3D%2252%22%20height%3D%2256%22%20rx%3D%2211%22%20fill%3D%22url%28%23bodyGrad%29%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2210%22%20width%3D%2240%22%20height%3D%2215%22%20rx%3D%224%22%20fill%3D%22url%28%23screenGrad%29%22/%3E%3Ctext%20x%3D%2248%22%20y%3D%2221.5%22%20font-family%3D%22-apple-system%2C%20BlinkMacSystemFont%2C%20%27Segoe%20UI%27%2C%20monospace%22%20font-size%3D%2210%22%20font-weight%3D%22900%22%20fill%3D%22%2338bdf8%22%20text-anchor%3D%22end%22%3E1.00%3C/text%3E%3Crect%20x%3D%2214%22%20y%3D%2213%22%20width%3D%227%22%20height%3D%223%22%20rx%3D%221%22%20fill%3D%22%2378716c%22%20opacity%3D%220.6%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2227%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2242%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%237c2d12%22%20fill-opacity%3D%220.85%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2238%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2227%22%20y%3D%2238%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2242%22%20y%3D%2238%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%237c2d12%22%20fill-opacity%3D%220.85%22/%3E%3Crect%20x%3D%2212%22%20y%3D%2247%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2227%22%20y%3D%2247%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.95%22/%3E%3Crect%20x%3D%2242%22%20y%3D%2247%22%20width%3D%2210%22%20height%3D%227%22%20rx%3D%222%22%20fill%3D%22%2338bdf8%22/%3E%3C/svg%3E" />
@@ -125,14 +125,18 @@
     }
 
     /* Base Reset */
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      touch-action: manipulation;
     }
 
     html {
       font-size: 21px; /* Scaled up by 5 units from 16px */
+      touch-action: pan-x pan-y;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     /* Custom Sleek Scrollbar */
@@ -173,6 +177,9 @@
       min-height: 100vh;
       padding: 0.5rem 0.65rem 1rem 0.65rem;
       transition: background-color 0.3s ease, color 0.3s ease;
+      touch-action: pan-x pan-y;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     .app-container {
@@ -10083,6 +10090,45 @@ html[data-active-view="calc"] #calc-view-container,
     window.addEventListener('touchcancel', () => {
       touchCanSwipe = false;
     }, { passive: true });
+
+    // ==========================================================================
+    // Fully Disable Double-Click & Double-Tap Zoom (Mobile & Desktop)
+    // ==========================================================================
+    // 1. Prevent native double-click zoom
+    window.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+
+    // 2. Prevent mobile browser double-tap zoom while keeping button responsiveness
+    let lastTapTime = 0;
+    document.addEventListener('touchend', (e) => {
+      const currentTime = Date.now();
+      if (currentTime - lastTapTime <= 300) {
+        if (!e.target.closest('input[type="text"], input[type="number"], textarea')) {
+          e.preventDefault();
+          const clickable = e.target.closest('button, a, [role="button"], .segmented-label, .view-nav-btn, .year-tab, .semester-tab');
+          if (clickable) {
+            clickable.click();
+          }
+        }
+      }
+      lastTapTime = currentTime;
+    }, { passive: false });
+
+    // 3. Prevent iOS pinch-to-zoom gestures
+    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+    document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
+    document.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
+
+    // 4. Reset viewport zoom if device restored a previously zoomed state
+    function enforceInitialScale() {
+      const vp = document.querySelector('meta[name="viewport"]');
+      if (vp) {
+        vp.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+      }
+    }
+    window.addEventListener('pageshow', enforceInitialScale);
+    window.addEventListener('orientationchange', enforceInitialScale);
 
     // Fast-path redirect if user opens or bookmarked #sched
     const earlyView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
