@@ -4438,12 +4438,18 @@
       html[data-active-view="sheet"] .semester-card {
         flex: 1 1 0 !important;
         min-height: 0 !important;
-        height: 100% !important;
-        display: flex !important;
         flex-direction: column !important;
         overflow: hidden !important;
         margin: 0 auto !important;
         padding: 0.4rem 0.65rem !important;
+        /* NOTE: display is intentionally NOT set here — JS controls show/hide via style.display */
+      }
+
+      /* Only the visible (non-hidden) semester card fills the available height */
+      body.view-sheet .semester-card:not([style*="display: none"]),
+      html[data-active-view="sheet"] .semester-card:not([style*="display: none"]) {
+        display: flex !important;
+        height: 100% !important;
       }
 
       body.view-sheet .sheet-table-wrapper,
