@@ -4454,12 +4454,13 @@
       body.view-calc .mode-select-wrapper,
       html[data-active-view="calc"] .mode-select-wrapper {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
         align-items: center !important;
         justify-content: center !important;
+        flex-wrap: nowrap !important;
         gap: 0.35rem !important;
-        margin-top: 0.4rem !important;
-        padding-top: 0.4rem !important;
+        margin-top: 0.35rem !important;
+        padding-top: 0.35rem !important;
         width: 100% !important;
         box-sizing: border-box !important;
       }
@@ -4467,17 +4468,22 @@
       body.view-calc .segmented-control,
       html[data-active-view="calc"] .segmented-control {
         display: inline-flex !important;
+        align-items: center !important;
         width: auto !important;
         max-width: 100% !important;
         justify-content: center !important;
         box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+        padding: 2px !important;
+        gap: 2px !important;
       }
 
       body.view-calc .segmented-label,
       html[data-active-view="calc"] .segmented-label {
-        padding: 0.24rem 0.65rem !important;
-        font-size: 0.74rem !important;
+        padding: 0.18rem 0.42rem !important;
+        font-size: 0.70rem !important;
         white-space: nowrap !important;
+        line-height: 1.2 !important;
       }
 
       body.view-calc .prev-term-row,
@@ -4485,24 +4491,27 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 0.2rem 0.65rem !important;
-        gap: 0.35rem !important;
+        padding: 0.16rem 0.45rem !important;
+        gap: 0.28rem !important;
         border-radius: var(--radius-full) !important;
         box-sizing: border-box !important;
+        flex-shrink: 0 !important;
+        white-space: nowrap !important;
       }
 
       body.view-calc .prev-term-row span,
       html[data-active-view="calc"] .prev-term-row span {
-        font-size: 0.74rem !important;
+        font-size: 0.70rem !important;
         white-space: nowrap !important;
+        line-height: 1.2 !important;
       }
 
       body.view-calc .prev-term-row input,
       html[data-active-view="calc"] .prev-term-row input {
-        width: 48px !important;
-        height: 24px !important;
-        padding: 0.12rem 0.3rem !important;
-        font-size: 0.78rem !important;
+        width: 42px !important;
+        height: 22px !important;
+        padding: 0.1rem 0.25rem !important;
+        font-size: 0.75rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
       }
