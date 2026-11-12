@@ -4469,7 +4469,7 @@
         flex-direction: column !important;
         overflow: hidden !important;
         margin: 0 auto !important;
-        padding: 0.5rem 1rem !important;
+        padding: 0.35rem 0.85rem !important;
         width: 100% !important;
         max-width: min(1080px, 96vw) !important;
         border-radius: 12px !important;
@@ -4490,11 +4490,16 @@
         flex: 1 1 0 !important;
         min-height: 0 !important;
         height: 100% !important;
-        overflow-y: auto !important;
+        overflow: hidden !important;
+        overflow-y: hidden !important;
         display: flex !important;
         flex-direction: column !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        justify-content: flex-start !important;
+        scrollbar-width: none !important;
+      }
+
+      body.view-sheet .sheet-table-wrapper::-webkit-scrollbar {
+        display: none !important;
       }
 
       body.view-sheet .sheet-table,
@@ -4502,26 +4507,24 @@
         width: 100% !important;
         table-layout: auto !important;
         border-collapse: separate !important;
-        border-spacing: 0 0.24rem !important;
-        height: 100% !important;
+        border-spacing: 0 0.12rem !important;
       }
 
       body.view-sheet .sheet-table tbody {
         display: table-row-group !important;
-        height: 100% !important;
       }
 
       body.view-sheet .sheet-table tbody tr {
-        height: calc(100% / 9.5) !important;
+        height: auto !important;
       }
 
       body.view-sheet .sheet-table th {
-        padding: 0.25rem 0.5rem !important;
-        font-size: 1.15rem !important;
+        padding: 0.15rem 0.45rem !important;
+        font-size: 1.05rem !important;
       }
 
       body.view-sheet .sheet-table td {
-        padding: 0.15rem 0.4rem !important;
+        padding: 0.06rem 0.35rem !important;
         vertical-align: middle !important;
       }
 
@@ -4540,13 +4543,57 @@
         max-width: 175px !important;
         min-width: 105px !important;
         text-align: right !important;
+        height: 31px !important;
+        font-size: 1.15rem !important;
+        padding: 0.08rem 0.35rem !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sheet .sheet-table input.num-input,
+      html[data-active-view="sheet"] .sheet-table input.num-input {
+        font-size: 1.15rem !important;
+        width: 78px !important;
+        min-width: 68px !important;
+        height: 31px !important;
+        padding: 0.08rem 0.25rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sheet .sheet-table input.units-input,
+      html[data-active-view="sheet"] .sheet-table input.units-input {
+        font-size: 1.15rem !important;
+        width: 50px !important;
+        min-width: 42px !important;
+        height: 31px !important;
+        padding: 0.08rem 0.2rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      body.view-sheet .sheet-grade-cell,
+      html[data-active-view="sheet"] .sheet-grade-cell {
+        font-size: 1.15rem !important;
+        min-width: 52px !important;
+        height: 29px !important;
+        line-height: 29px !important;
+        padding: 0 0.45rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
       }
 
       body.view-sheet .sheet-footer-row,
       html[data-active-view="sheet"] .sheet-footer-row {
         flex-shrink: 0 !important;
         margin-top: auto !important;
-        padding-top: 0.3rem !important;
+        padding-top: 0.2rem !important;
+      }
+
+      body.view-sheet .sem-footer-summary-text,
+      html[data-active-view="sheet"] .sem-footer-summary-text {
+        font-size: 1.15rem !important;
       }
 
       body.view-sheet .view-nav-bar,
