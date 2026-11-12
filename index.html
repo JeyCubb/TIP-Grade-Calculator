@@ -593,9 +593,34 @@
       transform: translateY(1px);
     }
 
+    .prev-mode-trigger {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: color 0.15s ease;
+    }
+
+    .prev-mode-trigger:hover {
+      color: var(--accent-primary) !important;
+    }
+
+    .prev-mode-trigger:hover .mode-dropdown-arrow {
+      color: var(--accent-primary);
+      transform: translateY(1px);
+    }
+
+    .mode-dropdown-arrow {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
     .weights-mode-popover {
       position: absolute;
-      top: calc(100% + 4px);
+      bottom: calc(100% + 6px);
       left: 0;
       z-index: 100;
       background: var(--bg-card);
@@ -4801,24 +4826,6 @@ html[data-active-view="calc"] #calc-view-container,
             <span id="mix-prev" style="display: none;">Prev 33.3%</span>
             <span class="weights-dropdown-arrow">▾</span>
           </div>
-
-          <!-- Disguised Mode Popover (Appears when clicking Weights) -->
-          <div class="weights-mode-popover" id="weights-mode-popover" style="display: none;">
-            <div class="segmented-control" style="width: auto;">
-              <div class="segmented-option">
-                <input type="radio" name="mode" id="mode-prelim" value="prelim" />
-                <label for="mode-prelim" class="segmented-label">
-                  Prelims
-                </label>
-              </div>
-              <div class="segmented-option">
-                <input type="radio" name="mode" id="mode-term" value="term" checked />
-                <label for="mode-term" class="segmented-label">
-                  Midterms / Finals
-                </label>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Clean Results Dashboard -->
@@ -4831,12 +4838,32 @@ html[data-active-view="calc"] #calc-view-container,
             <span>Exam Average:</span>
             <strong id="res-exam">0.00%</strong>
           </div>
-          <div class="stat-row" id="prev-grade-row" style="display: none;">
-            <span>Prev Average:</span>
+          <div class="stat-row" id="prev-grade-row" style="display: none; position: relative;">
+            <span id="prev-grade-label" class="prev-mode-trigger" title="Click to toggle Term Mode (Prelims / Midterms / Finals)">
+              Prev Average: <span class="mode-dropdown-arrow">▾</span>
+            </span>
             <div class="disguised-prev-input-wrap" title="Click to edit Previous Term Average">
               <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
               <span class="disguised-prev-percent">%</span>
               <span id="prev-error" class="warn" style="display: none;"></span>
+            </div>
+
+            <!-- Disguised Mode Popover (Appears when clicking Prev Average) -->
+            <div class="weights-mode-popover" id="weights-mode-popover" style="display: none;">
+              <div class="segmented-control" style="width: auto;">
+                <div class="segmented-option">
+                  <input type="radio" name="mode" id="mode-prelim" value="prelim" />
+                  <label for="mode-prelim" class="segmented-label">
+                    Prelims
+                  </label>
+                </div>
+                <div class="segmented-option">
+                  <input type="radio" name="mode" id="mode-term" value="term" checked />
+                  <label for="mode-term" class="segmented-label">
+                    Midterms / Finals
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -7351,7 +7378,29 @@ html[data-active-view="calc"] #calc-view-container,
         CS_WEIGHT = 0.5;
         EXAM_WEIGHT = 0.5;
         PREV_WEIGHT = 0.0;
-        prevGradeRowEl.style.display = 'none';
+        prevGradeRowEl.style.display = 'flex';
+        const wrap = prevGradeRowEl.querySelector('.disguised-prev-input-wrap');
+        if (wrap) wrap.style.display = 'none';
+        let prelimNa = document.getElementById('prev-prelim-na');
+        if (!prelimNa) {
+          prelimNa = document.createElement('span');
+          prelimNa.id = 'prev-prelim-na';
+          prelimNa.className = 'prelim-na-badge';
+          prelimNa.textContent = 'Prelims (N/A)';
+          prelimNa.style.cssText = 'font-size: 0.85rem; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none;';
+          prelimNa.title = 'Click to switch Term Mode (Prelims / Midterms / Finals)';
+          prelimNa.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const pop = document.getElementById('weights-mode-popover');
+            if (pop) {
+              const isHidden = pop.style.display === 'none';
+              pop.style.display = isHidden ? 'block' : 'none';
+            }
+          });
+          prevGradeRowEl.appendChild(prelimNa);
+        } else {
+          prelimNa.style.display = 'inline';
+        }
         mixPrevEl.style.display = 'none';
         if (mixExamCommaEl) mixExamCommaEl.style.display = 'none';
 
@@ -7364,6 +7413,11 @@ html[data-active-view="calc"] #calc-view-container,
         EXAM_WEIGHT = 1 / 3;
         PREV_WEIGHT = 1 / 3;
         prevGradeRowEl.style.display = 'flex';
+        const wrap = prevGradeRowEl.querySelector('.disguised-prev-input-wrap');
+        if (wrap) wrap.style.display = 'inline-flex';
+        const prelimNa = document.getElementById('prev-prelim-na');
+        if (prelimNa) prelimNa.style.display = 'none';
+
         mixPrevEl.style.display = 'inline';
         if (mixExamCommaEl) mixExamCommaEl.style.display = 'inline';
 
@@ -7950,16 +8004,18 @@ html[data-active-view="calc"] #calc-view-container,
       });
     }
 
-    // Disguised Weights & Mode Popover Toggle
-    const weightsToggleBtn = document.getElementById('weights-toggle-btn');
+    // Disguised Prev Average & Mode Popover Toggle
+    const prevGradeLabel = document.getElementById('prev-grade-label');
     const weightsModePopover = document.getElementById('weights-mode-popover');
 
-    if (weightsToggleBtn && weightsModePopover) {
-      weightsToggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isHidden = weightsModePopover.style.display === 'none';
-        weightsModePopover.style.display = isHidden ? 'block' : 'none';
-      });
+    if (weightsModePopover) {
+      if (prevGradeLabel) {
+        prevGradeLabel.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isHidden = weightsModePopover.style.display === 'none';
+          weightsModePopover.style.display = isHidden ? 'block' : 'none';
+        });
+      }
 
       document.getElementById('mode-prelim').addEventListener('click', () => {
         setTimeout(() => { if (weightsModePopover) weightsModePopover.style.display = 'none'; }, 160);
@@ -7969,7 +8025,7 @@ html[data-active-view="calc"] #calc-view-container,
       });
 
       document.addEventListener('click', (e) => {
-        if (!e.target.closest('#weights-toggle-btn') && !e.target.closest('#weights-mode-popover')) {
+        if (!e.target.closest('#prev-grade-label') && !e.target.closest('#weights-mode-popover') && !e.target.closest('#prev-prelim-na')) {
           if (weightsModePopover) weightsModePopover.style.display = 'none';
         }
       });
