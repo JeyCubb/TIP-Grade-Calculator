@@ -557,8 +557,12 @@
       margin-bottom: 0.25rem;
     }
 
+    .weights-wrapper {
+      display: none !important;
+    }
+
     .weights-row {
-      display: inline-flex;
+      display: none !important;
       align-items: center;
       gap: 0.3rem;
       font-size: 0.72rem;
@@ -2647,19 +2651,25 @@
 
       .target-row {
         display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 0.35rem !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.45rem !important;
       }
 
       .target-label {
-        font-size: 1.10rem !important;
+        font-size: 0.95rem !important;
         font-weight: 700 !important;
         color: var(--text-secondary) !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
       }
 
       .target-select-wrapper {
-        width: 100% !important;
+        flex: 1 1 auto !important;
+        max-width: 140px !important;
+        min-width: 65px !important;
+        width: auto !important;
       }
 
       .target-select-display {
@@ -4760,9 +4770,9 @@ html[data-active-view="calc"] #calc-view-container,
           <div id="summary" class="min-exam-banner"></div>
         </div>
 
-        <div class="hr"></div>
+        <div class="hr" style="display: none;"></div>
 
-        <div class="weights-wrapper" style="position: relative; display: inline-block;">
+        <div class="weights-wrapper" style="display: none !important;">
           <div class="weights-row" id="weights-toggle-btn" title="Click to change Term Mode (Prelims / Midterms / Finals)">
             <span class="weights-title">Weights:</span>
             <span><span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span></span>
