@@ -2073,19 +2073,31 @@
     }
 
     .sheet-table th.col-subj {
-      text-align: right;
+      text-align: left;
+      padding-left: 0.5rem;
     }
 
     .sheet-table td.col-subj {
-      text-align: right;
+      text-align: left;
     }
 
     .sheet-table input.subj-input {
       width: 100%;
-      max-width: 96px;
+      max-width: 195px;
       min-width: 48px;
-      padding: 0.08rem 0.2rem;
-      text-align: right;
+      padding: 0.08rem 0.45rem;
+      text-align: left;
+      background: transparent;
+      border: 1px solid transparent;
+      font-weight: 700;
+      color: var(--text-primary);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+
+    .sheet-table input.subj-input:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
     }
 
     .sheet-table input:focus {
@@ -4592,23 +4604,44 @@
       html[data-active-view="sheet"] .sheet-table td.col-subj {
         width: 195px !important;
         max-width: 215px !important;
-        text-align: right !important;
+        text-align: left !important;
+        padding-left: 0.6rem !important;
       }
 
       body.view-sheet .sheet-table input.subj-input,
       html[data-active-view="sheet"] .sheet-table input.subj-input {
         width: 100% !important;
         max-width: 195px !important;
-        min-width: 130px !important;
-        text-align: right !important;
+        min-width: 100px !important;
+        text-align: left !important;
         height: clamp(20px, 3.2vh, 32px) !important;
         min-height: 20px !important;
         max-height: 34px !important;
         font-size: 1.05rem !important;
-        padding: 0.08rem 0.35rem !important;
+        font-weight: 700 !important;
+        color: var(--text-primary) !important;
+        padding: 0.08rem 0.45rem !important;
         box-sizing: border-box !important;
         vertical-align: middle !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        border-radius: var(--radius-sm) !important;
+        transition: var(--transition) !important;
+      }
+
+      body.view-sheet .sheet-table input.subj-input:hover,
+      html[data-active-view="sheet"] .sheet-table input.subj-input:hover {
+        background: var(--bg-card-hover) !important;
+        border-color: var(--border-color-hover) !important;
+      }
+
+      body.view-sheet .sheet-table input.subj-input:focus,
+      html[data-active-view="sheet"] .sheet-table input.subj-input:focus {
+        background: var(--bg-input) !important;
+        border-color: var(--accent-primary) !important;
+        box-shadow: 0 0 6px var(--accent-glow) !important;
+        outline: none !important;
       }
 
       body.view-sheet .sheet-table input.num-input,
