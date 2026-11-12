@@ -3341,37 +3341,54 @@
 
     /* Profile Lock Button Styling */
     .btn-profile-lock {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.1rem 0.35rem;
-      font-size: 0.725rem;
-      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: var(--radius-full);
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
       color: var(--text-secondary);
-      transition: all 0.18s ease;
+      cursor: pointer;
+      transition: var(--transition);
+      box-sizing: border-box;
+      flex-shrink: 0;
     }
 
     .btn-profile-lock:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-color-hover);
       color: var(--text-primary);
+      transform: scale(1.05);
     }
 
     .btn-profile-lock.is-locked {
-      background: var(--color-error-bg);
-      border-color: var(--color-error);
-      color: var(--color-error);
-      box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+      background: var(--color-error-bg) !important;
+      border-color: var(--color-error) !important;
+      color: var(--color-error) !important;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
     }
 
     .btn-profile-lock.is-locked:hover {
-      background: rgba(239, 68, 68, 0.25);
-      border-color: #f87171;
-      color: #f87171;
-      box-shadow: 0 0 12px rgba(239, 68, 68, 0.45);
+      background: rgba(239, 68, 68, 0.25) !important;
+      border-color: #f87171 !important;
+      color: #f87171 !important;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.55) !important;
+      transform: scale(1.05);
+    }
+
+    [data-theme="light"] .btn-profile-lock {
+      background: #ffffff;
+      border-color: var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    [data-theme="light"] .btn-profile-lock:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
+      color: var(--text-primary);
     }
 
     /* Temporary Mode Styles */
@@ -3468,6 +3485,7 @@
     }
 
     @media (max-width: 600px) {
+      .btn-profile-lock,
       .btn-temp-mode,
       .scheme-dropdown-summary {
         width: 26px;
@@ -4565,20 +4583,19 @@
 
       body.view-sheet .sheet-table td,
       html[data-active-view="sheet"] .sheet-table td {
-        padding: 0.12rem 0.25rem !important;
+        padding: 0 0.25rem !important;
         vertical-align: middle !important;
         border-bottom: 1px solid var(--border-color) !important;
-      }
-
-      body.view-sheet .sheet-table tbody tr:last-child td,
-      html[data-active-view="sheet"] .sheet-table tbody tr:last-child td {
-        border-bottom: none !important;
+        line-height: 1 !important;
       }
 
       body.view-sheet .sheet-table input,
       html[data-active-view="sheet"] .sheet-table input {
+        display: inline-block !important;
         vertical-align: middle !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
+        line-height: normal !important;
+        box-sizing: border-box !important;
       }
 
       body.view-sheet .sheet-table th.col-subj,
@@ -4596,47 +4613,53 @@
         max-width: 195px !important;
         min-width: 130px !important;
         text-align: right !important;
-        height: 100% !important;
+        height: 32px !important;
         min-height: 22px !important;
-        max-height: 44px !important;
-        font-size: 1.10rem !important;
-        padding: 0.06rem 0.30rem !important;
+        max-height: 36px !important;
+        font-size: 1.05rem !important;
+        padding: 0.1rem 0.35rem !important;
         box-sizing: border-box !important;
+        vertical-align: middle !important;
+        margin: 0 auto !important;
       }
 
       body.view-sheet .sheet-table input.num-input,
       html[data-active-view="sheet"] .sheet-table input.num-input {
-        font-size: 1.10rem !important;
+        font-size: 1.05rem !important;
         width: 72px !important;
         min-width: 60px !important;
-        height: 100% !important;
+        height: 32px !important;
         min-height: 22px !important;
-        max-height: 44px !important;
-        padding: 0.06rem 0.20rem !important;
+        max-height: 36px !important;
+        padding: 0.1rem 0.20rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        vertical-align: middle !important;
+        margin: 0 auto !important;
       }
 
       body.view-sheet .sheet-table input.units-input,
       html[data-active-view="sheet"] .sheet-table input.units-input {
-        font-size: 1.10rem !important;
+        font-size: 1.05rem !important;
         width: 44px !important;
         min-width: 36px !important;
-        height: 100% !important;
+        height: 32px !important;
         min-height: 22px !important;
-        max-height: 44px !important;
-        padding: 0.06rem 0.15rem !important;
+        max-height: 36px !important;
+        padding: 0.1rem 0.15rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        vertical-align: middle !important;
+        margin: 0 auto !important;
       }
 
       body.view-sheet .sheet-grade-cell,
       html[data-active-view="sheet"] .sheet-grade-cell {
-        font-size: 1.10rem !important;
+        font-size: 1.05rem !important;
         min-width: 48px !important;
-        height: 100% !important;
+        height: 32px !important;
         min-height: 22px !important;
-        max-height: 42px !important;
+        max-height: 36px !important;
         line-height: normal !important;
         padding: 0 0.35rem !important;
         display: inline-flex !important;
@@ -6167,18 +6190,19 @@
             <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-          <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
-            <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Unlocked state by default -->
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
-            </svg>
-          </button>
         </div>
 
         <span class="save-indicator" id="save-indicator">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
+
+        <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
+          <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Unlocked state by default -->
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+          </svg>
+        </button>
 
         <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
         <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
