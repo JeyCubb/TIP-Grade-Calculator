@@ -5639,8 +5639,63 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        overflow: hidden !important;
+        overflow: visible !important;
         padding: 0.35rem 0.5rem !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.35rem 0.4rem !important;
+        height: auto !important;
+        min-height: unset !important;
+        max-height: none !important;
+      }
+
+      body.view-sheet .app-header,
+      html[data-active-view="sheet"] .app-header,
+      html[data-active-view="calc"] .app-header,
+      body.view-calc .app-header {
+        max-height: none !important;
+        height: auto !important;
+      }
+
+      .view-nav-bar {
+        position: static !important;
+        transform: none !important;
+        left: auto !important;
+        order: -1 !important;
+        width: 100% !important;
+        max-width: 310px !important;
+        margin: 0 auto 0.2rem auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+      }
+
+      .view-nav-btn {
+        flex: 1 1 0 !important;
+        padding: 0.22rem 0.45rem !important;
+        font-size: 0.72rem !important;
+        height: 26px !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+      }
+
+      .brand-group {
+        order: 1 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.3rem !important;
+        flex-shrink: 0 !important;
+      }
+
+      .header-profile-group {
+        order: 2 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.3rem !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
       }
 
       body.view-sched .app-header,
