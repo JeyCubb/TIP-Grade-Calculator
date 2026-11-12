@@ -3967,6 +3967,7 @@
       body[data-view="calc"] .main-grid {
         flex: 1 1 0 !important;
         min-height: 0 !important;
+        height: 100% !important;
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(420px, 1fr) !important;
         gap: 0.65rem !important;
@@ -3980,6 +3981,7 @@
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         height: 100% !important;
+        min-height: 380px !important;
         max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -4005,6 +4007,7 @@
       body[data-view="calc"] #card-exam-section,
       body:not(.view-sched):not(.view-sheet) #card-exam-section {
         height: 100% !important;
+        min-height: 380px !important;
         max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -5771,6 +5774,18 @@
     body[data-view="calc"] #calc-view-container {
       display: block !important;
     }
+    @media (min-width: 769px) {
+      html[data-active-view="calc"] #calc-view-container,
+      html.view-calc #calc-view-container,
+      body.view-calc #calc-view-container,
+      body[data-view="calc"] #calc-view-container {
+        display: flex !important;
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        flex-direction: column !important;
+      }
+    }
   </style>
 
 </head>
@@ -5800,7 +5815,7 @@
       </section>
 
       <!-- Exam & Target Solver Card (Column 2) -->
-      <section class="card" id="card-exam-section">
+      <section class="card" id="card-exam-section" style="display: flex; flex-direction: column; height: 100%;">
         <div class="card-header exam-desktop-header">
           <div class="card-title">
             <span>Exam</span>
@@ -11113,7 +11128,7 @@
       btnViewSheet.classList.toggle('active', viewName === 'sheet');
       if (btnHeaderCalc) btnHeaderCalc.classList.toggle('active', viewName === 'calc');
 
-      calcContainer.style.display = viewName === 'calc' ? 'block' : 'none';
+      calcContainer.style.display = viewName === 'calc' ? '' : 'none';
       sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
 
       if (viewName === 'sheet') {
