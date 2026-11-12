@@ -9497,9 +9497,9 @@
       },
       {
         "name": "ACDC",
-        "prelim": 86.87,
+        "prelim": 86.94,
         "midterm": 89.91,
-        "final": 1.75,
+        "final": 92.74,
         "grade": 1.75,
         "units": 3
       },
@@ -9507,15 +9507,15 @@
         "name": "Mach Elem",
         "prelim": 79.69,
         "midterm": 81.45,
-        "final": 2.25,
+        "final": 85.91,
         "grade": 2.25,
         "units": 3
       },
       {
         "name": "Ethics",
-        "prelim": 94.25,
+        "prelim": 94.59,
         "midterm": 90.93,
-        "final": 1.5,
+        "final": 95.82,
         "grade": 1.50,
         "units": 3
       },
@@ -9537,9 +9537,9 @@
       },
       {
         "name": "Electronics",
-        "prelim": 91.8,
+        "prelim": 91.81,
         "midterm": 89.38,
-        "final": 2,
+        "final": 89.63,
         "grade": 2.00,
         "units": 3
       },
@@ -9928,11 +9928,12 @@
         saveSheetData();
       }
 
-      // Restore Jacob's authentic completed 3rd Year Sem 1 grades if local data is empty or missing finals
+      // Restore Jacob's authentic completed 3rd Year Sem 1 grades if local data is empty or missing official finals
       if ((activeUser === 'JeyCub' || activeUser === 'Jacob') && userSheetData && userSheetData['3rd Year'] && Array.isArray(userSheetData['3rd Year'].sem1)) {
         const jey3 = userSheetData['3rd Year'].sem1;
         const flu = jey3.find(s => s && s.name === 'Flu Mech');
-        if (!flu || !flu.final || flu.final === '') {
+        const acdc = jey3.find(s => s && s.name === 'ACDC');
+        if (!flu || !flu.final || flu.final === '' || (acdc && (acdc.final === 1.75 || acdc.final === '1.75'))) {
           userSheetData['3rd Year'].sem1 = JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM['3rd Year'].sem1));
           saveSheetData();
         }
@@ -10056,6 +10057,13 @@
       };
     }
 
+    // Official T.I.P. Registrar Standard: Truncate GWA to 2 decimal places (do not round up)
+    function formatGwa(val) {
+      if (isNaN(val) || val <= 0) return '--';
+      const truncated = Math.floor(val * 100 + 0.0000001) / 100;
+      return truncated.toFixed(2);
+    }
+
     function updateTotalGwaDisplay() {
       const el = document.getElementById('total-gwa-display');
       if (!el) return;
@@ -10067,15 +10075,15 @@
       const res = calculateTotalGwa();
       const valEl = el.querySelector('.total-gwa-val');
       if (valEl) {
-        valEl.textContent = res.gwa > 0 ? res.gwa.toFixed(2) : '--';
+        valEl.textContent = res.gwa > 0 ? formatGwa(res.gwa) : '--';
       }
       if (res.gwa > 0) {
         const parts = [];
-        if (res.gwa4 > 0) parts.push(`4th: ${res.gwa4.toFixed(2)}`);
-        if (res.gwa3 > 0) parts.push(`3rd: ${res.gwa3.toFixed(2)}`);
-        if (res.gwa2 > 0) parts.push(`2nd: ${res.gwa2.toFixed(2)}`);
-        if (res.gwa1 > 0) parts.push(`1st: ${res.gwa1.toFixed(2)}`);
-        el.title = `Total GWA = (${parts.join(' + ')}) / ${res.divisor} = ${res.gwa.toFixed(2)}`;
+        if (res.gwa4 > 0) parts.push(`4th: ${formatGwa(res.gwa4)}`);
+        if (res.gwa3 > 0) parts.push(`3rd: ${formatGwa(res.gwa3)}`);
+        if (res.gwa2 > 0) parts.push(`2nd: ${formatGwa(res.gwa2)}`);
+        if (res.gwa1 > 0) parts.push(`1st: ${formatGwa(res.gwa1)}`);
+        el.title = `Total GWA = (${parts.join(' + ')}) / ${res.divisor} = ${formatGwa(res.gwa)}`;
       } else {
         el.title = `Total Cumulative GWA: No graded subjects yet`;
       }
@@ -10135,7 +10143,7 @@
 
         const yGwa = isActive ? (currentAnnualGwa || calculateYearGwa(yearKey)) : calculateYearGwa(yearKey);
         if (yGwa > 0) {
-          btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: ${isActive ? '600' : '500'}; opacity: ${isActive ? '0.95' : '0.8'}; font-size: 0.775rem;"> • GWA: <strong>${yGwa.toFixed(2)}</strong></span>`;
+          btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: ${isActive ? '600' : '500'}; opacity: ${isActive ? '0.95' : '0.8'}; font-size: 0.775rem;"> • GWA: <strong>${formatGwa(yGwa)}</strong></span>`;
         } else {
           btn.innerHTML = `<span>${yearKey}</span>${isActive ? '<span style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;"> • GWA: --</span>' : ''}`;
         }
@@ -10273,7 +10281,7 @@
       // Update summary
       const summaryEl = document.getElementById(summaryId);
       if (summaryEl) {
-        summaryEl.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
+        summaryEl.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${formatGwa(semGwa)}</strong>`;
       }
 
       return { gwa: semGwa, units: totalUnits };
@@ -10416,7 +10424,7 @@
 
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
         if (sSummary) {
-          sSummary.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${semGwa > 0 ? semGwa.toFixed(2) : '--'}</strong>`;
+          sSummary.innerHTML = `Units: <strong style="color: var(--text-primary);">${totalUnits}</strong> &nbsp;|&nbsp; GWA: <strong style="color: var(--accent-primary);">${formatGwa(semGwa)}</strong>`;
         }
       });
 

@@ -19,9 +19,9 @@
       },
       {
         "name": "ACDC",
-        "prelim": 86.87,
+        "prelim": 86.94,
         "midterm": 89.91,
-        "final": 1.75,
+        "final": 92.74,
         "grade": 1.75,
         "units": 3
       },
@@ -29,15 +29,15 @@
         "name": "Mach Elem",
         "prelim": 79.69,
         "midterm": 81.45,
-        "final": 2.25,
+        "final": 85.91,
         "grade": 2.25,
         "units": 3
       },
       {
         "name": "Ethics",
-        "prelim": 94.25,
+        "prelim": 94.59,
         "midterm": 90.93,
-        "final": 1.5,
+        "final": 95.82,
         "grade": 1.5,
         "units": 3
       },
@@ -59,9 +59,9 @@
       },
       {
         "name": "Electronics",
-        "prelim": 91.8,
+        "prelim": 91.81,
         "midterm": 89.38,
-        "final": 2,
+        "final": 89.63,
         "grade": 2.0,
         "units": 3
       },
