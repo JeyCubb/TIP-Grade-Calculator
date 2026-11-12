@@ -498,6 +498,19 @@
       transform: scale(1.05);
     }
 
+    .theme-toggle-btn#sheet-zen-toggle.active {
+      background: rgba(249, 115, 22, 0.22) !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--accent-primary) !important;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.45) !important;
+    }
+
+    [data-theme="light"] .theme-toggle-btn#sheet-zen-toggle.active {
+      background: rgba(249, 115, 22, 0.15) !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--accent-primary) !important;
+    }
+
     /* Card System */
     .card {
       background: var(--bg-card);
@@ -2584,13 +2597,14 @@
       }
 
       .semester-card {
-        width: fit-content !important;
-        max-width: 100% !important;
-        padding: 0.75rem 0.95rem !important;
+        width: 100% !important;
+        max-width: min(1080px, 96vw) !important;
+        padding: 0.65rem 1rem !important;
+        box-sizing: border-box !important;
       }
 
       .sheet-table {
-        width: auto !important;
+        width: 100% !important;
       }
 
       .sem-footer-summary-text,
@@ -4421,6 +4435,8 @@
       html[data-active-view="sheet"] .year-tabs-wrapper {
         flex-shrink: 0 !important;
         margin-bottom: 0.2rem !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        will-change: transform, opacity;
       }
 
       body.view-sheet .sheet-semester-grid,
@@ -4441,7 +4457,12 @@
         flex-direction: column !important;
         overflow: hidden !important;
         margin: 0 auto !important;
-        padding: 0.4rem 0.65rem !important;
+        padding: 0.5rem 1rem !important;
+        width: 100% !important;
+        max-width: min(1080px, 96vw) !important;
+        border-radius: 12px !important;
+        box-sizing: border-box !important;
+        transition: max-width 0.28s ease, padding 0.28s ease;
         /* NOTE: display is intentionally NOT set here — JS controls show/hide via style.display */
       }
 
@@ -4456,9 +4477,45 @@
       html[data-active-view="sheet"] .sheet-table-wrapper {
         flex: 1 1 0 !important;
         min-height: 0 !important;
+        height: 100% !important;
         overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+      }
+
+      body.view-sheet .sheet-table,
+      html[data-active-view="sheet"] .sheet-table {
+        width: 100% !important;
+        table-layout: auto !important;
+        border-collapse: separate !important;
+        border-spacing: 0 0.24rem !important;
+        height: 100% !important;
+      }
+
+      body.view-sheet .sheet-table tbody {
+        display: table-row-group !important;
+        height: 100% !important;
+      }
+
+      body.view-sheet .sheet-table tbody tr {
+        height: calc(100% / 9.5) !important;
+      }
+
+      body.view-sheet .sheet-table th {
+        padding: 0.25rem 0.5rem !important;
+        font-size: 1.15rem !important;
+      }
+
+      body.view-sheet .sheet-table td {
+        padding: 0.15rem 0.4rem !important;
+        vertical-align: middle !important;
+      }
+
+      body.view-sheet .sheet-table input.subj-input {
+        width: 100% !important;
+        max-width: none !important;
       }
 
       body.view-sheet .sheet-footer-row,
@@ -4474,6 +4531,8 @@
         margin: 0 !important;
         padding: 0.15rem 0.35rem !important;
         box-sizing: border-box !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        will-change: transform, opacity;
       }
 
       body.view-sheet .app-header,
@@ -4482,6 +4541,50 @@
         margin-top: auto !important;
         padding: 0.28rem 0.65rem !important;
         box-sizing: border-box !important;
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        will-change: transform, opacity;
+      }
+
+      /* Auto-Hide Idle Chrome & Maximized Table Mode */
+      body.view-sheet.sheet-idle-hide,
+      html[data-active-view="sheet"].sheet-idle-hide {
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.25rem !important;
+      }
+
+      body.view-sheet.sheet-idle-hide .app-container,
+      html[data-active-view="sheet"].sheet-idle-hide .app-container {
+        gap: 0 !important;
+      }
+
+      body.view-sheet.sheet-idle-hide .year-tabs-wrapper,
+      html[data-active-view="sheet"].sheet-idle-hide .year-tabs-wrapper {
+        transform: translateY(-135%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body.view-sheet.sheet-idle-hide .view-nav-bar,
+      html[data-active-view="sheet"].sheet-idle-hide .view-nav-bar,
+      body.view-sheet.sheet-idle-hide .app-header,
+      html[data-active-view="sheet"].sheet-idle-hide .app-header {
+        transform: translateY(135%) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+      }
+
+      body.view-sheet.sheet-idle-hide .semester-card,
+      html[data-active-view="sheet"].sheet-idle-hide .semester-card {
+        max-width: min(1160px, 98vw) !important;
+        padding: 0.65rem 1.25rem !important;
       }
     }
 
@@ -5979,6 +6082,15 @@
         <span class="save-indicator" id="save-indicator">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
+
+        <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
+          <svg id="zen-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <polyline points="9 21 3 21 3 15"></polyline>
+            <line x1="21" y1="3" x2="14" y2="10"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
 
         <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
           <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -8105,6 +8217,82 @@
     // Initialize saved theme on start
     const initialTheme = localStorage.getItem('tip_gc_theme') || 'dark';
     updateThemeUI(initialTheme);
+
+    // Auto-Hide & Maximized Zen View for Sheet
+    let isSheetZenEnabled = localStorage.getItem('tip_gc_sheet_zen_mode') !== '0';
+    const sheetZenToggleBtn = document.getElementById('sheet-zen-toggle');
+    let sheetIdleTimer = null;
+    const SHEET_IDLE_DELAY = 2200;
+
+    function isSheetViewActive() {
+      return (
+        htmlEl.getAttribute('data-active-view') === 'sheet' ||
+        document.body.classList.contains('view-sheet') ||
+        window.location.hash === '#sheet'
+      );
+    }
+
+    function updateSheetZenUI() {
+      if (sheetZenToggleBtn) {
+        sheetZenToggleBtn.classList.toggle('active', isSheetZenEnabled);
+        sheetZenToggleBtn.setAttribute(
+          'title',
+          isSheetZenEnabled
+            ? 'Auto-Hide & Maximized View: Active (Click to Disable)'
+            : 'Auto-Hide & Maximized View: Disabled (Click to Enable)'
+        );
+        if (!isSheetZenEnabled) {
+          showSheetChrome();
+        }
+      }
+    }
+
+    function hideSheetChrome() {
+      if (!isSheetZenEnabled || !isSheetViewActive()) return;
+      const activeEl = document.activeElement;
+      if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) return;
+      document.body.classList.add('sheet-idle-hide');
+      document.documentElement.classList.add('sheet-idle-hide');
+    }
+
+    function showSheetChrome() {
+      document.body.classList.remove('sheet-idle-hide');
+      document.documentElement.classList.remove('sheet-idle-hide');
+    }
+
+    function resetSheetIdleTimer(e) {
+      showSheetChrome();
+      clearTimeout(sheetIdleTimer);
+      if (!isSheetZenEnabled || !isSheetViewActive()) return;
+      sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
+    }
+
+    if (sheetZenToggleBtn) {
+      sheetZenToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isSheetZenEnabled = !isSheetZenEnabled;
+        localStorage.setItem('tip_gc_sheet_zen_mode', isSheetZenEnabled ? '1' : '0');
+        updateSheetZenUI();
+        if (isSheetZenEnabled) {
+          resetSheetIdleTimer();
+        } else {
+          showSheetChrome();
+        }
+      });
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (e.clientY <= 60 || e.clientY >= window.innerHeight - 60) {
+        showSheetChrome();
+      }
+      resetSheetIdleTimer(e);
+    }, { passive: true });
+
+    ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach((evt) => {
+      window.addEventListener(evt, resetSheetIdleTimer, { passive: true });
+    });
+
+    updateSheetZenUI();
 
     function currentMode() {
       const checked = document.querySelector('input[name="mode"]:checked');
@@ -11401,11 +11589,14 @@ Room: ${sec.room}${pillConflictTitle}"
       if (viewName === 'sheet') {
         if (headerSchemeEl) headerSchemeEl.style.display = 'inline-block';
         renderSheetView();
+        if (typeof resetSheetIdleTimer === 'function') resetSheetIdleTimer();
       } else {
         if (headerSchemeEl) {
           headerSchemeEl.style.display = 'none';
           headerSchemeEl.removeAttribute('open');
         }
+        if (typeof showSheetChrome === 'function') showSheetChrome();
+        if (typeof sheetIdleTimer !== 'undefined') clearTimeout(sheetIdleTimer);
       }
 
       if (viewName === 'sched') {
