@@ -4570,7 +4570,7 @@
 
       body.view-sheet .sheet-table tbody tr,
       html[data-active-view="sheet"] .sheet-table tbody tr {
-        height: calc(100% / 9) !important;
+        height: calc(100% / var(--sheet-row-count, 9)) !important;
       }
 
       body.view-sheet .sheet-table th,
@@ -4613,11 +4613,11 @@
         max-width: 195px !important;
         min-width: 130px !important;
         text-align: right !important;
-        height: 32px !important;
-        min-height: 22px !important;
-        max-height: 36px !important;
+        height: clamp(20px, 3.2vh, 32px) !important;
+        min-height: 20px !important;
+        max-height: 34px !important;
         font-size: 1.05rem !important;
-        padding: 0.1rem 0.35rem !important;
+        padding: 0.08rem 0.35rem !important;
         box-sizing: border-box !important;
         vertical-align: middle !important;
         margin: 0 auto !important;
@@ -4628,10 +4628,10 @@
         font-size: 1.05rem !important;
         width: 72px !important;
         min-width: 60px !important;
-        height: 32px !important;
-        min-height: 22px !important;
-        max-height: 36px !important;
-        padding: 0.1rem 0.20rem !important;
+        height: clamp(20px, 3.2vh, 32px) !important;
+        min-height: 20px !important;
+        max-height: 34px !important;
+        padding: 0.08rem 0.20rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         vertical-align: middle !important;
@@ -4643,10 +4643,10 @@
         font-size: 1.05rem !important;
         width: 44px !important;
         min-width: 36px !important;
-        height: 32px !important;
-        min-height: 22px !important;
-        max-height: 36px !important;
-        padding: 0.1rem 0.15rem !important;
+        height: clamp(20px, 3.2vh, 32px) !important;
+        min-height: 20px !important;
+        max-height: 34px !important;
+        padding: 0.08rem 0.15rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         vertical-align: middle !important;
@@ -4657,9 +4657,9 @@
       html[data-active-view="sheet"] .sheet-grade-cell {
         font-size: 1.05rem !important;
         min-width: 48px !important;
-        height: 32px !important;
-        min-height: 22px !important;
-        max-height: 36px !important;
+        height: clamp(20px, 3.2vh, 32px) !important;
+        min-height: 20px !important;
+        max-height: 34px !important;
         line-height: normal !important;
         padding: 0 0.35rem !important;
         display: inline-flex !important;
@@ -9489,12 +9489,92 @@
     ],
     "sem2": [
       {
-        "name": "",
+        "name": "Methods of Research",
         "prelim": "",
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": ""
+        "units": 1
+      },
+      {
+        "name": "Machine Design 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Refrigeration",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Combustion",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Fluid Machineries",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Eng Management",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Lab 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Materials Science",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Control Engineering",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "GEE 002",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "GEE 003",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
       }
     ]
   },
@@ -9916,12 +9996,92 @@
     ],
     "sem2": [
       {
-        "name": "",
+        "name": "Methods of Research",
         "prelim": "",
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": ""
+        "units": 1
+      },
+      {
+        "name": "Machine Design 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Refrigeration",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Combustion",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Fluid Machineries",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Eng Management",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Lab 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Materials Science",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Control Engineering",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "GEE 002",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "GEE 003",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
       }
     ]
   },
@@ -10285,9 +10445,12 @@
         saveSheetData();
       }
 
-      if (userSheetData['3rd Year'] && (!userSheetData['3rd Year'].sem2 || userSheetData['3rd Year'].sem2.length === 0)) {
-        userSheetData['3rd Year'].sem2 = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
-        saveSheetData();
+      if (userSheetData['3rd Year']) {
+        const sem2 = userSheetData['3rd Year'].sem2;
+        if (!sem2 || sem2.length === 0 || (sem2.length === 1 && (!sem2[0].name || sem2[0].name.trim() === ''))) {
+          userSheetData['3rd Year'].sem2 = JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM['3rd Year'].sem2));
+          saveSheetData();
+        }
       }
 
       // Restore Jacob's authentic completed 3rd Year Sem 1 grades if local data is empty or missing official finals
@@ -10598,6 +10761,12 @@
 
       tbody.innerHTML = '';
       const rows = userSheetData[activeSheetYear][semKey] || [];
+      const rowCount = Math.max(rows.length, 1);
+      tbody.style.setProperty('--sheet-row-count', rowCount);
+      const table = tbody.closest('table');
+      if (table) {
+        table.style.setProperty('--sheet-row-count', rowCount);
+      }
 
       let totalUnits = 0;
       let gradedUnits = 0;
