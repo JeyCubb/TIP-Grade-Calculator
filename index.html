@@ -7489,6 +7489,7 @@
 
     let firebaseDb = null;
     let isCloudUpdating = false;
+    let hasReceivedInitialCloudData = false;
     const clientId = 'client_' + Math.random().toString(36).substring(2, 11);
     let cloudSyncDebounceTimer = null;
 
@@ -7497,6 +7498,7 @@
         if (typeof firebase === 'undefined') {
           window.addEventListener('load', () => {
             initFirebase();
+    setTimeout(() => { hasReceivedInitialCloudData = true; }, 3000);
           }, { once: true });
           return;
         }
@@ -7654,11 +7656,13 @@
                 loadSheetData();
               }
               isCloudUpdating = false;
+              hasReceivedInitialCloudData = true;
               setCloudStatus(true);
             }
           }, err => {
             // Listener was rejected (e.g. Firebase security rules deny access)
             console.warn("Firebase listener cancelled:", err);
+            hasReceivedInitialCloudData = true;
             setCloudStatus(false, err);
           });
 
@@ -7833,7 +7837,7 @@
     const cloudSyncTimers = {};
 
     function syncToCloud(type, user, data) {
-      if (isTemporaryMode || !firebaseDb || !user || user === 'No Profile' || isCloudUpdating) return;
+      if (isTemporaryMode || !firebaseDb || !user || user === 'No Profile' || isCloudUpdating || !hasReceivedInitialCloudData) return;
       const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
       const key = `${type}_${safeUser}`;
       clearTimeout(cloudSyncTimers[key]);
@@ -9471,17 +9475,17 @@
     "sem1": [
       {
         "name": "Deformable",
-        "prelim": 90.08,
+        "prelim": "90.08",
         "midterm": "",
-        "final": "",
-        "grade": 90.08,
+        "final": "2",
+        "grade": "",
         "units": 3
       },
       {
         "name": "Flu Mech",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "1.5",
         "grade": "",
         "units": 3
       },
@@ -9489,7 +9493,7 @@
         "name": "ACDC",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "2",
         "grade": "",
         "units": 3
       },
@@ -9497,7 +9501,7 @@
         "name": "Mach Elem",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "2.25",
         "grade": "",
         "units": 3
       },
@@ -9505,7 +9509,7 @@
         "name": "Ethics",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "1.5",
         "grade": "",
         "units": 3
       },
@@ -9513,23 +9517,23 @@
         "name": "Heat Trans",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "1.75",
         "grade": "",
         "units": 2
       },
       {
         "name": "BOSH",
-        "prelim": 92.65,
+        "prelim": "92.65",
         "midterm": "",
-        "final": "",
-        "grade": 92.65,
+        "final": "2",
+        "grade": "",
         "units": 3
       },
       {
         "name": "Electronics",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "1.75",
         "grade": "",
         "units": 3
       },
@@ -9537,7 +9541,7 @@
         "name": "Comp App",
         "prelim": "",
         "midterm": "",
-        "final": "",
+        "final": "1.50",
         "grade": "",
         "units": 1
       }
@@ -9916,6 +9920,29 @@
       if (userSheetData['3rd Year'] && (!userSheetData['3rd Year'].sem2 || userSheetData['3rd Year'].sem2.length === 0)) {
         userSheetData['3rd Year'].sem2 = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
         saveSheetData();
+      }
+
+      if ((activeUser === 'JeyCub' || activeUser === 'Jacob') && userSheetData && userSheetData['3rd Year'] && Array.isArray(userSheetData['3rd Year'].sem1)) {
+        const jey3 = userSheetData['3rd Year'].sem1;
+        const def3 = DEFAULT_JACOB_CURRICULUM['3rd Year'].sem1;
+        let healed = false;
+        def3.forEach(defSub => {
+          const existing = jey3.find(s => s && s.name === defSub.name);
+          if (existing) {
+            const hasAnyGrade = (existing.final !== '' && existing.final !== undefined) ||
+                                (existing.grade !== '' && existing.grade !== undefined && existing.grade !== 0) ||
+                                (existing.prelim !== '' && existing.prelim !== undefined && existing.prelim !== 0) ||
+                                (existing.midterm !== '' && existing.midterm !== undefined && existing.midterm !== 0);
+            if (!hasAnyGrade) {
+              if (defSub.final) existing.final = defSub.final;
+              if (defSub.prelim) existing.prelim = defSub.prelim;
+              if (defSub.midterm) existing.midterm = defSub.midterm;
+              if (defSub.grade) existing.grade = defSub.grade;
+              healed = true;
+            }
+          }
+        });
+        if (healed) saveSheetData();
       }
 
       if (!userSheetData['4th Year']) {
@@ -11432,6 +11459,7 @@ Room: ${sec.room}${pillConflictTitle}"
       }
     }
     initFirebase();
+    setTimeout(() => { hasReceivedInitialCloudData = true; }, 3000);
 
     // Restore last viewed tab/page on refresh if not already switched
     if (earlyView !== 'sched') {
