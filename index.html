@@ -4540,8 +4540,8 @@
         height: 100% !important;
         flex: 1 1 auto !important;
         table-layout: auto !important;
-        border-collapse: separate !important;
-        border-spacing: 0 0.15rem !important;
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
       }
 
       body.view-sheet .sheet-table tbody,
@@ -4552,19 +4552,33 @@
 
       body.view-sheet .sheet-table tbody tr,
       html[data-active-view="sheet"] .sheet-table tbody tr {
-        height: calc(100% / 9.2) !important;
+        height: calc(100% / 9) !important;
       }
 
       body.view-sheet .sheet-table th,
       html[data-active-view="sheet"] .sheet-table th {
-        padding: 0.10rem 0.35rem !important;
+        padding: 0.12rem 0.35rem !important;
         font-size: 1.02rem !important;
+        vertical-align: middle !important;
+        border-bottom: 1.5px solid var(--border-color) !important;
       }
 
       body.view-sheet .sheet-table td,
       html[data-active-view="sheet"] .sheet-table td {
-        padding: 0.04rem 0.25rem !important;
+        padding: 0.12rem 0.25rem !important;
         vertical-align: middle !important;
+        border-bottom: 1px solid var(--border-color) !important;
+      }
+
+      body.view-sheet .sheet-table tbody tr:last-child td,
+      html[data-active-view="sheet"] .sheet-table tbody tr:last-child td {
+        border-bottom: none !important;
+      }
+
+      body.view-sheet .sheet-table input,
+      html[data-active-view="sheet"] .sheet-table input {
+        vertical-align: middle !important;
+        margin: 0 !important;
       }
 
       body.view-sheet .sheet-table th.col-subj,
@@ -4628,6 +4642,8 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        vertical-align: middle !important;
+        margin: 0 auto !important;
         box-sizing: border-box !important;
       }
 
