@@ -4525,9 +4525,21 @@
         vertical-align: middle !important;
       }
 
-      body.view-sheet .sheet-table input.subj-input {
+      body.view-sheet .sheet-table th.col-subj,
+      body.view-sheet .sheet-table td.col-subj,
+      html[data-active-view="sheet"] .sheet-table th.col-subj,
+      html[data-active-view="sheet"] .sheet-table td.col-subj {
+        width: 175px !important;
+        max-width: 185px !important;
+        text-align: right !important;
+      }
+
+      body.view-sheet .sheet-table input.subj-input,
+      html[data-active-view="sheet"] .sheet-table input.subj-input {
         width: 100% !important;
-        max-width: none !important;
+        max-width: 175px !important;
+        min-width: 105px !important;
+        text-align: right !important;
       }
 
       body.view-sheet .sheet-footer-row,
