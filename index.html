@@ -320,7 +320,6 @@
       box-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
     }
 
-    .header-actions-group .theme-toggle-btn#sheet-zen-toggle.active,
     .header-actions-group .btn-temp-mode.is-active,
     .header-actions-group .scheme-dropdown-container[open] .scheme-dropdown-summary {
       background: rgba(249, 115, 22, 0.22) !important;
@@ -510,19 +509,6 @@
       background: var(--bg-card-hover);
       border-color: var(--border-color-hover);
       transform: scale(1.05);
-    }
-
-    .theme-toggle-btn#sheet-zen-toggle.active {
-      background: rgba(249, 115, 22, 0.22) !important;
-      border-color: var(--accent-primary) !important;
-      color: var(--accent-primary) !important;
-      box-shadow: 0 0 10px rgba(249, 115, 22, 0.45) !important;
-    }
-
-    [data-theme="light"] .theme-toggle-btn#sheet-zen-toggle.active {
-      background: rgba(249, 115, 22, 0.15) !important;
-      border-color: var(--accent-primary) !important;
-      color: var(--accent-primary) !important;
     }
 
     /* Card System */
@@ -926,7 +912,7 @@
       font-size: 0.725rem;
       font-weight: 700;
       color: var(--color-success);
-      display: flex;
+      display: none;
       align-items: center;
       gap: 0.25rem;
       opacity: 0;
@@ -934,6 +920,7 @@
     }
 
     .save-indicator.visible {
+      display: inline-flex;
       opacity: 1;
     }
 
@@ -4407,28 +4394,38 @@
         order: 1 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.3rem !important;
-        flex-shrink: 0 !important;
+        gap: 0.25rem !important;
+        flex: 1 1 0 !important;
+        justify-content: flex-start !important;
+        min-width: 0 !important;
       }
 
       .header-profile-group {
         order: 2 !important;
+        display: contents !important;
+      }
+
+      .user-profile-bar {
+        order: 2 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.35rem !important;
-        flex-shrink: 0 !important;
-        flex-wrap: nowrap !important;
-        margin-left: auto !important;
-        justify-content: flex-end !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        padding: 0.12rem 0.45rem !important;
+        font-size: 0.75rem !important;
       }
 
       .header-actions-group {
+        order: 3 !important;
         display: inline-flex !important;
         align-items: center !important;
         height: 26px !important;
         gap: 0.2rem !important;
-        flex-shrink: 0 !important;
+        flex: 1 1 0 !important;
+        justify-content: flex-end !important;
         flex-wrap: nowrap !important;
+        min-width: 0 !important;
       }
 
       .header-actions-group .scheme-dropdown-container,
@@ -4472,18 +4469,6 @@
         max-height: 26px !important;
         border-radius: 6px !important;
       }
-
-      .brand-group {
-        gap: 0.25rem !important;
-      }
-
-      .user-profile-bar {
-        padding: 0.12rem 0.35rem !important;
-        font-size: 0.72rem !important;
-        flex-shrink: 0 !important;
-      }
-
-
 
       .brand-title {
         font-size: 0.80rem !important;
@@ -4999,8 +4984,22 @@ html[data-active-view="calc"] #calc-view-container,
 
       <!-- User Profile & Grading Scheme Bar -->
       <div class="header-profile-group">
-        <!-- 5 Action Buttons Aligned on the Right -->
+        <!-- User Profile Selector (In the Middle) -->
+        <div class="user-profile-bar" title="Active User Profile">
+          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="active-profile-label">No Profile</span>
+            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
+        </div>
+
+        <!-- Action Buttons Aligned on the Right -->
         <div class="header-actions-group">
+          <span class="save-indicator" id="save-indicator">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+
           <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
             <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <!-- Unlocked state by default -->
@@ -5050,34 +5049,11 @@ html[data-active-view="calc"] #calc-view-container,
             </svg>
           </button>
 
-          <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
-            <svg id="zen-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <polyline points="9 21 3 21 3 15"></polyline>
-              <line x1="21" y1="3" x2="14" y2="10"></line>
-              <line x1="3" y1="21" x2="10" y2="14"></line>
-            </svg>
-          </button>
-
           <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
             <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
             </svg>
           </button>
-        </div>
-
-        <span class="save-indicator" id="save-indicator">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>
-
-        <!-- User Profile Selector (At the Most Right) -->
-        <div class="user-profile-bar" title="Active User Profile">
-          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span id="active-profile-label">No Profile</span>
-            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
         </div>
       </div>
     </header>
@@ -7216,38 +7192,13 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }
 
-    // Auto-Hide Idle Chrome & Maximized Zen View (both Calc and Sheet views, desktop only)
+    // Auto-Hide Idle Chrome (both Calc and Sheet views, desktop only, always active 24/7)
     const IS_DESKTOP = () => window.innerWidth >= 769;
-    let isSheetZenEnabled = localStorage.getItem('tip_gc_sheet_zen_mode') !== '0';
-    const sheetZenToggleBtn = document.getElementById('sheet-zen-toggle');
     let sheetIdleTimer = null;
     const SHEET_IDLE_DELAY = 2800;
 
-    function isSheetViewActive() {
-      return (
-        htmlEl.getAttribute('data-active-view') === 'sheet' ||
-        document.body.classList.contains('view-sheet') ||
-        window.location.hash === '#sheet'
-      );
-    }
-
-    function updateSheetZenUI() {
-      if (sheetZenToggleBtn) {
-        sheetZenToggleBtn.classList.toggle('active', isSheetZenEnabled);
-        sheetZenToggleBtn.setAttribute(
-          'title',
-          isSheetZenEnabled
-            ? 'Auto-Hide & Maximized View: Active (Click to Disable)'
-            : 'Auto-Hide & Maximized View: Disabled (Click to Enable)'
-        );
-        if (!isSheetZenEnabled) {
-          showSheetChrome();
-        }
-      }
-    }
-
     function hideSheetChrome() {
-      if (!IS_DESKTOP() || !isSheetZenEnabled) return;
+      if (!IS_DESKTOP()) return;
       const activeEl = document.activeElement;
       if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) return;
       document.body.classList.add('sheet-idle-hide');
@@ -7262,22 +7213,8 @@ html[data-active-view="calc"] #calc-view-container,
     function resetSheetIdleTimer(e) {
       showSheetChrome();
       clearTimeout(sheetIdleTimer);
-      if (!IS_DESKTOP() || !isSheetZenEnabled) return;
+      if (!IS_DESKTOP()) return;
       sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
-    }
-
-    if (sheetZenToggleBtn) {
-      sheetZenToggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isSheetZenEnabled = !isSheetZenEnabled;
-        localStorage.setItem('tip_gc_sheet_zen_mode', isSheetZenEnabled ? '1' : '0');
-        updateSheetZenUI();
-        if (isSheetZenEnabled) {
-          resetSheetIdleTimer();
-        } else {
-          showSheetChrome();
-        }
-      });
     }
 
     let lastMouseClientX = null;
@@ -7315,8 +7252,7 @@ html[data-active-view="calc"] #calc-view-container,
       appHeaderEl.addEventListener('mouseleave', () => { if (IS_DESKTOP()) resetSheetIdleTimer(); });
     }
 
-    updateSheetZenUI();
-    // Arm auto-hide on page load (desktop only)
+    // Arm auto-hide on page load (desktop only, 24/7)
     if (IS_DESKTOP()) resetSheetIdleTimer();
 
     function currentMode() {
