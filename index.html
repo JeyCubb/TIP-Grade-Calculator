@@ -320,7 +320,41 @@
 
     .header-profile-group {
       flex: 1 1 0;
+      display: inline-flex;
+      align-items: center;
       justify-content: flex-end;
+      gap: 0.35rem;
+      flex-wrap: nowrap;
+    }
+
+    .header-actions-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+      margin-left: auto;
+    }
+
+    .header-actions-group .btn-profile-lock,
+    .header-actions-group .scheme-dropdown-summary,
+    .header-actions-group .btn-temp-mode,
+    .header-actions-group .theme-toggle-btn {
+      width: 28px !important;
+      height: 28px !important;
+      min-width: 28px !important;
+      min-height: 28px !important;
+      max-width: 28px !important;
+      max-height: 28px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border-radius: 7px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+      transition: var(--transition) !important;
     }
 
     .brand-icon {
@@ -5701,7 +5735,51 @@
         align-items: center !important;
         gap: 0.3rem !important;
         flex-shrink: 0 !important;
+        flex-wrap: nowrap !important;
         margin-left: auto !important;
+      }
+
+      .header-actions-group {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.2rem !important;
+        flex-shrink: 0 !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .header-actions-group .btn-profile-lock,
+      .header-actions-group .scheme-dropdown-summary,
+      .header-actions-group .btn-temp-mode,
+      .header-actions-group .theme-toggle-btn {
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        min-height: 26px !important;
+        max-width: 26px !important;
+        max-height: 26px !important;
+        border-radius: 6px !important;
+        padding: 0 !important;
+      }
+
+      .brand-icon,
+      .brand-nav-btn {
+        width: 26px !important;
+        height: 26px !important;
+        min-width: 26px !important;
+        min-height: 26px !important;
+        max-width: 26px !important;
+        max-height: 26px !important;
+        border-radius: 6px !important;
+      }
+
+      .brand-group {
+        gap: 0.25rem !important;
+      }
+
+      .user-profile-bar {
+        padding: 0.12rem 0.35rem !important;
+        font-size: 0.72rem !important;
+        flex-shrink: 0 !important;
       }
 
       body.view-sched .app-header,
@@ -6229,7 +6307,7 @@
       </nav>
 
       <!-- User Profile & Grading Scheme Bar -->
-      <div class="header-profile-group" style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+      <div class="header-profile-group">
         <!-- User Profile Selector -->
         <div class="user-profile-bar" title="Active User Profile">
           <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
@@ -6244,69 +6322,72 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
 
-        <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
-          <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Unlocked state by default -->
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-            <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
-          </svg>
-        </button>
-
-        <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
-        <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
-          <summary class="scheme-dropdown-summary" title="TIP 75-Base Grading Scale" aria-label="Toggle TIP Grading Scale">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
+        <!-- 5 Action Buttons Aligned on the Right -->
+        <div class="header-actions-group">
+          <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
+            <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Unlocked state by default -->
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
             </svg>
-          </summary>
-          <div class="scheme-dropdown-content">
-            <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
-              📋 TIP Grading Scale (75-base)
+          </button>
+
+          <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
+          <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
+            <summary class="scheme-dropdown-summary" title="TIP 75-Base Grading Scale" aria-label="Toggle TIP Grading Scale">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </summary>
+            <div class="scheme-dropdown-content">
+              <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
+                📋 TIP Grading Scale (75-base)
+              </div>
+              <table class="sheet-table" style="font-size: 0.58rem; width: 100%;">
+                <thead>
+                  <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+                  <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+                  <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+                  <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+                  <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+                  <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+                  <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+                  <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+                  <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+                  <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+                </tbody>
+              </table>
             </div>
-            <table class="sheet-table" style="font-size: 0.58rem; width: 100%;">
-              <thead>
-                <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
-                <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
-                <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
-                <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
-                <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
-                <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
-                <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
-                <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
-                <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
-                <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </details>
+          </details>
 
-        <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
-          </svg>
-        </button>
+          <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+            </svg>
+          </button>
 
-        <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
-          <svg id="zen-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <polyline points="9 21 3 21 3 15"></polyline>
-            <line x1="21" y1="3" x2="14" y2="10"></line>
-            <line x1="3" y1="21" x2="10" y2="14"></line>
-          </svg>
-        </button>
+          <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
+            <svg id="zen-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          </button>
 
-        <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
-          <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-          </svg>
-        </button>
+          <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
+            <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
