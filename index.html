@@ -1069,16 +1069,44 @@
       min-height: 28px;
     }
 
-    .cat-name {
+    .cat-name,
+    input[type="text"].cat-name {
       flex: 1 1 auto;
       min-width: 0;
       width: auto;
       text-overflow: ellipsis;
-      font-size: 0.775rem !important;
-      padding: 0.12rem 0.35rem;
+      font-size: 0.825rem !important;
+      font-weight: 700 !important;
+      color: var(--text-primary) !important;
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      border-radius: var(--radius-sm) !important;
+      padding: 0.12rem 0.3rem !important;
       height: 28px;
       line-height: 1.2;
       box-sizing: border-box;
+      outline: none !important;
+      cursor: text;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cat-name:hover,
+    input[type="text"].cat-name:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    [data-theme="light"] .cat-name:hover,
+    [data-theme="light"] input[type="text"].cat-name:hover {
+      background: rgba(0, 0, 0, 0.035) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    .cat-name:focus,
+    input[type="text"].cat-name:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
     }
 
     .cat-weight-wrapper {
@@ -1406,15 +1434,19 @@
         min-height: 26px;
       }
 
-      .cat-name {
+      .cat-name,
+      input[type="text"].cat-name {
         flex: 1 1 auto;
         min-width: 0;
         width: auto;
-        font-size: 0.725rem !important;
-        padding: 0.1rem 0.3rem !important;
+        font-size: 0.76rem !important;
+        font-weight: 700 !important;
+        padding: 0.1rem 0.25rem !important;
         height: 26px !important;
         line-height: 24px !important;
         box-sizing: border-box !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .cat-weight-wrapper {
@@ -2578,10 +2610,14 @@
         font-size: 1.00rem !important;
       }
 
-      .cat-name {
-        font-size: 0.91rem !important;
+      .cat-name,
+      input[type="text"].cat-name {
+        font-size: 0.95rem !important;
+        font-weight: 700 !important;
         max-width: 240px !important;
-        padding: 0.22rem 0.5rem !important;
+        padding: 0.2rem 0.35rem !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .cat-weight {
@@ -7472,7 +7508,7 @@ html[data-active-view="calc"] #calc-view-container,
       categoryEl.className = 'category';
       categoryEl.innerHTML = `
         <div class="cat-header">
-          <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}">
+          <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}" title="Click to rename category">
           <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.15rem;">
             <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="W%">
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
