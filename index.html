@@ -1840,6 +1840,10 @@
     /* ==========================================================================
        Top View Switcher (Calculator vs. Curriculum & GWA Sheet)
        ========================================================================== */
+    .header-nav-row {
+      display: contents;
+    }
+
     .view-nav-bar {
       display: inline-flex;
       align-items: center;
@@ -4405,15 +4409,23 @@
         height: auto !important;
       }
 
+      .header-nav-row {
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+        margin: 0 auto 0.25rem auto !important;
+        order: -1 !important;
+      }
+
       .view-nav-bar {
         position: static !important;
         transform: none !important;
         left: auto !important;
-        order: -1 !important;
-        width: 100% !important;
+        width: auto !important;
         max-width: 310px !important;
-        margin: 0 auto 0.2rem auto !important;
-        display: flex !important;
+        margin: 0 auto !important;
+        display: inline-flex !important;
         justify-content: center !important;
         box-sizing: border-box !important;
       }
@@ -4448,8 +4460,9 @@
         align-items: center !important;
         justify-content: center !important;
         flex: 0 0 auto !important;
+        margin: 0 auto !important;
         white-space: nowrap !important;
-        padding: 0.12rem 0.45rem !important;
+        padding: 0.12rem 0.5rem !important;
         font-size: 0.75rem !important;
       }
 
@@ -4984,39 +4997,41 @@ html[data-active-view="calc"] #calc-view-container,
       </div>
 
       <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
-      <nav class="view-nav-bar">
-        <button class="view-nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + ←)">
-          <span class="brand-emoji" style="margin-right: 4px;">
-            <svg class="brand-calc-emoji" style="width: 14px; height: 14px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
-              <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
-              <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
-              <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
-              <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
-              <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-            </svg>
-          </span>
-          Calculator View
-        </button>
-        <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
-          <span>📊</span> GWA Sheet
-        </button>
-      </nav>
+      <div class="header-nav-row">
+        <nav class="view-nav-bar">
+          <button class="view-nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + ←)">
+            <span class="brand-emoji" style="margin-right: 4px;">
+              <svg class="brand-calc-emoji" style="width: 14px; height: 14px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
+                <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
+                <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
+                <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
+                <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
+                <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+              </svg>
+            </span>
+            Calculator View
+          </button>
+          <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
+            <span>📊</span> GWA Sheet
+          </button>
+        </nav>
+      </div>
 
       <!-- User Profile & Grading Scheme Bar -->
       <div class="header-profile-group">
