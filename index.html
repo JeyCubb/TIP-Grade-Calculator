@@ -1729,6 +1729,7 @@
       margin: 0 auto;
       flex-shrink: 0;
       position: relative;
+      transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .view-nav-btn {
@@ -1745,7 +1746,10 @@
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
-      transition: var(--transition);
+      transition: background-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+                  color 0.2s ease,
+                  transform 0.15s ease,
+                  box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1) !important;
       font-family: inherit;
       white-space: nowrap;
       user-select: none;
@@ -1766,6 +1770,47 @@
       background: var(--accent-primary);
       color: #fff;
       box-shadow: 0 2px 8px var(--accent-glow);
+      transform: scale(1.02);
+    }
+
+    /* Smooth Slide-In View Transition Keyframes */
+    @keyframes viewSlideInRight {
+      0% {
+        opacity: 0;
+        transform: translate3d(36px, 0, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes viewSlideInLeft {
+      0% {
+        opacity: 0;
+        transform: translate3d(-36px, 0, 0);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .view-animate-in-right {
+      animation: viewSlideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+      will-change: transform, opacity;
+    }
+
+    .view-animate-in-left {
+      animation: viewSlideInLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+      will-change: transform, opacity;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .view-animate-in-right,
+      .view-animate-in-left {
+        animation: none !important;
+      }
     }
 
     /* ==========================================================================
@@ -4521,8 +4566,10 @@
   <script>
     (function() {
       try {
-        var savedTheme = localStorage.getItem('tip_gc_theme') || 'dark';
-        document.documentElement.setAttribute('data-theme', savedTheme);
+        var savedTheme = localStorage.getItem('tip_gc_theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', currentTheme);
         var h = window.location.hash;
         var v = (h === '#sheet' || h === '#calc')
           ? h.replace('#', '')
@@ -7120,17 +7167,41 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }
 
+    function getSystemTheme() {
+      return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlEl.getAttribute('data-theme') || 'dark';
+        const currentTheme = htmlEl.getAttribute('data-theme') || getSystemTheme();
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        try {
+          localStorage.setItem('tip_gc_theme_explicit', 'true');
+        } catch (e) {}
         updateThemeUI(newTheme);
       });
     }
 
-    // Initialize saved theme on start
-    const initialTheme = localStorage.getItem('tip_gc_theme') || 'dark';
+    // Initialize saved theme or system theme on start
+    const savedTheme = localStorage.getItem('tip_gc_theme');
+    const isExplicit = localStorage.getItem('tip_gc_theme_explicit') === 'true';
+    const initialTheme = isExplicit && savedTheme ? savedTheme : (savedTheme || getSystemTheme());
     updateThemeUI(initialTheme);
+
+    // React in real-time when system dark/light mode toggles
+    if (window.matchMedia) {
+      const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleSystemThemeChange = (e) => {
+        if (localStorage.getItem('tip_gc_theme_explicit') !== 'true') {
+          updateThemeUI(e.matches ? 'dark' : 'light');
+        }
+      };
+      if (colorSchemeMedia.addEventListener) {
+        colorSchemeMedia.addEventListener('change', handleSystemThemeChange);
+      } else if (colorSchemeMedia.addListener) {
+        colorSchemeMedia.addListener(handleSystemThemeChange);
+      }
+    }
 
     // Auto-Hide & Maximized Zen View for Sheet
     let isSheetZenEnabled = localStorage.getItem('tip_gc_sheet_zen_mode') !== '0';
@@ -9892,11 +9963,16 @@ html[data-active-view="calc"] #calc-view-container,
     const calcContainer = document.getElementById('calc-view-container');
     const sheetContainer = document.getElementById('sheet-view-container');
 
-    function switchView(viewName) {
+    let currentActiveView = document.documentElement.getAttribute('data-active-view') || 'calc';
+
+    function switchView(viewName, animated = true) {
       if (viewName === 'sched') {
         window.location.href = 'https://jeycubb.github.io/scheduler/';
         return;
       }
+      const prevView = currentActiveView;
+      currentActiveView = viewName;
+
       document.body.classList.toggle('view-sheet', viewName === 'sheet');
       document.body.classList.toggle('view-calc', viewName === 'calc');
       document.documentElement.classList.toggle('view-sheet', viewName === 'sheet');
@@ -9911,6 +9987,23 @@ html[data-active-view="calc"] #calc-view-container,
 
       calcContainer.style.display = viewName === 'calc' ? '' : 'none';
       sheetContainer.style.display = viewName === 'sheet' ? 'flex' : 'none';
+
+      // Smooth animated view transitions
+      if (animated && prevView !== viewName) {
+        calcContainer.classList.remove('view-animate-in-left', 'view-animate-in-right');
+        sheetContainer.classList.remove('view-animate-in-left', 'view-animate-in-right');
+
+        if (viewName === 'sheet') {
+          sheetContainer.classList.add('view-animate-in-right');
+        } else if (viewName === 'calc') {
+          calcContainer.classList.add('view-animate-in-left');
+        }
+
+        setTimeout(() => {
+          calcContainer.classList.remove('view-animate-in-left', 'view-animate-in-right');
+          sheetContainer.classList.remove('view-animate-in-left', 'view-animate-in-right');
+        }, 320);
+      }
 
       if (viewName === 'sheet') {
         if (headerSchemeEl) headerSchemeEl.style.display = 'inline-flex';
@@ -9935,6 +10028,62 @@ html[data-active-view="calc"] #calc-view-container,
       btnHeaderCalc.addEventListener('click', () => switchView('calc'));
     }
 
+    // ==========================================================================
+    // Touch Swipe Left / Right to Switch Calculator & GWA Sheet Views
+    // ==========================================================================
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let touchCanSwipe = false;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) {
+        touchCanSwipe = false;
+        return;
+      }
+      // Never hijack interaction on editable inputs, dropdowns, or horizontal scroll containers
+      if (e.target.closest('input, textarea, select, .year-tabs-bar, .scheme-dropdown-content')) {
+        touchCanSwipe = false;
+        return;
+      }
+      const touch = e.touches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+      touchCanSwipe = true;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (!touchCanSwipe || !e.changedTouches || e.changedTouches.length === 0) return;
+      touchCanSwipe = false;
+
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      const duration = Date.now() - touchStartTime;
+
+      // Swipe criteria:
+      // 1. Min horizontal distance: 45px
+      // 2. Clear horizontal swipe intent (|deltaX| > 1.35 * |deltaY|)
+      // 3. Fast enough gesture (within 600ms)
+      if (Math.abs(deltaX) >= 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35 && duration <= 600) {
+        const activeView = document.documentElement.getAttribute('data-active-view') || 'calc';
+
+        // Swiping Left (finger moves right-to-left): switch Calculator -> GWA Sheet
+        if (deltaX < 0 && activeView === 'calc') {
+          switchView('sheet', true);
+        }
+        // Swiping Right (finger moves left-to-right): switch GWA Sheet -> Calculator
+        else if (deltaX > 0 && activeView === 'sheet') {
+          switchView('calc', true);
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchcancel', () => {
+      touchCanSwipe = false;
+    }, { passive: true });
+
     // Fast-path redirect if user opens or bookmarked #sched
     const earlyView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
       ? window.location.hash.replace('#', '')
@@ -9952,7 +10101,7 @@ html[data-active-view="calc"] #calc-view-container,
 
     // Restore last viewed tab/page on refresh
     if (earlyView !== 'sched') {
-      switchView(earlyView);
+      switchView(earlyView, false);
     }
 
     window.addEventListener('hashchange', () => {
