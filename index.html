@@ -4550,6 +4550,8 @@
         flex-direction: column !important;
         justify-content: space-between !important;
         scrollbar-width: none !important;
+        padding-bottom: 6px !important;
+        box-sizing: border-box !important;
       }
 
       body.view-sheet .sheet-table-wrapper::-webkit-scrollbar {
@@ -4566,15 +4568,21 @@
         border-spacing: 0 !important;
       }
 
+      body.view-sheet .sheet-table thead,
+      html[data-active-view="sheet"] .sheet-table thead {
+        height: 34px !important;
+        flex-shrink: 0 !important;
+      }
+
       body.view-sheet .sheet-table tbody,
       html[data-active-view="sheet"] .sheet-table tbody {
         display: table-row-group !important;
-        height: 100% !important;
+        height: calc(100% - 34px) !important;
       }
 
       body.view-sheet .sheet-table tbody tr,
       html[data-active-view="sheet"] .sheet-table tbody tr {
-        height: calc(100% / var(--sheet-row-count, 9)) !important;
+        height: calc((100% - 34px) / var(--sheet-row-count, 9)) !important;
       }
 
       body.view-sheet .sheet-table th,
@@ -4587,10 +4595,15 @@
 
       body.view-sheet .sheet-table td,
       html[data-active-view="sheet"] .sheet-table td {
-        padding: 0 0.25rem !important;
+        padding: 0.1rem 0.25rem !important;
         vertical-align: middle !important;
         border-bottom: 1px solid var(--border-color) !important;
-        line-height: 1 !important;
+        line-height: normal !important;
+      }
+
+      body.view-sheet .sheet-table tbody tr:last-child td,
+      html[data-active-view="sheet"] .sheet-table tbody tr:last-child td {
+        padding-bottom: 0.35rem !important;
       }
 
       body.view-sheet .sheet-table input,
@@ -4622,11 +4635,11 @@
         height: clamp(28px, 3.8vh, 36px) !important;
         min-height: 28px !important;
         max-height: 40px !important;
-        line-height: 1.35 !important;
+        line-height: 1.4 !important;
         font-size: 1.05rem !important;
         font-weight: 700 !important;
         color: var(--text-primary) !important;
-        padding: 0.2rem 0.5rem !important;
+        padding: 0.12rem 0.5rem 0.28rem 0.5rem !important;
         box-sizing: border-box !important;
         vertical-align: middle !important;
         margin: 0 !important;
