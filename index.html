@@ -9481,17 +9481,17 @@
     "sem1": [
       {
         "name": "Deformable",
-        "prelim": "90.08",
+        "prelim": 90.08,
         "midterm": "",
-        "final": "2",
-        "grade": "",
+        "final": "",
+        "grade": 90.08,
         "units": 3
       },
       {
         "name": "Flu Mech",
         "prelim": "",
         "midterm": "",
-        "final": "1.5",
+        "final": "",
         "grade": "",
         "units": 3
       },
@@ -9499,7 +9499,7 @@
         "name": "ACDC",
         "prelim": "",
         "midterm": "",
-        "final": "2",
+        "final": "",
         "grade": "",
         "units": 3
       },
@@ -9507,7 +9507,7 @@
         "name": "Mach Elem",
         "prelim": "",
         "midterm": "",
-        "final": "2.25",
+        "final": "",
         "grade": "",
         "units": 3
       },
@@ -9515,7 +9515,7 @@
         "name": "Ethics",
         "prelim": "",
         "midterm": "",
-        "final": "1.5",
+        "final": "",
         "grade": "",
         "units": 3
       },
@@ -9523,23 +9523,23 @@
         "name": "Heat Trans",
         "prelim": "",
         "midterm": "",
-        "final": "1.75",
+        "final": "",
         "grade": "",
         "units": 2
       },
       {
         "name": "BOSH",
-        "prelim": "92.65",
+        "prelim": 92.65,
         "midterm": "",
-        "final": "2",
-        "grade": "",
+        "final": "",
+        "grade": 92.65,
         "units": 3
       },
       {
         "name": "Electronics",
         "prelim": "",
         "midterm": "",
-        "final": "1.75",
+        "final": "",
         "grade": "",
         "units": 3
       },
@@ -9547,7 +9547,7 @@
         "name": "Comp App",
         "prelim": "",
         "midterm": "",
-        "final": "1.50",
+        "final": "",
         "grade": "",
         "units": 1
       }
@@ -9928,27 +9928,14 @@
         saveSheetData();
       }
 
+      // If Jacob's 3rd Year sem1 local data contains contaminated/accidental finals from profile 10101010, restore true values
       if ((activeUser === 'JeyCub' || activeUser === 'Jacob') && userSheetData && userSheetData['3rd Year'] && Array.isArray(userSheetData['3rd Year'].sem1)) {
         const jey3 = userSheetData['3rd Year'].sem1;
-        const def3 = DEFAULT_JACOB_CURRICULUM['3rd Year'].sem1;
-        let healed = false;
-        def3.forEach(defSub => {
-          const existing = jey3.find(s => s && s.name === defSub.name);
-          if (existing) {
-            const hasAnyGrade = (existing.final !== '' && existing.final !== undefined) ||
-                                (existing.grade !== '' && existing.grade !== undefined && existing.grade !== 0) ||
-                                (existing.prelim !== '' && existing.prelim !== undefined && existing.prelim !== 0) ||
-                                (existing.midterm !== '' && existing.midterm !== undefined && existing.midterm !== 0);
-            if (!hasAnyGrade) {
-              if (defSub.final) existing.final = defSub.final;
-              if (defSub.prelim) existing.prelim = defSub.prelim;
-              if (defSub.midterm) existing.midterm = defSub.midterm;
-              if (defSub.grade) existing.grade = defSub.grade;
-              healed = true;
-            }
-          }
-        });
-        if (healed) saveSheetData();
+        const hasContaminatedFinals = jey3.some(s => s && s.name === 'Mach Elem' && (s.final === '2.25' || s.final === 2.25));
+        if (hasContaminatedFinals) {
+          userSheetData['3rd Year'].sem1 = JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM['3rd Year'].sem1));
+          saveSheetData();
+        }
       }
 
       if (!userSheetData['4th Year']) {
