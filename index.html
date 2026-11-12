@@ -5620,15 +5620,6 @@ html[data-active-view="calc"] #calc-view-container,
             </svg>
           </button>
 
-          <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
-            <svg id="zen-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <polyline points="9 21 3 21 3 15"></polyline>
-              <line x1="21" y1="3" x2="14" y2="10"></line>
-              <line x1="3" y1="21" x2="10" y2="14"></line>
-            </svg>
-          </button>
-
           <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
             <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
@@ -7789,9 +7780,8 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }
 
-    // Auto-Hide & Maximized Zen View for Sheet
-    let isSheetZenEnabled = localStorage.getItem('tip_gc_sheet_zen_mode') !== '0';
-    const sheetZenToggleBtn = document.getElementById('sheet-zen-toggle');
+    // Auto-Hide & Maximized Zen View for Sheet (Always Enabled by Default)
+    const isSheetZenEnabled = true;
     let sheetIdleTimer = null;
     const SHEET_IDLE_DELAY = 2800;
 
@@ -7803,23 +7793,8 @@ html[data-active-view="calc"] #calc-view-container,
       );
     }
 
-    function updateSheetZenUI() {
-      if (sheetZenToggleBtn) {
-        sheetZenToggleBtn.classList.toggle('active', isSheetZenEnabled);
-        sheetZenToggleBtn.setAttribute(
-          'title',
-          isSheetZenEnabled
-            ? 'Auto-Hide & Maximized View: Active (Click to Disable)'
-            : 'Auto-Hide & Maximized View: Disabled (Click to Enable)'
-        );
-        if (!isSheetZenEnabled) {
-          showSheetChrome();
-        }
-      }
-    }
-
     function hideSheetChrome() {
-      if (!isSheetZenEnabled || !isSheetViewActive()) return;
+      if (!isSheetViewActive()) return;
       const activeEl = document.activeElement;
       if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) return;
       document.body.classList.add('sheet-idle-hide');
@@ -7834,22 +7809,8 @@ html[data-active-view="calc"] #calc-view-container,
     function resetSheetIdleTimer(e) {
       showSheetChrome();
       clearTimeout(sheetIdleTimer);
-      if (!isSheetZenEnabled || !isSheetViewActive()) return;
+      if (!isSheetViewActive()) return;
       sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
-    }
-
-    if (sheetZenToggleBtn) {
-      sheetZenToggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isSheetZenEnabled = !isSheetZenEnabled;
-        localStorage.setItem('tip_gc_sheet_zen_mode', isSheetZenEnabled ? '1' : '0');
-        updateSheetZenUI();
-        if (isSheetZenEnabled) {
-          resetSheetIdleTimer();
-        } else {
-          showSheetChrome();
-        }
-      });
     }
 
     let lastMouseClientX = null;
@@ -7874,8 +7835,6 @@ html[data-active-view="calc"] #calc-view-container,
     ['mousedown', 'keydown', 'touchstart', 'scroll'].forEach((evt) => {
       window.addEventListener(evt, resetSheetIdleTimer, { passive: true });
     });
-
-    updateSheetZenUI();
 
     function currentMode() {
       const checked = document.querySelector('input[name="mode"]:checked');
