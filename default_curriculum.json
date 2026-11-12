@@ -1,0 +1,404 @@
+{
+  "3rd Year": {
+    "sem1": [
+      {
+        "name": "Deformable",
+        "prelim": 90.08,
+        "midterm": 94.89,
+        "final": 94.85,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "Flu Mech",
+        "prelim": 96.67,
+        "midterm": 97.73,
+        "final": 96.88,
+        "grade": 1.25,
+        "units": 3
+      },
+      {
+        "name": "ACDC",
+        "prelim": 86.87,
+        "midterm": 89.91,
+        "final": 1.75,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Mach Elem",
+        "prelim": 79.69,
+        "midterm": 81.45,
+        "final": 2.25,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "Ethics",
+        "prelim": 94.25,
+        "midterm": 90.93,
+        "final": 1.5,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "Heat Trans",
+        "prelim": 97.03,
+        "midterm": 92.89,
+        "final": 87.59,
+        "grade": 2.0,
+        "units": 2
+      },
+      {
+        "name": "BOSH",
+        "prelim": 92.65,
+        "midterm": 93.93,
+        "final": 91.77,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Electronics",
+        "prelim": 91.8,
+        "midterm": 89.38,
+        "final": 2,
+        "grade": 2.0,
+        "units": 3
+      },
+      {
+        "name": "Comp App",
+        "prelim": 91.67,
+        "midterm": 96.55,
+        "final": 96.95,
+        "grade": 1.25,
+        "units": 1
+      }
+    ],
+    "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ]
+  },
+  "2nd Year": {
+    "sem1": [
+      {
+        "name": "Purp Com",
+        "prelim": 90.88,
+        "midterm": 92.06,
+        "final": 93.36,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "STS",
+        "prelim": 96.43,
+        "midterm": 93.75,
+        "final": 92.13,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "DM",
+        "prelim": 91.19,
+        "midterm": 88.43,
+        "final": 84.18,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "Statics",
+        "prelim": 91.63,
+        "midterm": 80.58,
+        "final": 90.2,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "DE",
+        "prelim": 90.29,
+        "midterm": 89.11,
+        "final": 90.36,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "EE",
+        "prelim": 78.39,
+        "midterm": 78.17,
+        "final": 86.28,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "Thermo",
+        "prelim": 74.72,
+        "midterm": 81.57,
+        "final": 83.81,
+        "grade": 2.5,
+        "units": 3
+      },
+      {
+        "name": "Wrkshp",
+        "prelim": 92.5,
+        "midterm": 87.49,
+        "final": 85.83,
+        "grade": 2.25,
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": 100,
+        "midterm": 93.66,
+        "final": 97.06,
+        "grade": 1.25,
+        "units": 2
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Dynamics",
+        "prelim": 92.8,
+        "midterm": 89.97,
+        "final": 94,
+        "grade": 1.5,
+        "units": 2
+      },
+      {
+        "name": "RPH",
+        "prelim": 88,
+        "midterm": 89.13,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Comp Prog",
+        "prelim": 99.14,
+        "midterm": 96.54,
+        "final": 93,
+        "grade": 1.5,
+        "units": 1
+      },
+      {
+        "name": "Adv Math",
+        "prelim": 97.42,
+        "midterm": 95.6,
+        "final": 89,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Multivar",
+        "prelim": 90.43,
+        "midterm": 94.69,
+        "final": 92,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "EDA",
+        "prelim": 84.65,
+        "midterm": 88.87,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "Machine",
+        "prelim": 97.19,
+        "midterm": 96.79,
+        "final": 96,
+        "grade": 1.25,
+        "units": 2
+      },
+      {
+        "name": "Econ",
+        "prelim": 86.79,
+        "midterm": 85.57,
+        "final": 85,
+        "grade": 2.25,
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": 98.75,
+        "midterm": 99.02,
+        "final": 99,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "Thermo 2",
+        "prelim": 92.57,
+        "midterm": 91.34,
+        "final": 90,
+        "grade": 1.75,
+        "units": 3
+      }
+    ]
+  },
+  "1st Year": {
+    "sem1": [
+      {
+        "name": "Chem",
+        "prelim": 95,
+        "midterm": 85,
+        "final": 84,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "UTS",
+        "prelim": 94,
+        "midterm": 93,
+        "final": 88,
+        "grade": 1.5,
+        "units": 3
+      },
+      {
+        "name": "MMW",
+        "prelim": 76,
+        "midterm": 79,
+        "final": 82,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "ME",
+        "prelim": 94,
+        "midterm": 90,
+        "final": 85,
+        "grade": 1.5,
+        "units": 1
+      },
+      {
+        "name": "Calc 1",
+        "prelim": 73,
+        "midterm": 80,
+        "final": 70,
+        "grade": 2.25,
+        "units": 4
+      },
+      {
+        "name": "Emath",
+        "prelim": 44,
+        "midterm": 69,
+        "final": 76,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Drawing",
+        "prelim": 52,
+        "midterm": 59,
+        "final": 73,
+        "grade": 2,
+        "units": 1
+      },
+      {
+        "name": "PE",
+        "prelim": 97,
+        "midterm": 92,
+        "final": 97,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": 98.5,
+        "midterm": 97.83,
+        "final": 97,
+        "grade": 1,
+        "units": 3
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Art App",
+        "prelim": "66.00",
+        "midterm": 54.33,
+        "final": 72,
+        "grade": 2,
+        "units": 3
+      },
+      {
+        "name": "Rizal",
+        "prelim": 86.88,
+        "midterm": 91.92,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "GEE",
+        "prelim": 96.88,
+        "midterm": 97.63,
+        "final": 94,
+        "grade": 1,
+        "units": 3
+      },
+      {
+        "name": "Linear",
+        "prelim": 86.22,
+        "midterm": 85.47,
+        "final": 89,
+        "grade": 1.25,
+        "units": 3
+      },
+      {
+        "name": "Calc Phys",
+        "prelim": 80.92,
+        "midterm": 72.36,
+        "final": 74,
+        "grade": 2,
+        "units": 4
+      },
+      {
+        "name": "Calc 2",
+        "prelim": 82.78,
+        "midterm": 82.84,
+        "final": 87,
+        "grade": 1.5,
+        "units": 4
+      },
+      {
+        "name": "CAD",
+        "prelim": "95.50",
+        "midterm": "95.50",
+        "final": 97,
+        "grade": 1,
+        "units": 1
+      },
+      {
+        "name": "Contemp",
+        "prelim": 80.23,
+        "midterm": 77.58,
+        "final": 78,
+        "grade": 1.75,
+        "units": 3
+      },
+      {
+        "name": "PE",
+        "prelim": "97.50",
+        "midterm": 98.37,
+        "final": 99,
+        "grade": 1,
+        "units": 2
+      },
+      {
+        "name": "NSTP",
+        "prelim": "92.00",
+        "midterm": 96.67,
+        "final": 99,
+        "grade": 1,
+        "units": 3
+      }
+    ]
+  }
+}

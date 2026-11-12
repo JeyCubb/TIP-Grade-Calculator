@@ -9482,73 +9482,73 @@
       {
         "name": "Deformable",
         "prelim": 90.08,
-        "midterm": "",
-        "final": "",
-        "grade": 90.08,
+        "midterm": 94.89,
+        "final": 94.85,
+        "grade": 1.50,
         "units": 3
       },
       {
         "name": "Flu Mech",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 96.67,
+        "midterm": 97.73,
+        "final": 96.88,
+        "grade": 1.25,
         "units": 3
       },
       {
         "name": "ACDC",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 86.87,
+        "midterm": 89.91,
+        "final": 1.75,
+        "grade": 1.75,
         "units": 3
       },
       {
         "name": "Mach Elem",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 79.69,
+        "midterm": 81.45,
+        "final": 2.25,
+        "grade": 2.25,
         "units": 3
       },
       {
         "name": "Ethics",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 94.25,
+        "midterm": 90.93,
+        "final": 1.5,
+        "grade": 1.50,
         "units": 3
       },
       {
         "name": "Heat Trans",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 97.03,
+        "midterm": 92.89,
+        "final": 87.59,
+        "grade": 2.00,
         "units": 2
       },
       {
         "name": "BOSH",
         "prelim": 92.65,
-        "midterm": "",
-        "final": "",
-        "grade": 92.65,
+        "midterm": 93.93,
+        "final": 91.77,
+        "grade": 1.75,
         "units": 3
       },
       {
         "name": "Electronics",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 91.8,
+        "midterm": 89.38,
+        "final": 2,
+        "grade": 2.00,
         "units": 3
       },
       {
         "name": "Comp App",
-        "prelim": "",
-        "midterm": "",
-        "final": "",
-        "grade": "",
+        "prelim": 91.67,
+        "midterm": 96.55,
+        "final": 96.95,
+        "grade": 1.25,
         "units": 1
       }
     ],
@@ -9928,11 +9928,11 @@
         saveSheetData();
       }
 
-      // If Jacob's 3rd Year sem1 local data contains contaminated/accidental finals from profile 10101010, restore true values
+      // Restore Jacob's authentic completed 3rd Year Sem 1 grades if local data is empty or missing finals
       if ((activeUser === 'JeyCub' || activeUser === 'Jacob') && userSheetData && userSheetData['3rd Year'] && Array.isArray(userSheetData['3rd Year'].sem1)) {
         const jey3 = userSheetData['3rd Year'].sem1;
-        const hasContaminatedFinals = jey3.some(s => s && s.name === 'Mach Elem' && (s.final === '2.25' || s.final === 2.25));
-        if (hasContaminatedFinals) {
+        const flu = jey3.find(s => s && s.name === 'Flu Mech');
+        if (!flu || !flu.final || flu.final === '') {
           userSheetData['3rd Year'].sem1 = JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM['3rd Year'].sem1));
           saveSheetData();
         }
