@@ -4447,7 +4447,8 @@
       html[data-active-view="sheet"] .year-tabs-wrapper {
         flex-shrink: 0 !important;
         margin-bottom: 0.2rem !important;
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        max-height: 80px !important;
+        transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, max-height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), margin 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
         will-change: transform, opacity;
       }
 
@@ -4474,7 +4475,7 @@
         max-width: min(1080px, 96vw) !important;
         border-radius: 12px !important;
         box-sizing: border-box !important;
-        transition: max-width 0.28s ease, padding 0.28s ease;
+        transition: padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
         /* NOTE: display is intentionally NOT set here — JS controls show/hide via style.display */
       }
 
@@ -4602,7 +4603,8 @@
         margin: 0 !important;
         padding: 0.15rem 0.35rem !important;
         box-sizing: border-box !important;
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        max-height: 60px !important;
+        transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, max-height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), margin 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
         will-change: transform, opacity;
       }
 
@@ -4612,15 +4614,16 @@
         margin-top: auto !important;
         padding: 0.28rem 0.65rem !important;
         box-sizing: border-box !important;
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease, max-height 0.28s ease, margin 0.28s ease, padding 0.28s ease !important;
+        max-height: 60px !important;
+        transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, max-height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), margin 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
         will-change: transform, opacity;
       }
 
       /* Auto-Hide Idle Chrome & Maximized Table Mode */
       body.view-sheet.sheet-idle-hide,
       html[data-active-view="sheet"].sheet-idle-hide {
-        padding-top: 0.25rem !important;
-        padding-bottom: 0.25rem !important;
+        padding-top: 0.35rem !important;
+        padding-bottom: 0.35rem !important;
       }
 
       body.view-sheet.sheet-idle-hide .app-container,
@@ -4654,8 +4657,8 @@
 
       body.view-sheet.sheet-idle-hide .semester-card,
       html[data-active-view="sheet"].sheet-idle-hide .semester-card {
-        max-width: min(1160px, 98vw) !important;
-        padding: 0.65rem 1.25rem !important;
+        max-width: min(1080px, 96vw) !important;
+        padding: 0.35rem 0.85rem !important;
       }
     }
 
@@ -8293,7 +8296,7 @@
     let isSheetZenEnabled = localStorage.getItem('tip_gc_sheet_zen_mode') !== '0';
     const sheetZenToggleBtn = document.getElementById('sheet-zen-toggle');
     let sheetIdleTimer = null;
-    const SHEET_IDLE_DELAY = 2200;
+    const SHEET_IDLE_DELAY = 2800;
 
     function isSheetViewActive() {
       return (
@@ -8352,10 +8355,22 @@
       });
     }
 
+    let lastMouseClientX = null;
+    let lastMouseClientY = null;
+
     window.addEventListener('mousemove', (e) => {
       if (e.clientY <= 60 || e.clientY >= window.innerHeight - 60) {
         showSheetChrome();
+        resetSheetIdleTimer(e);
+        return;
       }
+      if (lastMouseClientX !== null && lastMouseClientY !== null) {
+        const dx = e.clientX - lastMouseClientX;
+        const dy = e.clientY - lastMouseClientY;
+        if (dx * dx + dy * dy < 25) return; // ignore minor sensor jitter (< 5px)
+      }
+      lastMouseClientX = e.clientX;
+      lastMouseClientY = e.clientY;
       resetSheetIdleTimer(e);
     }, { passive: true });
 
