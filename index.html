@@ -3348,35 +3348,47 @@
     .btn-temp-mode {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      border-radius: var(--radius-sm);
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: var(--radius-full);
       border: 1px dashed var(--border-color);
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--bg-input);
       color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: var(--transition);
       user-select: none;
       -webkit-user-select: none;
-      white-space: nowrap;
-      height: 28px;
+      box-sizing: border-box;
+      flex-shrink: 0;
     }
 
     .btn-temp-mode:hover {
-      background: rgba(245, 158, 11, 0.12);
+      background: rgba(245, 158, 11, 0.14);
       border-color: #f59e0b;
       color: #fbbf24;
-      transform: translateY(-1px);
+      transform: scale(1.05);
     }
 
     .btn-temp-mode.is-active {
-      background: rgba(245, 158, 11, 0.2) !important;
+      background: rgba(245, 158, 11, 0.22) !important;
       border: 1.5px solid #f59e0b !important;
       color: #fbbf24 !important;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.45);
       animation: tempPulse 2.2s infinite ease-in-out;
+    }
+
+    [data-theme="light"] .btn-temp-mode {
+      background: var(--bg-input);
+      border-color: var(--border-color);
+      color: var(--text-muted);
+    }
+
+    [data-theme="light"] .btn-temp-mode:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: #d97706;
+      color: #d97706;
     }
 
     @keyframes tempPulse {
@@ -3427,9 +3439,9 @@
 
     @media (max-width: 600px) {
       .btn-temp-mode {
-        padding: 0.2rem 0.4rem;
-        font-size: 0.65rem;
+        width: 26px;
         height: 26px;
+        padding: 0;
       }
       .temp-mode-banner {
         font-size: 0.7rem;
@@ -6001,12 +6013,6 @@
         <div>
           <h1 class="brand-title"><span>JeyCub</span> Grade Calculator</h1>
         </div>
-        <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
-          </svg>
-          <span class="temp-mode-text">Temp Mode</span>
-        </button>
       </div>
 
       <!-- Schedule Toolbar Controls (Integrated into bottom bar on Schedule Creator view) -->
@@ -6082,6 +6088,12 @@
         <span class="save-indicator" id="save-indicator">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
         </span>
+
+        <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+          </svg>
+        </button>
 
         <button class="theme-toggle-btn" id="sheet-zen-toggle" title="Toggle Auto-Hide & Maximized View">
           <svg id="zen-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
