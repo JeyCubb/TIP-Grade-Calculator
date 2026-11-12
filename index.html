@@ -1063,8 +1063,8 @@
     }
 
     .cat-weight {
-      width: 32px;
-      min-width: 28px;
+      width: 48px;
+      min-width: 42px;
       padding: 0.12rem 0.2rem !important;
       text-align: center;
       font-size: 0.75rem !important;
@@ -2546,6 +2546,8 @@
 
       .cat-weight {
         font-size: 0.91rem !important;
+        width: 54px !important;
+        min-width: 48px !important;
         padding: 0.15rem 0.3rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
@@ -9327,6 +9329,14 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
+      // Restore Jacob's authentic completed 1st Year grades if local data is empty or missing
+      if ((activeUser === 'JeyCub' || activeUser === 'Jacob') && userSheetData) {
+        if (!userSheetData['1st Year'] || !Array.isArray(userSheetData['1st Year'].sem1) || userSheetData['1st Year'].sem1.length === 0) {
+          userSheetData['1st Year'] = JSON.parse(JSON.stringify(DEFAULT_JACOB_CURRICULUM['1st Year']));
+          saveSheetData();
+        }
+      }
+
       if (!userSheetData['4th Year']) {
         userSheetData['4th Year'] = {
           sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
@@ -9351,12 +9361,26 @@ html[data-active-view="calc"] #calc-view-container,
       syncToCloud('sheet', activeUser, userSheetData);
     }
 
-    function tipPercentToEquiv(pct) {
+    function tipPercentToEquiv(pct, yearKey = null) {
       if (isNaN(pct) || pct <= 0) return '--';
       if (pct <= 5.00) return pct.toFixed(2);
 
+      const yr = yearKey || activeSheetYear;
       const rPct = Math.round(pct * 100) / 100;
-      if (activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
+      if (yr === '1st Year') {
+        // 1st Year (Zero-base / 50% passing scale)
+        if (rPct >= 94.0) return '1.00';
+        if (rPct > 88.5) return '1.25';
+        if (rPct > 83.0) return '1.50';
+        if (rPct > 77.5) return '1.75';
+        if (rPct >= 72.0) return '2.00';
+        if (rPct >= 65.5) return '2.25';
+        if (rPct > 61.0) return '2.50';
+        if (rPct > 55.5) return '2.75';
+        if (rPct >= 50.0) return '3.00';
+        return '5.00';
+      } else {
+        // 2nd Year, 3rd Year, 4th Year (75% passing scale)
         if (rPct >= 99.0) return '1.00';
         if (rPct >= 96.0) return '1.25';
         if (rPct >= 93.0) return '1.50';
@@ -9367,22 +9391,10 @@ html[data-active-view="calc"] #calc-view-container,
         if (rPct >= 78.0) return '2.75';
         if (rPct >= 75.0) return '3.00';
         return '5.00';
-      } else {
-        // 1st Year (50% passing scale)
-        if (rPct >= 94.0) return '1.00';
-        if (rPct >= 88.5) return '1.25';
-        if (rPct >= 83.0) return '1.50';
-        if (rPct >= 77.5) return '1.75';
-        if (rPct >= 72.0) return '2.00';
-        if (rPct >= 65.5) return '2.25';
-        if (rPct >= 61.0) return '2.50';
-        if (rPct >= 55.5) return '2.75';
-        if (rPct >= 50.0) return '3.00';
-        return '5.00';
       }
     }
 
-    function computeRowGrade(row) {
+    function computeRowGrade(row, yearKey = null) {
       const manual_g = parseFloat(row.grade);
       // 1. MANUAL / RECORDED GRADE: If an explicit final equivalent (1.00 - 5.00) is stored directly, use it
       if (!isNaN(manual_g) && manual_g >= 1.00 && manual_g <= 5.00) {
@@ -9395,17 +9407,17 @@ html[data-active-view="calc"] #calc-view-container,
 
       // 2. FINALS: If Finals grade is encoded, compute official rating
       if (!isNaN(f)) {
-        return parseFloat(tipPercentToEquiv(f)) || f;
+        return parseFloat(tipPercentToEquiv(f, yearKey)) || f;
       }
 
       // 3. MIDTERMS: If Midterms grade is encoded (and no Finals), focus on Midterms and disregard Prelims
       if (!isNaN(m)) {
-        return parseFloat(tipPercentToEquiv(m)) || m;
+        return parseFloat(tipPercentToEquiv(m, yearKey)) || m;
       }
 
       // 4. PRELIMS: If Prelims grade is encoded (and no Midterms / Finals), use Prelims
       if (!isNaN(p)) {
-        return parseFloat(tipPercentToEquiv(p)) || p;
+        return parseFloat(tipPercentToEquiv(p, yearKey)) || p;
       }
 
       // 5. EMPTY: Disregard from GWA calculation
@@ -9445,11 +9457,11 @@ html[data-active-view="calc"] #calc-view-container,
       };
     }
 
-    // Official T.I.P. Registrar Standard: Truncate GWA to 2 decimal places (do not round up)
+    // Official standard: Round GWA to 2 decimal places to match Registrar & Excel
     function formatGwa(val) {
       if (isNaN(val) || val <= 0) return '--';
-      const truncated = Math.floor(val * 100 + 0.0000001) / 100;
-      return truncated.toFixed(2);
+      const rounded = Math.round(val * 100) / 100;
+      return rounded.toFixed(2);
     }
 
     function updateTotalGwaDisplay() {
@@ -9486,12 +9498,15 @@ html[data-active-view="calc"] #calc-view-container,
         let weightedSum = 0;
         let validCount = 0;
         semRows.forEach(r => {
-          const g = computeRowGrade(r);
+          const isNstp = r.name && r.name.trim().toUpperCase() === 'NSTP';
+          const g = computeRowGrade(r, yearKey);
           const u = parseFloat(r.units) || (yearKey === 'SHS' ? 1 : 0);
           if (!isNaN(g) && (yearKey === 'SHS' || u > 0)) {
-            weightedSum += g * (yearKey === 'SHS' ? 1 : u);
-            gradedUnits += u;
-            validCount++;
+            if (!isNstp) {
+              weightedSum += g * (yearKey === 'SHS' ? 1 : u);
+              gradedUnits += u;
+              validCount++;
+            }
           }
         });
         if (yearKey === 'SHS') {
@@ -9503,7 +9518,11 @@ html[data-active-view="calc"] #calc-view-container,
       const gwa1 = getSemGwa(data.sem1);
       const gwa2 = getSemGwa(data.sem2);
 
-      if (gwa1 > 0 && gwa2 > 0) return (gwa1 + gwa2) / 2;
+      if (gwa1 > 0 && gwa2 > 0) {
+        const r1 = Math.round(gwa1 * 100) / 100;
+        const r2 = Math.round(gwa2 * 100) / 100;
+        return (r1 + r2) / 2;
+      }
       if (gwa1 > 0) return gwa1;
       if (gwa2 > 0) return gwa2;
       return 0;
@@ -9638,16 +9657,19 @@ html[data-active-view="calc"] #calc-view-container,
 
       rows.forEach((r, idx) => {
         const tr = document.createElement('tr');
-        const computedGrade = computeRowGrade(r);
+        const computedGrade = computeRowGrade(r, activeSheetYear);
         const units = parseFloat(r.units) || 0;
-        totalUnits += units;
+        const isNstp = r.name && r.name.trim().toUpperCase() === 'NSTP';
+        if (!isNstp) {
+          totalUnits += units;
+        }
 
         let gradeBadge = '<span class="sheet-grade-cell">--</span>';
         if (!isNaN(computedGrade)) {
           const isPass = computedGrade <= 3.00;
           const displayText = computedGrade.toFixed(2);
           gradeBadge = `<span class="sheet-grade-cell ${isPass ? 'pass' : 'fail'}">${displayText}</span>`;
-          if (units > 0) {
+          if (units > 0 && !isNstp) {
             weightedSum += computedGrade * units;
             gradedUnits += units;
             validGradesCount++;
@@ -9691,7 +9713,9 @@ html[data-active-view="calc"] #calc-view-container,
 
       let annualGwa = 0;
       if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
-        annualGwa = (sem1Stats.gwa + sem2Stats.gwa) / 2;
+        const r1 = Math.round(sem1Stats.gwa * 100) / 100;
+        const r2 = Math.round(sem2Stats.gwa * 100) / 100;
+        annualGwa = (r1 + r2) / 2;
       } else if (sem1Stats.gwa > 0) {
         annualGwa = sem1Stats.gwa;
       } else if (sem2Stats.gwa > 0) {
