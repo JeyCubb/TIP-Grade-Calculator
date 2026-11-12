@@ -969,7 +969,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 0.5rem;
+      gap: 0.45rem;
     }
 
     .target-label {
@@ -977,6 +977,42 @@
       font-size: 0.825rem;
       color: var(--text-primary);
       white-space: nowrap;
+    }
+
+    .btn-compute-inline {
+      flex: 0 0 auto !important;
+      padding: 0.28rem 0.65rem !important;
+      font-size: 0.78rem !important;
+      font-weight: 700 !important;
+      white-space: nowrap !important;
+      border-radius: var(--radius-sm) !important;
+      box-shadow: 0 2px 8px var(--accent-glow) !important;
+      cursor: pointer;
+    }
+
+    .min-exam-banner {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      padding: 0.45rem 0.85rem !important;
+      border-radius: var(--radius-sm) !important;
+      background: var(--accent-primary) !important;
+      color: #ffffff !important;
+      font-weight: 800 !important;
+      font-size: 0.88rem !important;
+      text-align: center !important;
+      box-shadow: 0 4px 14px var(--accent-glow) !important;
+      display: none;
+      margin-top: 0.2rem !important;
+      letter-spacing: 0.02em !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .min-exam-banner:not(:empty) {
+      display: block !important;
+    }
+
+    [data-theme="light"] .min-exam-banner {
+      color: #ffffff !important;
     }
 
     #categories {
@@ -3844,8 +3880,9 @@
       html[data-active-view="calc"] .target-select-wrapper,
       body.view-calc .target-select-wrapper,
       body:not(.view-sheet) .target-select-wrapper {
-        flex: 1 !important;
-        max-width: 170px !important;
+        flex: 1 1 auto !important;
+        max-width: 140px !important;
+        min-width: 65px !important;
       }
 
       html[data-active-view="calc"] .target-select-display,
@@ -4643,7 +4680,7 @@ html[data-active-view="calc"] #calc-view-container,
 
         <div class="hr"></div>
 
-        <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.35rem;">
           <div class="target-row">
             <span class="target-label">Target Grade</span>
             <div class="target-select-wrapper" id="target-select-wrapper">
@@ -4701,10 +4738,11 @@ html[data-active-view="calc"] #calc-view-container,
                 <option value="1.00">1.00</option>
               </select>
             </div>
+            <button id="compute" class="btn btn-primary btn-compute-inline" title="Compute Minimum Exam Score Needed">
+              Compute Minimum
+            </button>
           </div>
-          <button id="compute" class="btn btn-primary" style="width: 100%; padding: 0.35rem 0.75rem; font-size: 0.8rem;">
-            Compute Minimum
-          </button>
+          <div id="summary" class="min-exam-banner"></div>
         </div>
 
         <div class="hr"></div>
@@ -4763,8 +4801,6 @@ html[data-active-view="calc"] #calc-view-container,
             </div>
             <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
           </div>
-          
-          <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
         </div>
       </section>
 
