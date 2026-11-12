@@ -852,11 +852,11 @@
       margin-bottom: 0.35rem;
     }
 
-    #card-cs-section {
+    #card-exam-section {
       order: 1;
     }
 
-    #card-exam-section {
+    #card-cs-section {
       order: 2;
     }
 
@@ -3690,6 +3690,7 @@
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
+        order: 1 !important;
         height: 100% !important;
         min-height: 380px !important;
         max-height: 100% !important;
@@ -3716,6 +3717,7 @@
       body.view-calc #card-exam-section,
       body[data-view="calc"] #card-exam-section,
       body:not(.view-sheet) #card-exam-section {
+        order: 2 !important;
         height: 100% !important;
         min-height: 380px !important;
         max-height: 100% !important;
@@ -4638,23 +4640,7 @@ html[data-active-view="calc"] #calc-view-container,
     
     <!-- 1. Grade Calculator Cards (Order 1 - Absolute Top) -->
     <div class="main-grid">
-      <!-- Class Standing Card (Column 1) -->
-      <section class="card" id="card-cs-section" style="display: flex; flex-direction: column; height: 100%;">
-        <div class="card-header">
-          <div class="card-title">
-            <span>Class Standing</span>
-          </div>
-        </div>
-        <div id="categories"></div>
-        <div style="padding-top: 0.35rem; align-self: flex-start;">
-          <button id="add-category" class="btn btn-sm btn-add-action">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            Add Category
-          </button>
-        </div>
-      </section>
-
-      <!-- Exam & Target Solver Card (Column 2) -->
+      <!-- Exam & Target Solver Card (Column 1 on Mobile, Column 2 on Desktop) -->
       <section class="card" id="card-exam-section" style="display: flex; flex-direction: column; height: 100%;">
         <div class="card-header exam-desktop-header">
           <div class="card-title">
@@ -4790,6 +4776,22 @@ html[data-active-view="calc"] #calc-view-container,
               <span id="prev-error" class="warn"></span>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- Class Standing Card (Column 2 on Mobile, Column 1 on Desktop) -->
+      <section class="card" id="card-cs-section" style="display: flex; flex-direction: column; height: 100%;">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Class Standing</span>
+          </div>
+        </div>
+        <div id="categories"></div>
+        <div style="padding-top: 0.35rem; align-self: flex-start;">
+          <button id="add-category" class="btn btn-sm btn-add-action">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Add Category
+          </button>
         </div>
       </section>
     </div>
