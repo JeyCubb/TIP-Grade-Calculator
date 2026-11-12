@@ -323,17 +323,16 @@
       display: inline-flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 0.35rem;
+      gap: 0.45rem;
       flex-wrap: nowrap;
     }
 
     .header-actions-group {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.28rem;
       flex-shrink: 0;
       flex-wrap: nowrap;
-      margin-left: auto;
     }
 
     .header-actions-group .btn-profile-lock,
@@ -355,6 +354,43 @@
       box-sizing: border-box !important;
       flex-shrink: 0 !important;
       transition: var(--transition) !important;
+      background: var(--bg-input) !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-primary) !important;
+    }
+
+    .header-actions-group .btn-profile-lock svg,
+    .header-actions-group .scheme-dropdown-summary svg,
+    .header-actions-group .btn-temp-mode svg,
+    .header-actions-group .theme-toggle-btn svg {
+      stroke: currentColor !important;
+      color: inherit !important;
+    }
+
+    .header-actions-group .btn-profile-lock:hover,
+    .header-actions-group .scheme-dropdown-summary:hover,
+    .header-actions-group .btn-temp-mode:hover,
+    .header-actions-group .theme-toggle-btn:hover {
+      color: var(--accent-primary) !important;
+      border-color: var(--border-color-hover) !important;
+      background: var(--bg-card-hover) !important;
+      transform: scale(1.05);
+    }
+
+    .header-actions-group .btn-profile-lock.is-locked {
+      background: rgba(239, 68, 68, 0.2) !important;
+      border-color: #ef4444 !important;
+      color: #ef4444 !important;
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
+    }
+
+    .header-actions-group .theme-toggle-btn#sheet-zen-toggle.active,
+    .header-actions-group .btn-temp-mode.is-active,
+    .header-actions-group .scheme-dropdown-container[open] .scheme-dropdown-summary {
+      background: rgba(249, 115, 22, 0.22) !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--accent-primary) !important;
+      box-shadow: 0 0 8px rgba(249, 115, 22, 0.4) !important;
     }
 
     .brand-icon {
@@ -5733,10 +5769,11 @@
         order: 2 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.3rem !important;
+        gap: 0.35rem !important;
         flex-shrink: 0 !important;
         flex-wrap: nowrap !important;
         margin-left: auto !important;
+        justify-content: flex-end !important;
       }
 
       .header-actions-group {
@@ -6308,20 +6345,6 @@
 
       <!-- User Profile & Grading Scheme Bar -->
       <div class="header-profile-group">
-        <!-- User Profile Selector -->
-        <div class="user-profile-bar" title="Active User Profile">
-          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span id="active-profile-label">No Profile</span>
-            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-        </div>
-
-        <span class="save-indicator" id="save-indicator">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>
-
         <!-- 5 Action Buttons Aligned on the Right -->
         <div class="header-actions-group">
           <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
@@ -6387,6 +6410,20 @@
               <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
             </svg>
           </button>
+        </div>
+
+        <span class="save-indicator" id="save-indicator">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+
+        <!-- User Profile Selector (At the Most Right) -->
+        <div class="user-profile-bar" title="Active User Profile">
+          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="active-profile-label">No Profile</span>
+            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
         </div>
       </div>
     </header>
