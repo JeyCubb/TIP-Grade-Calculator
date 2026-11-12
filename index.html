@@ -2139,29 +2139,29 @@
 
     .scheme-dropdown-container {
       position: relative;
-      background: var(--bg-input);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-full);
-      padding: 0;
-      transition: var(--transition);
-    }
-
-    .scheme-dropdown-container[open] {
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px var(--accent-glow);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
     }
 
     .scheme-dropdown-summary {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-color);
+      background: var(--bg-input);
+      color: var(--text-primary);
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
-      padding: 0.3rem 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-      color: var(--accent-primary);
+      justify-content: center;
       cursor: pointer;
+      transition: var(--transition);
       user-select: none;
       list-style: none;
+      box-sizing: border-box;
+      flex-shrink: 0;
     }
 
     .scheme-dropdown-summary::-webkit-details-marker {
@@ -2169,13 +2169,42 @@
     }
 
     .scheme-dropdown-summary:hover {
-      color: var(--accent-primary-hover);
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
+      color: var(--accent-primary);
+      transform: scale(1.05);
+    }
+
+    .scheme-dropdown-container[open] .scheme-dropdown-summary {
+      background: rgba(249, 115, 22, 0.22) !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--accent-primary) !important;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.45) !important;
+    }
+
+    [data-theme="light"] .scheme-dropdown-summary {
+      background: var(--bg-input);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
+
+    [data-theme="light"] .scheme-dropdown-summary:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-color-hover);
+      color: var(--accent-primary);
+    }
+
+    [data-theme="light"] .scheme-dropdown-container[open] .scheme-dropdown-summary {
+      background: rgba(249, 115, 22, 0.15) !important;
+      border-color: var(--accent-primary) !important;
+      color: var(--accent-primary) !important;
     }
 
     .scheme-dropdown-content {
       position: absolute;
       bottom: calc(100% + 8px);
-      left: 0;
+      right: 0;
+      left: auto;
       width: max-content;
       min-width: 320px;
       max-width: calc(100vw - 2rem);
@@ -2492,8 +2521,9 @@
       }
 
       .scheme-dropdown-summary {
-        font-size: 1.15rem;
-        padding: 0.42rem 1.0rem;
+        width: 30px !important;
+        height: 30px !important;
+        padding: 0 !important;
       }
 
       .scheme-dropdown-content {
@@ -3438,7 +3468,8 @@
     }
 
     @media (max-width: 600px) {
-      .btn-temp-mode {
+      .btn-temp-mode,
+      .scheme-dropdown-summary {
         width: 26px;
         height: 26px;
         padding: 0;
@@ -6112,12 +6143,37 @@
 
       <!-- User Profile & Grading Scheme Bar -->
       <div class="header-profile-group" style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
-        <!-- TIP Grading Scheme Dropdown (Visible only in GWA Sheet View) -->
+        <!-- User Profile Selector -->
+        <div class="user-profile-bar" title="Active User Profile">
+          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span id="active-profile-label">No Profile</span>
+            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
+          <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
+            <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Unlocked state by default -->
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+            </svg>
+          </button>
+        </div>
+
+        <span class="save-indicator" id="save-indicator">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </span>
+
+        <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
         <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
-          <summary class="scheme-dropdown-summary" title="Click to view 75-base grading scale">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            <span>Grading Scale</span>
-            <span style="font-size: 0.65rem; opacity: 0.8;">▾</span>
+          <summary class="scheme-dropdown-summary" title="TIP 75-Base Grading Scale" aria-label="Toggle TIP Grading Scale">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
           </summary>
           <div class="scheme-dropdown-content">
             <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
@@ -6142,27 +6198,6 @@
             </table>
           </div>
         </details>
-
-        <!-- User Profile Selector -->
-        <div class="user-profile-bar" title="Active User Profile">
-          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span id="active-profile-label">No Profile</span>
-            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-          <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock">
-            <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Unlocked state by default -->
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
-            </svg>
-          </button>
-        </div>
-
-        <span class="save-indicator" id="save-indicator">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        </span>
 
         <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
