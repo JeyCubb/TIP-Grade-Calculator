@@ -1577,20 +1577,49 @@
       }
 
       .year-tabs-wrapper {
-        gap: 0.35rem;
-        margin-bottom: 0.25rem;
-        flex-wrap: nowrap;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.35rem !important;
+        margin-bottom: 0.3rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       .year-tabs-bar {
-        gap: 0.25rem;
-        min-width: 0;
-        flex: 1 1 auto;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        padding: 2px 4px !important;
+        box-sizing: border-box !important;
+        flex: 0 0 auto !important;
+      }
+
+      .year-tabs-bar::-webkit-scrollbar {
+        display: none !important;
       }
 
       .year-tab-btn {
-        padding: 0.22rem 0.5rem;
-        font-size: 0.6rem;
+        padding: 0.22rem 0.5rem !important;
+        font-size: 0.64rem !important;
+        border-radius: var(--radius-full) !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+
+      .year-tab-btn span {
+        font-size: 0.64rem !important;
+      }
+
+      .year-tab-gwa .gwa-label-text {
+        display: none !important;
       }
 
       .total-gwa-pill {
@@ -1608,9 +1637,13 @@
       }
 
       .sem-switcher-bar {
-        padding: 0.15rem;
-        gap: 0.2rem;
-        flex: 0 0 auto;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+        padding: 0.15rem !important;
+        gap: 0.2rem !important;
+        flex: 0 0 auto !important;
       }
 
       .sem-select-dropdown {
@@ -1627,8 +1660,9 @@
       }
 
       .sem-switch-btn {
-        padding: 0.2rem 0.45rem;
-        font-size: 0.58rem;
+        padding: 0.22rem 0.65rem !important;
+        font-size: 0.65rem !important;
+        white-space: nowrap !important;
       }
 
       .semester-card {
@@ -4417,6 +4451,68 @@
         font-size: 0.78rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+      }
+
+      body.view-sheet .year-tabs-wrapper,
+      html[data-active-view="sheet"] .year-tabs-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.35rem !important;
+        margin-bottom: 0.3rem !important;
+        width: 100% !important;
+        max-height: none !important;
+      }
+
+      body.view-sheet .year-tabs-bar,
+      html[data-active-view="sheet"] .year-tabs-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.25rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        flex: 0 0 auto !important;
+      }
+
+      body.view-sheet .year-tab-btn,
+      html[data-active-view="sheet"] .year-tab-btn {
+        padding: 0.22rem 0.5rem !important;
+        font-size: 0.64rem !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+
+      body.view-sheet .year-tab-btn span,
+      html[data-active-view="sheet"] .year-tab-btn span {
+        font-size: 0.64rem !important;
+      }
+
+      body.view-sheet .year-tab-gwa .gwa-label-text,
+      html[data-active-view="sheet"] .year-tab-gwa .gwa-label-text {
+        display: none !important;
+      }
+
+      body.view-sheet .sem-switcher-bar,
+      html[data-active-view="sheet"] .sem-switcher-bar {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 auto !important;
+        padding: 0.15rem !important;
+        gap: 0.2rem !important;
+        flex: 0 0 auto !important;
+      }
+
+      body.view-sheet .sem-switch-btn,
+      html[data-active-view="sheet"] .sem-switch-btn {
+        padding: 0.22rem 0.65rem !important;
+        font-size: 0.65rem !important;
+        white-space: nowrap !important;
       }
     }
 
@@ -9324,9 +9420,9 @@ html[data-active-view="calc"] #calc-view-container,
 
         const yGwa = isActive ? (currentAnnualGwa || calculateYearGwa(yearKey)) : calculateYearGwa(yearKey);
         if (yGwa > 0) {
-          btn.innerHTML = `<span>${yearKey}</span><span style="font-weight: ${isActive ? '600' : '500'}; opacity: ${isActive ? '0.95' : '0.8'}; font-size: 0.775rem;"> • GWA: <strong>${formatGwa(yGwa)}</strong></span>`;
+          btn.innerHTML = `<span>${yearKey}</span><span class="year-tab-gwa" style="font-weight: ${isActive ? '600' : '500'}; opacity: ${isActive ? '0.95' : '0.8'}; font-size: 0.775rem;"> • <span class="gwa-label-text">GWA: </span><strong>${formatGwa(yGwa)}</strong></span>`;
         } else {
-          btn.innerHTML = `<span>${yearKey}</span>${isActive ? '<span style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;"> • GWA: --</span>' : ''}`;
+          btn.innerHTML = `<span>${yearKey}</span>${isActive ? '<span class="year-tab-gwa" style="font-weight: 500; opacity: 0.65; font-size: 0.775rem;"> • <span class="gwa-label-text">GWA: </span>--</span>' : ''}`;
         }
 
         btn.title = `Switch Year Level (Ctrl + ← / →)`;
