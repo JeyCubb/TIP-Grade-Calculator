@@ -564,17 +564,110 @@
       margin-bottom: 0.35rem;
     }
 
-    .mode-select-wrapper {
-      display: flex;
+    /* Disguised Weights & Mode Popover */
+    .weights-wrapper {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 0.25rem;
+    }
+
+    .weights-row {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      flex-wrap: nowrap;
-      margin-top: 0.55rem;
-      padding-top: 0.55rem;
-      border-top: 1px solid var(--border-color);
-      width: 100%;
-      box-sizing: border-box;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: color 0.2s ease, background-color 0.2s ease;
+      padding: 0.12rem 0.35rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .weights-row:hover {
+      color: var(--accent-primary);
+      background: rgba(249, 115, 22, 0.08);
+    }
+
+    .weights-dropdown-arrow {
+      display: inline-block;
+      font-size: 0.62rem;
+      opacity: 0.6;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .weights-row:hover .weights-dropdown-arrow {
+      opacity: 1;
+      transform: translateY(1px);
+    }
+
+    .weights-mode-popover {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      z-index: 100;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55);
+      padding: 0.3rem;
+      animation: popoverFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popoverFadeIn {
+      0% { opacity: 0; transform: translateY(-4px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Disguised Previous Average in Stats Rows */
+    .disguised-prev-input-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 1px;
+      cursor: text;
+    }
+
+    .disguised-prev-input-wrap input {
+      background: transparent !important;
+      border: 1px dashed transparent !important;
+      color: var(--text-primary) !important;
+      font-family: inherit !important;
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      text-align: right !important;
+      padding: 0 2px !important;
+      width: 46px !important;
+      height: 20px !important;
+      outline: none !important;
+      transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+      border-radius: 4px !important;
+      -moz-appearance: textfield;
+    }
+
+    .disguised-prev-input-wrap input::-webkit-outer-spin-button,
+    .disguised-prev-input-wrap input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    .disguised-prev-input-wrap input:hover {
+      border-color: rgba(249, 115, 22, 0.45) !important;
+      background: rgba(249, 115, 22, 0.08) !important;
+    }
+
+    .disguised-prev-input-wrap input:focus {
+      border: 1px solid var(--accent-primary) !important;
+      background: var(--bg-input) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
+    }
+
+    .disguised-prev-percent {
+      font-size: 0.85rem !important;
+      font-weight: 700 !important;
+      color: var(--text-primary) !important;
     }
 
     .segmented-control {
@@ -3851,22 +3944,6 @@
         white-space: nowrap !important;
       }
 
-      html[data-active-view="calc"] .mode-select-wrapper,
-      body.view-calc .mode-select-wrapper,
-      body:not(.view-sheet) .mode-select-wrapper {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 0.45rem !important;
-        margin-top: 0.25rem !important;
-        padding-top: 0.25rem !important;
-        border-top: 1px solid var(--border-color) !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
-      }
-
       html[data-active-view="calc"] .segmented-control,
       body.view-calc .segmented-control,
       body:not(.view-sheet) .segmented-control {
@@ -3881,32 +3958,6 @@
       body:not(.view-sheet) .segmented-label {
         font-size: 0.78rem !important;
         padding: 0.2rem 0.55rem !important;
-      }
-
-      html[data-active-view="calc"] .prev-term-row,
-      body.view-calc .prev-term-row,
-      body:not(.view-sheet) .prev-term-row {
-        display: inline-flex !important;
-        align-items: center !important;
-        padding: 0.18rem 0.55rem !important;
-        gap: 0.35rem !important;
-        border-radius: var(--radius-full) !important;
-      }
-
-      html[data-active-view="calc"] .prev-term-row span,
-      body.view-calc .prev-term-row span,
-      body:not(.view-sheet) .prev-term-row span {
-        font-size: 0.78rem !important;
-        white-space: nowrap !important;
-      }
-
-      html[data-active-view="calc"] .prev-term-row input,
-      body.view-calc .prev-term-row input,
-      body:not(.view-sheet) .prev-term-row input {
-        width: 48px !important;
-        font-size: 0.8rem !important;
-        padding: 0.12rem 0.3rem !important;
-        height: 22px !important;
       }
 
       html[data-active-view="calc"] .app-header,
@@ -4451,70 +4502,6 @@
         flex-shrink: 0 !important;
       }
 
-      body.view-calc .mode-select-wrapper,
-      html[data-active-view="calc"] .mode-select-wrapper {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: center !important;
-        flex-wrap: nowrap !important;
-        gap: 0.35rem !important;
-        margin-top: 0.35rem !important;
-        padding-top: 0.35rem !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-      }
-
-      body.view-calc .segmented-control,
-      html[data-active-view="calc"] .segmented-control {
-        display: inline-flex !important;
-        align-items: center !important;
-        width: auto !important;
-        max-width: 100% !important;
-        justify-content: center !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
-        padding: 2px !important;
-        gap: 2px !important;
-      }
-
-      body.view-calc .segmented-label,
-      html[data-active-view="calc"] .segmented-label {
-        padding: 0.18rem 0.42rem !important;
-        font-size: 0.70rem !important;
-        white-space: nowrap !important;
-        line-height: 1.2 !important;
-      }
-
-      body.view-calc .prev-term-row,
-      html[data-active-view="calc"] .prev-term-row {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0.16rem 0.45rem !important;
-        gap: 0.28rem !important;
-        border-radius: var(--radius-full) !important;
-        box-sizing: border-box !important;
-        flex-shrink: 0 !important;
-        white-space: nowrap !important;
-      }
-
-      body.view-calc .prev-term-row span,
-      html[data-active-view="calc"] .prev-term-row span {
-        font-size: 0.70rem !important;
-        white-space: nowrap !important;
-        line-height: 1.2 !important;
-      }
-
-      body.view-calc .prev-term-row input,
-      html[data-active-view="calc"] .prev-term-row input {
-        width: 42px !important;
-        height: 22px !important;
-        padding: 0.1rem 0.25rem !important;
-        font-size: 0.75rem !important;
-        text-align: center !important;
-        box-sizing: border-box !important;
-      }
 
       body.view-sheet .year-tabs-wrapper,
       html[data-active-view="sheet"] .year-tabs-wrapper {
@@ -4734,37 +4721,18 @@ html[data-active-view="calc"] #calc-view-container,
 
         <div class="hr"></div>
 
-        <div class="weights-row" style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 0.25rem; font-size: 0.7rem; font-weight: 700; color: var(--text-muted);">
-          <span>Weights:</span>
-          <span><span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span></span>
-          <span><span id="mix-exam">Exam 50%</span><span id="mix-exam-comma" style="display: none;">,</span></span>
-          <span id="mix-prev" style="display: none;">Prev 33.3%</span>
-        </div>
-
-        <!-- Clean Results Dashboard -->
-        <div class="result-dashboard">
-          <div class="stat-row">
-            <span>Class Standing:</span>
-            <strong id="res-cs">0.00%</strong>
-          </div>
-          <div class="stat-row">
-            <span>Exam Average:</span>
-            <strong id="res-exam">0.00%</strong>
+        <div class="weights-wrapper" style="position: relative; display: inline-block;">
+          <div class="weights-row" id="weights-toggle-btn" title="Click to change Term Mode (Prelims / Midterms / Finals)">
+            <span class="weights-title">Weights:</span>
+            <span><span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span></span>
+            <span><span id="mix-exam">Exam 50%</span><span id="mix-exam-comma" style="display: none;">,</span></span>
+            <span id="mix-prev" style="display: none;">Prev 33.3%</span>
+            <span class="weights-dropdown-arrow">▾</span>
           </div>
 
-          <div class="final-grade-card">
-            <div class="final-grade-title-group" style="display: flex; align-items: baseline; gap: 0.4rem;">
-              <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
-              <div class="final-val" id="res-final">0.00%</div>
-            </div>
-            <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
-          </div>
-          
-          <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
-
-          <!-- Relocated Mode Selection inside Results Card -->
-          <div class="mode-select-wrapper">
-            <div class="segmented-control">
+          <!-- Disguised Mode Popover (Appears when clicking Weights) -->
+          <div class="weights-mode-popover" id="weights-mode-popover" style="display: none;">
+            <div class="segmented-control" style="width: auto;">
               <div class="segmented-option">
                 <input type="radio" name="mode" id="mode-prelim" value="prelim" />
                 <label for="mode-prelim" class="segmented-label">
@@ -4778,13 +4746,37 @@ html[data-active-view="calc"] #calc-view-container,
                 </label>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div class="prev-term-row" id="prev-grade-row" style="display: none;">
-              <span style="font-weight: 700; color: var(--text-secondary); white-space: nowrap;">Prev Avg %</span>
+        <!-- Clean Results Dashboard -->
+        <div class="result-dashboard">
+          <div class="stat-row">
+            <span>Class Standing:</span>
+            <strong id="res-cs">0.00%</strong>
+          </div>
+          <div class="stat-row">
+            <span>Exam Average:</span>
+            <strong id="res-exam">0.00%</strong>
+          </div>
+          <div class="stat-row" id="prev-grade-row" style="display: none;">
+            <span>Prev Average:</span>
+            <div class="disguised-prev-input-wrap" title="Click to edit Previous Term Average">
               <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
-              <span id="prev-error" class="warn"></span>
+              <span class="disguised-prev-percent">%</span>
+              <span id="prev-error" class="warn" style="display: none;"></span>
             </div>
           </div>
+
+          <div class="final-grade-card">
+            <div class="final-grade-title-group" style="display: flex; align-items: baseline; gap: 0.4rem;">
+              <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
+              <div class="final-val" id="res-final">0.00%</div>
+            </div>
+            <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
+          </div>
+          
+          <div id="summary" style="font-size: 0.75rem; color: var(--text-secondary); white-space: pre-line; margin-top: 0.15rem;"></div>
         </div>
       </section>
 
@@ -7333,7 +7325,7 @@ html[data-active-view="calc"] #calc-view-container,
         CS_WEIGHT = 1 / 3;
         EXAM_WEIGHT = 1 / 3;
         PREV_WEIGHT = 1 / 3;
-        prevGradeRowEl.style.display = 'inline-flex';
+        prevGradeRowEl.style.display = 'flex';
         mixPrevEl.style.display = 'inline';
         if (mixExamCommaEl) mixExamCommaEl.style.display = 'inline';
 
@@ -7916,6 +7908,31 @@ html[data-active-view="calc"] #calc-view-container,
         if (targetSelectWrapperEl && !targetSelectWrapperEl.contains(e.target)) {
           targetSelectOptionsEl.classList.remove('show');
           targetSelectDisplayEl.classList.remove('open');
+        }
+      });
+    }
+
+    // Disguised Weights & Mode Popover Toggle
+    const weightsToggleBtn = document.getElementById('weights-toggle-btn');
+    const weightsModePopover = document.getElementById('weights-mode-popover');
+
+    if (weightsToggleBtn && weightsModePopover) {
+      weightsToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isHidden = weightsModePopover.style.display === 'none';
+        weightsModePopover.style.display = isHidden ? 'block' : 'none';
+      });
+
+      document.getElementById('mode-prelim').addEventListener('click', () => {
+        setTimeout(() => { if (weightsModePopover) weightsModePopover.style.display = 'none'; }, 160);
+      });
+      document.getElementById('mode-term').addEventListener('click', () => {
+        setTimeout(() => { if (weightsModePopover) weightsModePopover.style.display = 'none'; }, 160);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('#weights-toggle-btn') && !e.target.closest('#weights-mode-popover')) {
+          if (weightsModePopover) weightsModePopover.style.display = 'none';
         }
       });
     }
