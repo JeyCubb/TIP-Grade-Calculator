@@ -5025,6 +5025,152 @@
       box-shadow: 0 0 12px var(--accent-glow) !important;
     }
 
+    /* ==========================================================================
+       TABLET & IPAD PORTRAIT: Single-Column Stacked Layout
+       - Roomy Exam Card on Top (Zero clipping on Compute Minimum or Final Grade)
+       - Class Standing Card Below (Content-hugging height, extends into vertical space)
+       ========================================================================== */
+    @media (max-width: 1024px) and (orientation: portrait) {
+      html[data-active-view="calc"] .main-grid,
+      body.view-calc .main-grid,
+      body[data-view="calc"] .main-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        grid-template-columns: none !important;
+        grid-template-rows: none !important;
+        gap: 0.55rem !important;
+        align-items: stretch !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 1. Exam & Target Solver Card on Top: Full width, zero clipping */
+      html[data-active-view="calc"] #card-exam-section,
+      body.view-calc #card-exam-section,
+      body[data-view="calc"] #card-exam-section,
+      body:not(.view-sheet) #card-exam-section {
+        order: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-shrink: 0 !important;
+        flex-grow: 0 !important;
+        height: auto !important;
+        height: fit-content !important;
+        max-height: fit-content !important;
+        min-height: 0 !important;
+        align-self: stretch !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+        padding: 0.65rem 0.85rem !important;
+      }
+
+      /* Generous Target Row with no horizontal clipping */
+      html[data-active-view="calc"] .target-row,
+      body.view-calc .target-row,
+      body:not(.view-sheet) .target-row {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+      }
+
+      html[data-active-view="calc"] .target-label,
+      body.view-calc .target-label,
+      body:not(.view-sheet) .target-label {
+        font-size: 0.88rem !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+      }
+
+      html[data-active-view="calc"] .target-select-wrapper,
+      body.view-calc .target-select-wrapper,
+      body:not(.view-sheet) .target-select-wrapper {
+        flex: 0 1 auto !important;
+        min-width: 80px !important;
+        max-width: 140px !important;
+      }
+
+      html[data-active-view="calc"] #compute,
+      body.view-calc #compute,
+      body:not(.view-sheet) #compute {
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        font-size: 0.85rem !important;
+        padding: 0.28rem 0.85rem !important;
+        margin-top: 0 !important;
+      }
+
+      /* Symmetrical Final Grade Card */
+      html[data-active-view="calc"] .final-grade-card,
+      body.view-calc .final-grade-card,
+      body:not(.view-sheet) .final-grade-card {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 2. Class Standing Card: Tight to content when few categories, extends down as categories are added */
+      html[data-active-view="calc"] #card-cs-section,
+      body.view-calc #card-cs-section,
+      body[data-view="calc"] #card-cs-section {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 0 1 auto !important;
+        min-height: 0 !important;
+        height: auto !important;
+        height: fit-content !important;
+        max-height: 100% !important;
+        align-self: stretch !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
+      }
+
+      html[data-active-view="calc"] #card-cs-section .card-header,
+      body.view-calc #card-cs-section .card-header {
+        flex-shrink: 0 !important;
+        position: static !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      html[data-active-view="calc"] #categories,
+      body.view-calc #categories,
+      body[data-view="calc"] #categories {
+        flex: 0 1 auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        overscroll-behavior-y: contain !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        padding-right: 4px !important;
+        padding-bottom: 0.2rem !important;
+        margin-bottom: 0.15rem !important;
+      }
+
+      html[data-active-view="calc"] #card-cs-section > div:last-child,
+      body.view-calc #card-cs-section > div:last-child {
+        flex-shrink: 0 !important;
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.1rem !important;
+      }
+    }
+
     @media (max-width: 640px) {
       .brand-icon,
       .brand-nav-btn {
