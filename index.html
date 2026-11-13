@@ -2367,6 +2367,7 @@
       flex: 0 0 auto;
       display: inline-flex;
       align-items: center;
+      margin-left: auto;
       z-index: 100;
     }
 
@@ -2417,7 +2418,8 @@
     .sem-dropdown-menu {
       position: absolute;
       top: calc(100% + 5px);
-      left: 0;
+      right: 0;
+      left: auto;
       min-width: 175px;
       background: var(--bg-card);
       border: 1.5px solid var(--border-color);
@@ -2481,7 +2483,6 @@
       flex: 0 0 auto;
       display: inline-flex;
       align-items: center;
-      margin-left: auto;
       z-index: 100;
     }
 
@@ -2534,8 +2535,8 @@
     .year-dropdown-menu {
       position: absolute;
       top: calc(100% + 5px);
-      right: 0;
-      left: auto;
+      left: 0;
+      right: auto;
       min-width: 210px;
       background: var(--bg-card);
       border: 1.5px solid var(--border-color);
@@ -4845,9 +4846,14 @@
         will-change: transform, opacity;
       }
 
+      body.view-sheet .sem-dropdown-wrapper,
+      html[data-active-view="sheet"] .sem-dropdown-wrapper {
+        margin-left: auto !important;
+      }
+
       body.view-sheet .year-dropdown-wrapper,
       html[data-active-view="sheet"] .year-dropdown-wrapper {
-        margin-left: auto !important;
+        margin-left: 0 !important;
       }
 
       body.view-sheet .sheet-semester-grid,
@@ -5554,11 +5560,12 @@
       body.view-sheet .sem-dropdown-wrapper,
       html[data-active-view="sheet"] .sem-dropdown-wrapper {
         flex: 0 0 auto !important;
+        margin-left: auto !important;
       }
 
       body.view-sheet .year-dropdown-wrapper,
       html[data-active-view="sheet"] .year-dropdown-wrapper {
-        margin-left: auto !important;
+        margin-left: 0 !important;
       }
 
       body.view-sheet .sem-dropdown-summary,
@@ -5979,9 +5986,31 @@ html[data-active-view="calc"] #calc-view-container,
 
     <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
     <div id="sheet-view-container" class="sheet-view-container" style="display: none;">
-      <!-- Top Bar: Semester Selector Dropdown (Left), Total GWA (Middle), & Year Selector Tabs (Right) -->
+      <!-- Top Bar: Year Selector Dropdown (Left), Total GWA (Middle), & Semester Selector Dropdown (Right) -->
       <div class="year-tabs-wrapper">
-        <!-- Semester Selector Dropdown (Top Left) -->
+        <!-- Year Selector Dropdown (Top Left) -->
+        <div class="year-dropdown-wrapper">
+          <details class="year-dropdown-container" id="year-dropdown">
+            <summary class="year-dropdown-summary" id="year-dropdown-summary" aria-label="Select Year Level" title="Select Year Level">
+              <span id="year-dropdown-label">1st Year</span>
+              <span id="year-dropdown-gwa" style="color: var(--accent-primary); font-weight: 700; display: none;"></span>
+              <svg class="year-dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="year-dropdown-menu" id="year-dropdown-menu">
+              <!-- Dynamic Year Dropdown Items -->
+            </div>
+          </details>
+        </div>
+
+        <!-- Total GWA in Top Middle -->
+        <div class="total-gwa-pill" id="total-gwa-display" title="Total Cumulative GWA across all completed subjects" style="display: none;">
+          <span class="total-gwa-label">Total GWA:</span>
+          <span class="total-gwa-val">--</span>
+        </div>
+
+        <!-- Semester Selector Dropdown (Top Right) -->
         <div class="sem-dropdown-wrapper">
           <details class="sem-dropdown-container" id="sem-dropdown">
             <summary class="sem-dropdown-summary" id="sem-dropdown-summary" aria-label="Select Semester" title="Select Semester">
@@ -5999,28 +6028,6 @@ html[data-active-view="calc"] #calc-view-container,
                 <span>Second Semester</span>
                 <svg class="sem-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
-            </div>
-          </details>
-        </div>
-
-        <!-- Total GWA in Top Middle -->
-        <div class="total-gwa-pill" id="total-gwa-display" title="Total Cumulative GWA across all completed subjects" style="display: none;">
-          <span class="total-gwa-label">Total GWA:</span>
-          <span class="total-gwa-val">--</span>
-        </div>
-
-        <!-- Year Selector Dropdown (Top Right) -->
-        <div class="year-dropdown-wrapper">
-          <details class="year-dropdown-container" id="year-dropdown">
-            <summary class="year-dropdown-summary" id="year-dropdown-summary" aria-label="Select Year Level" title="Select Year Level">
-              <span id="year-dropdown-label">1st Year</span>
-              <span id="year-dropdown-gwa" style="color: var(--accent-primary); font-weight: 700; display: none;"></span>
-              <svg class="year-dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </summary>
-            <div class="year-dropdown-menu" id="year-dropdown-menu">
-              <!-- Dynamic Year Dropdown Items -->
             </div>
           </details>
         </div>
