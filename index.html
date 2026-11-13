@@ -10841,42 +10841,6 @@ html[data-active-view="calc"] #calc-view-container,
           });
           menu.appendChild(btn);
         });
-
-        // Divider & Add Academic Year Action
-        const divider = document.createElement('div');
-        divider.className = 'year-dropdown-divider';
-        menu.appendChild(divider);
-
-        const btnAdd = document.createElement('button');
-        btnAdd.type = 'button';
-        btnAdd.className = 'year-dropdown-item btn-add-year-dropdown';
-        btnAdd.id = 'btn-add-year-tab';
-        btnAdd.innerHTML = `
-          <span style="display: flex; align-items: center; gap: 0.4rem; color: var(--accent-primary); font-weight: 700;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            Add Academic Year...
-          </span>
-        `;
-        btnAdd.addEventListener('click', (e) => {
-          e.preventDefault();
-          const yearDropdown = document.getElementById('year-dropdown');
-          if (yearDropdown) yearDropdown.removeAttribute('open');
-          const name = prompt("Enter new Academic Year / Sheet name (e.g. 4th Year, Summer Term):");
-          if (name && name.trim()) {
-            const cleanName = name.trim();
-            if (!userSheetData[cleanName]) {
-              userSheetData[cleanName] = {
-                sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }],
-                sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: 3 }]
-              };
-              activeSheetYear = cleanName;
-              localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
-              saveSheetData();
-              renderSheetView();
-            }
-          }
-        });
-        menu.appendChild(btnAdd);
       }
 
       // Fallback for legacy year-tabs-container if present
