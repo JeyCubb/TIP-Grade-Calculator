@@ -4341,6 +4341,7 @@
         max-height: 100% !important;
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
+        grid-template-rows: minmax(0, 1fr) !important;
         gap: 0.65rem !important;
         align-items: start !important;
         overflow: hidden !important;
@@ -4348,20 +4349,21 @@
         box-sizing: border-box !important;
       }
 
-      /* Class Standing Card */
+      /* Class Standing Card: Tight to content when few categories, extends down as categories are added */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         order: 1 !important;
-        align-self: stretch !important;
-        height: 100% !important;
+        align-self: start !important;
+        height: auto !important;
+        height: fit-content !important;
         min-height: 0 !important;
         max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
-        padding: 0.75rem 0.95rem 1.1rem 0.95rem !important;
+        padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
       }
 
       html[data-active-view="calc"] #card-cs-section .card-header,
@@ -4373,23 +4375,23 @@
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
-        flex: 1 1 auto !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
         max-height: none !important;
         overflow-y: auto !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         padding-right: 4px !important;
-        padding-bottom: 0.5rem !important;
-        margin-bottom: 0.35rem !important;
+        padding-bottom: 0.2rem !important;
+        margin-bottom: 0.15rem !important;
         overscroll-behavior-y: contain !important;
       }
 
       html[data-active-view="calc"] #card-cs-section > div:last-child,
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
-        padding-top: 0.45rem !important;
-        padding-bottom: 0.25rem !important;
+        padding-top: 0.25rem !important;
+        padding-bottom: 0.1rem !important;
       }
 
       /* Exam & Target Solver Card */
@@ -5313,15 +5315,16 @@
         margin: 0 !important;
       }
 
-      /* 6. CS card: Fills all remaining space, holds header and scrolling categories */
+      /* 6. CS card: Tight to content when few categories, extends down as categories are added */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section {
         width: 100% !important;
         max-width: 100% !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
-        height: 0 !important;
-        max-height: none !important;
+        height: auto !important;
+        height: fit-content !important;
+        max-height: 100% !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
         display: flex !important;
@@ -5350,7 +5353,7 @@
         flex-direction: column !important;
         gap: 0.45rem !important;
         width: 100% !important;
-        flex: 1 1 auto !important;
+        flex: 0 1 auto !important;
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
