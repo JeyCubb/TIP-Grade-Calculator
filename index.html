@@ -4176,18 +4176,17 @@
       body[data-view="calc"] #card-exam-section,
       body:not(.view-sheet) #card-exam-section {
         order: 2 !important;
-        height: 100% !important;
+        height: auto !important;
         min-height: 0 !important;
-        max-height: 100% !important;
+        max-height: none !important;
+        align-self: start !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
         gap: 0.2rem !important;
-        overflow-y: auto !important;
+        overflow: visible !important;
         box-sizing: border-box !important;
-        padding: 0.75rem 0.95rem 1.1rem 0.95rem !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
       }
 
       /* Desktop controls inside Exam Card: compact, proportional, and perfectly fitted */
@@ -4264,8 +4263,8 @@
       html[data-active-view="calc"] .result-dashboard,
       body.view-calc .result-dashboard,
       body:not(.view-sheet) .result-dashboard {
-        margin-top: auto !important;
-        margin-bottom: 0.35rem !important;
+        margin-top: 0.5rem !important;
+        margin-bottom: 0 !important;
         padding: 0.45rem 0.65rem !important;
         gap: 0.25rem !important;
         flex-shrink: 0 !important;
