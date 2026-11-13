@@ -5333,7 +5333,7 @@ html[data-active-view="calc"] #calc-view-container,
               <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
               <div class="final-val" id="res-final">0.00%</div>
             </div>
-            <div class="eq-badge" id="res-eq">Equivalence: 4.00</div>
+            <div class="eq-badge" id="res-eq">Eq= 4.00</div>
           </div>
         </div>
       </section>
@@ -8132,7 +8132,7 @@ html[data-active-view="calc"] #calc-view-container,
 
       if (!hasAnyScore) {
         resFinalEl.textContent = '--';
-        resEqEl.textContent = 'Equivalence: --';
+        resEqEl.textContent = 'Eq= --';
         resEqEl.style.background = 'rgba(255, 255, 255, 0.08)';
         resEqEl.style.color = 'var(--text-muted)';
         resEqEl.style.boxShadow = 'none';
@@ -8144,7 +8144,7 @@ html[data-active-view="calc"] #calc-view-container,
       const { finalPercent, eq } = computeFinal(csPercent, effectiveExamPercent, prevPercent);
 
       resFinalEl.textContent = formatCompactPercent(finalPercent);
-      resEqEl.textContent = `Equivalence: ${eq}`;
+      resEqEl.textContent = `Eq= ${eq}`;
 
       if (eq === '4.00' || eq === '5.00') {
         resEqEl.style.background = 'var(--color-error-bg)';
