@@ -1606,17 +1606,22 @@
       position: absolute;
       top: calc(100% + 4px);
       left: 0;
-      right: 0;
+      min-width: 195px;
+      width: max-content;
+      max-width: 250px;
       background: var(--bg-card);
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
       z-index: 1000;
-      max-height: none;
-      overflow-y: visible;
+      max-height: min(240px, 50vh);
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(249, 115, 22, 0.45) transparent;
       display: none;
       flex-direction: column;
-      padding: 0.2rem 0;
+      padding: 0.25rem 0;
     }
 
     .target-select-options.show {
@@ -1624,15 +1629,17 @@
     }
 
     .target-option-item {
-      padding: 0.32rem 0.65rem;
-      font-size: 0.775rem;
+      padding: 0.28rem 0.65rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-primary);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: background 0.15s ease;
+      gap: 0.85rem;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
     }
 
     .target-option-item:hover {
@@ -1647,14 +1654,16 @@
     }
 
     .target-option-item .opt-range {
-      font-size: 0.725rem;
+      font-size: 0.72rem;
       opacity: 0.85;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .target-option-item.selected .opt-range {
       color: #ffffff;
       opacity: 0.95;
+      font-weight: 600;
     }
 
     /* Result Dashboard Box */
@@ -3151,8 +3160,9 @@
       }
 
       .target-option-item {
-        font-size: 1.05rem !important;
-        padding: 0.45rem 0.85rem !important;
+        font-size: 0.8rem !important;
+        padding: 0.28rem 0.65rem !important;
+        white-space: nowrap !important;
       }
 
       #card-exam-section label {
@@ -4470,6 +4480,33 @@
         padding: 0.28rem 0.75rem !important;
         height: 32px !important;
         margin-top: 0.1rem !important;
+      }
+
+      html[data-active-view="calc"] .target-select-options,
+      body.view-calc .target-select-options,
+      body:not(.view-sheet) .target-select-options {
+        min-width: 195px !important;
+        width: max-content !important;
+        max-width: 250px !important;
+        max-height: min(240px, 50vh) !important;
+        overflow-y: auto !important;
+        padding: 0.25rem 0 !important;
+      }
+
+      html[data-active-view="calc"] .target-option-item,
+      body.view-calc .target-option-item,
+      body:not(.view-sheet) .target-option-item {
+        font-size: 0.8rem !important;
+        padding: 0.28rem 0.65rem !important;
+        gap: 0.85rem !important;
+        white-space: nowrap !important;
+      }
+
+      html[data-active-view="calc"] .target-option-item .opt-range,
+      body.view-calc .target-option-item .opt-range,
+      body:not(.view-sheet) .target-option-item .opt-range {
+        font-size: 0.72rem !important;
+        white-space: nowrap !important;
       }
 
       html[data-active-view="calc"] .weights-row,
