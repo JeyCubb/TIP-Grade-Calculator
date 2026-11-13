@@ -1214,23 +1214,6 @@
       font-size: inherit;
     }
 
-    /* Save Indicator Toast */
-    .save-indicator {
-      font-size: 0.725rem;
-      font-weight: 700;
-      color: var(--color-success);
-      display: none;
-      align-items: center;
-      gap: 0.25rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .save-indicator.visible {
-      display: inline-flex;
-      opacity: 1;
-    }
-
     /* Grid Layout */
     .main-grid {
       display: flex;
@@ -5904,10 +5887,6 @@ html[data-active-view="calc"] #calc-view-container,
 
             <!-- Action Buttons Aligned on the Right -->
             <div class="header-actions-group">
-              <span class="save-indicator" id="save-indicator">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-
               <button class="btn-profile-lock control-single-btn action-btn" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
                 <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <!-- Unlocked state by default -->
@@ -6356,17 +6335,7 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }
 
-    let saveTimeout = null;
-    const saveIndicatorEl = document.getElementById('save-indicator');
-
-    function triggerSaveToast() {
-      if (isTemporaryMode || !saveIndicatorEl || activeUser === 'No Profile') return;
-      saveIndicatorEl.classList.add('visible');
-      clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(() => {
-        saveIndicatorEl.classList.remove('visible');
-      }, 1200);
-    }
+    function triggerSaveToast() {}
 
     function initUserProfilesAndSubjects() {
       const storedProfiles = localStorage.getItem(STORAGE_KEY_PROFILES);
