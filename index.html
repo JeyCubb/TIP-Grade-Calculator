@@ -4048,57 +4048,83 @@
       }
 
       /* -------------------------------------------------------------
-         1. CALCULATOR VIEW ON DESKTOP & TABLET: RESPONSIVE, LEVEL & FIT
+         1. CALCULATOR VIEW ON DESKTOP & TABLET: FULL-HEIGHT & MAXIMIZED
          ------------------------------------------------------------- */
+      html[data-active-view="calc"],
+      html.view-calc {
+        height: 100% !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+      }
+
       html[data-active-view="calc"] body,
       body.view-calc,
       body[data-view="calc"] {
         min-height: 100% !important;
         min-height: 100dvh !important;
-        height: auto !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
         overflow-x: hidden !important;
-        overflow-y: auto !important;
+        overflow-y: hidden !important;
         padding: 0.35rem 0.65rem !important;
-        padding-bottom: calc(52px + max(0.65rem, env(safe-area-inset-bottom, 0px))) !important;
+        padding-bottom: calc(56px + max(0.55rem, env(safe-area-inset-bottom, 0px))) !important;
         box-sizing: border-box !important;
+        transition: padding 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+      }
+
+      html[data-active-view="calc"] body.sheet-idle-hide,
+      body.view-calc.sheet-idle-hide {
+        padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px)) !important;
       }
 
       html[data-active-view="calc"] .app-container,
       body.view-calc .app-container,
       body[data-view="calc"] .app-container {
-        min-height: auto !important;
-        height: auto !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
-        overflow: visible !important;
-        gap: 0.35rem !important;
+        overflow: hidden !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
         box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] #calc-view-container,
       body.view-calc #calc-view-container,
       body[data-view="calc"] #calc-view-container {
-        flex: 1 1 auto !important;
+        flex: 1 1 0 !important;
         min-height: 0 !important;
+        height: 100% !important;
+        max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        overflow: visible !important;
-        gap: 0.35rem !important;
+        overflow: hidden !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] .main-grid,
       body.view-calc .main-grid,
       body[data-view="calc"] .main-grid {
-        flex: 0 1 auto !important;
+        flex: 1 1 0 !important;
         min-height: 0 !important;
-        height: auto !important;
+        height: 100% !important;
+        max-height: 100% !important;
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
         gap: 0.65rem !important;
         align-items: stretch !important;
-        overflow: visible !important;
+        overflow: hidden !important;
         margin-bottom: 0 !important;
+        box-sizing: border-box !important;
       }
 
       /* Class Standing Card */
@@ -4106,26 +4132,39 @@
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         order: 1 !important;
-        height: auto !important;
+        height: 100% !important;
         min-height: 0 !important;
-        max-height: none !important;
+        max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
-        overflow: visible !important;
+        overflow: hidden !important;
         box-sizing: border-box !important;
         padding: 0.65rem 0.85rem !important;
+      }
+
+      html[data-active-view="calc"] #card-cs-section .card-header,
+      body.view-calc #card-cs-section .card-header {
+        flex-shrink: 0 !important;
+        margin-bottom: 0.35rem !important;
       }
 
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
-        flex: 0 1 auto !important;
+        flex: 1 1 auto !important;
         min-height: 0 !important;
-        max-height: 380px !important;
+        max-height: none !important;
         overflow-y: auto !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         padding-right: 4px !important;
+        overscroll-behavior-y: contain !important;
+      }
+
+      html[data-active-view="calc"] #card-cs-section > div:last-child,
+      body.view-calc #card-cs-section > div:last-child {
+        flex-shrink: 0 !important;
+        padding-top: 0.35rem !important;
       }
 
       /* Exam & Target Solver Card */
@@ -4134,12 +4173,9 @@
       body[data-view="calc"] #card-exam-section,
       body:not(.view-sheet) #card-exam-section {
         order: 2 !important;
-        position: sticky !important;
-        top: 0.35rem !important;
-        align-self: start !important;
-        height: auto !important;
+        height: 100% !important;
         min-height: 0 !important;
-        max-height: none !important;
+        max-height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
@@ -4225,7 +4261,7 @@
       html[data-active-view="calc"] .result-dashboard,
       body.view-calc .result-dashboard,
       body:not(.view-sheet) .result-dashboard {
-        margin-top: 0.65rem !important;
+        margin-top: auto !important;
         padding: 0.35rem 0.55rem !important;
         gap: 0.2rem !important;
         flex-shrink: 0 !important;
@@ -5135,9 +5171,10 @@ html[data-active-view="calc"] #calc-view-container,
       body.view-calc #calc-view-container,
       body[data-view="calc"] #calc-view-container {
         display: flex !important;
-        flex: 1 1 auto !important;
+        flex: 1 1 0 !important;
         min-height: 0 !important;
-        height: auto !important;
+        height: 100% !important;
+        max-height: 100% !important;
         flex-direction: column !important;
       }
     }
