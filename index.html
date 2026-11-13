@@ -1119,16 +1119,43 @@
       height: 28px;
     }
 
-    .cat-weight {
+    .cat-weight,
+    input[type="number"].cat-weight {
       width: 48px;
       min-width: 42px;
       padding: 0.12rem 0.2rem !important;
       text-align: center;
       font-size: 0.75rem !important;
+      font-weight: 700 !important;
       height: 28px !important;
       line-height: 1.2 !important;
       box-sizing: border-box !important;
       border-radius: var(--radius-sm);
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      color: var(--text-primary) !important;
+      outline: none !important;
+      cursor: text;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cat-weight:hover,
+    input[type="number"].cat-weight:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    [data-theme="light"] .cat-weight:hover,
+    [data-theme="light"] input[type="number"].cat-weight:hover {
+      background: rgba(0, 0, 0, 0.035) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    .cat-weight:focus,
+    input[type="number"].cat-weight:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
     }
 
     .cat-weight-wrapper span {
@@ -1154,18 +1181,45 @@
       flex: 0 0 auto;
     }
 
-    .item-inputs input {
+    .item-inputs input,
+    .item-score,
+    .item-total {
       width: 44px;
       min-width: 32px;
       padding: 0.12rem 0.25rem;
       font-size: 0.775rem;
+      font-weight: 700;
       text-align: center;
       box-sizing: border-box;
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--text-primary) !important;
+      outline: none !important;
+      cursor: text;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .item-score,
-    .item-total {
-      text-align: center;
+    .item-inputs input:hover,
+    .item-score:hover,
+    .item-total:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    [data-theme="light"] .item-inputs input:hover,
+    [data-theme="light"] .item-score:hover,
+    [data-theme="light"] .item-total:hover {
+      background: rgba(0, 0, 0, 0.035) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    .item-inputs input:focus,
+    .item-score:focus,
+    .item-total:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
     }
 
     #exam-score,
@@ -1459,14 +1513,18 @@
         height: 26px;
       }
 
-      .cat-weight {
+      .cat-weight,
+      input[type="number"].cat-weight {
         font-size: 0.725rem !important;
+        font-weight: 700 !important;
         padding: 0.1rem 0.15rem !important;
         height: 26px !important;
         line-height: 24px !important;
         text-align: center !important;
         box-sizing: border-box !important;
         border-radius: var(--radius-sm) !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .item-row {
@@ -1474,10 +1532,17 @@
         gap: 0.2rem;
       }
 
-      .item-inputs input {
+      .item-inputs input,
+      .item-score,
+      .item-total {
         width: 40px;
-        padding: 0.2rem 0.25rem;
-        font-size: 0.65rem;
+        padding: 0.15rem 0.2rem !important;
+        font-size: 0.7rem !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .item-50 {
@@ -2623,13 +2688,17 @@
         border: 1.5px solid transparent !important;
       }
 
-      .cat-weight {
+      .cat-weight,
+      input[type="number"].cat-weight {
         font-size: 0.91rem !important;
+        font-weight: 700 !important;
         width: 54px !important;
         min-width: 48px !important;
         padding: 0.15rem 0.3rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .cat-weight-wrapper span,
@@ -2637,11 +2706,16 @@
         font-size: 0.91rem !important;
       }
 
-      .item-inputs input {
+      .item-inputs input,
+      .item-score,
+      .item-total {
         font-size: 1.15rem !important;
+        font-weight: 700 !important;
         padding: 0.2rem 0.4rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .item-inputs span {
