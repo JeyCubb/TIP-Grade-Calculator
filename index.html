@@ -7325,7 +7325,7 @@ html[data-active-view="calc"] #calc-view-container,
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
                   Add Item
                 </button>
-                <span class="avg" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary);">Cat Avg: 0.00%</span>
+                <span class="avg" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); display: none;">Cat Avg: 0.00%</span>
               </div>
             `;
             categoriesEl.appendChild(categoryEl);
@@ -7602,7 +7602,7 @@ html[data-active-view="calc"] #calc-view-container,
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             Add Item
           </button>
-          <span class="avg" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary);">Cat Avg: 0.00%</span>
+          <span class="avg" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); display: none;">Cat Avg: 0.00%</span>
         </div>
       `;
       categoriesEl.appendChild(categoryEl);
@@ -7677,6 +7677,7 @@ html[data-active-view="calc"] #calc-view-container,
       const avgLabel = categoryEl.querySelector('.avg');
       if (avgLabel) {
         avgLabel.textContent = `Cat Avg: ${formatCompactPercent(finalAvg)}`;
+        avgLabel.style.display = itemRows.length > 1 ? 'inline' : 'none';
       }
     }
 
