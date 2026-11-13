@@ -3094,10 +3094,11 @@
 
       .exam-inputs-wrapper {
         display: flex !important;
-        flex: 1 1 auto !important;
-        gap: 0.45rem !important;
+        flex: 0 0 auto !important;
+        gap: 0.35rem !important;
         align-items: center !important;
-        margin-left: 0 !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
       }
 
       .exam-inputs-wrapper span {
@@ -3105,11 +3106,11 @@
       }
 
       #exam-score, #exam-total {
-        flex: 1 1 0 !important;
-        width: 100% !important;
+        flex: 0 0 auto !important;
+        width: 52px !important;
         font-size: 1.10rem !important;
         font-weight: 700 !important;
-        padding: 0.22rem 0.5rem !important;
+        padding: 0.22rem 0.4rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         background: transparent !important;
@@ -4469,8 +4470,8 @@
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
-        gap: 0.4rem !important;
+        justify-content: flex-start !important;
+        gap: 0.45rem !important;
       }
 
       html[data-active-view="calc"] .target-label,
@@ -4478,12 +4479,14 @@
       body:not(.view-sheet) .target-label {
         font-size: 0.85rem !important;
         margin: 0 !important;
+        flex: 0 0 auto !important;
       }
 
       html[data-active-view="calc"] .target-select-wrapper,
       body.view-calc .target-select-wrapper,
       body:not(.view-sheet) .target-select-wrapper {
-        flex: 1 1 auto !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
         max-width: 140px !important;
         min-width: 65px !important;
       }
@@ -4505,6 +4508,8 @@
         padding: 0.28rem 0.75rem !important;
         height: 32px !important;
         margin-top: 0.1rem !important;
+        margin-left: auto !important;
+        flex: 0 0 auto !important;
       }
 
       html[data-active-view="calc"] .target-select-options,
@@ -5071,14 +5076,48 @@
         padding: 0.65rem 0.85rem !important;
       }
 
-      /* Generous Target Row with no horizontal clipping */
+      /* Score and Total aligned to the far right opposite of Exam */
+      html[data-active-view="calc"] .exam-input-row,
+      body.view-calc .exam-input-row,
+      body:not(.view-sheet) .exam-input-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+      }
+
+      html[data-active-view="calc"] .exam-inputs-wrapper,
+      body.view-calc .exam-inputs-wrapper,
+      body:not(.view-sheet) .exam-inputs-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        margin-left: auto !important;
+        flex: 0 0 auto !important;
+        gap: 0.35rem !important;
+      }
+
+      html[data-active-view="calc"] #exam-score,
+      html[data-active-view="calc"] #exam-total,
+      body.view-calc #exam-score,
+      body.view-calc #exam-total,
+      body:not(.view-sheet) #exam-score,
+      body:not(.view-sheet) #exam-total {
+        flex: 0 0 auto !important;
+        width: 52px !important;
+        min-width: 44px !important;
+        max-width: 60px !important;
+        text-align: center !important;
+      }
+
+      /* Target aligned to the left next to Target Grade; Compute Minimum to the right */
       html[data-active-view="calc"] .target-row,
       body.view-calc .target-row,
       body:not(.view-sheet) .target-row {
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         gap: 0.5rem !important;
         width: 100% !important;
       }
@@ -5089,20 +5128,24 @@
         font-size: 0.88rem !important;
         white-space: nowrap !important;
         flex: 0 0 auto !important;
+        margin: 0 !important;
       }
 
       html[data-active-view="calc"] .target-select-wrapper,
       body.view-calc .target-select-wrapper,
       body:not(.view-sheet) .target-select-wrapper {
-        flex: 0 1 auto !important;
+        flex: 0 0 auto !important;
+        width: auto !important;
         min-width: 80px !important;
         max-width: 140px !important;
+        margin: 0 !important;
       }
 
       html[data-active-view="calc"] #compute,
       body.view-calc #compute,
       body:not(.view-sheet) #compute {
         flex: 0 0 auto !important;
+        margin-left: auto !important;
         white-space: nowrap !important;
         font-size: 0.85rem !important;
         padding: 0.28rem 0.85rem !important;
