@@ -2204,33 +2204,14 @@
         font-size: 0.75rem;
       }
 
-      .sem-switcher-bar {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 0 auto !important;
-        padding: 0.15rem !important;
-        gap: 0.2rem !important;
-        flex: 0 0 auto !important;
-      }
-
-      .sem-select-dropdown {
-        padding: 0.22rem 1.6rem 0.22rem 0.65rem;
-        font-size: 0.58rem;
-      }
-
-      .sem-select-arrow {
-        right: 0.45rem;
-      }
-      .sem-select-arrow svg {
-        width: 10px;
-        height: 10px;
-      }
-
-      .sem-switch-btn {
+      .sem-dropdown-summary {
         padding: 0.22rem 0.65rem !important;
-        font-size: 0.65rem !important;
-        white-space: nowrap !important;
+        font-size: 0.64rem !important;
+      }
+
+      .sem-dropdown-item {
+        padding: 0.3rem 0.55rem !important;
+        font-size: 0.64rem !important;
       }
 
       .semester-card {
@@ -2400,10 +2381,125 @@
       align-items: center;
       justify-content: space-between;
       gap: 0.65rem;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       margin-bottom: 0.35rem;
+      width: 100%;
       transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, max-height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), margin 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
       will-change: transform, opacity;
+    }
+
+    .sem-dropdown-wrapper {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .sem-dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .sem-dropdown-summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.28rem 0.75rem;
+      border-radius: var(--radius-full);
+      background: var(--accent-primary);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 8px var(--accent-glow);
+      border: 1px solid var(--accent-primary);
+      transition: var(--transition);
+      list-style: none;
+      outline: none;
+      white-space: nowrap;
+    }
+
+    .sem-dropdown-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .sem-dropdown-summary:hover {
+      background: var(--accent-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+
+    .sem-dropdown-chevron {
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .sem-dropdown-container[open] .sem-dropdown-chevron {
+      transform: rotate(180deg);
+    }
+
+    .sem-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      min-width: 175px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      padding: 0.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    [data-theme="light"] .sem-dropdown-menu {
+      background: #ffffff;
+      border-color: var(--border-color);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .sem-dropdown-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: inherit;
+      color: var(--text-primary);
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
+      box-sizing: border-box;
+    }
+
+    .sem-dropdown-item:hover {
+      background: rgba(249, 115, 22, 0.12);
+      color: var(--accent-primary);
+    }
+
+    .sem-dropdown-item.active {
+      background: rgba(249, 115, 22, 0.18);
+      color: var(--accent-primary);
+    }
+
+    .sem-dropdown-item .sem-check-icon {
+      display: none;
+      stroke: var(--accent-primary);
+      flex-shrink: 0;
+    }
+
+    .sem-dropdown-item.active .sem-check-icon {
+      display: inline-block;
     }
 
     .year-tabs-bar {
@@ -2411,10 +2507,11 @@
       align-items: center;
       gap: 0.35rem;
       overflow-x: auto;
-      padding-bottom: 0.15rem;
-      scrollbar-width: thin;
-      flex: 1;
-      min-width: 200px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.15rem 0.1rem;
+      margin-left: auto;
+      justify-content: flex-end;
     }
 
     .year-tab-btn {
@@ -2491,96 +2588,7 @@
       color: var(--accent-primary);
     }
 
-    .sem-switcher-bar {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-full);
-      padding: 0.2rem;
-      margin-left: auto;
-      flex-shrink: 0;
-    }
 
-    .sem-select-wrapper {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .sem-select-dropdown {
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background: var(--accent-primary);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      border-radius: var(--radius-full);
-      padding: 0.32rem 1.95rem 0.32rem 0.85rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      box-shadow: 0 2px 8px var(--accent-glow);
-      transition: var(--transition);
-      outline: none;
-      letter-spacing: 0.01em;
-    }
-
-    .sem-select-dropdown:hover,
-    .sem-select-dropdown:focus {
-      background: var(--accent-primary-hover);
-      box-shadow: 0 4px 14px var(--accent-glow);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: scale(1.05) translateY(-1px);
-    }
-
-    .sem-select-dropdown option {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      font-weight: 600;
-      padding: 0.45rem;
-    }
-
-    .sem-select-arrow {
-      position: absolute;
-      right: 0.65rem;
-      pointer-events: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      transition: transform 0.2s ease;
-    }
-
-    .sem-select-wrapper:hover .sem-select-arrow {
-      transform: translateY(1px);
-    }
-
-    .sem-switch-btn {
-      padding: 0.3rem 0.8rem;
-      border-radius: var(--radius-full);
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-size: 0.65rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
-    }
-
-    .sem-switch-btn:hover {
-      color: var(--text-primary);
-      background: rgba(249, 115, 22, 0.08);
-    }
-
-    .sem-switch-btn.active {
-      background: var(--accent-primary);
-      color: #fff;
-      box-shadow: 0 2px 8px var(--accent-glow);
-    }
 
     .sheet-semester-grid {
       display: flex;
@@ -3321,14 +3329,14 @@
         font-size: 0.65rem !important;
       }
 
-      .sem-switcher-bar {
-        padding: 0.15rem;
-        gap: 0.2rem;
+      .sem-dropdown-summary {
+        font-size: 0.68rem !important;
+        padding: 0.28rem 0.75rem !important;
       }
 
-      .sem-switch-btn {
-        font-size: 0.65rem;
-        padding: 0.25rem 0.65rem;
+      .sem-dropdown-item {
+        font-size: 0.68rem !important;
+        padding: 0.35rem 0.65rem !important;
       }
 
       .sheet-table th {
@@ -4734,8 +4742,19 @@
         flex-shrink: 0 !important;
         margin-bottom: 0.2rem !important;
         max-height: 80px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: nowrap !important;
         transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.38s ease, max-height 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), margin 0.45s cubic-bezier(0.2, 0.9, 0.3, 1), padding 0.45s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
         will-change: transform, opacity;
+      }
+
+      body.view-sheet .year-tabs-bar,
+      html[data-active-view="sheet"] .year-tabs-bar {
+        margin-left: auto !important;
+        justify-content: flex-end !important;
       }
 
       body.view-sheet .sheet-semester-grid,
@@ -5430,27 +5449,32 @@
       body.view-sheet .year-tabs-wrapper,
       html[data-active-view="sheet"] .year-tabs-wrapper {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: row !important;
         align-items: center !important;
-        justify-content: center !important;
+        justify-content: space-between !important;
         gap: 0.35rem !important;
         margin-bottom: 0.3rem !important;
         width: 100% !important;
         max-height: none !important;
       }
 
+      body.view-sheet .sem-dropdown-wrapper,
+      html[data-active-view="sheet"] .sem-dropdown-wrapper {
+        flex: 0 0 auto !important;
+      }
+
       body.view-sheet .year-tabs-bar,
       html[data-active-view="sheet"] .year-tabs-bar {
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important;
+        justify-content: flex-end !important;
         gap: 0.25rem !important;
-        width: 100% !important;
+        margin-left: auto !important;
         max-width: 100% !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
         scrollbar-width: none !important;
-        flex: 0 0 auto !important;
+        flex: 1 1 auto !important;
       }
 
       body.view-sheet .year-tab-btn,
@@ -5471,22 +5495,16 @@
         display: none !important;
       }
 
-      body.view-sheet .sem-switcher-bar,
-      html[data-active-view="sheet"] .sem-switcher-bar {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin: 0 auto !important;
-        padding: 0.15rem !important;
-        gap: 0.2rem !important;
-        flex: 0 0 auto !important;
+      body.view-sheet .sem-dropdown-summary,
+      html[data-active-view="sheet"] .sem-dropdown-summary {
+        padding: 0.22rem 0.65rem !important;
+        font-size: 0.64rem !important;
       }
 
-      body.view-sheet .sem-switch-btn,
-      html[data-active-view="sheet"] .sem-switch-btn {
-        padding: 0.22rem 0.65rem !important;
-        font-size: 0.65rem !important;
-        white-space: nowrap !important;
+      body.view-sheet .sem-dropdown-item,
+      html[data-active-view="sheet"] .sem-dropdown-item {
+        padding: 0.3rem 0.55rem !important;
+        font-size: 0.64rem !important;
       }
 
       /* ==========================================================================
@@ -5891,10 +5909,28 @@ html[data-active-view="calc"] #calc-view-container,
 
     <!-- Curriculum & GWA Sheet View Container (Grades.xlsx Replica) -->
     <div id="sheet-view-container" class="sheet-view-container" style="display: none;">
-      <!-- Top Bar: Year Selector Tabs (Left), Total GWA (Middle), & Semester Switcher (Right) -->
+      <!-- Top Bar: Semester Selector Dropdown (Left), Total GWA (Middle), & Year Selector Tabs (Right) -->
       <div class="year-tabs-wrapper">
-        <div class="year-tabs-bar" id="year-tabs-container">
-          <!-- Dynamic Year Tabs -->
+        <!-- Semester Selector Dropdown (Top Left) -->
+        <div class="sem-dropdown-wrapper">
+          <details class="sem-dropdown-container" id="sem-dropdown">
+            <summary class="sem-dropdown-summary" id="sem-dropdown-summary" aria-label="Select Semester" title="Select Semester">
+              <span id="sem-dropdown-label">First Semester</span>
+              <svg class="sem-dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="sem-dropdown-menu" id="sem-dropdown-menu">
+              <button type="button" class="sem-dropdown-item active" id="btn-switch-sem1" data-sem="sem1" title="First Semester (Shift + ←)">
+                <span>First Semester</span>
+                <svg class="sem-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button type="button" class="sem-dropdown-item" id="btn-switch-sem2" data-sem="sem2" title="Second Semester (Shift + →)">
+                <span>Second Semester</span>
+                <svg class="sem-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+            </div>
+          </details>
         </div>
 
         <!-- Total GWA in Top Middle -->
@@ -5903,10 +5939,9 @@ html[data-active-view="calc"] #calc-view-container,
           <span class="total-gwa-val">--</span>
         </div>
 
-        <!-- Semester Switcher Bar (Top Right) -->
-        <div class="sem-switcher-bar">
-          <button class="sem-switch-btn active" id="btn-switch-sem1" data-sem="sem1" title="First Semester (Shift + ←)">First Semester</button>
-          <button class="sem-switch-btn" id="btn-switch-sem2" data-sem="sem2" title="Second Semester (Shift + →)">Second Semester</button>
+        <!-- Year Selector Tabs (Top Right) -->
+        <div class="year-tabs-bar" id="year-tabs-container">
+          <!-- Dynamic Year Tabs -->
         </div>
       </div>
 
@@ -8295,7 +8330,7 @@ html[data-active-view="calc"] #calc-view-container,
     function hideSheetChrome() {
       const activeEl = document.activeElement;
       if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) return;
-      if (document.querySelector('.profile-modal-overlay.open') || document.querySelector('#header-scheme-dropdown[open]')) return;
+      if (document.querySelector('.profile-modal-overlay.open') || document.querySelector('#header-scheme-dropdown[open]') || document.querySelector('#sem-dropdown[open]')) return;
       document.body.classList.add('sheet-idle-hide');
       document.documentElement.classList.add('sheet-idle-hide');
     }
@@ -10879,6 +10914,12 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
+      // Update semester dropdown label
+      const semDropdownLabel = document.getElementById('sem-dropdown-label');
+      if (semDropdownLabel) {
+        semDropdownLabel.textContent = activeSemester === 'sem2' ? 'Second Semester' : 'First Semester';
+      }
+
       // Hide Add Subject buttons on 1st, 2nd, and 3rd year
       const btnAddSem1 = document.getElementById('btn-add-sem1-row');
       const btnAddSem2 = document.getElementById('btn-add-sem2-row');
@@ -10910,23 +10951,38 @@ html[data-active-view="calc"] #calc-view-container,
     let activeSemester = localStorage.getItem('tip_gc_active_sheet_sem') || 'sem1';
     if (activeSemester !== 'sem1' && activeSemester !== 'sem2') activeSemester = 'sem1';
 
+    function setSheetSemester(sem) {
+      if (sem !== 'sem1' && sem !== 'sem2') return;
+      activeSemester = sem;
+      localStorage.setItem('tip_gc_active_sheet_sem', sem);
+      const semDropdown = document.getElementById('sem-dropdown');
+      if (semDropdown) semDropdown.removeAttribute('open');
+      renderSheetView();
+    }
+
     const btnSwitchSem1 = document.getElementById('btn-switch-sem1');
     const btnSwitchSem2 = document.getElementById('btn-switch-sem2');
 
     if (btnSwitchSem1) {
-      btnSwitchSem1.addEventListener('click', () => {
-        activeSemester = 'sem1';
-        localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
-        renderSheetView();
+      btnSwitchSem1.addEventListener('click', (e) => {
+        e.preventDefault();
+        setSheetSemester('sem1');
       });
     }
     if (btnSwitchSem2) {
-      btnSwitchSem2.addEventListener('click', () => {
-        activeSemester = 'sem2';
-        localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
-        renderSheetView();
+      btnSwitchSem2.addEventListener('click', (e) => {
+        e.preventDefault();
+        setSheetSemester('sem2');
       });
     }
+
+    // Close semester dropdown on outside click
+    document.addEventListener('click', (e) => {
+      const semDropdown = document.getElementById('sem-dropdown');
+      if (semDropdown && semDropdown.hasAttribute('open') && !semDropdown.contains(e.target)) {
+        semDropdown.removeAttribute('open');
+      }
+    });
 
     function updateSheetCalculationsOnly() {
       if (!userSheetData || !userSheetData[activeSheetYear]) return;
@@ -11244,7 +11300,7 @@ html[data-active-view="calc"] #calc-view-container,
         return;
       }
       // Never hijack interaction on editable inputs, dropdowns, or horizontal scroll containers
-      if (e.target.closest('input, textarea, select, .year-tabs-bar, .scheme-dropdown-content')) {
+      if (e.target.closest('input, textarea, select, .year-tabs-bar, .scheme-dropdown-content, .sem-dropdown-container, .sem-dropdown-menu')) {
         touchCanSwipe = false;
         return;
       }
