@@ -1727,9 +1727,25 @@
       white-space: nowrap;
     }
 
-    .green {
+    .green,
+    #exam-score.green,
+    input#exam-score.green {
       border-color: var(--color-success) !important;
       background: var(--color-success-bg) !important;
+      color: var(--color-success) !important;
+      font-weight: 800 !important;
+    }
+
+    #exam-score.green:hover {
+      background: rgba(16, 185, 129, 0.22) !important;
+      border-color: var(--color-success) !important;
+      color: var(--color-success) !important;
+    }
+
+    #exam-score.green:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--color-success) !important;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35) !important;
       color: var(--color-success) !important;
     }
 
@@ -4436,6 +4452,32 @@
         height: 32px !important;
         background: transparent !important;
         border: 1.5px solid transparent !important;
+      }
+
+      html[data-active-view="calc"] #exam-score.green,
+      body.view-calc #exam-score.green,
+      body:not(.view-sheet) #exam-score.green {
+        color: var(--color-success) !important;
+        border-color: var(--color-success) !important;
+        background: var(--color-success-bg) !important;
+        font-weight: 800 !important;
+      }
+
+      html[data-active-view="calc"] #exam-score.green:hover,
+      body.view-calc #exam-score.green:hover,
+      body:not(.view-sheet) #exam-score.green:hover {
+        background: rgba(16, 185, 129, 0.22) !important;
+        border-color: var(--color-success) !important;
+        color: var(--color-success) !important;
+      }
+
+      html[data-active-view="calc"] #exam-score.green:focus,
+      body.view-calc #exam-score.green:focus,
+      body:not(.view-sheet) #exam-score.green:focus {
+        background: var(--bg-input) !important;
+        border-color: var(--color-success) !important;
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.35) !important;
+        color: var(--color-success) !important;
       }
 
       html[data-active-view="calc"] .target-row,
