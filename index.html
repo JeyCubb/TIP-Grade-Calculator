@@ -7809,7 +7809,42 @@ html[data-active-view="calc"] #calc-view-container,
       document.documentElement.classList.remove('sheet-idle-hide');
     }
 
+    function isEventInsideCS(e) {
+      if (!e) return false;
+      const t = e.target;
+      return !!(t && t.closest && (t.closest('#card-cs-section') || t.closest('#categories')));
+    }
+
     function resetSheetIdleTimer(e) {
+      if (e) {
+        const type = e.type;
+
+        // Tapping/clicking near bottom 70px (floating ribbon zone) or top 60px (navbar) always reveals chrome
+        const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+        if (clientY !== null && (clientY <= 60 || clientY >= window.innerHeight - 70)) {
+          showSheetChrome();
+          clearTimeout(sheetIdleTimer);
+          sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
+          return;
+        }
+
+        // Scrolling, dragging, or touching through Class Standing should NEVER show the ribbon
+        if (isEventInsideCS(e)) {
+          if (type === 'scroll' || type === 'touchmove' || type === 'wheel') {
+            hideSheetChrome();
+            clearTimeout(sheetIdleTimer);
+            return;
+          }
+          if (type === 'touchstart' || type === 'mousedown') {
+            const isHidden = document.body.classList.contains('sheet-idle-hide') || document.documentElement.classList.contains('sheet-idle-hide');
+            if (isHidden) {
+              clearTimeout(sheetIdleTimer);
+              return;
+            }
+          }
+        }
+      }
+
       showSheetChrome();
       clearTimeout(sheetIdleTimer);
       sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
@@ -7834,9 +7869,19 @@ html[data-active-view="calc"] #calc-view-container,
       resetSheetIdleTimer(e);
     }, { passive: true });
 
-    ['mousedown', 'keydown', 'scroll', 'touchstart', 'touchmove', 'click'].forEach((evt) => {
+    ['mousedown', 'keydown', 'touchstart', 'touchmove', 'wheel', 'click'].forEach((evt) => {
       window.addEventListener(evt, resetSheetIdleTimer, { passive: true });
     });
+
+    // Capture-phase scroll listener catches container scrolling (e.g. #categories)
+    window.addEventListener('scroll', (e) => {
+      if (isEventInsideCS(e)) {
+        hideSheetChrome();
+        clearTimeout(sheetIdleTimer);
+        return;
+      }
+      resetSheetIdleTimer(e);
+    }, { capture: true, passive: true });
 
     window.addEventListener('focusin', () => {
       showSheetChrome();
