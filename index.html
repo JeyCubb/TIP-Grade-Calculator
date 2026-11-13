@@ -205,47 +205,270 @@
     }
 
     /* ==========================================================================
-       Fixed Bottom Ribbon (App Header / Navigation / Profile Toolbar)
-       Fixed to the bottom of the viewport, independent of upper component placement.
+       Fixed Bottom Ribbon Dock (.bottom-panel / .app-header)
+       Compact, sleek dock matching JeyCub-terms-reviewer
        ========================================================================== */
-    .app-header {
+    .bottom-panel {
       position: fixed !important;
-      bottom: max(0.45rem, env(safe-area-inset-bottom, 0px)) !important;
-      left: 0.65rem !important;
-      right: 0.65rem !important;
-      width: calc(100% - 1.3rem) !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
       max-width: 100% !important;
+      padding: 0.25rem 0.55rem max(0.45rem, env(safe-area-inset-bottom, 0px)) !important;
+      box-sizing: border-box !important;
+      z-index: 1000 !important;
+      pointer-events: none !important;
+      transform: translateY(0) !important;
+      opacity: 1 !important;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease !important;
+      will-change: transform, opacity;
+    }
+
+    .bottom-panel > * {
+      pointer-events: auto !important;
+    }
+
+    .app-header {
+      position: relative !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
       margin: 0 auto !important;
       background: var(--bg-card) !important;
       border: 1px solid var(--border-color) !important;
       border-radius: var(--radius-md) !important;
-      padding: 0.28rem 0.65rem !important;
+      box-shadow: var(--shadow-sm) !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      min-height: 38px !important;
+      padding: 0.28rem 0.55rem !important;
       display: flex !important;
       align-items: center !important;
       justify-content: space-between !important;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 1px rgba(249, 115, 22, 0.25) !important;
-      backdrop-filter: blur(12px) !important;
-      -webkit-backdrop-filter: blur(12px) !important;
-      gap: 0.5rem !important;
-      box-sizing: border-box !important;
-      z-index: 1000 !important;
-      height: auto !important;
-      min-height: 38px !important;
-      max-height: none !important;
-      flex-wrap: nowrap !important;
-      flex-shrink: 0 !important;
       overflow: visible !important;
+      pointer-events: auto !important;
+      transition: background-color 0.25s ease, border-color 0.25s ease !important;
+    }
+
+    /* Fallback if .app-header rendered without .bottom-panel */
+    body:not(:has(.bottom-panel)) .app-header {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0.25rem 0.55rem max(0.45rem, env(safe-area-inset-bottom, 0px)) !important;
+      z-index: 1000 !important;
       transform: translateY(0) !important;
       opacity: 1 !important;
-      pointer-events: auto !important;
-      transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.32s ease, box-shadow 0.3s ease !important;
-      will-change: transform, opacity;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease !important;
+    }
+
+    .header-container {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 0.65rem !important;
+      flex-wrap: nowrap !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Desktop Sizing (> 1080px) */
+    @media (min-width: 1081px) {
+      .app-header {
+        min-height: 38px !important;
+        padding: 0.28rem 0.55rem !important;
+      }
+
+      .brand-nav-btn,
+      .reviewer-link-icon {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        max-width: 38px !important;
+        max-height: 38px !important;
+        border-radius: 9px !important;
+      }
+
+      .control-single-btn,
+      .action-btn,
+      .header-actions-group .btn-profile-lock,
+      .header-actions-group .scheme-dropdown-summary,
+      .header-actions-group .btn-temp-mode,
+      .header-actions-group .theme-toggle-btn {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        max-width: 38px !important;
+        max-height: 38px !important;
+        border-radius: var(--radius-full) !important;
+        font-size: 1.02rem !important;
+      }
+
+      .header-actions-group .scheme-dropdown-container,
+      .header-actions-group #header-scheme-dropdown {
+        width: 38px !important;
+        height: 38px !important;
+        min-width: 38px !important;
+        min-height: 38px !important;
+        max-width: 38px !important;
+        max-height: 38px !important;
+      }
+
+      .view-nav-btn,
+      .nav-btn {
+        min-height: 32px !important;
+        padding: 0.28rem 0.75rem !important;
+        font-size: 0.82rem !important;
+        gap: 0.32rem !important;
+        white-space: nowrap !important;
+      }
+
+      .score-tag,
+      .header-badge,
+      .profile-selector-btn {
+        padding: 0.25rem 0.65rem !important;
+        font-size: 0.85rem !important;
+        gap: 0.35rem !important;
+        min-height: 32px !important;
+        white-space: nowrap !important;
+      }
+    }
+
+    /* Tablet & iPad Ribbon Sizing (641px – 1080px) */
+    @media (max-width: 1080px) and (min-width: 641px) {
+      .app-header {
+        padding: 0.2rem 0.42rem !important;
+        min-height: 34px !important;
+      }
+
+      .header-container {
+        gap: 0.35rem !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .brand-group {
+        gap: 0.25rem !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .brand-nav-btn,
+      .reviewer-link-icon {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        border-radius: 8px !important;
+      }
+
+      .brand-calc-emoji {
+        width: 19px !important;
+        height: 19px !important;
+      }
+
+      .brand-emoji {
+        font-size: 1.05rem !important;
+      }
+
+      .view-nav-bar,
+      .mode-nav {
+        gap: 0.16rem !important;
+        padding: 2px !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .view-nav-btn,
+      .nav-btn {
+        padding: 0.22rem 0.5rem !important;
+        font-size: 0.74rem !important;
+        min-height: 28px !important;
+        gap: 0.22rem !important;
+        white-space: nowrap !important;
+      }
+
+      .score-tag,
+      .header-badge {
+        padding: 0.2rem 0.5rem !important;
+        font-size: 0.74rem !important;
+        gap: 0.28rem !important;
+      }
+
+      .header-action-buttons-group,
+      .header-profile-group {
+        gap: 0.25rem !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .control-single-btn,
+      .action-btn {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        font-size: 0.88rem !important;
+        border-radius: var(--radius-full) !important;
+      }
+
+      .profile-selector-btn {
+        padding: 0.2rem 0.5rem !important;
+        font-size: 0.74rem !important;
+        gap: 0.28rem !important;
+        min-height: 28px !important;
+        white-space: nowrap !important;
+      }
+
+      .header-actions-group {
+        gap: 0.25rem !important;
+        flex-wrap: nowrap !important;
+      }
+
+      .header-actions-group .btn-profile-lock,
+      .header-actions-group .scheme-dropdown-summary,
+      .header-actions-group .btn-temp-mode,
+      .header-actions-group .theme-toggle-btn {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+        font-size: 0.88rem !important;
+        border-radius: var(--radius-full) !important;
+      }
+
+      .header-actions-group .scheme-dropdown-container,
+      .header-actions-group #header-scheme-dropdown {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+        max-width: 32px !important;
+        max-height: 32px !important;
+      }
     }
 
     /* Zen Mode Auto-Hide for the Fixed Ribbon */
+    body.sheet-idle-hide .bottom-panel,
+    html.sheet-idle-hide .bottom-panel,
     body.sheet-idle-hide .app-header,
     html.sheet-idle-hide .app-header {
-      transform: translateY(calc(100% + 2rem)) !important;
+      transform: translateY(calc(100% + 25px)) !important;
       opacity: 0 !important;
       pointer-events: none !important;
     }
@@ -2716,9 +2939,7 @@
         font-size: 0.95rem;
       }
 
-      .brand-icon,
-      .brand-nav-btn,
-      .reviewer-link-icon {
+      .brand-icon {
         width: 26px !important;
         height: 26px !important;
         min-width: 26px !important;
@@ -4037,7 +4258,7 @@
     /* ==========================================================================
        DESKTOP FULL-SPACE & LEVEL CARDS FOR GRADE CALCULATOR & GWA SHEET
        ========================================================================== */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
       /* Shared desktop fluid width for all views */
       .app-container {
         max-width: 100% !important;
@@ -4740,7 +4961,7 @@
       box-shadow: 0 0 12px var(--accent-glow) !important;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 640px) {
       .brand-icon,
       .brand-nav-btn {
         width: 28px !important;
@@ -4753,25 +4974,28 @@
         font-size: 1.05rem !important;
       }
 
+      .bottom-panel {
+        padding: 0.25rem 0.35rem max(0.45rem, env(safe-area-inset-bottom, 0px)) !important;
+      }
+
       .app-header {
-        position: fixed !important;
-        bottom: max(0.35rem, env(safe-area-inset-bottom, 0px)) !important;
-        left: 0.45rem !important;
-        right: 0.45rem !important;
-        width: calc(100% - 0.9rem) !important;
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
         overflow: visible !important;
-        padding: 0.32rem 0.45rem !important;
+        padding: 0.28rem 0.45rem !important;
+      }
+
+      .header-container {
         display: flex !important;
         flex-wrap: wrap !important;
         align-items: center !important;
         justify-content: space-between !important;
         gap: 0.3rem 0.35rem !important;
-        height: auto !important;
-        min-height: unset !important;
-        max-height: none !important;
-        z-index: 1000 !important;
       }
 
       body.sheet-idle-hide .app-header,
@@ -5196,7 +5420,7 @@ html[data-active-view="calc"] #calc-view-container,
     body[data-view="calc"] #calc-view-container {
       display: flex !important;
     }
-    @media (min-width: 769px) {
+    @media (min-width: 768px) {
       html[data-active-view="calc"] #calc-view-container,
       html.view-calc #calc-view-container,
       body.view-calc #calc-view-container,
@@ -5479,184 +5703,188 @@ html[data-active-view="calc"] #calc-view-container,
 
 
 
-    <!-- 3. App Header & Profile Toolbar (Order 3 - Bottom of Page) -->
-    <header class="app-header">
-      <div class="brand-group">
-        <button type="button" class="brand-nav-btn active" id="btn-header-calc" title="Calculator View" aria-label="Calculator View">
-          <span class="brand-emoji">
-            <svg class="brand-calc-emoji" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="calc-body-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#475569"/>
-                  <stop offset="30%" stop-color="#334155"/>
-                  <stop offset="100%" stop-color="#1e293b"/>
-                </linearGradient>
-                <linearGradient id="calc-lcd-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#090d16"/>
-                  <stop offset="100%" stop-color="#111827"/>
-                </linearGradient>
-                <linearGradient id="calc-bevel-gloss" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
-                  <stop offset="45%" stop-color="#ffffff" stop-opacity="0.04"/>
-                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-                </linearGradient>
-                <linearGradient id="calc-btn-accent" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#fb923c"/>
-                  <stop offset="100%" stop-color="#ea580c"/>
-                </linearGradient>
-                <linearGradient id="calc-btn-fn-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#94a3b8"/>
-                  <stop offset="100%" stop-color="#64748b"/>
-                </linearGradient>
-                <linearGradient id="calc-btn-num-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#ffffff"/>
-                  <stop offset="100%" stop-color="#cbd5e1"/>
-                </linearGradient>
-              </defs>
-              <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
-              <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
-              <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
-              <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
-              <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
-              <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-              <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-              <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-            </svg>
-          </span>
-        </button>
-        <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn" id="btn-header-reviewer" title="Open JeyCub Terms Reviewer" aria-label="Open JeyCub Terms Reviewer">
-          <span class="brand-emoji">📖</span>
-        </a>
-        <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-btn" id="btn-header-sched" title="Open Schedule Creator" aria-label="Open Schedule Creator">
-          <span class="brand-emoji">📅</span>
-        </a>
-      </div>
+    <!-- 3. Bottom Panel Dock (.bottom-panel / .app-header) -->
+    <div class="bottom-panel">
+      <header class="app-header">
+        <div class="header-container">
+          <div class="brand-group">
+            <button type="button" class="brand-nav-btn active" id="btn-header-calc" title="Calculator View" aria-label="Calculator View">
+              <span class="brand-emoji">
+                <svg class="brand-calc-emoji" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="calc-body-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#475569"/>
+                      <stop offset="30%" stop-color="#334155"/>
+                      <stop offset="100%" stop-color="#1e293b"/>
+                    </linearGradient>
+                    <linearGradient id="calc-lcd-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#090d16"/>
+                      <stop offset="100%" stop-color="#111827"/>
+                    </linearGradient>
+                    <linearGradient id="calc-bevel-gloss" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.32"/>
+                      <stop offset="45%" stop-color="#ffffff" stop-opacity="0.04"/>
+                      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="calc-btn-accent" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#fb923c"/>
+                      <stop offset="100%" stop-color="#ea580c"/>
+                    </linearGradient>
+                    <linearGradient id="calc-btn-fn-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#94a3b8"/>
+                      <stop offset="100%" stop-color="#64748b"/>
+                    </linearGradient>
+                    <linearGradient id="calc-btn-num-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#ffffff"/>
+                      <stop offset="100%" stop-color="#cbd5e1"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
+                  <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
+                  <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
+                  <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
+                  <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
+                  <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                  <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                  <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                  <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                  <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                  <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                  <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                  <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                </svg>
+              </span>
+            </button>
+            <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn reviewer-link-icon" id="btn-header-reviewer" title="Open JeyCub Terms Reviewer" aria-label="Open JeyCub Terms Reviewer">
+              <span class="brand-emoji">📖</span>
+            </a>
+            <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-btn reviewer-link-icon" id="btn-header-sched" title="Open Schedule Creator" aria-label="Open Schedule Creator">
+              <span class="brand-emoji">📅</span>
+            </a>
+          </div>
 
-      <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
-      <div class="header-nav-row">
-        <nav class="view-nav-bar">
-          <button class="view-nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + ←)">
-            <span class="brand-emoji" style="margin-right: 4px;">
-              <svg class="brand-calc-emoji" style="width: 14px; height: 14px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
-                <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
-                <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
-                <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
-                <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
-                <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-              </svg>
-            </span>
-            Calculator View
-          </button>
-          <button class="view-nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
-            <span>📊</span> GWA Sheet
-          </button>
-        </nav>
-      </div>
+          <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
+          <div class="header-nav-row">
+            <nav class="view-nav-bar mode-nav">
+              <button class="view-nav-btn nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + ←)">
+                <span class="brand-emoji" style="margin-right: 4px;">
+                  <svg class="brand-calc-emoji" style="width: 14px; height: 14px;" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
+                    <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
+                    <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
+                    <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
+                    <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
+                    <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                  </svg>
+                </span>
+                Calculator View
+              </button>
+              <button class="view-nav-btn nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
+                <span>📊</span> GWA Sheet
+              </button>
+            </nav>
+          </div>
 
-      <!-- User Profile & Grading Scheme Bar -->
-      <div class="header-profile-group">
-        <!-- User Profile Selector (In the Middle) -->
-        <div class="user-profile-bar" title="Active User Profile">
-          <button type="button" class="profile-selector-btn" id="btn-profile-selector" title="Click to Select / Switch Profile">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span id="active-profile-label">No Profile</span>
-            <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
-          <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-        </div>
-
-        <!-- Action Buttons Aligned on the Right -->
-        <div class="header-actions-group">
-          <span class="save-indicator" id="save-indicator">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          </span>
-
-          <button class="btn-profile-lock" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
-            <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <!-- Unlocked state by default -->
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-              <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
-            </svg>
-          </button>
-
-          <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
-          <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
-            <summary class="scheme-dropdown-summary" title="TIP 75-Base Grading Scale" aria-label="Toggle TIP Grading Scale">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-              </svg>
-            </summary>
-            <div class="scheme-dropdown-content">
-              <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
-                📋 TIP Grading Scale (75-base)
-              </div>
-              <table class="sheet-table" style="font-size: 0.58rem; width: 100%;">
-                <thead>
-                  <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
-                  <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
-                  <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
-                  <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
-                  <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
-                  <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
-                  <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
-                  <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
-                  <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
-                  <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
-                </tbody>
-              </table>
+          <!-- User Profile & Grading Scheme Bar -->
+          <div class="header-profile-group header-action-buttons-group">
+            <!-- User Profile Selector (In the Middle) -->
+            <div class="user-profile-bar" title="Active User Profile">
+              <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span id="active-profile-label">No Profile</span>
+                <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <select id="user-selector" title="Select User Profile" style="display: none;"></select>
             </div>
-          </details>
 
-          <button type="button" class="btn-temp-mode" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
-            </svg>
-          </button>
+            <!-- Action Buttons Aligned on the Right -->
+            <div class="header-actions-group">
+              <span class="save-indicator" id="save-indicator">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
 
-          <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
-            <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-            </svg>
-          </button>
+              <button class="btn-profile-lock control-single-btn action-btn" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
+                <svg id="lock-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <!-- Unlocked state by default -->
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+                </svg>
+              </button>
+
+              <!-- TIP Grading Scheme Dropdown (Small Button, Visible only in GWA Sheet View) -->
+              <details class="scheme-dropdown-container" id="header-scheme-dropdown" style="display: none;">
+                <summary class="scheme-dropdown-summary control-single-btn action-btn" title="TIP 75-Base Grading Scale" aria-label="Toggle TIP Grading Scale">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </summary>
+                <div class="scheme-dropdown-content">
+                  <div style="font-size: 0.65rem; font-weight: 800; color: var(--accent-primary); margin-bottom: 0.3rem;">
+                    📋 TIP Grading Scale (75-base)
+                  </div>
+                  <table class="sheet-table" style="font-size: 0.58rem; width: 100%;">
+                    <thead>
+                      <tr><th>Percentage</th><th style="text-align:center;">Equiv</th><th>Rating</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>99.0 – 100.0%</td><td class="sheet-grade-cell pass">1.00</td><td>Excellent</td></tr>
+                      <tr><td>96.0 – 98.99%</td><td class="sheet-grade-cell pass">1.25</td><td>Superior</td></tr>
+                      <tr><td>93.0 – 95.99%</td><td class="sheet-grade-cell pass">1.50</td><td>Meritorious</td></tr>
+                      <tr><td>90.0 – 92.99%</td><td class="sheet-grade-cell pass">1.75</td><td>Very Good</td></tr>
+                      <tr><td>87.0 – 89.99%</td><td class="sheet-grade-cell pass">2.00</td><td>Good</td></tr>
+                      <tr><td>84.0 – 86.99%</td><td class="sheet-grade-cell pass">2.25</td><td>Very Satisfactory</td></tr>
+                      <tr><td>81.0 – 83.99%</td><td class="sheet-grade-cell pass">2.50</td><td>Satisfactory</td></tr>
+                      <tr><td>78.0 – 80.99%</td><td class="sheet-grade-cell pass">2.75</td><td>Fair</td></tr>
+                      <tr><td>75.0 – 77.99%</td><td class="sheet-grade-cell pass">3.00</td><td>Passing</td></tr>
+                      <tr><td>0.0 – 74.99%</td><td class="sheet-grade-cell fail">5.00</td><td>Failed</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+
+              <button type="button" class="btn-temp-mode control-single-btn action-btn" id="btn-temp-mode" title="Temporary Mode: Edits are not saved and will reset on refresh or profile switch" aria-label="Toggle Temporary Mode">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>
+                </svg>
+              </button>
+
+              <button class="theme-toggle-btn control-single-btn action-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
+                <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
 
     <!-- Temporary Mode Banner (Bottom of Page) -->
     <div id="temp-mode-banner" class="temp-mode-banner" style="display: none;">
