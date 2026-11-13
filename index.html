@@ -1228,8 +1228,35 @@
       min-width: 36px;
       padding: 0.15rem 0.25rem;
       font-size: 0.8rem;
+      font-weight: 700;
       text-align: center;
       box-sizing: border-box;
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--text-primary) !important;
+      outline: none !important;
+      cursor: text;
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    #exam-score:hover,
+    #exam-total:hover {
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    [data-theme="light"] #exam-score:hover,
+    [data-theme="light"] #exam-total:hover {
+      background: rgba(0, 0, 0, 0.035) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    #exam-score:focus,
+    #exam-total:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
     }
 
     .item-inputs input::placeholder {
@@ -1277,11 +1304,11 @@
     }
 
     .target-select-display {
-      background: var(--bg-input);
-      border: 1.5px solid var(--border-color);
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
       color: var(--text-primary);
-      padding: 0.3rem 0.65rem;
-      border-radius: var(--radius-md);
+      padding: 0.22rem 0.45rem;
+      border-radius: var(--radius-sm);
       font-family: inherit;
       font-size: 0.825rem;
       font-weight: 700;
@@ -1289,18 +1316,27 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 0.3rem;
       user-select: none;
-      transition: var(--transition);
+      transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .target-select-display:hover {
-      border-color: var(--border-color-hover);
-      background: var(--bg-card-hover);
+      background: rgba(255, 255, 255, 0.04) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
     }
 
-    .target-select-display.open {
-      border-color: var(--accent-primary);
-      box-shadow: 0 0 0 3px var(--accent-glow);
+    [data-theme="light"] .target-select-display:hover {
+      background: rgba(0, 0, 0, 0.035) !important;
+      border-color: rgba(249, 115, 22, 0.35) !important;
+    }
+
+    .target-select-display.open,
+    .target-select-display:focus {
+      background: var(--bg-input) !important;
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 2px var(--accent-glow) !important;
+      outline: none !important;
     }
 
     .target-select-options {
@@ -2807,6 +2843,8 @@
         padding: 0.22rem 0.5rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       #card-exam-section .hr {
@@ -2846,7 +2884,9 @@
 
       .target-select-display {
         font-size: 1.15rem !important;
-        padding: 0.35rem 0.85rem !important;
+        padding: 0.35rem 0.65rem !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       .target-option-item {
@@ -4046,6 +4086,8 @@
         font-size: 0.95rem !important;
         padding: 0.22rem 0.45rem !important;
         height: 32px !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       html[data-active-view="calc"] .target-row,
@@ -4077,8 +4119,10 @@
       body.view-calc .target-select-display,
       body:not(.view-sheet) .target-select-display {
         font-size: 0.85rem !important;
-        padding: 0.22rem 0.6rem !important;
+        padding: 0.22rem 0.5rem !important;
         height: 30px !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
       }
 
       html[data-active-view="calc"] #compute,
