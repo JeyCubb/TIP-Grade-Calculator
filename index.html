@@ -1020,28 +1020,7 @@
     }
 
     .min-exam-banner {
-      width: 100% !important;
-      box-sizing: border-box !important;
-      padding: 0.45rem 0.85rem !important;
-      border-radius: var(--radius-sm) !important;
-      background: var(--accent-primary) !important;
-      color: #ffffff !important;
-      font-weight: 800 !important;
-      font-size: 0.88rem !important;
-      text-align: center !important;
-      box-shadow: 0 4px 14px var(--accent-glow) !important;
-      display: none;
-      margin-top: 0.2rem !important;
-      letter-spacing: 0.02em !important;
-      transition: all 0.2s ease !important;
-    }
-
-    .min-exam-banner:not(:empty) {
-      display: block !important;
-    }
-
-    [data-theme="light"] .min-exam-banner {
-      color: #ffffff !important;
+      display: none !important;
     }
 
     #categories {
@@ -4983,7 +4962,7 @@ html[data-active-view="calc"] #calc-view-container,
               Compute Minimum
             </button>
           </div>
-          <div id="summary" class="min-exam-banner"></div>
+          <div id="summary" class="min-exam-banner" style="display: none !important;"></div>
         </div>
 
         <div class="hr" style="display: none;"></div>
@@ -7921,7 +7900,7 @@ html[data-active-view="calc"] #calc-view-container,
         examScoreEl.value = '0.00';
         examScoreEl.classList.add('green');
         recomputeAll();
-        summaryEl.textContent = `✓ Target ${targetEq} met even with 0 exam score (0.00 / ${total.toFixed(0)}).`;
+        summaryEl.textContent = '';
         saveUserData();
 
         showCustomAlert({
@@ -7949,7 +7928,25 @@ html[data-active-view="calc"] #calc-view-container,
         return;
       }
       if (neededExam50 > examMax) {
-        summaryEl.textContent = `⚠️ Target ${targetEq} (${targetPct}%) cannot be reached even with 100% exam score.`;
+        showCustomAlert({
+          title: `Target ${targetEq} Unreachable`,
+          subtitle: `Requires more than 100% on the exam`,
+          iconBg: 'rgba(239, 68, 68, 0.15)',
+          iconColor: 'var(--color-error)',
+          iconSvg: `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          `,
+          htmlContent: `
+            <p style="margin: 0; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">
+              Target <strong style="color: var(--accent-primary);">${targetEq}</strong> (${targetPct}%) cannot be reached even with a perfect 100% exam score.
+            </p>
+          `,
+          okText: 'Understood'
+        });
         saveUserData();
         return;
       }
@@ -7972,7 +7969,7 @@ html[data-active-view="calc"] #calc-view-container,
       examScoreEl.classList.add('green');
 
       recomputeAll();
-      summaryEl.textContent = `💡 Needed Exam: ${scoreVal.toFixed(2)} / ${total.toFixed(0)}`;
+      summaryEl.textContent = '';
       saveUserData();
     }
 
@@ -8117,10 +8114,6 @@ html[data-active-view="calc"] #calc-view-container,
 
     examScoreEl.addEventListener('input', () => {
       examScoreEl.classList.remove('green');
-      if (currentMode() === 'term' && prevGradeEl.value.trim() === '') {
-        getPrevPercent(true);
-        summaryEl.textContent = '⚠️ Enter Prev Term Average % for Midterms/Finals.';
-      }
       recomputeAll();
       saveUserData();
     });
