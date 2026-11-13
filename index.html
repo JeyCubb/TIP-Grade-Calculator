@@ -2233,7 +2233,8 @@
 
       .sem-footer-summary-text,
       #sem1-footer-summary,
-      #sem2-footer-summary {
+      #sem2-footer-summary,
+      #summer-footer-summary {
         font-size: 0.65rem !important;
       }
     }
@@ -3490,7 +3491,8 @@
 
       .sem-footer-summary-text,
       #sem1-footer-summary,
-      #sem2-footer-summary {
+      #sem2-footer-summary,
+      #summer-footer-summary {
         font-size: 1.15rem !important;
         display: flex !important;
         align-items: center !important;
@@ -6028,6 +6030,10 @@ html[data-active-view="calc"] #calc-view-container,
                 <span>Second Semester</span>
                 <svg class="sem-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               </button>
+              <button type="button" class="sem-dropdown-item" id="btn-switch-summer" data-sem="summer" title="Summer (Shift + →)" style="display: none;">
+                <span>Summer</span>
+                <svg class="sem-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
             </div>
           </details>
         </div>
@@ -6097,6 +6103,40 @@ html[data-active-view="calc"] #calc-view-container,
               <div class="unhide-cols-bar" id="sem2-unhide-bar"></div>
             </div>
             <div class="sem-footer-summary-text" id="sem2-footer-summary">
+              <span class="sem-footer-units">Units: <span style="color: var(--accent-primary);">0</span></span>
+              <span class="sem-footer-gwa">GWA: <span style="color: var(--accent-primary);">0.00</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summer Card (4th Year Only) -->
+        <div class="semester-card" id="summer-card" style="display: none;">
+          <div class="sheet-table-wrapper">
+            <table class="sheet-table" id="summer-table">
+              <thead>
+                <tr>
+                  <th class="col-subj">Subject</th>
+                  <th class="col-prelim col-clickable" style="text-align: center;" data-col="prelim" title="Click to hide Prelims column">Prelims</th>
+                  <th class="col-midterm col-clickable" style="text-align: center;" data-col="midterm" title="Click to hide Midterms column">Midterms</th>
+                  <th class="col-final col-clickable" style="text-align: center;" data-col="final" title="Click to hide Finals column">Finals</th>
+                  <th class="col-grade" style="text-align: center;">Grade</th>
+                  <th class="col-units" style="text-align: center;">Units</th>
+                  <th style="text-align: center; width: 28px;"></th>
+                </tr>
+              </thead>
+              <tbody id="summer-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="sheet-footer-row">
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <button class="btn btn-sm btn-add-action" id="btn-add-summer-row" style="font-size: 0.75rem;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                Add Subject
+              </button>
+              <div class="unhide-cols-bar" id="summer-unhide-bar"></div>
+            </div>
+            <div class="sem-footer-summary-text" id="summer-footer-summary">
               <span class="sem-footer-units">Units: <span style="color: var(--accent-primary);">0</span></span>
               <span class="sem-footer-gwa">GWA: <span style="color: var(--accent-primary);">0.00</span></span>
             </div>
@@ -9535,6 +9575,16 @@ html[data-active-view="calc"] #calc-view-container,
         "grade": "",
         "units": ""
       }
+    ],
+    "summer": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
     ]
   },
   "3rd Year": {
@@ -10034,6 +10084,16 @@ html[data-active-view="calc"] #calc-view-container,
       }
     ],
     "sem2": [
+      {
+        "name": "",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": ""
+      }
+    ],
+    "summer": [
       {
         "name": "",
         "prelim": "",
@@ -10600,8 +10660,12 @@ html[data-active-view="calc"] #calc-view-container,
       if (!userSheetData['4th Year']) {
         userSheetData['4th Year'] = {
           sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
-          sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }]
+          sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
+          summer: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }]
         };
+        saveSheetData();
+      } else if (!userSheetData['4th Year'].summer) {
+        userSheetData['4th Year'].summer = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
         saveSheetData();
       }
 
@@ -10777,14 +10841,16 @@ html[data-active-view="calc"] #calc-view-container,
 
       const gwa1 = getSemGwa(data.sem1);
       const gwa2 = getSemGwa(data.sem2);
+      const gwaSummer = (yearKey === '4th Year' && data.summer) ? getSemGwa(data.summer) : 0;
 
-      if (gwa1 > 0 && gwa2 > 0) {
-        const r1 = Math.floor(gwa1 * 100 + 0.0000001) / 100;
-        const r2 = Math.floor(gwa2 * 100 + 0.0000001) / 100;
-        return (r1 + r2) / 2;
+      const validGwas = [];
+      if (gwa1 > 0) validGwas.push(Math.floor(gwa1 * 100 + 0.0000001) / 100);
+      if (gwa2 > 0) validGwas.push(Math.floor(gwa2 * 100 + 0.0000001) / 100);
+      if (gwaSummer > 0) validGwas.push(Math.floor(gwaSummer * 100 + 0.0000001) / 100);
+
+      if (validGwas.length > 0) {
+        return validGwas.reduce((acc, val) => acc + val, 0) / validGwas.length;
       }
-      if (gwa1 > 0) return gwa1;
-      if (gwa2 > 0) return gwa2;
       return 0;
     }
 
@@ -10841,6 +10907,10 @@ html[data-active-view="calc"] #calc-view-container,
           btn.addEventListener('click', (e) => {
             e.preventDefault();
             activeSheetYear = yearKey;
+            if (activeSheetYear !== '4th Year' && activeSemester === 'summer') {
+              activeSemester = 'sem1';
+              localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
+            }
             localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
             const yearDropdown = document.getElementById('year-dropdown');
             if (yearDropdown) yearDropdown.removeAttribute('open');
@@ -10893,7 +10963,9 @@ html[data-active-view="calc"] #calc-view-container,
 
       const colOrder = ['prelim', 'midterm', 'final'];
 
-      ['sem1', 'sem2'].forEach(semKey => {
+      const activeSemKeys = activeSheetYear === '4th Year' ? ['sem1', 'sem2', 'summer'] : ['sem1', 'sem2'];
+
+      activeSemKeys.forEach(semKey => {
         const card = document.getElementById(`${semKey}-card`);
         const hiddenCols = getHiddenColsFor(activeSheetYear, semKey);
 
@@ -10919,7 +10991,8 @@ html[data-active-view="calc"] #calc-view-container,
               pill.className = 'unhide-pill';
               const label = col.charAt(0).toUpperCase() + col.slice(1) + 's';
               pill.innerHTML = `+ Show ${label}`;
-              pill.title = `Click to restore ${label} column for ${activeSheetYear} ${semKey === 'sem1' ? '1st Sem' : '2nd Sem'}`;
+              const semLabel = semKey === 'sem1' ? '1st Sem' : (semKey === 'sem2' ? '2nd Sem' : 'Summer');
+              pill.title = `Click to restore ${label} column for ${activeSheetYear} ${semLabel}`;
               pill.addEventListener('click', () => {
                 toggleHideColumn(col, semKey);
               });
@@ -11016,51 +11089,74 @@ html[data-active-view="calc"] #calc-view-container,
     function renderSheetView() {
       if (!userSheetData) return;
 
+      if (activeSheetYear === '4th Year' && !userSheetData['4th Year'].summer) {
+        userSheetData['4th Year'].summer = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
+      }
+
+      // If activeSheetYear is not 4th Year and activeSemester is summer, reset to sem1
+      if (activeSheetYear !== '4th Year' && activeSemester === 'summer') {
+        activeSemester = 'sem1';
+        localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
+      }
+
       const sem1Stats = renderSemesterTable('sem1', 'sem1-tbody', 'sem1-footer-summary');
       const sem2Stats = renderSemesterTable('sem2', 'sem2-tbody', 'sem2-footer-summary');
+      const summerStats = activeSheetYear === '4th Year' ? renderSemesterTable('summer', 'summer-tbody', 'summer-footer-summary') : { gwa: 0, units: 0 };
 
       updateHiddenColumnView();
 
       let annualGwa = 0;
-      if (sem1Stats.gwa > 0 && sem2Stats.gwa > 0) {
-        const r1 = Math.floor(sem1Stats.gwa * 100 + 0.0000001) / 100;
-        const r2 = Math.floor(sem2Stats.gwa * 100 + 0.0000001) / 100;
-        annualGwa = (r1 + r2) / 2;
-      } else if (sem1Stats.gwa > 0) {
-        annualGwa = sem1Stats.gwa;
-      } else if (sem2Stats.gwa > 0) {
-        annualGwa = sem2Stats.gwa;
+      const validGwas = [];
+      if (sem1Stats.gwa > 0) validGwas.push(Math.floor(sem1Stats.gwa * 100 + 0.0000001) / 100);
+      if (sem2Stats.gwa > 0) validGwas.push(Math.floor(sem2Stats.gwa * 100 + 0.0000001) / 100);
+      if (activeSheetYear === '4th Year' && summerStats.gwa > 0) validGwas.push(Math.floor(summerStats.gwa * 100 + 0.0000001) / 100);
+
+      if (validGwas.length > 0) {
+        annualGwa = validGwas.reduce((a, b) => a + b, 0) / validGwas.length;
       }
 
       // Update Single-Semester View Visibility
       const btnSem1 = document.getElementById('btn-switch-sem1');
       const btnSem2 = document.getElementById('btn-switch-sem2');
+      const btnSummer = document.getElementById('btn-switch-summer');
       const cardSem1 = document.getElementById('sem1-card');
       const cardSem2 = document.getElementById('sem2-card');
+      const cardSummer = document.getElementById('summer-card');
+
+      if (btnSummer) {
+        btnSummer.style.display = activeSheetYear === '4th Year' ? 'flex' : 'none';
+      }
 
       if (btnSem1 && btnSem2 && cardSem1 && cardSem2) {
-        if (activeSemester === 'sem2') {
-          btnSem2.classList.add('active');
-          btnSem1.classList.remove('active');
-          cardSem1.style.display = 'none';
-          cardSem2.style.display = 'flex';
-        } else {
-          btnSem1.classList.add('active');
-          btnSem2.classList.remove('active');
-          cardSem1.style.display = 'flex';
-          cardSem2.style.display = 'none';
+        btnSem1.classList.toggle('active', activeSemester === 'sem1');
+        btnSem2.classList.toggle('active', activeSemester === 'sem2');
+        if (btnSummer) {
+          btnSummer.classList.toggle('active', activeSemester === 'summer');
+        }
+
+        cardSem1.style.display = activeSemester === 'sem1' ? 'flex' : 'none';
+        cardSem2.style.display = activeSemester === 'sem2' ? 'flex' : 'none';
+        if (cardSummer) {
+          cardSummer.style.display = (activeSheetYear === '4th Year' && activeSemester === 'summer') ? 'flex' : 'none';
         }
       }
 
       // Update semester dropdown label
       const semDropdownLabel = document.getElementById('sem-dropdown-label');
       if (semDropdownLabel) {
-        semDropdownLabel.textContent = activeSemester === 'sem2' ? 'Second Semester' : 'First Semester';
+        if (activeSheetYear === '4th Year' && activeSemester === 'summer') {
+          semDropdownLabel.textContent = 'Summer';
+        } else if (activeSemester === 'sem2') {
+          semDropdownLabel.textContent = 'Second Semester';
+        } else {
+          semDropdownLabel.textContent = 'First Semester';
+        }
       }
 
       // Hide Add Subject buttons on 1st, 2nd, and 3rd year
       const btnAddSem1 = document.getElementById('btn-add-sem1-row');
       const btnAddSem2 = document.getElementById('btn-add-sem2-row');
+      const btnAddSummer = document.getElementById('btn-add-summer-row');
 
       if (btnAddSem1) {
         if (activeSheetYear === '1st Year' || activeSheetYear === '2nd Year' || activeSheetYear === '3rd Year') {
@@ -11078,6 +11174,10 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
+      if (btnAddSummer) {
+        btnAddSummer.style.display = activeSheetYear === '4th Year' ? 'inline-flex' : 'none';
+      }
+
       localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
       localStorage.setItem('tip_gc_active_sheet_sem', activeSemester);
 
@@ -11087,10 +11187,10 @@ html[data-active-view="calc"] #calc-view-container,
 
     // Semester Switcher Event Listeners
     let activeSemester = localStorage.getItem('tip_gc_active_sheet_sem') || 'sem1';
-    if (activeSemester !== 'sem1' && activeSemester !== 'sem2') activeSemester = 'sem1';
+    if (activeSemester !== 'sem1' && activeSemester !== 'sem2' && activeSemester !== 'summer') activeSemester = 'sem1';
 
     function setSheetSemester(sem) {
-      if (sem !== 'sem1' && sem !== 'sem2') return;
+      if (sem !== 'sem1' && sem !== 'sem2' && (sem !== 'summer' || activeSheetYear !== '4th Year')) return;
       activeSemester = sem;
       localStorage.setItem('tip_gc_active_sheet_sem', sem);
       const semDropdown = document.getElementById('sem-dropdown');
@@ -11100,6 +11200,7 @@ html[data-active-view="calc"] #calc-view-container,
 
     const btnSwitchSem1 = document.getElementById('btn-switch-sem1');
     const btnSwitchSem2 = document.getElementById('btn-switch-sem2');
+    const btnSwitchSummer = document.getElementById('btn-switch-summer');
 
     if (btnSwitchSem1) {
       btnSwitchSem1.addEventListener('click', (e) => {
@@ -11111,6 +11212,12 @@ html[data-active-view="calc"] #calc-view-container,
       btnSwitchSem2.addEventListener('click', (e) => {
         e.preventDefault();
         setSheetSemester('sem2');
+      });
+    }
+    if (btnSwitchSummer) {
+      btnSwitchSummer.addEventListener('click', (e) => {
+        e.preventDefault();
+        setSheetSemester('summer');
       });
     }
 
@@ -11129,9 +11236,10 @@ html[data-active-view="calc"] #calc-view-container,
     function updateSheetCalculationsOnly() {
       if (!userSheetData || !userSheetData[activeSheetYear]) return;
 
-      let annualGwaCalc = { sem1Gwa: 0, sem2Gwa: 0 };
+      let annualGwaCalc = { sem1Gwa: 0, sem2Gwa: 0, summerGwa: 0 };
+      const semKeys = activeSheetYear === '4th Year' ? ['sem1', 'sem2', 'summer'] : ['sem1', 'sem2'];
 
-      ['sem1', 'sem2'].forEach(semKey => {
+      semKeys.forEach(semKey => {
         const tbody = document.getElementById(`${semKey}-tbody`);
         if (!tbody) return;
 
@@ -11174,6 +11282,7 @@ html[data-active-view="calc"] #calc-view-container,
         const semGwa = gradedUnits > 0 && validGradesCount > 0 ? (weightedSum / gradedUnits) : 0;
         if (semKey === 'sem1') annualGwaCalc.sem1Gwa = semGwa;
         if (semKey === 'sem2') annualGwaCalc.sem2Gwa = semGwa;
+        if (semKey === 'summer') annualGwaCalc.summerGwa = semGwa;
 
         const sSummary = document.getElementById(`${semKey}-footer-summary`);
         if (sSummary) {
@@ -11182,14 +11291,13 @@ html[data-active-view="calc"] #calc-view-container,
       });
 
       let annualGwa = 0;
-      if (annualGwaCalc.sem1Gwa > 0 && annualGwaCalc.sem2Gwa > 0) {
-        const r1 = Math.floor(annualGwaCalc.sem1Gwa * 100 + 0.0000001) / 100;
-        const r2 = Math.floor(annualGwaCalc.sem2Gwa * 100 + 0.0000001) / 100;
-        annualGwa = (r1 + r2) / 2;
-      } else if (annualGwaCalc.sem1Gwa > 0) {
-        annualGwa = annualGwaCalc.sem1Gwa;
-      } else if (annualGwaCalc.sem2Gwa > 0) {
-        annualGwa = annualGwaCalc.sem2Gwa;
+      const validGwas = [];
+      if (annualGwaCalc.sem1Gwa > 0) validGwas.push(Math.floor(annualGwaCalc.sem1Gwa * 100 + 0.0000001) / 100);
+      if (annualGwaCalc.sem2Gwa > 0) validGwas.push(Math.floor(annualGwaCalc.sem2Gwa * 100 + 0.0000001) / 100);
+      if (activeSheetYear === '4th Year' && annualGwaCalc.summerGwa > 0) validGwas.push(Math.floor(annualGwaCalc.summerGwa * 100 + 0.0000001) / 100);
+
+      if (validGwas.length > 0) {
+        annualGwa = validGwas.reduce((a, b) => a + b, 0) / validGwas.length;
       }
       renderSheetYearTabs(annualGwa);
       updateTotalGwaDisplay();
@@ -11279,7 +11387,7 @@ html[data-active-view="calc"] #calc-view-container,
       const thCol = e.target.closest('th.col-clickable');
       if (thCol && thCol.dataset.col) {
         const card = thCol.closest('.semester-card');
-        const semKey = card && card.id === 'sem2-card' ? 'sem2' : 'sem1';
+        const semKey = card ? (card.id === 'sem2-card' ? 'sem2' : card.id === 'summer-card' ? 'summer' : 'sem1') : 'sem1';
         toggleHideColumn(thCol.dataset.col, semKey);
         return;
       }
@@ -11309,6 +11417,19 @@ html[data-active-view="calc"] #calc-view-container,
       saveSheetData();
       renderSheetView();
     });
+
+    const btnAddSummerRow = document.getElementById('btn-add-summer-row');
+    if (btnAddSummerRow) {
+      btnAddSummerRow.addEventListener('click', () => {
+        if (!userSheetData || !userSheetData[activeSheetYear]) return;
+        if (!userSheetData[activeSheetYear].summer) {
+          userSheetData[activeSheetYear].summer = [];
+        }
+        userSheetData[activeSheetYear].summer.push({ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' });
+        saveSheetData();
+        renderSheetView();
+      });
+    }
 
     const btnAddYear = document.getElementById('btn-add-year-tab');
     if (btnAddYear) {
@@ -11346,6 +11467,13 @@ html[data-active-view="calc"] #calc-view-container,
           const g = computeRowGrade(r);
           csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
         });
+        if (data.summer && activeSheetYear === '4th Year') {
+          csv += `\nSummer\nSubject,Prelims,Midterms,Finals,Grade,Units\n`;
+          data.summer.forEach(r => {
+            const g = computeRowGrade(r);
+            csv += `"${r.name || ''}",${r.prelim || ''},${r.midterm || ''},${r.final || ''},${!isNaN(g) ? g.toFixed(2) : ''},${r.units || 0}\n`;
+          });
+        }
 
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
@@ -11641,6 +11769,10 @@ html[data-active-view="calc"] #calc-view-container,
                 const newIdx = Math.min(sortedKeys.length - 1, currentIdx + 1);
                 if (newIdx !== currentIdx) {
                   activeSheetYear = sortedKeys[newIdx];
+                  if (activeSheetYear !== '4th Year' && activeSemester === 'summer') {
+                    activeSemester = 'sem1';
+                    localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
+                  }
                   localStorage.setItem('tip_gc_active_sheet_year', activeSheetYear);
                   renderSheetView();
                 }
@@ -11657,14 +11789,22 @@ html[data-active-view="calc"] #calc-view-container,
         if (currentActiveView === 'sheet' && activeTag !== 'input' && activeTag !== 'select') {
           if (e.key === 'ArrowLeft') {
             e.preventDefault();
-            activeSemester = 'sem1';
-            localStorage.setItem('tip_gc_active_sheet_sem', 'sem1');
+            if (activeSheetYear === '4th Year' && activeSemester === 'summer') {
+              activeSemester = 'sem2';
+            } else {
+              activeSemester = 'sem1';
+            }
+            localStorage.setItem('tip_gc_active_sheet_sem', activeSemester);
             renderSheetView();
             return;
           } else if (e.key === 'ArrowRight') {
             e.preventDefault();
-            activeSemester = 'sem2';
-            localStorage.setItem('tip_gc_active_sheet_sem', 'sem2');
+            if (activeSheetYear === '4th Year' && activeSemester === 'sem2') {
+              activeSemester = 'summer';
+            } else if (activeSemester === 'sem1') {
+              activeSemester = 'sem2';
+            }
+            localStorage.setItem('tip_gc_active_sheet_sem', activeSemester);
             renderSheetView();
             return;
           }
