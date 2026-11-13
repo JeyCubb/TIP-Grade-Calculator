@@ -5089,7 +5089,7 @@
         margin: 0 !important;
       }
 
-      /* 6. CS card: Fills all remaining space and is THE ONLY SCROLLING AREA */
+      /* 6. CS card: Fills all remaining space, holds header and scrolling categories */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section {
         width: 100% !important;
@@ -5099,46 +5099,46 @@
         height: 0 !important;
         max-height: none !important;
         box-sizing: border-box !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important; /* ONLY CS SCROLLS */
-        -webkit-overflow-scrolling: touch !important;
-        touch-action: pan-y !important;
-        overscroll-behavior-y: contain !important;
+        overflow: hidden !important;
         display: flex !important;
         flex-direction: column !important;
         order: 2 !important;
         margin: 0 !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        padding: 0.55rem 0.75rem 0.65rem 0.75rem !important;
       }
 
-      /* Sticky card header inside CS card */
+      /* Permanent non-sticky card header at top of CS card - NEVER overlaps */
       html[data-active-view="calc"] #card-cs-section .card-header,
       body.view-calc #card-cs-section .card-header {
         flex-shrink: 0 !important;
-        position: sticky !important;
-        top: 0 !important;
-        background: var(--bg-card) !important;
-        z-index: 5 !important;
-        padding-top: 0.1rem !important;
-        padding-bottom: 0.25rem !important;
-        margin-bottom: 0.2rem !important;
+        position: static !important;
+        background: transparent !important;
+        z-index: 2 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0.3rem !important;
+        margin-bottom: 0.25rem !important;
       }
 
-      /* Categories list flows naturally inside the scrolling CS card */
+      /* Categories list is the dedicated smooth scrolling area inside CS */
       html[data-active-view="calc"] #categories,
       body.view-calc #categories {
         display: flex !important;
         flex-direction: column !important;
         gap: 0.45rem !important;
         width: 100% !important;
+        flex: 1 1 auto !important;
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        overflow: visible !important;
-        flex: none !important;
-        padding: 0 !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
+        overscroll-behavior-y: contain !important;
+        padding: 0.1rem 2px 0.4rem 0 !important;
         margin: 0 !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
       }
 
       /* Add Category button visible at bottom of CS content */
@@ -5146,7 +5146,7 @@
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.35rem !important;
-        padding-bottom: 0.25rem !important;
+        padding-bottom: 0.1rem !important;
       }
     }
 
