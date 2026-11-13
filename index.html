@@ -1658,7 +1658,7 @@
       .final-grade-title-group {
         display: flex !important;
         flex-direction: row !important;
-        align-items: baseline !important;
+        align-items: center !important;
         gap: 0.35rem !important;
         min-width: 0;
         flex-shrink: 1;
@@ -4121,7 +4121,7 @@
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
         gap: 0.65rem !important;
-        align-items: stretch !important;
+        align-items: start !important;
         overflow: hidden !important;
         margin-bottom: 0 !important;
         box-sizing: border-box !important;
@@ -4132,6 +4132,7 @@
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         order: 1 !important;
+        align-self: stretch !important;
         height: 100% !important;
         min-height: 0 !important;
         max-height: 100% !important;
@@ -4176,10 +4177,11 @@
       body[data-view="calc"] #card-exam-section,
       body:not(.view-sheet) #card-exam-section {
         order: 2 !important;
-        height: auto !important;
-        min-height: 0 !important;
-        max-height: none !important;
         align-self: start !important;
+        height: auto !important;
+        height: fit-content !important;
+        max-height: fit-content !important;
+        min-height: 0 !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: flex-start !important;
@@ -4283,18 +4285,34 @@
         flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 0.25rem 0.55rem !important;
-        gap: 0.4rem !important;
+        padding: 0.38rem 0.75rem !important;
+        gap: 0.5rem !important;
+        background: rgba(249, 115, 22, 0.08) !important;
+        border: 1.5px solid var(--accent-primary) !important;
+        border-radius: var(--radius-md) !important;
+        box-shadow: 0 2px 10px rgba(249, 115, 22, 0.12) !important;
         box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] .final-grade-title-group,
       body.view-calc .final-grade-title-group,
       body:not(.view-sheet) .final-grade-title-group {
-        display: flex !important;
+        display: inline-flex !important;
         flex-direction: row !important;
-        align-items: baseline !important;
-        gap: 0.45rem !important;
+        align-items: center !important;
+        gap: 0.55rem !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-title-group span,
+      body.view-calc .final-grade-title-group span,
+      body:not(.view-sheet) .final-grade-title-group span {
+        font-size: 0.72rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        color: var(--text-secondary) !important;
+        letter-spacing: 0.05em !important;
+        white-space: nowrap !important;
+        line-height: 1 !important;
       }
 
       html[data-active-view="calc"] .final-val,
@@ -4302,16 +4320,26 @@
       body:not(.view-sheet) .final-val {
         font-size: 1.45rem !important;
         font-weight: 800 !important;
+        color: var(--accent-primary) !important;
+        letter-spacing: -0.02em !important;
         line-height: 1 !important;
       }
 
       html[data-active-view="calc"] .eq-badge,
       body.view-calc .eq-badge,
       body:not(.view-sheet) .eq-badge {
-        font-size: 0.82rem !important;
-        padding: 0.18rem 0.65rem !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 0.86rem !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.02em !important;
+        padding: 0.22rem 0.72rem !important;
+        border-radius: var(--radius-full) !important;
         margin-top: 0 !important;
         white-space: nowrap !important;
+        line-height: 1 !important;
+        box-shadow: 0 2px 8px var(--accent-glow) !important;
       }
 
       html[data-active-view="calc"] .segmented-control,
@@ -5329,8 +5357,8 @@ html[data-active-view="calc"] #calc-view-container,
           </div>
 
           <div class="final-grade-card">
-            <div class="final-grade-title-group" style="display: flex; align-items: baseline; gap: 0.4rem;">
-              <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap;">Final Grade</span>
+            <div class="final-grade-title-group" style="display: flex; align-items: center; gap: 0.45rem;">
+              <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap; line-height: 1;">Final Grade</span>
               <div class="final-val" id="res-final">0.00%</div>
             </div>
             <div class="eq-badge" id="res-eq">Eq= 4.00</div>
