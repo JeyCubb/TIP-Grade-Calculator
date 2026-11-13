@@ -4016,7 +4016,7 @@
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
         gap: 0.65rem !important;
-        align-items: start !important;
+        align-items: stretch !important;
         overflow: visible !important;
         margin-bottom: 0 !important;
       }
@@ -4910,9 +4910,9 @@ html[data-active-view="calc"] #calc-view-container,
       body.view-calc #calc-view-container,
       body[data-view="calc"] #calc-view-container {
         display: flex !important;
-        flex: 1 1 0 !important;
+        flex: 1 1 auto !important;
         min-height: 0 !important;
-        height: 100% !important;
+        height: auto !important;
         flex-direction: column !important;
       }
     }
@@ -4929,7 +4929,7 @@ html[data-active-view="calc"] #calc-view-container,
     <!-- 1. Grade Calculator Cards (Order 1 - Absolute Top) -->
     <div class="main-grid">
       <!-- Exam & Target Solver Card (Column 1 on Mobile, Column 2 on Desktop) -->
-      <section class="card" id="card-exam-section" style="display: flex; flex-direction: column; height: 100%;">
+      <section class="card" id="card-exam-section" style="display: flex; flex-direction: column;">
         <div class="card-header exam-desktop-header">
           <div class="card-title">
             <span>Exam</span>
