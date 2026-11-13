@@ -4915,6 +4915,123 @@
         font-size: 0.65rem !important;
         white-space: nowrap !important;
       }
+
+      /* ==========================================================================
+         MOBILE CALC VIEW: Exam card fixed top, CS card scrolls, body locked
+         ========================================================================== */
+
+      /* 1. Lock the viewport — no body scroll in calc view on mobile */
+      html[data-active-view="calc"],
+      html.view-calc {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+      }
+
+      html[data-active-view="calc"] body,
+      body.view-calc {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+        /* remove the generic padding; ribbon is fixed so we don't need body padding-bottom */
+        padding: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 2. app-container fills the locked viewport as a flex column */
+      html[data-active-view="calc"] .app-container,
+      body.view-calc .app-container {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 3. calc-view-container fills everything the app-container gives it */
+      html[data-active-view="calc"] #calc-view-container,
+      body.view-calc #calc-view-container {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0 !important;
+        /* reserve space at top for safe-area and at bottom for the fixed ribbon */
+        padding: max(0.35rem, env(safe-area-inset-top, 0px)) 0.45rem 0 0.45rem !important;
+        padding-bottom: calc(58px + max(0.5rem, env(safe-area-inset-bottom, 0px))) !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 4. mode-card (Prelim/Midterm/Finals) — no shrink, stays on top */
+      html[data-active-view="calc"] .mode-card,
+      body.view-calc .mode-card {
+        flex-shrink: 0 !important;
+        order: 1 !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      /* 5. main-grid becomes a single-column flex column */
+      html[data-active-view="calc"] .main-grid,
+      body.view-calc .main-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        gap: 0.35rem !important;
+        margin-bottom: 0 !important;
+        order: 2 !important;
+      }
+
+      /* 6. Exam card — fixed height at top, does NOT shrink */
+      html[data-active-view="calc"] #card-exam-section,
+      body.view-calc #card-exam-section {
+        flex-shrink: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
+        order: 1 !important;
+      }
+
+      /* 7. CS card — fills remaining space, scrolls internally */
+      html[data-active-view="calc"] #card-cs-section,
+      body.view-calc #card-cs-section {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        order: 2 !important;
+      }
+
+      /* 8. #categories — the scrollable list inside the CS card */
+      html[data-active-view="calc"] #categories,
+      body.view-calc #categories {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+      }
+
+      /* 9. result-dashboard stays pinned at bottom of CS card */
+      html[data-active-view="calc"] .result-dashboard,
+      body.view-calc .result-dashboard {
+        flex-shrink: 0 !important;
+      }
+
+      /* 10. card-header inside CS card — no shrink */
+      html[data-active-view="calc"] #card-cs-section .card-header,
+      body.view-calc #card-cs-section .card-header {
+        flex-shrink: 0 !important;
+      }
     }
 
 </style>
