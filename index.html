@@ -4069,7 +4069,7 @@
         overflow-x: hidden !important;
         overflow-y: hidden !important;
         padding: 0.35rem 0.65rem !important;
-        padding-bottom: calc(56px + max(0.55rem, env(safe-area-inset-bottom, 0px))) !important;
+        padding-bottom: calc(56px + max(1.25rem, env(safe-area-inset-bottom, 0px))) !important;
         box-sizing: border-box !important;
         transition: padding 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
       }
@@ -4139,7 +4139,7 @@
         flex-direction: column !important;
         overflow: hidden !important;
         box-sizing: border-box !important;
-        padding: 0.65rem 0.85rem !important;
+        padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
       }
 
       html[data-active-view="calc"] #card-cs-section .card-header,
@@ -4158,13 +4158,15 @@
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         padding-right: 4px !important;
+        padding-bottom: 0.4rem !important;
         overscroll-behavior-y: contain !important;
       }
 
       html[data-active-view="calc"] #card-cs-section > div:last-child,
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
-        padding-top: 0.35rem !important;
+        padding-top: 0.45rem !important;
+        padding-bottom: 0.15rem !important;
       }
 
       /* Exam & Target Solver Card */
@@ -4182,7 +4184,7 @@
         gap: 0.2rem !important;
         overflow-y: auto !important;
         box-sizing: border-box !important;
-        padding: 0.55rem 0.75rem !important;
+        padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
       }
@@ -4262,6 +4264,7 @@
       body.view-calc .result-dashboard,
       body:not(.view-sheet) .result-dashboard {
         margin-top: auto !important;
+        margin-bottom: 0.2rem !important;
         padding: 0.35rem 0.55rem !important;
         gap: 0.2rem !important;
         flex-shrink: 0 !important;
@@ -5016,7 +5019,7 @@
         flex-direction: column !important;
         gap: 0 !important;
         margin: 0 !important;
-        padding: max(0.35rem, env(safe-area-inset-top, 0px)) 0.35rem calc(68px + max(0.35rem, env(safe-area-inset-bottom, 0px))) 0.35rem !important;
+        padding: max(0.35rem, env(safe-area-inset-top, 0px)) 0.35rem calc(70px + max(0.75rem, env(safe-area-inset-bottom, 0px))) 0.35rem !important;
         box-sizing: border-box !important;
         transition: padding 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
       }
