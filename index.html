@@ -4492,21 +4492,22 @@
         max-height: 100% !important;
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
-        grid-template-rows: minmax(0, 1fr) !important;
+        grid-template-rows: 100% !important;
         gap: 0.65rem !important;
-        align-items: stretch !important;
+        align-items: start !important;
         overflow: hidden !important;
         margin-bottom: 0 !important;
         box-sizing: border-box !important;
       }
 
-      /* Class Standing Card: Bound height to grid container, scroll area flexes and scrolls */
+      /* Class Standing Card: Content-hugging height when few categories, bounded to grid height when many */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         order: 1 !important;
-        align-self: stretch !important;
-        height: 100% !important;
+        align-self: start !important;
+        height: auto !important;
+        height: fit-content !important;
         max-height: 100% !important;
         min-height: 0 !important;
         display: flex !important;
@@ -4530,8 +4531,9 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
+        height: auto !important;
         max-height: 100% !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
@@ -5370,16 +5372,17 @@
         box-sizing: border-box !important;
       }
 
-      /* 2. Class Standing Card: Card header pinned, scroll area contains categories & add-button below cat 5 */
+      /* 2. Class Standing Card: Content-hugging height, scroll area flexes and scrolls when needed */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
         order: 2 !important;
         width: 100% !important;
         max-width: 100% !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
         height: auto !important;
+        height: fit-content !important;
         max-height: 100% !important;
         align-self: stretch !important;
         display: flex !important;
@@ -5404,8 +5407,9 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
+        height: auto !important;
         max-height: 100% !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
@@ -5853,14 +5857,15 @@
         padding: 0.15rem 0.25rem !important;
       }
 
-      /* 6. CS card on Mobile: Header pinned, scroll area contains categories & add-button below cat 5 */
+      /* 6. CS card on Mobile: Content-hugging height, scroll area flexes and scrolls when needed */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section {
         width: 100% !important;
         max-width: 100% !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
         height: auto !important;
+        height: fit-content !important;
         max-height: 100% !important;
         box-sizing: border-box !important;
         overflow: hidden !important;
@@ -5892,8 +5897,9 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 1 1 0 !important;
+        flex: 0 1 auto !important;
         min-height: 0 !important;
+        height: auto !important;
         max-height: 100% !important;
         overflow-x: hidden !important;
         overflow-y: auto !important;
