@@ -4512,7 +4512,13 @@
         min-height: 0 !important;
         display: flex !important;
         flex-direction: column !important;
-        overflow: hidden !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overscroll-behavior-y: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
         box-sizing: border-box !important;
         padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
       }
@@ -4531,21 +4537,14 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 0 1 auto !important;
-        min-height: 0 !important;
-        height: auto !important;
-        max-height: 100% !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-        overscroll-behavior-y: contain !important;
-        -webkit-overflow-scrolling: touch !important;
-        touch-action: pan-y !important;
-        padding-right: 4px !important;
-        padding-bottom: 0.35rem !important;
         display: flex !important;
         flex-direction: column !important;
+        flex: 0 0 auto !important;
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding-right: 2px !important;
+        padding-bottom: 0.15rem !important;
       }
 
       html[data-active-view="calc"] #categories,
@@ -5387,7 +5386,13 @@
         align-self: stretch !important;
         display: flex !important;
         flex-direction: column !important;
-        overflow: hidden !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overscroll-behavior-y: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
         box-sizing: border-box !important;
         padding: 0.65rem 0.85rem 0.75rem 0.85rem !important;
       }
@@ -5407,21 +5412,14 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 0 1 auto !important;
-        min-height: 0 !important;
-        height: auto !important;
-        max-height: 100% !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-        overscroll-behavior-y: contain !important;
-        -webkit-overflow-scrolling: touch !important;
-        touch-action: pan-y !important;
-        padding-right: 4px !important;
-        padding-bottom: 0.35rem !important;
         display: flex !important;
         flex-direction: column !important;
+        flex: 0 0 auto !important;
+        min-height: 0 !important;
+        height: auto !important;
+        overflow: visible !important;
+        padding-right: 2px !important;
+        padding-bottom: 0.15rem !important;
       }
 
       html[data-active-view="calc"] #categories,
@@ -5868,7 +5866,13 @@
         height: fit-content !important;
         max-height: 100% !important;
         box-sizing: border-box !important;
-        overflow: hidden !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overscroll-behavior-y: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
         display: flex !important;
         flex-direction: column !important;
         order: 2 !important;
@@ -5897,19 +5901,12 @@
         width: 100% !important;
         max-width: 100% !important;
         box-sizing: border-box !important;
-        flex: 0 1 auto !important;
+        flex: 0 0 auto !important;
         min-height: 0 !important;
         height: auto !important;
-        max-height: 100% !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        touch-action: pan-y !important;
-        overscroll-behavior-y: contain !important;
-        padding: 0.1rem 2px 0.4rem 0 !important;
-        margin: 0 !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overflow: visible !important;
+        padding-right: 2px !important;
+        padding-bottom: 0.15rem !important;
       }
 
       /* Categories list expands naturally inside scrollable area */
@@ -12100,7 +12097,8 @@ html[data-active-view="calc"] #calc-view-container,
         e.target.closest('.sheet-table-wrapper') || 
         e.target.closest('.scheme-dropdown-content') ||
         e.target.closest('.profile-modal-list') ||
-        e.target.closest('.profile-modal-dialog')
+        e.target.closest('.profile-modal-dialog') ||
+        e.target.closest('#card-cs-section')
       )) {
         return;
       }
