@@ -4607,16 +4607,31 @@
 
       /* Desktop controls inside Exam Card: compact, proportional, and perfectly fitted */
       html[data-active-view="calc"] #exam-score,
-      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-score,
-      body.view-calc #exam-total,
-      body:not(.view-sheet) #exam-score,
-      body:not(.view-sheet) #exam-total {
+      body:not(.view-sheet) #exam-score {
         font-size: 0.95rem !important;
-        padding: 0.22rem 0.45rem !important;
+        padding: 0.22rem 0.35rem !important;
         height: 32px !important;
+        width: 64px !important;
+        min-width: 58px !important;
+        text-align: center !important;
         background: transparent !important;
         border: 1.5px solid transparent !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] #exam-total,
+      body.view-calc #exam-total,
+      body:not(.view-sheet) #exam-total {
+        font-size: 0.95rem !important;
+        padding: 0.22rem 0.35rem !important;
+        height: 32px !important;
+        width: 52px !important;
+        min-width: 44px !important;
+        text-align: center !important;
+        background: transparent !important;
+        border: 1.5px solid transparent !important;
+        box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] #exam-score.green,
@@ -5309,16 +5324,27 @@
       }
 
       html[data-active-view="calc"] #exam-score,
-      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-score,
+      body:not(.view-sheet) #exam-score {
+        flex: 0 0 auto !important;
+        width: 64px !important;
+        min-width: 58px !important;
+        max-width: 76px !important;
+        text-align: center !important;
+        padding: 0.15rem 0.25rem !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-total,
-      body:not(.view-sheet) #exam-score,
       body:not(.view-sheet) #exam-total {
         flex: 0 0 auto !important;
-        width: 52px !important;
+        width: 50px !important;
         min-width: 44px !important;
         max-width: 60px !important;
         text-align: center !important;
+        padding: 0.15rem 0.25rem !important;
+        box-sizing: border-box !important;
       }
 
       /* Target aligned to the left next to Target Grade; Compute Minimum to the right */
@@ -5854,16 +5880,27 @@
       }
 
       html[data-active-view="calc"] #exam-score,
-      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-score,
+      body:not(.view-sheet) #exam-score {
+        width: 62px !important;
+        min-width: 58px !important;
+        max-width: 72px !important;
+        font-size: 0.82rem !important;
+        padding: 0.15rem 0.2rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-total,
-      body:not(.view-sheet) #exam-score,
       body:not(.view-sheet) #exam-total {
         width: 48px !important;
         min-width: 42px !important;
         max-width: 56px !important;
         font-size: 0.82rem !important;
-        padding: 0.15rem 0.25rem !important;
+        padding: 0.15rem 0.2rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
 
       /* 6. CS card on Mobile: Content-hugging height, scroll area flexes and scrolls when needed */
@@ -5981,13 +6018,23 @@
       }
 
       html[data-active-view="calc"] #exam-score,
-      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-score,
+      body:not(.view-sheet) #exam-score {
+        width: 56px !important;
+        font-size: 0.78rem !important;
+        padding: 0.12rem 0.2rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-total,
-      body:not(.view-sheet) #exam-score,
       body:not(.view-sheet) #exam-total {
         width: 44px !important;
         font-size: 0.78rem !important;
+        padding: 0.12rem 0.2rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
       }
     }
 
