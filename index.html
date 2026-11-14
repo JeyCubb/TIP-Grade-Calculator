@@ -2308,7 +2308,17 @@
       background: var(--accent-primary);
       color: #fff;
       box-shadow: 0 2px 8px var(--accent-glow);
-      transform: scale(1.02);
+    }
+
+    .view-nav-btn.active:hover {
+      background: var(--accent-hover, #ea580c);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    .view-nav-btn.active:active {
+      transform: scale(0.96);
     }
 
     /* Smooth Slide-In View Transition Keyframes */
@@ -3531,14 +3541,7 @@
         font-size: 0.85rem !important;
       }
       .profile-modal-grid-header {
-        grid-template-columns: minmax(0, 1fr) 185px 85px !important;
-        font-size: 0.78rem !important;
-        padding: 0.35rem 1rem !important;
-        margin-bottom: 0.15rem !important;
-        gap: 0.65rem !important;
-      }
-      .profile-modal-grid-header .col-actions {
-        text-align: center !important;
+        display: none !important;
       }
       .profile-modal-row {
         grid-template-columns: minmax(0, 1fr) 185px 85px !important;
@@ -5553,7 +5556,7 @@
         transform: none !important;
         left: auto !important;
         width: auto !important;
-        max-width: 310px !important;
+        max-width: none !important;
         margin: 0 auto !important;
         display: inline-flex !important;
         justify-content: center !important;
@@ -5561,9 +5564,9 @@
       }
 
       .view-nav-btn {
-        flex: 1 1 0 !important;
-        padding: 0.22rem 0.45rem !important;
-        font-size: 0.72rem !important;
+        flex: 0 0 auto !important;
+        padding: 0.22rem 0.85rem !important;
+        font-size: 0.74rem !important;
         height: 26px !important;
         justify-content: center !important;
         white-space: nowrap !important;
@@ -6741,12 +6744,9 @@ html[data-active-view="calc"] #calc-view-container,
 
           <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
           <div class="header-nav-row">
-            <nav class="view-nav-bar mode-nav">
-              <button class="view-nav-btn nav-btn active" id="btn-view-calc" data-view="calc" title="Calculator View (Ctrl + Shift + ←)">
+            <nav class="view-nav-bar mode-nav" id="view-toggle-nav">
+              <button type="button" class="view-nav-btn nav-btn active" id="btn-view-toggle" data-view="calc" title="Click to Switch View (Ctrl + Shift + →)">
                 Calculator View
-              </button>
-              <button class="view-nav-btn nav-btn" id="btn-view-sheet" data-view="sheet" title="GWA Sheet View (Ctrl + Shift + →)">
-                GWA Sheet
               </button>
             </nav>
           </div>
@@ -11996,8 +11996,9 @@ html[data-active-view="calc"] #calc-view-container,
     // View Navigation Switching
     
     // View Navigation Switching (Calculator vs GWA Sheet)
-    const btnViewCalc = document.getElementById('btn-view-calc');
-    const btnViewSheet = document.getElementById('btn-view-sheet');
+    const btnViewToggle = document.getElementById('btn-view-toggle');
+    const btnViewCalc = btnViewToggle;
+    const btnViewSheet = btnViewToggle;
     const btnHeaderCalc = document.getElementById('btn-header-calc');
     const calcContainer = document.getElementById('calc-view-container');
     const sheetContainer = document.getElementById('sheet-view-container');
@@ -12020,8 +12021,12 @@ html[data-active-view="calc"] #calc-view-container,
       document.documentElement.setAttribute('data-active-view', viewName);
       const headerSchemeEl = document.getElementById('header-scheme-dropdown');
 
-      btnViewCalc.classList.toggle('active', viewName === 'calc');
-      btnViewSheet.classList.toggle('active', viewName === 'sheet');
+      if (btnViewToggle) {
+        btnViewToggle.textContent = viewName === 'sheet' ? 'GWA Sheet' : 'Calculator View';
+        btnViewToggle.setAttribute('data-view', viewName);
+        btnViewToggle.setAttribute('title', viewName === 'sheet' ? 'Click to Switch to Calculator View (Ctrl + Shift + ←)' : 'Click to Switch to GWA Sheet (Ctrl + Shift + →)');
+        btnViewToggle.classList.add('active');
+      }
       if (btnHeaderCalc) btnHeaderCalc.classList.toggle('active', viewName === 'calc');
 
       calcContainer.style.display = viewName === 'calc' ? '' : 'none';
@@ -12067,8 +12072,11 @@ html[data-active-view="calc"] #calc-view-container,
       document.documentElement.scrollTop = 0;
     }
 
-    btnViewCalc.addEventListener('click', () => switchView('calc'));
-    btnViewSheet.addEventListener('click', () => switchView('sheet'));
+    if (btnViewToggle) {
+      btnViewToggle.addEventListener('click', () => {
+        switchView(currentActiveView === 'calc' ? 'sheet' : 'calc');
+      });
+    }
     if (btnHeaderCalc) {
       btnHeaderCalc.addEventListener('click', () => switchView('calc'));
     }
