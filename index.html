@@ -8570,7 +8570,7 @@ html[data-active-view="calc"] #calc-view-container,
             } else if (displayName === 'Category 2' || (idx === 1 && (!displayName || displayName.startsWith('Category')))) {
               displayName = 'Quizzes';
             } else if (!displayName) {
-              displayName = 'Category ' + categoryCount;
+              displayName = getNextCategoryName();
             }
 
             const categoryEl = document.createElement('div');
@@ -8894,13 +8894,25 @@ html[data-active-view="calc"] #calc-view-container,
     }
 
     // ----- CATEGORY / ITEMS -----
+    function getNextCategoryName() {
+      const existingNames = new Set(
+        Array.from(document.querySelectorAll('.category .cat-name'))
+          .map(input => (input.value || '').trim())
+      );
+      let num = 1;
+      while (existingNames.has(`Category ${num}`)) {
+        num++;
+      }
+      return `Category ${num}`;
+    }
+
     function addCategory(name = '', weight = 0) {
-      categoryCount++;
+      const finalName = name || getNextCategoryName();
       const categoryEl = document.createElement('div');
       categoryEl.className = 'category';
       categoryEl.innerHTML = `
         <div class="cat-header">
-          <input type="text" class="cat-name" placeholder="Category" value="${name || 'Category ' + categoryCount}" title="Click to rename category">
+          <input type="text" class="cat-name" placeholder="Category" value="${finalName}" title="Click to rename category">
           <div class="cat-weight-wrapper" style="display: flex; align-items: center; gap: 0.15rem;">
             <input type="number" class="cat-weight" value="${weight}" min="0" max="100" placeholder="W%">
             <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">%</span>
