@@ -5888,7 +5888,7 @@
         width: 100% !important;
         height: 100% !important;
         flex: 1 1 auto !important;
-        table-layout: auto !important;
+        table-layout: fixed !important;
         border-collapse: collapse !important;
         border-spacing: 0 !important;
       }
@@ -5913,25 +5913,122 @@
       html[data-active-view="sheet"] .sheet-table th,
       body.view-sheet .sheet-table th {
         vertical-align: middle !important;
-        padding: 0.15rem 0.15rem !important;
-        font-size: 0.65rem !important;
+        padding: 0.12rem 0.1rem !important;
+        font-size: 0.62rem !important;
+        box-sizing: border-box !important;
       }
 
       html[data-active-view="sheet"] .sheet-table td,
       body.view-sheet .sheet-table td {
         vertical-align: middle !important;
-        padding: 0.12rem 0.15rem !important;
-        font-size: 0.72rem !important;
+        padding: 0.08rem 0.1rem !important;
+        font-size: 0.62rem !important;
         border-bottom: 1px solid var(--border-color) !important;
+        box-sizing: border-box !important;
       }
 
-      html[data-active-view="sheet"] .sheet-table input,
-      body.view-sheet .sheet-table input {
-        font-size: 0.72rem !important;
-        padding: 0.12rem 0.2rem !important;
-        height: 24px !important;
+      /* Pixel-perfect column distribution on mobile */
+      html[data-active-view="sheet"] .sheet-table th.col-subj,
+      html[data-active-view="sheet"] .sheet-table td.col-subj,
+      body.view-sheet .sheet-table th.col-subj,
+      body.view-sheet .sheet-table td.col-subj {
+        width: 30% !important;
+        text-align: left !important;
+        overflow: hidden !important;
+        padding-left: 0.25rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table input.subj-input,
+      body.view-sheet .sheet-table input.subj-input {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 0.65rem !important;
+        font-weight: 700 !important;
+        text-align: left !important;
+        padding: 0.08rem 0.15rem !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        color: var(--text-primary) !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th.col-prelim,
+      html[data-active-view="sheet"] .sheet-table td.col-prelim,
+      body.view-sheet .sheet-table th.col-prelim,
+      body.view-sheet .sheet-table td.col-prelim,
+      html[data-active-view="sheet"] .sheet-table th.col-midterm,
+      html[data-active-view="sheet"] .sheet-table td.col-midterm,
+      body.view-sheet .sheet-table th.col-midterm,
+      body.view-sheet .sheet-table td.col-midterm,
+      html[data-active-view="sheet"] .sheet-table th.col-final,
+      html[data-active-view="sheet"] .sheet-table td.col-final,
+      body.view-sheet .sheet-table th.col-final,
+      body.view-sheet .sheet-table td.col-final {
+        width: 14% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.05rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table input.num-input,
+      body.view-sheet .sheet-table input.num-input {
+        width: 100% !important;
+        max-width: 44px !important;
+        height: 22px !important;
+        font-size: 0.62rem !important;
+        padding: 0.06rem 0.04rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
+        margin: 0 auto !important;
+        display: block !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th.col-grade,
+      html[data-active-view="sheet"] .sheet-table td.col-grade,
+      body.view-sheet .sheet-table th.col-grade,
+      body.view-sheet .sheet-table td.col-grade {
+        width: 12% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.05rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table .grade-badge,
+      body.view-sheet .sheet-table .grade-badge {
+        font-size: 0.65rem !important;
+        font-weight: 700 !important;
+        padding: 0.1rem 0.25rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th.col-units,
+      html[data-active-view="sheet"] .sheet-table td.col-units,
+      body.view-sheet .sheet-table th.col-units,
+      body.view-sheet .sheet-table td.col-units {
+        width: 9% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.05rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table input.units-input,
+      body.view-sheet .sheet-table input.units-input {
+        width: 100% !important;
+        max-width: 24px !important;
+        height: 22px !important;
+        font-size: 0.62rem !important;
+        padding: 0.06rem 0.04rem !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        display: block !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th:last-child,
+      html[data-active-view="sheet"] .sheet-table td:last-child,
+      body.view-sheet .sheet-table th:last-child,
+      body.view-sheet .sheet-table td:last-child {
+        width: 7% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.05rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-footer-row,
