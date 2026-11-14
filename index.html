@@ -5288,77 +5288,31 @@
       align-items: center !important;
     }
 
-    .brand-group .brand-nav-trigger,
-    button.brand-nav-btn.brand-nav-trigger {
-      width: auto !important;
-      max-width: none !important;
-      aspect-ratio: auto !important;
-      min-width: 46px !important;
-      height: 34px !important;
-      padding: 0 0.45rem !important;
-      gap: 0.3rem !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      border-radius: 9px !important;
-      background: var(--accent-primary) !important;
-      border: 1.5px solid var(--accent-primary) !important;
-      color: #ffffff !important;
-      box-shadow: 0 0 12px var(--accent-glow) !important;
-      cursor: pointer !important;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      z-index: 2;
-    }
-
-    .brand-group .brand-nav-trigger:hover,
-    button.brand-nav-btn.brand-nav-trigger:hover {
-      transform: translateY(-2px) scale(1.04) !important;
-      box-shadow: 0 4px 16px var(--accent-glow) !important;
-    }
-
-    .brand-group .brand-nav-trigger:active,
-    button.brand-nav-btn.brand-nav-trigger:active {
-      transform: translateY(0) scale(0.96) !important;
-    }
-
-    .brand-nav-caret {
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      stroke-width: 2.5;
-      color: #ffffff;
-      flex-shrink: 0;
-      display: inline-block;
-    }
-
-    .brand-nav-trigger[aria-expanded="true"] .brand-nav-caret {
-      transform: rotate(180deg);
-    }
-
     .brand-nav-popup {
       position: absolute;
-      bottom: calc(100% + 10px);
+      bottom: calc(100% + 8px);
       left: 0;
-      width: 260px;
-      max-width: calc(100vw - 24px);
-      background: var(--bg-card, #1a1613);
-      border: 1px solid var(--border-color, rgba(249, 115, 22, 0.24));
-      border-radius: 14px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 16px var(--accent-glow, rgba(249, 115, 22, 0.2));
-      padding: 0.45rem;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(8px) scale(0.96);
-      transform-origin: bottom left;
-      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                  visibility 0.2s;
-      pointer-events: none;
+      gap: 5px;
+      padding: 5px;
+      background: var(--bg-card, #1a1613);
+      border: 1.5px solid var(--border-color, rgba(249, 115, 22, 0.28));
+      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 14px var(--accent-glow, rgba(249, 115, 22, 0.2));
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
+      z-index: 1000;
+      width: max-content;
       box-sizing: border-box;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px) scale(0.92);
+      transform-origin: bottom left;
+      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.18s;
+      pointer-events: none;
     }
 
     .brand-nav-popup.is-open {
@@ -5368,199 +5322,17 @@
       pointer-events: auto;
     }
 
-    .brand-nav-popup-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.35rem 0.55rem 0.3rem 0.55rem;
-      border-bottom: 1px solid var(--border-color, rgba(255, 255, 255, 0.08));
-      margin-bottom: 0.2rem;
-    }
-
-    .brand-nav-popup-title {
-      font-size: 0.68rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-secondary, #94a3b8);
-    }
-
-    .brand-nav-popup-subtitle {
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: var(--accent-primary, #f97316);
-    }
-
-    .brand-nav-popup-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .brand-nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      padding: 0.5rem 0.65rem;
-      border-radius: 10px;
-      text-decoration: none;
-      color: var(--text-primary, #ffffff);
-      background: transparent;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
-      cursor: pointer;
-      box-sizing: border-box;
-      width: 100%;
-      text-align: left;
-      font-family: inherit;
-    }
-
-    .brand-nav-item:hover {
-      background: var(--bg-card-hover, rgba(249, 115, 22, 0.1));
-      border-color: var(--border-color, rgba(249, 115, 22, 0.25));
-      transform: translateX(3px);
-    }
-
-    .brand-nav-item.active {
-      background: rgba(249, 115, 22, 0.14) !important;
-      border-color: var(--accent-primary, #f97316) !important;
-    }
-
-    .brand-nav-item-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      flex-shrink: 0;
-      background: rgba(249, 115, 22, 0.1);
-      border: 1px solid rgba(249, 115, 22, 0.2);
-    }
-
-    .brand-nav-item.active .brand-nav-item-icon {
-      background: var(--accent-primary, #f97316);
-      border-color: var(--accent-primary, #f97316);
-      color: #ffffff;
-    }
-
-    .brand-nav-item-info {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-      flex: 1;
-    }
-
-    .brand-nav-item-name {
-      font-size: 0.82rem;
-      font-weight: 700;
-      line-height: 1.25;
-      color: var(--text-primary, #ffffff);
-    }
-
-    .brand-nav-item-desc {
-      font-size: 0.67rem;
-      color: var(--text-secondary, #94a3b8);
-      line-height: 1.2;
-      margin-top: 1px;
-    }
-
-    .brand-nav-item-badge {
-      font-size: 0.62rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      padding: 3px 7px;
-      border-radius: 999px;
-      background: var(--accent-primary, #f97316);
-      color: #ffffff;
-      flex-shrink: 0;
-    }
-
-    .brand-item-arrow {
-      color: var(--text-secondary, #94a3b8);
-      opacity: 0.6;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-      flex-shrink: 0;
-    }
-
-    .brand-nav-item:hover .brand-item-arrow {
-      opacity: 1;
-      color: var(--accent-primary, #f97316);
-      transform: translateX(2px);
-    }
-
-    /* Light Theme Overrides for Pop-Up Nav */
     [data-theme="light"] .brand-nav-popup {
       background: #ffffff !important;
       border-color: rgba(234, 88, 12, 0.28) !important;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), 0 2px 10px rgba(234, 88, 12, 0.1) !important;
-    }
-
-    [data-theme="light"] .brand-nav-popup-header {
-      border-bottom-color: rgba(0, 0, 0, 0.07) !important;
-    }
-
-    [data-theme="light"] .brand-nav-popup-title {
-      color: #64748b !important;
-    }
-
-    [data-theme="light"] .brand-nav-item {
-      color: #1e293b !important;
-    }
-
-    [data-theme="light"] .brand-nav-item-name {
-      color: #1e293b !important;
-    }
-
-    [data-theme="light"] .brand-nav-item-desc {
-      color: #64748b !important;
-    }
-
-    [data-theme="light"] .brand-nav-item:hover {
-      background: rgba(234, 88, 12, 0.06) !important;
-      border-color: rgba(234, 88, 12, 0.22) !important;
-    }
-
-    [data-theme="light"] .brand-nav-item.active {
-      background: rgba(234, 88, 12, 0.1) !important;
-      border-color: rgba(234, 88, 12, 0.4) !important;
-    }
-
-    [data-theme="light"] .brand-nav-item-icon {
-      background: rgba(234, 88, 12, 0.08) !important;
-      border-color: rgba(234, 88, 12, 0.25) !important;
-    }
-
-    [data-theme="light"] .brand-nav-item.active .brand-nav-item-icon {
-      background: var(--accent-primary, #ea580c) !important;
-      border-color: var(--accent-primary, #ea580c) !important;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12), 0 2px 10px rgba(234, 88, 12, 0.1) !important;
     }
 
     @media (max-width: 640px) {
-      .brand-group .brand-nav-trigger,
-      button.brand-nav-btn.brand-nav-trigger {
-        height: 28px !important;
-        min-height: 28px !important;
-        min-width: 38px !important;
-        padding: 0 0.35rem !important;
-        gap: 0.2rem !important;
-      }
       .brand-nav-popup {
         bottom: calc(100% + 6px);
-        width: 250px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .brand-group .brand-nav-trigger,
-      button.brand-nav-btn.brand-nav-trigger {
-        height: 26px !important;
-        min-height: 26px !important;
-        min-width: 36px !important;
-        padding: 0 0.3rem !important;
-        gap: 0.2rem !important;
+        gap: 4px;
+        padding: 4px;
       }
     }
 
@@ -7087,76 +6859,48 @@ html[data-active-view="calc"] #calc-view-container,
                   <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
                 </svg>
               </span>
-              <svg class="brand-nav-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 15 12 9 6 15"></polyline>
-              </svg>
-            </button>
+              </button>
 
-            <!-- Pop Up Navigation Menu -->
+            <!-- Pop Up Navigation Menu (Compact Website Buttons) -->
             <div class="brand-nav-popup" id="brand-nav-popup" role="menu" aria-label="Switch Website" aria-hidden="true">
-              <div class="brand-nav-popup-header">
-                <span class="brand-nav-popup-title">Websites</span>
-                <span class="brand-nav-popup-subtitle">Switch App</span>
-              </div>
-              <div class="brand-nav-popup-list">
-                <!-- 1. Grade Calculator (Current Active App) -->
-                <button type="button" class="brand-nav-item active" id="btn-header-calc" role="menuitem" title="TIP Grade Calculator (Current App)">
-                  <span class="brand-nav-item-icon">
-                    <svg class="brand-calc-emoji" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
-                      <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
-                      <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
-                      <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
-                      <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
-                      <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                      <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                      <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
-                      <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                      <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                      <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                      <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
-                      <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
-                    </svg>
-                  </span>
-                  <div class="brand-nav-item-info">
-                    <div class="brand-nav-item-name">Grade Calculator</div>
-                    <div class="brand-nav-item-desc">GWA &amp; Target Calculator</div>
-                  </div>
-                  <span class="brand-nav-item-badge">Active</span>
-                </button>
+              <!-- 1. Grade Calculator (Current Active App) -->
+              <button type="button" class="brand-nav-btn active" id="btn-header-calc" title="TIP Grade Calculator (Current App)" aria-label="TIP Grade Calculator">
+                <span class="brand-icon">
+                  <svg class="brand-calc-emoji" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="5" y="3" width="26" height="30" rx="5.5" fill="url(#calc-body-grad)" stroke="#64748b" stroke-width="0.75"/>
+                    <rect x="5.5" y="3.5" width="25" height="12" rx="4.8" fill="url(#calc-bevel-gloss)"/>
+                    <rect x="7.5" y="5.5" width="21" height="7.5" rx="2" fill="url(#calc-lcd-grad)" stroke="#090d16" stroke-width="0.75"/>
+                    <rect x="23.5" y="7.8" width="3.2" height="3" rx="0.5" fill="#38bdf8"/>
+                    <text x="21" y="11" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="5" font-weight="800" fill="#38bdf8" text-anchor="end">12</text>
+                    <rect x="8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="13.2" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="18.5" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-fn-grad)"/>
+                    <rect x="23.8" y="15" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="19.2" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="23.4" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                    <rect x="8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="13.2" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="18.5" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-num-grad)"/>
+                    <rect x="23.8" y="27.6" width="4.2" height="3.2" rx="1" fill="url(#calc-btn-accent)"/>
+                  </svg>
+                </span>
+              </button>
 
-                <!-- 2. Terms Reviewer -->
-                <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-item reviewer-link-icon" id="btn-header-reviewer" role="menuitem" title="Open JeyCub Terms Reviewer">
-                  <span class="brand-nav-item-icon">
-                    <span class="brand-emoji">📖</span>
-                  </span>
-                  <div class="brand-nav-item-info">
-                    <div class="brand-nav-item-name">Terms Reviewer</div>
-                    <div class="brand-nav-item-desc">Board Exam Reviewer</div>
-                  </div>
-                  <svg class="brand-item-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </a>
+              <!-- 2. Terms Reviewer -->
+              <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn reviewer-link-icon" id="btn-header-reviewer" title="JeyCub Terms Reviewer" aria-label="JeyCub Terms Reviewer">
+                <span class="brand-emoji">📖</span>
+              </a>
 
-                <!-- 3. Schedule Creator -->
-                <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-item reviewer-link-icon" id="btn-header-sched" role="menuitem" title="Open Schedule Creator">
-                  <span class="brand-nav-item-icon">
-                    <span class="brand-emoji">📅</span>
-                  </span>
-                  <div class="brand-nav-item-info">
-                    <div class="brand-nav-item-name">Schedule Creator</div>
-                    <div class="brand-nav-item-desc">Timetable &amp; Sections</div>
-                  </div>
-                  <svg class="brand-item-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                </a>
-              </div>
+              <!-- 3. Schedule Creator -->
+              <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-btn reviewer-link-icon" id="btn-header-sched" title="Schedule Creator" aria-label="Schedule Creator">
+                <span class="brand-emoji">📅</span>
+              </a>
             </div>
           </div>
 
