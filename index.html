@@ -6746,7 +6746,7 @@ html[data-active-view="calc"] #calc-view-container,
           <div class="header-nav-row">
             <nav class="view-nav-bar mode-nav" id="view-toggle-nav">
               <button type="button" class="view-nav-btn nav-btn active" id="btn-view-toggle" data-view="calc" title="Click to Switch View (Ctrl + Shift + →)">
-                Calculator View
+                Calculator
               </button>
             </nav>
           </div>
@@ -12022,9 +12022,9 @@ html[data-active-view="calc"] #calc-view-container,
       const headerSchemeEl = document.getElementById('header-scheme-dropdown');
 
       if (btnViewToggle) {
-        btnViewToggle.textContent = viewName === 'sheet' ? 'GWA Sheet' : 'Calculator View';
+        btnViewToggle.textContent = viewName === 'sheet' ? 'GWA Sheet' : 'Calculator';
         btnViewToggle.setAttribute('data-view', viewName);
-        btnViewToggle.setAttribute('title', viewName === 'sheet' ? 'Click to Switch to Calculator View (Ctrl + Shift + ←)' : 'Click to Switch to GWA Sheet (Ctrl + Shift + →)');
+        btnViewToggle.setAttribute('title', viewName === 'sheet' ? 'Click to Switch to Calculator (Ctrl + Shift + ←)' : 'Click to Switch to GWA Sheet (Ctrl + Shift + →)');
         btnViewToggle.classList.add('active');
       }
       if (btnHeaderCalc) btnHeaderCalc.classList.toggle('active', viewName === 'calc');
