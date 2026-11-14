@@ -1290,6 +1290,15 @@
       gap: 0.25rem;
     }
 
+    .cs-scroll-area {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
     .cs-body-scroll {
       display: flex;
       flex-direction: column;
@@ -4485,7 +4494,7 @@
         box-sizing: border-box !important;
       }
 
-      /* Class Standing Card: Tight to content when few categories, extends down as categories are added */
+      /* Class Standing Card: Card header pinned, scroll area contains categories & add-button below cat 5 */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
@@ -4508,26 +4517,48 @@
         margin-bottom: 0.35rem !important;
       }
 
+      html[data-active-view="calc"] .cs-scroll-area,
+      body.view-calc .cs-scroll-area,
+      body[data-view="calc"] .cs-scroll-area {
+        flex: 0 1 auto !important;
+        min-height: 0 !important;
+        height: auto !important;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overscroll-behavior-y: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
+        padding-right: 4px !important;
+        padding-bottom: 0.2rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
-        flex: 0 1 auto !important;
+        flex: 0 0 auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        overflow-y: auto !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-        padding-right: 4px !important;
-        padding-bottom: 0.2rem !important;
+        overflow: visible !important;
         margin-bottom: 0.15rem !important;
-        overscroll-behavior-y: contain !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.45rem !important;
       }
 
+      html[data-active-view="calc"] .add-category-wrapper,
+      body.view-calc .add-category-wrapper,
+      body[data-view="calc"] .add-category-wrapper,
       html[data-active-view="calc"] #card-cs-section > div:last-child,
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.25rem !important;
         padding-bottom: 0.1rem !important;
+        align-self: flex-start !important;
       }
 
       /* Exam & Target Solver Card */
@@ -5281,7 +5312,7 @@
       html[data-active-view="calc"] .target-label,
       body.view-calc .target-label,
       body:not(.view-sheet) .target-label {
-        font-size: 0.88rem !important;
+        font-size: 0.84rem !important;
         white-space: nowrap !important;
         flex: 0 0 auto !important;
         margin: 0 !important;
@@ -5292,8 +5323,8 @@
       body:not(.view-sheet) .target-select-wrapper {
         flex: 0 0 auto !important;
         width: auto !important;
-        min-width: 80px !important;
-        max-width: 140px !important;
+        min-width: 70px !important;
+        max-width: 130px !important;
         margin: 0 !important;
       }
 
@@ -5303,8 +5334,8 @@
         flex: 0 0 auto !important;
         margin-left: auto !important;
         white-space: nowrap !important;
-        font-size: 0.85rem !important;
-        padding: 0.28rem 0.85rem !important;
+        font-size: 0.80rem !important;
+        padding: 0.26rem 0.70rem !important;
         margin-top: 0 !important;
       }
 
@@ -5320,7 +5351,7 @@
         box-sizing: border-box !important;
       }
 
-      /* 2. Class Standing Card: Tight to content when few categories, extends down as categories are added */
+      /* 2. Class Standing Card: Card header pinned, scroll area contains categories & add-button below cat 5 */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section,
       body[data-view="calc"] #card-cs-section {
@@ -5347,26 +5378,48 @@
         margin-bottom: 0.35rem !important;
       }
 
+      html[data-active-view="calc"] .cs-scroll-area,
+      body.view-calc .cs-scroll-area,
+      body[data-view="calc"] .cs-scroll-area {
+        flex: 0 1 auto !important;
+        min-height: 0 !important;
+        height: auto !important;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
+        overscroll-behavior-y: contain !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: pan-y !important;
+        padding-right: 4px !important;
+        padding-bottom: 0.2rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
-        flex: 0 1 auto !important;
+        flex: 0 0 auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        overflow-y: auto !important;
-        overscroll-behavior-y: contain !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
-        padding-right: 4px !important;
-        padding-bottom: 0.2rem !important;
+        overflow: visible !important;
         margin-bottom: 0.15rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.45rem !important;
       }
 
+      html[data-active-view="calc"] .add-category-wrapper,
+      body.view-calc .add-category-wrapper,
+      body[data-view="calc"] .add-category-wrapper,
       html[data-active-view="calc"] #card-cs-section > div:last-child,
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.25rem !important;
         padding-bottom: 0.1rem !important;
+        align-self: flex-start !important;
       }
     }
 
@@ -5697,9 +5750,78 @@
         order: 1 !important;
         box-sizing: border-box !important;
         margin: 0 !important;
+        padding: 0.55rem 0.75rem !important;
       }
 
-      /* 6. CS card: Tight to content when few categories, extends down as categories are added */
+      /* Compact Target & Compute row on mobile: zero overflow & zero clipping */
+      html[data-active-view="calc"] .target-row,
+      body.view-calc .target-row,
+      body:not(.view-sheet) .target-row {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 0.35rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] .target-label,
+      body.view-calc .target-label,
+      body:not(.view-sheet) .target-label {
+        font-size: 0.78rem !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+      }
+
+      html[data-active-view="calc"] .target-select-wrapper,
+      body.view-calc .target-select-wrapper,
+      body:not(.view-sheet) .target-select-wrapper {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 64px !important;
+        max-width: 105px !important;
+        margin: 0 !important;
+      }
+
+      html[data-active-view="calc"] .target-select-display,
+      body.view-calc .target-select-display,
+      body:not(.view-sheet) .target-select-display {
+        font-size: 0.78rem !important;
+        padding: 0.2rem 0.40rem !important;
+        height: 28px !important;
+      }
+
+      html[data-active-view="calc"] #compute,
+      body.view-calc #compute,
+      body:not(.view-sheet) #compute {
+        flex: 0 0 auto !important;
+        margin-left: auto !important;
+        white-space: nowrap !important;
+        font-size: 0.74rem !important;
+        padding: 0.22rem 0.52rem !important;
+        height: 28px !important;
+        line-height: 1 !important;
+        letter-spacing: -0.015em !important;
+        margin-top: 0 !important;
+        border-radius: var(--radius-sm) !important;
+      }
+
+      html[data-active-view="calc"] #exam-score,
+      html[data-active-view="calc"] #exam-total,
+      body.view-calc #exam-score,
+      body.view-calc #exam-total,
+      body:not(.view-sheet) #exam-score,
+      body:not(.view-sheet) #exam-total {
+        width: 48px !important;
+        min-width: 42px !important;
+        max-width: 56px !important;
+        font-size: 0.82rem !important;
+        padding: 0.15rem 0.25rem !important;
+      }
+
+      /* 6. CS card on Mobile: Header pinned, scroll area contains categories & add-button below cat 5 */
       html[data-active-view="calc"] #card-cs-section,
       body.view-calc #card-cs-section {
         width: 100% !important;
@@ -5730,17 +5852,15 @@
         margin-bottom: 0.25rem !important;
       }
 
-      /* Categories list is the dedicated smooth scrolling area inside CS */
-      html[data-active-view="calc"] #categories,
-      body.view-calc #categories {
+      html[data-active-view="calc"] .cs-scroll-area,
+      body.view-calc .cs-scroll-area {
         display: flex !important;
         flex-direction: column !important;
-        gap: 0.45rem !important;
         width: 100% !important;
         flex: 0 1 auto !important;
         height: auto !important;
         min-height: 0 !important;
-        max-height: none !important;
+        max-height: 100% !important;
         overflow-x: hidden !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
@@ -5752,12 +5872,68 @@
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
       }
 
-      /* Add Category button visible at bottom of CS content */
+      /* Categories list expands naturally inside scrollable area */
+      html[data-active-view="calc"] #categories,
+      body.view-calc #categories {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.45rem !important;
+        width: 100% !important;
+        flex: 0 0 auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        overflow: visible !important;
+        margin: 0 !important;
+      }
+
+      /* Add Category button at bottom of scrollable area, below last category */
+      html[data-active-view="calc"] .add-category-wrapper,
+      body.view-calc .add-category-wrapper,
       html[data-active-view="calc"] #card-cs-section > div:last-child,
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.35rem !important;
         padding-bottom: 0.1rem !important;
+        align-self: flex-start !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      html[data-active-view="calc"] .target-label,
+      body.view-calc .target-label,
+      body:not(.view-sheet) .target-label {
+        font-size: 0.72rem !important;
+      }
+
+      html[data-active-view="calc"] .target-select-wrapper,
+      body.view-calc .target-select-wrapper,
+      body:not(.view-sheet) .target-select-wrapper {
+        min-width: 58px !important;
+      }
+
+      html[data-active-view="calc"] .target-select-display,
+      body.view-calc .target-select-display,
+      body:not(.view-sheet) .target-select-display {
+        font-size: 0.74rem !important;
+        padding: 0.16rem 0.32rem !important;
+      }
+
+      html[data-active-view="calc"] #compute,
+      body.view-calc #compute,
+      body:not(.view-sheet) #compute {
+        font-size: 0.70rem !important;
+        padding: 0.2rem 0.42rem !important;
+      }
+
+      html[data-active-view="calc"] #exam-score,
+      html[data-active-view="calc"] #exam-total,
+      body.view-calc #exam-score,
+      body.view-calc #exam-total,
+      body:not(.view-sheet) #exam-score,
+      body:not(.view-sheet) #exam-total {
+        width: 44px !important;
+        font-size: 0.78rem !important;
       }
     }
 
@@ -5984,12 +6160,14 @@ html[data-active-view="calc"] #calc-view-container,
             <span>Class Standing</span>
           </div>
         </div>
-        <div id="categories"></div>
-        <div style="padding-top: 0.35rem; align-self: flex-start;">
-          <button id="add-category" class="btn btn-sm btn-add-action">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            Add Category
-          </button>
+        <div class="cs-scroll-area" id="cs-scroll-area">
+          <div id="categories"></div>
+          <div class="add-category-wrapper" style="padding-top: 0.35rem; align-self: flex-start;">
+            <button id="add-category" class="btn btn-sm btn-add-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+              Add Category
+            </button>
+          </div>
         </div>
       </section>
     </div>
