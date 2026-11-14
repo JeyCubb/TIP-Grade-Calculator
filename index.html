@@ -2038,19 +2038,7 @@
       }
 
       .profile-modal-grid-header {
-        grid-template-columns: minmax(0, 1fr) 108px 66px !important;
-        font-size: 0.65rem !important;
-        padding: 0.32rem 0.65rem !important;
-        gap: 0.5rem !important;
-        border-left: 1.5px solid transparent !important;
-        border-right: 1.5px solid transparent !important;
-      }
-      .profile-modal-grid-header .col-accessed {
-        text-align: left !important;
-        white-space: nowrap !important;
-      }
-      .profile-modal-grid-header .col-actions {
-        text-align: center !important;
+        display: none !important;
       }
 
       .profile-modal-row {
@@ -3766,22 +3754,7 @@
     }
 
     .profile-modal-grid-header {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 140px 75px;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.3rem 0.75rem;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      border-bottom: 1.5px solid var(--border-color);
-      margin-bottom: 0.35rem;
-    }
-
-    .profile-modal-grid-header .col-actions {
-      text-align: center;
+      display: none !important;
     }
 
     .profile-modal-row {
@@ -6937,11 +6910,6 @@ html[data-active-view="calc"] #calc-view-container,
       </div>
 
       <div class="profile-modal-body">
-        <div class="profile-modal-grid-header">
-          <div class="col-name">Name</div>
-          <div class="col-accessed">Last Accessed</div>
-          <div class="col-actions">Action</div>
-        </div>
         <div class="profile-modal-list" id="profile-modal-list"></div>
 
         <div class="profile-modal-add-section">
