@@ -9492,6 +9492,7 @@ html[data-active-view="calc"] #calc-view-container,
     targetEqEl.addEventListener('change', () => {
       updateTargetSelectUI(targetEqEl.value);
       saveUserData();
+      computeMinimumExamNeeded();
     });
 
     if (targetSelectDisplayEl && targetSelectOptionsEl) {
@@ -9516,6 +9517,7 @@ html[data-active-view="calc"] #calc-view-container,
           targetSelectOptionsEl.classList.remove('show');
           targetSelectDisplayEl.classList.remove('open');
           saveUserData();
+          computeMinimumExamNeeded();
         }
       });
 
