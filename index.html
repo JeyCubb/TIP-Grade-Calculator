@@ -4495,7 +4495,7 @@
         max-height: 100% !important;
         display: grid !important;
         grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr) !important;
-        grid-template-rows: 100% !important;
+        grid-template-rows: auto !important;
         gap: 0.65rem !important;
         align-items: start !important;
         overflow: hidden !important;
@@ -4510,8 +4510,7 @@
         order: 1 !important;
         align-self: start !important;
         height: auto !important;
-        height: fit-content !important;
-        max-height: 100% !important;
+        max-height: calc(100vh - 90px) !important;
         min-height: 0 !important;
         display: flex !important;
         flex-direction: column !important;
