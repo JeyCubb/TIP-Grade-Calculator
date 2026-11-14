@@ -8563,14 +8563,15 @@ html[data-active-view="calc"] #calc-view-container,
 
         if (Array.isArray(data.categories) && data.categories.length > 0) {
           data.categories.forEach((c, idx) => {
-            categoryCount++;
-            let displayName = c.name;
-            if (!displayName || displayName === 'Category 1' || (idx === 0 && (!displayName || displayName.startsWith('Category')))) {
-              displayName = 'Assessment Tasks';
-            } else if (displayName === 'Category 2' || (idx === 1 && (!displayName || displayName.startsWith('Category')))) {
-              displayName = 'Quizzes';
-            } else if (!displayName) {
-              displayName = getNextCategoryName();
+            let displayName = (c && c.name !== undefined && c.name !== null) ? String(c.name).trim() : '';
+            if (!displayName) {
+              if (idx === 0) {
+                displayName = 'Assessment Tasks';
+              } else if (idx === 1) {
+                displayName = 'Quizzes';
+              } else {
+                displayName = getNextCategoryName();
+              }
             }
 
             const categoryEl = document.createElement('div');
