@@ -1288,6 +1288,8 @@
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .cs-scroll-area {
@@ -1298,7 +1300,7 @@
       width: 100%;
       box-sizing: border-box;
       overflow-y: auto;
-      overflow-x: visible;
+      overflow-x: hidden;
     }
 
     .cs-body-scroll {
@@ -1316,6 +1318,8 @@
       display: flex;
       flex-direction: column;
       gap: 0.2rem;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .cat-header {
@@ -4523,20 +4527,21 @@
       body.view-calc .cs-scroll-area,
       body[data-view="calc"] .cs-scroll-area {
         width: 100% !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
         flex: 0 1 auto !important;
         min-height: 0 !important;
         height: auto !important;
         max-height: 100% !important;
         overflow-y: auto !important;
-        overflow-x: visible !important;
+        overflow-x: hidden !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         overscroll-behavior-y: contain !important;
         -webkit-overflow-scrolling: touch !important;
         touch-action: pan-y !important;
         padding-right: 4px !important;
-        padding-bottom: 0.2rem !important;
+        padding-bottom: 0.35rem !important;
         display: flex !important;
         flex-direction: column !important;
       }
@@ -4544,6 +4549,9 @@
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
         flex: 0 0 auto !important;
         min-height: 0 !important;
         max-height: none !important;
@@ -4552,6 +4560,13 @@
         display: flex !important;
         flex-direction: column !important;
         gap: 0.45rem !important;
+      }
+
+      html[data-active-view="calc"] .category,
+      body.view-calc .category,
+      body[data-view="calc"] .category {
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] .add-category-wrapper,
@@ -5386,20 +5401,21 @@
       body.view-calc .cs-scroll-area,
       body[data-view="calc"] .cs-scroll-area {
         width: 100% !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
         flex: 0 1 auto !important;
         min-height: 0 !important;
         height: auto !important;
         max-height: 100% !important;
         overflow-y: auto !important;
-        overflow-x: visible !important;
+        overflow-x: hidden !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(249, 115, 22, 0.45) transparent !important;
         overscroll-behavior-y: contain !important;
         -webkit-overflow-scrolling: touch !important;
         touch-action: pan-y !important;
         padding-right: 4px !important;
-        padding-bottom: 0.2rem !important;
+        padding-bottom: 0.35rem !important;
         display: flex !important;
         flex-direction: column !important;
       }
@@ -5407,6 +5423,9 @@
       html[data-active-view="calc"] #categories,
       body.view-calc #categories,
       body[data-view="calc"] #categories {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
         flex: 0 0 auto !important;
         min-height: 0 !important;
         max-height: none !important;
@@ -5415,6 +5434,13 @@
         display: flex !important;
         flex-direction: column !important;
         gap: 0.45rem !important;
+      }
+
+      html[data-active-view="calc"] .category,
+      body.view-calc .category,
+      body[data-view="calc"] .category {
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       html[data-active-view="calc"] .add-category-wrapper,
@@ -5863,12 +5889,13 @@
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
+        max-width: 100% !important;
         box-sizing: border-box !important;
         flex: 0 1 auto !important;
         height: auto !important;
         min-height: 0 !important;
         max-height: 100% !important;
-        overflow-x: visible !important;
+        overflow-x: hidden !important;
         overflow-y: auto !important;
         -webkit-overflow-scrolling: touch !important;
         touch-action: pan-y !important;
@@ -5886,12 +5913,20 @@
         flex-direction: column !important;
         gap: 0.45rem !important;
         width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
         flex: 0 0 auto !important;
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
         overflow: visible !important;
         margin: 0 !important;
+      }
+
+      html[data-active-view="calc"] .category,
+      body.view-calc .category {
+        width: 100% !important;
+        box-sizing: border-box !important;
       }
 
       /* Add Category button at bottom of scrollable area, below last category */
