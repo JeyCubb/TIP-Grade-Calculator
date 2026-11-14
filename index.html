@@ -4870,6 +4870,9 @@
 
       .brand-group {
         flex: 0 0 auto !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
       }
 
       .header-nav-row {
@@ -5698,36 +5701,38 @@
         order: 1 !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.25rem !important;
-        flex: 1 1 0 !important;
+        gap: 0.35rem !important;
+        flex: 0 0 auto !important;
         justify-content: flex-start !important;
         min-width: 0 !important;
       }
 
       .header-profile-group {
         order: 2 !important;
-        display: contents !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        margin-left: auto !important;
+        flex: 0 0 auto !important;
+        justify-content: flex-end !important;
       }
 
       .user-profile-bar {
-        order: 2 !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         flex: 0 0 auto !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         white-space: nowrap !important;
         padding: 0.12rem 0.5rem !important;
         font-size: 0.75rem !important;
       }
 
       .header-actions-group {
-        order: 3 !important;
         display: inline-flex !important;
         align-items: center !important;
         height: 26px !important;
         gap: 0.2rem !important;
-        flex: 1 1 0 !important;
+        flex: 0 0 auto !important;
         justify-content: flex-end !important;
         flex-wrap: nowrap !important;
         min-width: 0 !important;
@@ -6877,6 +6882,16 @@ html[data-active-view="calc"] #calc-view-container,
                 <span class="brand-emoji">📅</span>
               </a>
             </div>
+
+            <!-- User Profile Selector (Left, next to App icon) -->
+            <div class="user-profile-bar" title="Active User Profile">
+              <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span id="active-profile-label">No Profile</span>
+                <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <select id="user-selector" title="Select User Profile" style="display: none;"></select>
+            </div>
           </div>
 
           <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
@@ -6888,18 +6903,8 @@ html[data-active-view="calc"] #calc-view-container,
             </nav>
           </div>
 
-          <!-- User Profile & Grading Scheme Bar -->
+          <!-- Action Buttons Bar (Right) -->
           <div class="header-profile-group header-action-buttons-group">
-            <!-- User Profile Selector (In the Middle) -->
-            <div class="user-profile-bar" title="Active User Profile">
-              <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span id="active-profile-label">No Profile</span>
-                <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-            </div>
-
             <!-- Action Buttons Aligned on the Right -->
             <div class="header-actions-group">
               <button class="btn-profile-lock control-single-btn action-btn" id="btn-profile-lock" title="Profile Password Lock" aria-label="Toggle Profile Password Lock">
