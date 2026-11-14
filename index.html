@@ -1754,8 +1754,11 @@
        ========================================================================== */
     @media (max-width: 768px) {
       html, body {
-        overflow-x: hidden;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
         width: 100%;
+        height: 100%;
+        height: 100dvh;
       }
 
       body {
@@ -4877,8 +4880,8 @@
         min-height: 100dvh !important;
         height: 100dvh !important;
         max-height: 100dvh !important;
-        overflow-x: hidden !important;
-        overflow-y: auto !important;
+        overflow: hidden !important;
+        overscroll-behavior: none !important;
         padding: 0.35rem 0.65rem calc(68px + max(0.55rem, env(safe-area-inset-bottom, 0px))) 0.65rem !important;
         box-sizing: border-box !important;
         transition: padding 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
@@ -5726,22 +5729,30 @@
       }
 
       /* ==========================================================================
-         MOBILE CALC VIEW: Exam card fixed top, CS card scrolls, body locked
+         MOBILE VIEWPORT LOCK: Remove access to scrolling across all views on mobile
          ========================================================================== */
 
-      /* 1. Lock the viewport — no body scroll in calc view on mobile */
+      /* 1. Lock the viewport — no body scroll on mobile */
+      html,
       html[data-active-view="calc"],
-      html.view-calc {
+      html.view-calc,
+      html[data-active-view="sheet"],
+      html.view-sheet {
         height: 100% !important;
         height: 100dvh !important;
         max-height: 100dvh !important;
         overflow: hidden !important;
         margin: 0 !important;
         padding: 0 !important;
+        overscroll-behavior: none !important;
+        -webkit-overflow-scrolling: auto !important;
       }
 
+      body,
       html[data-active-view="calc"] body,
-      body.view-calc {
+      body.view-calc,
+      html[data-active-view="sheet"] body,
+      body.view-sheet {
         height: 100% !important;
         height: 100dvh !important;
         max-height: 100dvh !important;
@@ -5749,11 +5760,16 @@
         margin: 0 !important;
         padding: 0 !important;
         box-sizing: border-box !important;
+        overscroll-behavior: none !important;
+        -webkit-overflow-scrolling: auto !important;
       }
 
       /* 2. app-container fills viewport and does not scroll */
+      .app-container,
       html[data-active-view="calc"] .app-container,
-      body.view-calc .app-container {
+      body.view-calc .app-container,
+      html[data-active-view="sheet"] .app-container,
+      body.view-sheet .app-container {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
@@ -5770,6 +5786,7 @@
         display: flex !important;
         flex-direction: column !important;
         box-sizing: border-box !important;
+        overscroll-behavior: none !important;
       }
 
       /* 3. calc-view-container fills app-container with bottom clearance for fixed ribbon */
@@ -5789,6 +5806,71 @@
         padding: max(0.35rem, env(safe-area-inset-top, 0px)) 0.35rem calc(72px + 1rem + max(0.35rem, env(safe-area-inset-bottom, 0px))) 0.35rem !important;
         box-sizing: border-box !important;
         transition: padding 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+      }
+
+      /* 3b. sheet-view-container fills app-container with bottom clearance for fixed ribbon */
+      html[data-active-view="sheet"] #sheet-view-container,
+      body.view-sheet #sheet-view-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.25rem !important;
+        margin: 0 !important;
+        padding: max(0.35rem, env(safe-area-inset-top, 0px)) 0.35rem calc(72px + 1rem + max(0.35rem, env(safe-area-inset-bottom, 0px))) 0.35rem !important;
+        box-sizing: border-box !important;
+        transition: padding 0.35s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+      }
+
+      /* In Zen Mode idle-hide, ribbon slides out so sheet-view-container can expand */
+      html[data-active-view="sheet"] body.sheet-idle-hide #sheet-view-container,
+      body.view-sheet.sheet-idle-hide #sheet-view-container {
+        padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px)) !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-semester-grid,
+      body.view-sheet .sheet-semester-grid {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        gap: 0.25rem !important;
+      }
+
+      html[data-active-view="sheet"] .semester-card,
+      body.view-sheet .semester-card {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
+        margin: 0 auto !important;
+        padding: 0.35rem 0.5rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: var(--radius-md) !important;
+        box-sizing: border-box !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table-wrapper,
+      body.view-sheet .sheet-table-wrapper {
+        flex: 1 1 0 !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        overflow-y: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        scrollbar-width: none !important;
+        box-sizing: border-box !important;
       }
 
       /* In Zen Mode idle-hide, ribbon slides out so CS card can expand to bottom */
@@ -11858,7 +11940,14 @@ html[data-active-view="calc"] #calc-view-container,
       }
 
       localStorage.setItem('tip_gc_active_view', viewName);
-      window.location.hash = viewName;
+      if (history.replaceState) {
+        history.replaceState(null, '', '#' + viewName);
+      } else {
+        window.location.hash = viewName;
+      }
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
     }
 
     btnViewCalc.addEventListener('click', () => switchView('calc'));
@@ -12175,14 +12264,8 @@ html[data-active-view="calc"] #calc-view-container,
         return;
       }
 
-      // 5. Instant Top / Bottom Scroll on Mouse Wheel for main background page
-      if (e.deltaY > 0) {
-        e.preventDefault();
-        scrollToBottom();
-      } else if (e.deltaY < 0) {
-        e.preventDefault();
-        scrollToTop();
-      }
+      // 5. Prevent page scrolling in full-viewport fit views
+      e.preventDefault();
     }, { passive: false, capture: true });
 
     // Safeguard: Blur focused number inputs whenever a wheel action begins so background scrolls can't mutate them
