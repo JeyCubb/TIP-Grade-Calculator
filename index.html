@@ -5961,8 +5961,10 @@
       html[data-active-view="sheet"] .sheet-table th,
       body.view-sheet .sheet-table th {
         vertical-align: middle !important;
-        padding: 0.12rem 0.1rem !important;
-        font-size: 0.62rem !important;
+        padding: 0.12rem 0.04rem !important;
+        font-size: 0.60rem !important;
+        letter-spacing: -0.01em !important;
+        white-space: nowrap !important;
         box-sizing: border-box !important;
       }
 
@@ -5980,7 +5982,7 @@
       html[data-active-view="sheet"] .sheet-table td.col-subj,
       body.view-sheet .sheet-table th.col-subj,
       body.view-sheet .sheet-table td.col-subj {
-        width: 30% !important;
+        width: 25% !important;
         text-align: left !important;
         overflow: hidden !important;
         padding-left: 0.25rem !important;
@@ -6006,23 +6008,28 @@
       html[data-active-view="sheet"] .sheet-table td.col-prelim,
       body.view-sheet .sheet-table th.col-prelim,
       body.view-sheet .sheet-table td.col-prelim,
-      html[data-active-view="sheet"] .sheet-table th.col-midterm,
-      html[data-active-view="sheet"] .sheet-table td.col-midterm,
-      body.view-sheet .sheet-table th.col-midterm,
-      body.view-sheet .sheet-table td.col-midterm,
       html[data-active-view="sheet"] .sheet-table th.col-final,
       html[data-active-view="sheet"] .sheet-table td.col-final,
       body.view-sheet .sheet-table th.col-final,
       body.view-sheet .sheet-table td.col-final {
-        width: 14% !important;
+        width: 16.5% !important;
         text-align: center !important;
-        padding: 0.08rem 0.05rem !important;
+        padding: 0.08rem 0.04rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th.col-midterm,
+      html[data-active-view="sheet"] .sheet-table td.col-midterm,
+      body.view-sheet .sheet-table th.col-midterm,
+      body.view-sheet .sheet-table td.col-midterm {
+        width: 17% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.04rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table input.num-input,
       body.view-sheet .sheet-table input.num-input {
         width: 100% !important;
-        max-width: 44px !important;
+        max-width: 48px !important;
         height: 22px !important;
         font-size: 0.62rem !important;
         padding: 0.06rem 0.04rem !important;
@@ -6036,9 +6043,9 @@
       html[data-active-view="sheet"] .sheet-table td.col-grade,
       body.view-sheet .sheet-table th.col-grade,
       body.view-sheet .sheet-table td.col-grade {
-        width: 12% !important;
+        width: 13% !important;
         text-align: center !important;
-        padding: 0.08rem 0.05rem !important;
+        padding: 0.08rem 0.04rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table .grade-badge,
@@ -6052,15 +6059,15 @@
       html[data-active-view="sheet"] .sheet-table td.col-units,
       body.view-sheet .sheet-table th.col-units,
       body.view-sheet .sheet-table td.col-units {
-        width: 9% !important;
+        width: 11.5% !important;
         text-align: center !important;
-        padding: 0.08rem 0.05rem !important;
+        padding: 0.08rem 0.04rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table input.units-input,
       body.view-sheet .sheet-table input.units-input {
         width: 100% !important;
-        max-width: 24px !important;
+        max-width: 26px !important;
         height: 22px !important;
         font-size: 0.62rem !important;
         padding: 0.06rem 0.04rem !important;
@@ -6074,9 +6081,9 @@
       html[data-active-view="sheet"] .sheet-table td:last-child,
       body.view-sheet .sheet-table th:last-child,
       body.view-sheet .sheet-table td:last-child {
-        width: 7% !important;
-        text-align: center !important;
-        padding: 0.08rem 0.05rem !important;
+        display: none !important;
+        width: 0 !important;
+        padding: 0 !important;
       }
 
       html[data-active-view="sheet"] .sheet-footer-row,
