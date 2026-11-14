@@ -5295,51 +5295,336 @@
       align-items: center !important;
     }
 
-    .brand-nav-popup {
-      position: absolute;
-      bottom: calc(100% + 8px);
-      left: 0;
+    /* ==========================================================================
+       FULL-SCREEN BRAND NAVIGATION POPUP (Takes Whole Screen)
+       ========================================================================== */
+    .brand-nav-fullscreen-backdrop {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background-color: rgba(10, 8, 7, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 100000;
       display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 5px;
-      background: var(--bg-card, #1a1613);
-      border: 1.5px solid var(--border-color, rgba(249, 115, 22, 0.28));
-      border-radius: 12px;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 14px var(--accent-glow, rgba(249, 115, 22, 0.2));
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      z-index: 1000;
-      width: max-content;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
       box-sizing: border-box;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(6px) scale(0.92);
-      transform-origin: bottom left;
-      transition: opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-                  visibility 0.18s;
       pointer-events: none;
+      transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .brand-nav-popup.is-open {
+    .brand-nav-fullscreen-backdrop.is-open {
       opacity: 1;
       visibility: visible;
-      transform: translateY(0) scale(1);
       pointer-events: auto;
     }
 
-    [data-theme="light"] .brand-nav-popup {
-      background: #ffffff !important;
-      border-color: rgba(234, 88, 12, 0.28) !important;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12), 0 2px 10px rgba(234, 88, 12, 0.1) !important;
+    .brand-nav-fullscreen-container {
+      background: var(--bg-card, #171310);
+      border: 1px solid var(--border-color, rgba(249, 115, 22, 0.25));
+      border-radius: 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.05);
+      width: 100%;
+      max-width: 500px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.94) translateY(14px);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+      box-sizing: border-box;
     }
 
+    .brand-nav-fullscreen-backdrop.is-open .brand-nav-fullscreen-container {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    .brand-nav-fullscreen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.35rem 1.35rem 1rem 1.35rem;
+      border-bottom: 1px solid var(--border-color, rgba(249, 115, 22, 0.15));
+    }
+
+    .brand-nav-header-info {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-nav-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--accent-primary, #f97316);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-nav-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-nav-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary, #ffffff);
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-nav-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted, #94a3b8);
+      margin: 0.15rem 0 0 0;
+    }
+
+    .brand-nav-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted, #94a3b8);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .brand-nav-close-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-primary, #ffffff);
+    }
+
+    .brand-nav-fullscreen-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-nav-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+
+    .brand-nav-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.15rem;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1.5px solid rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      box-sizing: border-box;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .brand-nav-card:hover {
+      background: rgba(249, 115, 22, 0.06);
+      border-color: rgba(249, 115, 22, 0.38);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(249, 115, 22, 0.15);
+    }
+
+    .brand-nav-card:active {
+      transform: scale(0.985);
+    }
+
+    .brand-nav-card.is-active {
+      background: rgba(249, 115, 22, 0.09);
+      border-color: var(--accent-primary, #f97316);
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.18);
+    }
+
+    .brand-nav-card-icon {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.55rem;
+      flex-shrink: 0;
+    }
+
+    .sched-icon-bg {
+      background: rgba(249, 115, 22, 0.14);
+      border: 1px solid rgba(249, 115, 22, 0.32);
+    }
+
+    .calc-icon-bg {
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.32);
+    }
+
+    .reviewer-icon-bg {
+      background: rgba(168, 85, 247, 0.14);
+      border: 1px solid rgba(168, 85, 247, 0.32);
+    }
+
+    .brand-nav-card-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .brand-nav-card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-nav-card-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--text-primary, #ffffff);
+    }
+
+    .brand-nav-badge {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    .brand-nav-badge.active-badge {
+      background: rgba(249, 115, 22, 0.2);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.4);
+    }
+
+    .brand-nav-badge.portal-badge {
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.35);
+    }
+
+    .brand-nav-badge.reviewer-badge {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+
+    .brand-nav-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted, #94a3b8);
+      margin: 0.2rem 0 0 0;
+      line-height: 1.35;
+    }
+
+    .brand-nav-card-arrow {
+      color: var(--text-muted, #94a3b8);
+      transition: transform 0.2s ease, color 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .brand-nav-card:hover .brand-nav-card-arrow {
+      transform: translateX(3px);
+      color: var(--accent-primary, #f97316);
+    }
+
+    .brand-nav-card.is-active .brand-nav-card-arrow {
+      color: var(--accent-primary, #f97316);
+    }
+
+    /* Light Theme Overrides */
+    [data-theme="light"] .brand-nav-fullscreen-backdrop {
+      background-color: rgba(255, 255, 255, 0.94);
+    }
+
+    [data-theme="light"] .brand-nav-fullscreen-container {
+      background: #ffffff;
+      border-color: rgba(234, 88, 12, 0.2);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+
+    [data-theme="light"] .brand-nav-fullscreen-header {
+      border-bottom-color: rgba(234, 88, 12, 0.12);
+    }
+
+    [data-theme="light"] .brand-nav-close-btn:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="light"] .brand-nav-card {
+      background: #fafaf9;
+      border-color: #e7e5e4;
+    }
+
+    [data-theme="light"] .brand-nav-card:hover {
+      background: #fff7ed;
+      border-color: rgba(234, 88, 12, 0.4);
+      box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12);
+    }
+
+    [data-theme="light"] .brand-nav-card.is-active {
+      background: #fff7ed;
+      border-color: #ea580c;
+      box-shadow: 0 0 16px rgba(234, 88, 12, 0.15);
+    }
+
+    /* Full Screen Mobile & Small Viewports Adaptation */
     @media (max-width: 640px) {
-      .brand-nav-popup {
-        bottom: calc(100% + 6px);
-        gap: 4px;
-        padding: 4px;
+      .brand-nav-fullscreen-backdrop {
+        padding: 0 !important;
+        align-items: stretch !important;
+      }
+
+      .brand-nav-fullscreen-container {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: calc(env(safe-area-inset-top, 16px) + 16px) 1.25rem calc(env(safe-area-inset-bottom, 16px) + 24px) 1.25rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+      }
+
+      .brand-nav-fullscreen-body {
+        flex: 1 !important;
+        padding: 1.5rem 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+
+      .brand-nav-card {
+        padding: 1.15rem 1rem !important;
+      }
+
+      .brand-nav-card-icon {
+        width: 52px !important;
+        height: 52px !important;
+        font-size: 1.7rem !important;
       }
     }
 
@@ -6409,6 +6694,37 @@
       }
     }
 
+    /* Exam Header Row: Exam and inputs on left, Profile Selector on top right */
+    .exam-header-left,
+    html[data-active-view="calc"] .exam-header-left,
+    body.view-calc .exam-header-left,
+    body:not(.view-sheet) .exam-header-left {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.45rem !important;
+      flex: 0 0 auto !important;
+    }
+
+    .exam-header-left .exam-inputs-wrapper,
+    html[data-active-view="calc"] .exam-header-left .exam-inputs-wrapper,
+    body.view-calc .exam-header-left .exam-inputs-wrapper,
+    body:not(.view-sheet) .exam-header-left .exam-inputs-wrapper {
+      margin-left: 0 !important;
+      justify-content: flex-start !important;
+      flex: 0 0 auto !important;
+    }
+
+    .exam-input-row .user-profile-bar,
+    html[data-active-view="calc"] .exam-input-row .user-profile-bar,
+    body.view-calc .exam-input-row .user-profile-bar,
+    body:not(.view-sheet) .exam-input-row .user-profile-bar {
+      margin-left: auto !important;
+      flex: 0 0 auto !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
 </style>
   <!-- Zero-Delay View Pre-Resolver: Instantly displays target view on refresh without layout flash or delay -->
   <script>
@@ -6489,11 +6805,23 @@ html[data-active-view="calc"] #calc-view-container,
         </div>
 
         <div class="exam-input-row">
-          <span class="exam-mobile-label">Exam</span>
-          <div class="exam-inputs-wrapper">
-            <input type="number" id="exam-score" placeholder="Score" min="0" title="Exam Score" />
-            <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
-            <input type="number" id="exam-total" placeholder="Total" value="50" min="0" title="Exam Total" />
+          <div class="exam-header-left">
+            <span class="exam-mobile-label">Exam</span>
+            <div class="exam-inputs-wrapper">
+              <input type="number" id="exam-score" placeholder="Score" min="0" title="Exam Score" />
+              <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
+              <input type="number" id="exam-total" placeholder="Total" value="50" min="0" title="Exam Total" />
+            </div>
+          </div>
+
+          <!-- User Profile Selector (Top Right) -->
+          <div class="user-profile-bar" title="Active User Profile">
+            <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span id="active-profile-label">No Profile</span>
+              <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <select id="user-selector" title="Select User Profile" style="display: none;"></select>
           </div>
         </div>
 
@@ -6869,30 +7197,7 @@ html[data-active-view="calc"] #calc-view-container,
                 </svg>
               </span>
               </button>
-
-            <!-- Pop Up Navigation Menu (Compact Website Buttons) -->
-            <div class="brand-nav-popup" id="brand-nav-popup" role="menu" aria-label="Switch Website" aria-hidden="true">
-              <!-- 1. Terms Reviewer -->
-              <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn" id="btn-header-reviewer" title="JeyCub Terms Reviewer" aria-label="JeyCub Terms Reviewer">
-                <span class="brand-emoji">📖</span>
-              </a>
-
-              <!-- 2. Schedule Creator -->
-              <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-btn" id="btn-header-sched" title="Schedule Creator" aria-label="Schedule Creator">
-                <span class="brand-emoji">📅</span>
-              </a>
             </div>
-
-            <!-- User Profile Selector (Left, next to App icon) -->
-            <div class="user-profile-bar" title="Active User Profile">
-              <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span id="active-profile-label">No Profile</span>
-                <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <select id="user-selector" title="Select User Profile" style="display: none;"></select>
-            </div>
-          </div>
 
           <!-- View Switcher Navigation Bar (Center of Bottom Header) -->
           <div class="header-nav-row">
@@ -7091,6 +7396,94 @@ html[data-active-view="calc"] #calc-view-container,
           <button class="btn btn-sm btn-confirm-primary" id="app-confirm-modal-confirm" style="flex: 1; justify-content: center; padding: 0.55rem 0.75rem; font-size: 0.825rem; font-weight: 700; border-radius: var(--radius-md); transition: var(--transition); cursor: pointer;">
             Confirm
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Screen Brand Navigation Popup Modal -->
+  <div class="brand-nav-fullscreen-backdrop" id="brand-nav-popup" role="dialog" aria-modal="true" aria-label="JeyCub Apps Navigation">
+    <div class="brand-nav-fullscreen-container">
+      <div class="brand-nav-fullscreen-header">
+        <div class="brand-nav-header-info">
+          <div class="brand-nav-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <div class="brand-nav-title-group">
+            <h2 class="brand-nav-title">Navigation</h2>
+            <span class="brand-nav-subtitle">Switch between JeyCub web apps</span>
+          </div>
+        </div>
+        <button type="button" class="brand-nav-close-btn" id="brand-nav-close-btn" aria-label="Close navigation">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="brand-nav-fullscreen-body">
+        <div class="brand-nav-cards-list">
+          <!-- Card 1: TIP Grade Calculator (Current Active App) -->
+          <div class="brand-nav-card is-active" id="btn-nav-card-calc" role="button" tabindex="0">
+            <div class="brand-nav-card-icon calc-icon-bg">
+              <span>🧮</span>
+            </div>
+            <div class="brand-nav-card-main">
+              <div class="brand-nav-card-title-row">
+                <span class="brand-nav-card-title">TIP Grade Calculator</span>
+                <span class="brand-nav-badge active-badge">Active</span>
+              </div>
+              <p class="brand-nav-card-desc">Calculate raw scores, target grades, prelims, midterms, finals &amp; GWA records</p>
+            </div>
+            <div class="brand-nav-card-arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Card 2: Schedule Creator -->
+          <a href="https://jeycubb.github.io/scheduler/" target="_self" class="brand-nav-card" id="btn-nav-card-sched">
+            <div class="brand-nav-card-icon sched-icon-bg">
+              <span>📅</span>
+            </div>
+            <div class="brand-nav-card-main">
+              <div class="brand-nav-card-title-row">
+                <span class="brand-nav-card-title">Schedule Creator</span>
+                <span class="brand-nav-badge portal-badge">Portal</span>
+              </div>
+              <p class="brand-nav-card-desc">Build schedules, resolve section conflicts, track ME units &amp; export visual timetables</p>
+            </div>
+            <div class="brand-nav-card-arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Card 3: Terms Reviewer -->
+          <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-card" id="btn-nav-card-reviewer">
+            <div class="brand-nav-card-icon reviewer-icon-bg">
+              <span>📖</span>
+            </div>
+            <div class="brand-nav-card-main">
+              <div class="brand-nav-card-title-row">
+                <span class="brand-nav-card-title">Terms Reviewer</span>
+                <span class="brand-nav-badge reviewer-badge">Reviewer</span>
+              </div>
+              <p class="brand-nav-card-desc">Comprehensive glossary flashcards, quiz mode, definitions &amp; exam study system</p>
+            </div>
+            <div class="brand-nav-card-arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -12504,7 +12897,8 @@ html[data-active-view="calc"] #calc-view-container,
     function initBrandNavPopup() {
       const trigger = document.getElementById('brand-nav-trigger');
       const popup = document.getElementById('brand-nav-popup');
-      const calcItem = document.getElementById('btn-header-calc');
+      const closeBtn = document.getElementById('brand-nav-close-btn');
+      const calcCard = document.getElementById('btn-nav-card-calc');
 
       if (!trigger || !popup) return;
 
@@ -12520,19 +12914,24 @@ html[data-active-view="calc"] #calc-view-container,
         togglePopup();
       });
 
-      if (calcItem) {
-        calcItem.addEventListener('click', (e) => {
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePopup(false);
+        });
+      }
+
+      if (calcCard) {
+        calcCard.addEventListener('click', (e) => {
           e.preventDefault();
           switchView('calc');
           togglePopup(false);
         });
       }
 
-      document.addEventListener('click', (e) => {
-        if (popup.classList.contains('is-open')) {
-          if (!popup.contains(e.target) && !trigger.contains(e.target)) {
-            togglePopup(false);
-          }
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          togglePopup(false);
         }
       });
 
@@ -12560,7 +12959,7 @@ html[data-active-view="calc"] #calc-view-container,
         return;
       }
       // Never hijack interaction on editable inputs, dropdowns, or horizontal scroll containers
-      if (e.target.closest('input, textarea, select, .scheme-dropdown-content, .sem-dropdown-container, .sem-dropdown-menu, .year-dropdown-container, .year-dropdown-menu, .brand-nav-popup')) {
+      if (e.target.closest('input, textarea, select, .scheme-dropdown-content, .sem-dropdown-container, .sem-dropdown-menu, .year-dropdown-container, .year-dropdown-menu, .brand-nav-popup, .brand-nav-fullscreen-backdrop')) {
         touchCanSwipe = false;
         return;
       }
