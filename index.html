@@ -5643,10 +5643,11 @@
 
       .header-container {
         display: flex !important;
-        flex-wrap: wrap !important;
+        flex-wrap: nowrap !important;
         align-items: center !important;
         justify-content: space-between !important;
-        gap: 0.3rem 0.35rem !important;
+        gap: 0.35rem !important;
+        position: relative !important;
       }
 
       body.sheet-idle-hide .app-header,
@@ -5668,12 +5669,18 @@
       }
 
       .header-nav-row {
-        width: 100% !important;
-        flex: 0 0 100% !important;
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
         display: flex !important;
         justify-content: center !important;
-        margin: 0 auto 0.25rem auto !important;
-        order: -1 !important;
+        align-items: center !important;
+        width: auto !important;
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+        z-index: 10 !important;
+        pointer-events: auto !important;
       }
 
       .view-nav-bar {
@@ -5682,7 +5689,7 @@
         left: auto !important;
         width: auto !important;
         max-width: none !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
         display: inline-flex !important;
         justify-content: center !important;
         box-sizing: border-box !important;
@@ -5705,6 +5712,7 @@
         flex: 0 0 auto !important;
         justify-content: flex-start !important;
         min-width: 0 !important;
+        z-index: 5 !important;
       }
 
       .header-profile-group {
@@ -5714,6 +5722,7 @@
         margin-left: auto !important;
         flex: 0 0 auto !important;
         justify-content: flex-end !important;
+        z-index: 5 !important;
       }
 
       .user-profile-bar {
