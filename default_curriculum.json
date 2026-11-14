@@ -400,5 +400,173 @@
         "units": 3
       }
     ]
+  },
+  "4th Year": {
+    "sem1": [
+      {
+        "name": "ME Elective 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Machine Design 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "ME Project Study 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "Tech Entrepreneurship",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Air Conditioning & Vent",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "Vibration Engineering",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Design Project 1",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "ME Laws & Ethics",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Power Plant Design",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "Integration Math",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      }
+    ],
+    "sem2": [
+      {
+        "name": "Industrial Plant Eng",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 4
+      },
+      {
+        "name": "ME Project Study 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 1
+      },
+      {
+        "name": "ME Lab 3",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Elective 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Integ Power & Ind Plant",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "Integ Eng & Science",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Design Project 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 3
+      },
+      {
+        "name": "On-the-Job Training",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      }
+    ],
+    "summer": [
+      {
+        "name": "Manufacturing Processes",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      },
+      {
+        "name": "ME Lab 2",
+        "prelim": "",
+        "midterm": "",
+        "final": "",
+        "grade": "",
+        "units": 2
+      }
+    ]
   }
 }
