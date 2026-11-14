@@ -4518,6 +4518,8 @@
 
       html[data-active-view="calc"] #card-cs-section .card-header,
       body.view-calc #card-cs-section .card-header {
+        width: 100% !important;
+        box-sizing: border-box !important;
         flex-shrink: 0 !important;
         margin-bottom: 0.35rem !important;
       }
@@ -5389,6 +5391,8 @@
 
       html[data-active-view="calc"] #card-cs-section .card-header,
       body.view-calc #card-cs-section .card-header {
+        width: 100% !important;
+        box-sizing: border-box !important;
         flex-shrink: 0 !important;
         position: static !important;
         margin-bottom: 0.35rem !important;
@@ -5870,6 +5874,8 @@
       /* Permanent non-sticky card header at top of CS card - NEVER overlaps */
       html[data-active-view="calc"] #card-cs-section .card-header,
       body.view-calc #card-cs-section .card-header {
+        width: 100% !important;
+        box-sizing: border-box !important;
         flex-shrink: 0 !important;
         position: static !important;
         background: transparent !important;
@@ -6190,12 +6196,12 @@ html[data-active-view="calc"] #calc-view-container,
 
       <!-- Class Standing Card (Column 2 on Mobile, Column 1 on Desktop) -->
       <section class="card" id="card-cs-section" style="display: flex; flex-direction: column;">
-        <div class="card-header">
-          <div class="card-title">
-            <span>Class Standing</span>
-          </div>
-        </div>
         <div class="cs-scroll-area" id="cs-scroll-area">
+          <div class="card-header">
+            <div class="card-title">
+              <span>Class Standing</span>
+            </div>
+          </div>
           <div id="categories"></div>
           <div class="add-category-wrapper" style="padding-top: 0.35rem; align-self: flex-start;">
             <button id="add-category" class="btn btn-sm btn-add-action">
