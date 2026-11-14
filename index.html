@@ -4577,8 +4577,17 @@
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.25rem !important;
-        padding-bottom: 0.1rem !important;
+        padding-bottom: 2.5rem !important;
+        margin-bottom: 0.5rem !important;
         align-self: flex-start !important;
+      }
+
+      #add-category {
+        position: relative !important;
+        z-index: 10 !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
 
       /* Exam & Target Solver Card */
@@ -5452,8 +5461,17 @@
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.25rem !important;
-        padding-bottom: 0.1rem !important;
+        padding-bottom: 2.5rem !important;
+        margin-bottom: 0.5rem !important;
         align-self: flex-start !important;
+      }
+
+      #add-category {
+        position: relative !important;
+        z-index: 10 !important;
+        cursor: pointer !important;
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
     }
 
@@ -5938,7 +5956,8 @@
       body.view-calc #card-cs-section > div:last-child {
         flex-shrink: 0 !important;
         padding-top: 0.35rem !important;
-        padding-bottom: 0.1rem !important;
+        padding-bottom: 2.5rem !important;
+        margin-bottom: 0.5rem !important;
         align-self: flex-start !important;
       }
     }
@@ -6206,7 +6225,7 @@ html[data-active-view="calc"] #calc-view-container,
             </div>
           </div>
           <div id="categories"></div>
-          <div class="add-category-wrapper" style="padding-top: 0.35rem; align-self: flex-start;">
+          <div class="add-category-wrapper" style="padding-top: 0.35rem; padding-bottom: 2.5rem; align-self: flex-start;">
             <button id="add-category" class="btn btn-sm btn-add-action">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
               Add Category
@@ -8703,36 +8722,31 @@ html[data-active-view="calc"] #calc-view-container,
     function isEventInsideCS(e) {
       if (!e) return false;
       const t = e.target;
-      return !!(t && t.closest && (t.closest('#card-cs-section') || t.closest('#categories')));
+      return !!(t && t.closest && (t.closest('#card-cs-section') || t.closest('#categories') || t.closest('#add-category') || t.closest('.add-category-wrapper')));
     }
 
     function resetSheetIdleTimer(e) {
       if (e) {
         const type = e.type;
 
+        // If touching, clicking, or scrolling inside Class Standing (including Add Category, inputs, buttons, items)
+        // NEVER show or trigger the bottom ribbon over user interactions!
+        if (isEventInsideCS(e)) {
+          if (type === 'scroll' || type === 'touchmove' || type === 'wheel') {
+            hideSheetChrome();
+            clearTimeout(sheetIdleTimer);
+          }
+          return;
+        }
+
         // Tapping/clicking near bottom 70px (floating ribbon zone) or top 60px (navbar) always reveals chrome
+        // ONLY if the interaction is outside Class Standing!
         const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
         if (clientY !== null && (clientY <= 60 || clientY >= window.innerHeight - 70)) {
           showSheetChrome();
           clearTimeout(sheetIdleTimer);
           sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
           return;
-        }
-
-        // Scrolling, dragging, or touching through Class Standing should NEVER show the ribbon
-        if (isEventInsideCS(e)) {
-          if (type === 'scroll' || type === 'touchmove' || type === 'wheel') {
-            hideSheetChrome();
-            clearTimeout(sheetIdleTimer);
-            return;
-          }
-          if (type === 'touchstart' || type === 'mousedown') {
-            const isHidden = document.body.classList.contains('sheet-idle-hide') || document.documentElement.classList.contains('sheet-idle-hide');
-            if (isHidden) {
-              clearTimeout(sheetIdleTimer);
-              return;
-            }
-          }
         }
       }
 
@@ -8745,6 +8759,7 @@ html[data-active-view="calc"] #calc-view-container,
     let lastMouseClientY = null;
 
     window.addEventListener('mousemove', (e) => {
+      if (isEventInsideCS(e)) return;
       if (e.clientY <= 60 || e.clientY >= window.innerHeight - 70) {
         showSheetChrome();
         resetSheetIdleTimer(e);
