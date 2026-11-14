@@ -111,8 +111,9 @@
     }
 
     [data-theme="light"] .view-nav-bar {
-      background: #ffffff !important;
-      border: 1px solid var(--border-color) !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
     }
 
     [data-theme="light"] .view-nav-btn {
@@ -386,17 +387,18 @@
 
       .view-nav-bar,
       .mode-nav {
-        gap: 0.16rem !important;
-        padding: 2px !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
         flex-wrap: nowrap !important;
       }
 
       .view-nav-btn,
       .nav-btn {
-        padding: 0.22rem 0.5rem !important;
-        font-size: 0.74rem !important;
-        min-height: 28px !important;
-        gap: 0.22rem !important;
+        padding: 0.25rem 0.85rem !important;
+        font-size: 0.8rem !important;
+        min-height: 30px !important;
         white-space: nowrap !important;
       }
 
@@ -1175,13 +1177,13 @@
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      font-size: 0.425rem !important;
-      padding: 0.1rem 0.35rem;
+      font-size: 0.72rem !important;
+      padding: 0.12rem 0.4rem;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      opacity: 0.75;
+      opacity: 0.85;
     }
 
     .btn-add-action svg {
@@ -2259,15 +2261,13 @@
       display: inline-flex;
       align-items: center;
       gap: 0.25rem;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-full);
-      padding: 2px 3px;
-      box-shadow: var(--shadow-sm);
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
       margin: 0 auto;
       flex-shrink: 0;
       position: relative;
-      transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
 
     .view-nav-btn {
@@ -2275,13 +2275,14 @@
       align-items: center;
       justify-content: center;
       gap: 0.35rem;
-      padding: 0.22rem 0.75rem;
-      height: 26px;
+      padding: 0.28rem 1rem;
+      height: 32px;
+      min-height: 32px;
       border-radius: var(--radius-full);
       border: none;
       background: transparent;
       color: var(--text-secondary);
-      font-size: 0.75rem;
+      font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       transition: background-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
@@ -4567,6 +4568,25 @@
         cursor: pointer !important;
         touch-action: manipulation !important;
         -webkit-tap-highlight-color: transparent !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        padding: 0.22rem 0.75rem !important;
+        border-radius: var(--radius-full) !important;
+        background: rgba(249, 115, 22, 0.08) !important;
+        border: 1px dashed rgba(249, 115, 22, 0.4) !important;
+        color: var(--accent-primary) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        opacity: 0.9 !important;
+        transition: all 0.2s ease !important;
+      }
+
+      #add-category:hover {
+        background: rgba(249, 115, 22, 0.16) !important;
+        border-color: var(--accent-primary) !important;
+        opacity: 1 !important;
+        transform: translateY(-1px) !important;
       }
 
       /* Exam & Target Solver Card */
@@ -5484,6 +5504,25 @@
         cursor: pointer !important;
         touch-action: manipulation !important;
         -webkit-tap-highlight-color: transparent !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        padding: 0.22rem 0.75rem !important;
+        border-radius: var(--radius-full) !important;
+        background: rgba(249, 115, 22, 0.08) !important;
+        border: 1px dashed rgba(249, 115, 22, 0.4) !important;
+        color: var(--accent-primary) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        opacity: 0.9 !important;
+        transition: all 0.2s ease !important;
+      }
+
+      #add-category:hover {
+        background: rgba(249, 115, 22, 0.16) !important;
+        border-color: var(--accent-primary) !important;
+        opacity: 1 !important;
+        transform: translateY(-1px) !important;
       }
     }
 
@@ -6486,7 +6525,7 @@ html[data-active-view="calc"] #calc-view-container,
               <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 0.05em; white-space: nowrap; line-height: 1;">Final Grade</span>
               <div class="final-val" id="res-final">0.00%</div>
             </div>
-            <div class="eq-badge" id="res-eq">Eq= 4.00</div>
+            <div class="eq-badge" id="res-eq">Grade: 4.00</div>
           </div>
         </div>
       </section>
@@ -6494,9 +6533,10 @@ html[data-active-view="calc"] #calc-view-container,
       <!-- Class Standing Card (Column 2 on Mobile, Column 1 on Desktop) -->
       <section class="card" id="card-cs-section" style="display: flex; flex-direction: column;">
         <div class="cs-scroll-area" id="cs-scroll-area">
-          <div class="card-header">
-            <div class="card-title">
+          <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+            <div class="card-title" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
               <span>Class Standing</span>
+              <span id="cs-header-standing-val" class="score-tag header-badge" style="font-size: 0.82rem; font-weight: 800; color: var(--accent-primary); padding: 0.15rem 0.55rem; border-radius: var(--radius-full); background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.25); line-height: 1.2;">0%</span>
             </div>
           </div>
           <div id="categories"></div>
@@ -9360,12 +9400,15 @@ html[data-active-view="calc"] #calc-view-container,
       const prevPercentVal = getPrevPercent(false);
       const prevPercent = prevPercentVal == null ? 0 : prevPercentVal;
 
-      resCsEl.textContent = hasItemScore ? formatCompactPercent(csPercent) : '0%';
+      const csText = hasItemScore ? formatCompactPercent(csPercent) : '0%';
+      resCsEl.textContent = csText;
+      const csHeaderStandingVal = document.getElementById('cs-header-standing-val');
+      if (csHeaderStandingVal) csHeaderStandingVal.textContent = csText;
       resExamEl.textContent = hasExamScore ? formatCompactPercent(examPercent) : '--';
 
       if (!hasAnyScore) {
         resFinalEl.textContent = '--';
-        resEqEl.textContent = 'Eq= --';
+        resEqEl.textContent = 'Grade: --';
         resEqEl.style.background = 'rgba(255, 255, 255, 0.08)';
         resEqEl.style.color = 'var(--text-muted)';
         resEqEl.style.boxShadow = 'none';
@@ -9377,7 +9420,7 @@ html[data-active-view="calc"] #calc-view-container,
       const { finalPercent, eq } = computeFinal(csPercent, effectiveExamPercent, prevPercent);
 
       resFinalEl.textContent = formatCompactPercent(finalPercent);
-      resEqEl.textContent = `Eq= ${eq}`;
+      resEqEl.textContent = `Grade: ${eq}`;
 
       if (eq === '4.00' || eq === '5.00') {
         resEqEl.style.background = 'var(--color-error-bg)';
