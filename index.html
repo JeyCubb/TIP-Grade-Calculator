@@ -2433,15 +2433,6 @@
       box-shadow: 0 4px 12px var(--accent-glow);
     }
 
-    .sem-dropdown-chevron {
-      transition: transform 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    .sem-dropdown-container[open] .sem-dropdown-chevron {
-      transform: rotate(180deg);
-    }
-
     .sem-dropdown-menu {
       position: absolute;
       top: calc(100% + 5px);
@@ -6797,9 +6788,6 @@ html[data-active-view="calc"] #calc-view-container,
           <details class="sem-dropdown-container" id="sem-dropdown">
             <summary class="sem-dropdown-summary" id="sem-dropdown-summary" aria-label="Select Semester" title="Select Semester">
               <span id="sem-dropdown-label">First Semester</span>
-              <svg class="sem-dropdown-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
             </summary>
             <div class="sem-dropdown-menu" id="sem-dropdown-menu">
               <button type="button" class="sem-dropdown-item active" id="btn-switch-sem1" data-sem="sem1" title="First Semester (Shift + ←)">
@@ -12167,9 +12155,8 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
-      // Update semester dropdown label, chevron, and title
+      // Update semester dropdown label and title
       const semDropdownLabel = document.getElementById('sem-dropdown-label');
-      const semChevron = document.querySelector('.sem-dropdown-chevron');
       const semSummary = document.getElementById('sem-dropdown-summary');
       const semDropdown = document.getElementById('sem-dropdown');
       if (semDropdownLabel) {
@@ -12180,9 +12167,6 @@ html[data-active-view="calc"] #calc-view-container,
         } else {
           semDropdownLabel.textContent = 'First Semester';
         }
-      }
-      if (semChevron) {
-        semChevron.style.display = activeSheetYear === '4th Year' ? '' : 'none';
       }
       if (semSummary) {
         semSummary.title = activeSheetYear === '4th Year'
