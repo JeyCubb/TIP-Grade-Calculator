@@ -541,7 +541,6 @@
       margin: 0 !important;
       border: none !important;
       background: transparent !important;
-      display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
       vertical-align: middle !important;
@@ -549,6 +548,17 @@
       flex-shrink: 0 !important;
       line-height: 1 !important;
       overflow: visible !important;
+    }
+
+    body.view-sheet .header-actions-group #header-scheme-dropdown,
+    html[data-active-view="sheet"] .header-actions-group #header-scheme-dropdown {
+      display: inline-flex !important;
+    }
+
+    body:not(.view-sheet) .header-actions-group #header-scheme-dropdown,
+    body.view-calc .header-actions-group #header-scheme-dropdown,
+    html[data-active-view="calc"] .header-actions-group #header-scheme-dropdown {
+      display: none !important;
     }
 
     .header-actions-group .btn-profile-lock,
@@ -2956,6 +2966,17 @@
 
     .sem-footer-summary-text strong {
       color: var(--accent-primary);
+    }
+
+    html[data-active-view="calc"] #header-scheme-dropdown,
+    body.view-calc #header-scheme-dropdown,
+    body:not(.view-sheet) #header-scheme-dropdown {
+      display: none !important;
+    }
+
+    html[data-active-view="sheet"] #header-scheme-dropdown,
+    body.view-sheet #header-scheme-dropdown {
+      display: inline-flex !important;
     }
 
     .scheme-dropdown-container {
@@ -5839,10 +5860,20 @@
         max-height: 26px !important;
         margin: 0 !important;
         padding: 0 !important;
-        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         box-sizing: border-box !important;
+      }
+
+      body.view-sheet .header-actions-group #header-scheme-dropdown,
+      html[data-active-view="sheet"] .header-actions-group #header-scheme-dropdown {
+        display: inline-flex !important;
+      }
+
+      body:not(.view-sheet) .header-actions-group #header-scheme-dropdown,
+      body.view-calc .header-actions-group #header-scheme-dropdown,
+      html[data-active-view="calc"] .header-actions-group #header-scheme-dropdown {
+        display: none !important;
       }
 
       .header-actions-group .btn-profile-lock,
