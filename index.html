@@ -6747,10 +6747,9 @@ html[data-active-view="calc"] #calc-view-container,
       <!-- Class Standing Card (Column 2 on Mobile, Column 1 on Desktop) -->
       <section class="card" id="card-cs-section" style="display: flex; flex-direction: column;">
         <div class="cs-scroll-area" id="cs-scroll-area">
-          <div class="card-header" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-            <div class="card-title" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <div class="card-header">
+            <div class="card-title">
               <span>Class Standing</span>
-              <span id="cs-header-standing-val" class="score-tag header-badge" style="font-size: 0.82rem; font-weight: 800; color: var(--accent-primary); padding: 0.15rem 0.55rem; border-radius: var(--radius-full); background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.25); line-height: 1.2;">0%</span>
             </div>
           </div>
           <div id="categories"></div>
@@ -9609,8 +9608,6 @@ html[data-active-view="calc"] #calc-view-container,
 
       const csText = hasItemScore ? formatCompactPercent(csPercent) : '0%';
       resCsEl.textContent = csText;
-      const csHeaderStandingVal = document.getElementById('cs-header-standing-val');
-      if (csHeaderStandingVal) csHeaderStandingVal.textContent = csText;
       resExamEl.textContent = hasExamScore ? formatCompactPercent(examPercent) : '--';
 
       if (!hasAnyScore) {
