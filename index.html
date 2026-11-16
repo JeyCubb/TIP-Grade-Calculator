@@ -7100,7 +7100,7 @@ html[data-active-view="calc"] #calc-view-container,
           </div>
           <div>
             <h2 class="profile-modal-title" id="lock-modal-title">Lock Profile</h2>
-            <div class="profile-modal-subtitle" id="lock-modal-subtitle">Set a password to protect this profile</div>
+            <div class="profile-modal-subtitle" id="lock-modal-subtitle" style="display: none;"></div>
           </div>
         </div>
         <button class="profile-modal-close-btn" id="btn-close-lock-modal" title="Close dialog">&times;</button>
@@ -7108,7 +7108,7 @@ html[data-active-view="calc"] #calc-view-container,
 
       <div class="profile-modal-body" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.35rem;">
         <div>
-          <label id="lock-password-label" style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">Enter Password (Visible):</label>
+          <label id="lock-password-label" style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.35rem; display: block;">Enter Password:</label>
           <input type="text" id="lock-password-input" placeholder="e.g. 1234 or mypass" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" style="width: 100%; font-size: 0.95rem; font-family: inherit; font-weight: 600; padding: 0.5rem 0.75rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1.5px solid var(--border-color); color: var(--text-primary);" />
         </div>
         <div id="lock-modal-error" style="color: var(--color-error); font-size: 0.75rem; font-weight: 700; min-height: 1rem; display: none;"></div>
