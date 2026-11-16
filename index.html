@@ -7148,10 +7148,6 @@ html[data-active-view="calc"] #calc-view-container,
         <div class="profile-modal-list" id="profile-modal-list"></div>
 
         <div class="profile-modal-add-section">
-          <div class="profile-modal-section-label" style="color: var(--color-success); display: flex; align-items: center; gap: 0.3rem;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
-            Create New Profile
-          </div>
           <div class="profile-modal-add-row">
             <input type="text" id="modal-new-profile-input" placeholder="Username" maxlength="25" />
             <button class="btn btn-sm btn-create-profile" id="btn-modal-add-profile">
@@ -10307,13 +10303,7 @@ html[data-active-view="calc"] #calc-view-container,
         }
       });
     }
-    const modalAddSectionLabel = document.querySelector('.profile-modal-add-section .profile-modal-section-label');
-    if (modalAddSectionLabel && modalNewProfileInput) {
-      modalAddSectionLabel.style.cursor = 'pointer';
-      modalAddSectionLabel.addEventListener('click', () => {
-        modalNewProfileInput.focus();
-      });
-    }
+
     
     // ==========================================================================
     // CURRICULUM & GWA SPREADSHEET ENGINE (Grades.xlsx Replica)
