@@ -10336,7 +10336,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 3
       },
       {
         "name": "Machine Design 2",
@@ -10408,7 +10408,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 1
       }
     ],
     "sem2": [
@@ -10434,7 +10434,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 1
       },
       {
         "name": "ME Elective 2",
@@ -10442,7 +10442,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 3
       },
       {
         "name": "Integ Power & Ind Plant",
@@ -10989,7 +10989,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 3
       },
       {
         "name": "Machine Design 2",
@@ -11061,7 +11061,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 1
       }
     ],
     "sem2": [
@@ -11087,7 +11087,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 1
       },
       {
         "name": "ME Elective 2",
@@ -11095,7 +11095,7 @@ html[data-active-view="calc"] #calc-view-container,
         "midterm": "",
         "final": "",
         "grade": "",
-        "units": 2
+        "units": 3
       },
       {
         "name": "Integ Power & Ind Plant",
@@ -11702,16 +11702,21 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
+      const defaultFourth = (activeUser === 'JeyCub' || activeUser === 'Jacob') 
+        ? DEFAULT_JACOB_CURRICULUM['4th Year'] 
+        : DEFAULT_BLANK_CURRICULUM['4th Year'];
+
       if (!userSheetData['4th Year']) {
-        userSheetData['4th Year'] = {
-          sem1: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
-          sem2: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }],
-          summer: [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }]
-        };
+        userSheetData['4th Year'] = JSON.parse(JSON.stringify(defaultFourth));
         saveSheetData();
-      } else if (!userSheetData['4th Year'].summer) {
-        userSheetData['4th Year'].summer = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
-        saveSheetData();
+      } else {
+        ['sem1', 'sem2', 'summer'].forEach(term => {
+          const list = userSheetData['4th Year'][term];
+          if (!list || !Array.isArray(list) || list.length === 0 || (list.length === 1 && (!list[0].name || list[0].name.trim() === ''))) {
+            userSheetData['4th Year'][term] = JSON.parse(JSON.stringify(defaultFourth[term]));
+            saveSheetData();
+          }
+        });
       }
 
       if (savedYear && userSheetData[savedYear]) {
@@ -12136,8 +12141,16 @@ html[data-active-view="calc"] #calc-view-container,
     function renderSheetView() {
       if (!userSheetData) return;
 
-      if (activeSheetYear === '4th Year' && !userSheetData['4th Year'].summer) {
-        userSheetData['4th Year'].summer = [{ name: '', prelim: '', midterm: '', final: '', grade: '', units: '' }];
+      if (activeSheetYear === '4th Year' && userSheetData['4th Year']) {
+        const defaultFourth = (activeUser === 'JeyCub' || activeUser === 'Jacob') 
+          ? DEFAULT_JACOB_CURRICULUM['4th Year'] 
+          : DEFAULT_BLANK_CURRICULUM['4th Year'];
+        ['sem1', 'sem2', 'summer'].forEach(term => {
+          const list = userSheetData['4th Year'][term];
+          if (!list || !Array.isArray(list) || list.length === 0 || (list.length === 1 && (!list[0].name || list[0].name.trim() === ''))) {
+            userSheetData['4th Year'][term] = JSON.parse(JSON.stringify(defaultFourth[term]));
+          }
+        });
       }
 
       // If activeSheetYear is not 4th Year and activeSemester is summer, reset to sem1
