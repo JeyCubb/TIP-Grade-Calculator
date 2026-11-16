@@ -1610,61 +1610,62 @@
       position: absolute;
       top: calc(100% + 4px);
       left: 0;
-      min-width: 195px;
       width: max-content;
-      max-width: 250px;
+      min-width: auto;
+      max-width: calc(100vw - 2rem);
       background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
       z-index: 1000;
       max-height: none;
-      overflow-y: visible;
+      overflow: visible;
       display: none;
-      flex-direction: column;
-      padding: 0.25rem 0;
+      padding: 0.55rem 0.75rem;
     }
 
     .target-select-options.show {
-      display: flex;
+      display: block;
     }
 
-    .target-option-item {
-      padding: 0.22rem 0.65rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.85rem;
+    .target-select-options .sheet-table th,
+    .target-select-options .sheet-table td {
+      padding: 0.14rem 0.45rem;
+      font-size: 0.58rem;
       white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .target-option-item:hover {
+    .target-select-options .sheet-grade-cell {
+      font-size: 0.58rem !important;
+      min-width: 32px !important;
+      padding: 0.08rem 0.35rem !important;
+      line-height: 1.15 !important;
+      display: inline-block !important;
+      text-align: center !important;
+    }
+
+    tr.target-option-item {
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    tr.target-option-item:hover {
       background: rgba(249, 115, 22, 0.15);
-      color: var(--accent-primary);
     }
 
-    .target-option-item.selected {
-      background: var(--accent-primary);
-      color: #ffffff;
+    tr.target-option-item.selected {
+      background: rgba(249, 115, 22, 0.28);
       font-weight: 700;
     }
 
-    .target-option-item .opt-range {
-      font-size: 0.72rem;
-      opacity: 0.85;
-      font-weight: 500;
-      white-space: nowrap;
+    tr.target-option-item td:first-child {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
     }
 
-    .target-option-item.selected .opt-range {
-      color: #ffffff;
-      opacity: 0.95;
-      font-weight: 600;
+    tr.target-option-item td:last-child {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
     }
 
     /* Result Dashboard Box */
@@ -3025,43 +3026,33 @@
       bottom: calc(100% + 8px);
       right: 0;
       left: auto;
-      min-width: 195px;
       width: max-content;
-      max-width: 250px;
-      background: var(--bg-card);
-      border: 1.5px solid var(--border-color);
+      min-width: auto;
+      max-width: calc(100vw - 2rem);
+      max-height: none;
+      overflow: visible;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45), 0 8px 10px -6px rgba(0, 0, 0, 0.35);
+      background: var(--bg-card);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
       z-index: 1000;
-      padding: 0.25rem 0;
-      display: flex;
-      flex-direction: column;
     }
 
-    .scheme-option-item {
-      padding: 0.22rem 0.65rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: default;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.85rem;
+    .scheme-dropdown-content .sheet-table th,
+    .scheme-dropdown-content .sheet-table td {
+      padding: 0.14rem 0.45rem;
+      font-size: 0.58rem;
       white-space: nowrap;
-      transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .scheme-option-item:hover {
-      background: rgba(249, 115, 22, 0.15);
-      color: var(--accent-primary);
-    }
-
-    .scheme-option-item .opt-range {
-      font-size: 0.72rem;
-      opacity: 0.85;
-      font-weight: 500;
-      white-space: nowrap;
+    .scheme-dropdown-content .sheet-grade-cell {
+      font-size: 0.58rem !important;
+      min-width: 32px !important;
+      padding: 0.08rem 0.35rem !important;
+      line-height: 1.15 !important;
+      display: inline-block !important;
+      text-align: center !important;
     }
 
     /* ==========================================================================
@@ -3407,22 +3398,31 @@
       }
 
       .scheme-dropdown-content {
-        min-width: 195px !important;
         width: max-content !important;
-        max-width: 250px !important;
-        padding: 0.25rem 0 !important;
+        min-width: auto !important;
+        max-width: calc(100vw - 2rem) !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0.55rem 0.75rem !important;
       }
 
-      .scheme-option-item {
-        font-size: 0.8rem !important;
-        padding: 0.22rem 0.65rem !important;
-        gap: 0.85rem !important;
+      .scheme-dropdown-content table {
+        font-size: 0.58rem !important;
+        width: auto !important;
+      }
+
+      .scheme-dropdown-content .sheet-table th,
+      .scheme-dropdown-content .sheet-table td {
+        padding: 0.14rem 0.45rem !important;
+        font-size: 0.58rem !important;
         white-space: nowrap !important;
       }
 
-      .scheme-option-item .opt-range {
-        font-size: 0.72rem !important;
-        white-space: nowrap !important;
+      .scheme-dropdown-content .sheet-grade-cell {
+        font-size: 0.58rem !important;
+        min-width: 32px !important;
+        padding: 0.1rem 0.35rem !important;
+        line-height: 1.1 !important;
       }
 
       .view-nav-bar {
@@ -4729,28 +4729,45 @@
       html[data-active-view="calc"] .target-select-options,
       body.view-calc .target-select-options,
       body:not(.view-sheet) .target-select-options {
-        min-width: 195px !important;
         width: max-content !important;
-        max-width: 250px !important;
+        min-width: auto !important;
+        max-width: calc(100vw - 2rem) !important;
         max-height: none !important;
         overflow-y: visible !important;
-        padding: 0.25rem 0 !important;
+        padding: 0.55rem 0.75rem !important;
       }
 
-      html[data-active-view="calc"] .target-option-item,
-      body.view-calc .target-option-item,
-      body:not(.view-sheet) .target-option-item {
-        font-size: 0.8rem !important;
-        padding: 0.22rem 0.65rem !important;
-        gap: 0.85rem !important;
+      html[data-active-view="calc"] .target-select-options table,
+      body.view-calc .target-select-options table,
+      body:not(.view-sheet) .target-select-options table {
+        font-size: 0.58rem !important;
+        width: auto !important;
+      }
+
+      html[data-active-view="calc"] .target-select-options .sheet-table th,
+      html[data-active-view="calc"] .target-select-options .sheet-table td,
+      body.view-calc .target-select-options .sheet-table th,
+      body.view-calc .target-select-options .sheet-table td {
+        padding: 0.14rem 0.45rem !important;
+        font-size: 0.58rem !important;
         white-space: nowrap !important;
       }
 
-      html[data-active-view="calc"] .target-option-item .opt-range,
-      body.view-calc .target-option-item .opt-range,
-      body:not(.view-sheet) .target-option-item .opt-range {
-        font-size: 0.72rem !important;
-        white-space: nowrap !important;
+      html[data-active-view="calc"] .target-select-options .sheet-grade-cell,
+      body.view-calc .target-select-options .sheet-grade-cell {
+        font-size: 0.58rem !important;
+        min-width: 32px !important;
+        padding: 0.1rem 0.35rem !important;
+        line-height: 1.1 !important;
+      }
+
+      tr.target-option-item:hover {
+        background: rgba(249, 115, 22, 0.15) !important;
+      }
+
+      tr.target-option-item.selected {
+        background: rgba(249, 115, 22, 0.28) !important;
+        font-weight: 700 !important;
       }
 
       html[data-active-view="calc"] .weights-row,
@@ -6622,42 +6639,25 @@ html[data-active-view="calc"] #calc-view-container,
                 <span id="target-select-label">2.25</span>
               </div>
               <div class="target-select-options" id="target-select-options">
-                <div class="target-option-item" data-value="3.00">
-                  <span>3.00</span>
-                  <span class="opt-range">(75% – 77.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="2.75">
-                  <span>2.75</span>
-                  <span class="opt-range">(78% – 80.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="2.50">
-                  <span>2.50</span>
-                  <span class="opt-range">(81% – 83.99%)</span>
-                </div>
-                <div class="target-option-item selected" data-value="2.25">
-                  <span>2.25</span>
-                  <span class="opt-range">(84% – 86.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="2.00">
-                  <span>2.00</span>
-                  <span class="opt-range">(87% – 89.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="1.75">
-                  <span>1.75</span>
-                  <span class="opt-range">(90% – 92.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="1.50">
-                  <span>1.50</span>
-                  <span class="opt-range">(93% – 95.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="1.25">
-                  <span>1.25</span>
-                  <span class="opt-range">(96% – 98.99%)</span>
-                </div>
-                <div class="target-option-item" data-value="1.00">
-                  <span>1.00</span>
-                  <span class="opt-range">(99% – 100%)</span>
-                </div>
+                <table class="sheet-table" style="font-size: 0.58rem; width: 100%; border-collapse: collapse;">
+                  <thead>
+                    <tr>
+                      <th style="text-align: left; padding: 0.15rem 0.6rem 0.15rem 0.2rem;">Percentage</th>
+                      <th style="text-align: right; padding: 0.15rem 0.2rem 0.15rem 0.6rem;">Equiv</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="target-option-item" data-value="1.00"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">99.0 – 100.0%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.00</span></td></tr>
+                    <tr class="target-option-item" data-value="1.25"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">96.0 – 98.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.25</span></td></tr>
+                    <tr class="target-option-item" data-value="1.50"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">93.0 – 95.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.50</span></td></tr>
+                    <tr class="target-option-item" data-value="1.75"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">90.0 – 92.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.75</span></td></tr>
+                    <tr class="target-option-item" data-value="2.00"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">87.0 – 89.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.00</span></td></tr>
+                    <tr class="target-option-item selected" data-value="2.25"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">84.0 – 86.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.25</span></td></tr>
+                    <tr class="target-option-item" data-value="2.50"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">81.0 – 83.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.50</span></td></tr>
+                    <tr class="target-option-item" data-value="2.75"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">78.0 – 80.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.75</span></td></tr>
+                    <tr class="target-option-item" data-value="3.00"><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">75.0 – 77.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">3.00</span></td></tr>
+                  </tbody>
+                </table>
               </div>
               <select id="target-eq" style="display: none;">
                 <option value="3.00">3.00</option>
@@ -7015,46 +7015,26 @@ html[data-active-view="calc"] #calc-view-container,
                   </svg>
                 </summary>
                 <div class="scheme-dropdown-content">
-                  <div class="scheme-option-item">
-                    <span>1.00</span>
-                    <span class="opt-range">(99% – 100%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>1.25</span>
-                    <span class="opt-range">(96% – 98.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>1.50</span>
-                    <span class="opt-range">(93% – 95.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>1.75</span>
-                    <span class="opt-range">(90% – 92.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>2.00</span>
-                    <span class="opt-range">(87% – 89.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>2.25</span>
-                    <span class="opt-range">(84% – 86.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>2.50</span>
-                    <span class="opt-range">(81% – 83.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>2.75</span>
-                    <span class="opt-range">(78% – 80.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>3.00</span>
-                    <span class="opt-range">(75% – 77.99%)</span>
-                  </div>
-                  <div class="scheme-option-item">
-                    <span>5.00</span>
-                    <span class="opt-range">(0% – 74.99%)</span>
-                  </div>
+                  <table class="sheet-table" style="font-size: 0.58rem; width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr>
+                        <th style="text-align: left; padding: 0.15rem 0.6rem 0.15rem 0.2rem;">Percentage</th>
+                        <th style="text-align: right; padding: 0.15rem 0.2rem 0.15rem 0.6rem;">Equiv</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">99.0 – 100.0%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.00</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">96.0 – 98.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.25</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">93.0 – 95.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.50</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">90.0 – 92.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">1.75</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">87.0 – 89.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.00</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">84.0 – 86.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.25</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">81.0 – 83.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.50</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">78.0 – 80.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">2.75</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">75.0 – 77.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell pass">3.00</span></td></tr>
+                      <tr><td style="padding: 0.12rem 0.6rem 0.12rem 0.2rem;">0.0 – 74.99%</td><td style="text-align: right; padding: 0.12rem 0.2rem 0.12rem 0.6rem;"><span class="sheet-grade-cell fail">5.00</span></td></tr>
+                    </tbody>
+                  </table>
                 </div>
               </details>
 
