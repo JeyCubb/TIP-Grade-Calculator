@@ -959,7 +959,7 @@
       font-weight: 700 !important;
       text-align: right !important;
       padding: 0 2px !important;
-      width: 46px !important;
+      width: 52px !important;
       height: 20px !important;
       outline: none !important;
       transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
@@ -6747,8 +6747,7 @@ html[data-active-view="calc"] #calc-view-container,
               Prev. average:
             </span>
             <div class="disguised-prev-input-wrap" title="Click to edit Previous Term Average">
-              <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
-              <span class="disguised-prev-percent">%</span>
+              <input type="number" id="prev-grade" placeholder="86.00" min="0" max="100" step="0.01" /><span class="disguised-prev-percent">%</span>
               <span id="prev-error" class="warn" style="display: none;"></span>
             </div>
 
@@ -9066,7 +9065,12 @@ html[data-active-view="calc"] #calc-view-container,
         }
         updateModeUI();
 
-        prevGradeEl.value = data.prevGrade || '';
+        if (data.prevGrade !== undefined && data.prevGrade !== '') {
+          const pNum = parseFloat(data.prevGrade);
+          prevGradeEl.value = !isNaN(pNum) ? pNum.toFixed(2) : data.prevGrade;
+        } else {
+          prevGradeEl.value = '';
+        }
         examScoreEl.value = data.examScore || '';
         examTotalEl.value = data.examTotal !== undefined && data.examTotal !== '' ? data.examTotal : '50';
         if (data.targetEq) {
@@ -9474,9 +9478,10 @@ html[data-active-view="calc"] #calc-view-container,
     }
 
     function formatCompactPercent(val) {
-      if (val === null || val === undefined || isNaN(val)) return '0%';
-      const num = parseFloat(val.toFixed(2));
-      return `${num}%`;
+      if (val === null || val === undefined || isNaN(val)) return '0.00%';
+      const num = parseFloat(val);
+      if (isNaN(num)) return '0.00%';
+      return `${num.toFixed(2)}%`;
     }
 
     function recomputeCategory(categoryEl) {
@@ -9499,7 +9504,7 @@ html[data-active-view="calc"] #calc-view-container,
         const total = parseFloat(totalInput.value);
 
         if (!isFinite(score) || !isFinite(total) || total <= 0) {
-          if (display) display.textContent = '0%';
+          if (display) display.textContent = '0.00%';
           return;
         }
 
@@ -9629,7 +9634,7 @@ html[data-active-view="calc"] #calc-view-container,
       const prevPercentVal = getPrevPercent(false);
       const prevPercent = prevPercentVal == null ? 0 : prevPercentVal;
 
-      const csText = hasItemScore ? formatCompactPercent(csPercent) : '0%';
+      const csText = hasItemScore ? formatCompactPercent(csPercent) : '0.00%';
       resCsEl.textContent = csText;
       resExamEl.textContent = hasExamScore ? formatCompactPercent(examPercent) : '--';
 
@@ -9955,6 +9960,14 @@ html[data-active-view="calc"] #calc-view-container,
       prevErrorEl.textContent = '';
       recomputeAll();
       saveUserData();
+    });
+    prevGradeEl.addEventListener('blur', () => {
+      const raw = prevGradeEl.value.trim();
+      if (raw !== '' && !isNaN(parseFloat(raw))) {
+        prevGradeEl.value = parseFloat(raw).toFixed(2);
+        recomputeAll();
+        saveUserData();
+      }
     });
     window.addEventListener('resize', recomputeAll);
     targetEqEl.addEventListener('change', () => {
