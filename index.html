@@ -11917,24 +11917,23 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
-      // 2. Populate Year Dropdown Menu
+      // 2. Populate Year Dropdown Menu (excluding currently selected year)
       const menu = document.getElementById('year-dropdown-menu');
       if (menu) {
         menu.innerHTML = '';
         sortedKeys.forEach(yearKey => {
+          if (yearKey === activeSheetYear) return;
           const btn = document.createElement('button');
           btn.type = 'button';
-          const isActive = yearKey === activeSheetYear;
-          btn.className = `year-dropdown-item ${isActive ? 'active' : ''}`;
+          btn.className = 'year-dropdown-item';
           btn.dataset.year = yearKey;
 
-          const yGwa = isActive ? activeGwa : calculateYearGwa(yearKey);
+          const yGwa = calculateYearGwa(yearKey);
           btn.innerHTML = `
             <div style="display: flex; align-items: center; gap: 0.35rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
               <span class="year-item-name">${yearKey}</span>
               ${yGwa > 0 ? `<span class="year-item-gwa" style="color: var(--accent-primary); font-size: 0.68rem; font-weight: 700;">• GWA: ${formatGwa(yGwa)}</span>` : ''}
             </div>
-            <svg class="year-check-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
           `;
           btn.title = `Switch to ${yearKey} (Ctrl + ← / →)`;
           btn.addEventListener('click', (e) => {
