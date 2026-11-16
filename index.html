@@ -6605,7 +6605,6 @@ html[data-active-view="calc"] #calc-view-container,
             <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               <span id="active-profile-label">No Profile</span>
-              <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <select id="user-selector" title="Select User Profile" style="display: none;"></select>
           </div>
@@ -6619,7 +6618,6 @@ html[data-active-view="calc"] #calc-view-container,
             <div class="target-select-wrapper" id="target-select-wrapper">
               <div class="target-select-display" id="target-select-display" tabindex="0">
                 <span id="target-select-label">2.25</span>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none; opacity: 0.7;"><polyline points="6 9 12 15 18 9"></polyline></svg>
               </div>
               <div class="target-select-options" id="target-select-options">
                 <div class="target-option-item" data-value="3.00">
@@ -6686,7 +6684,6 @@ html[data-active-view="calc"] #calc-view-container,
             <span><span id="mix-cs">CS 50%</span><span id="mix-cs-comma">,</span></span>
             <span><span id="mix-exam">Exam 50%</span><span id="mix-exam-comma" style="display: none;">,</span></span>
             <span id="mix-prev" style="display: none;">Prev 33.3%</span>
-            <span class="weights-dropdown-arrow">▾</span>
           </div>
         </div>
 
@@ -6702,7 +6699,7 @@ html[data-active-view="calc"] #calc-view-container,
           </div>
           <div class="stat-row" id="prev-grade-row" style="display: none; position: relative;">
             <span id="prev-grade-label" class="prev-mode-trigger" title="Click to toggle Term Mode (Prelims / Midterms / Finals)">
-              Prev. average: <span class="mode-dropdown-arrow">▾</span>
+              Prev. average:
             </span>
             <div class="disguised-prev-input-wrap" title="Click to edit Previous Term Average">
               <input type="number" id="prev-grade" placeholder="86" min="0" max="100" />
