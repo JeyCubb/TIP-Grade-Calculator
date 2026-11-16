@@ -2482,13 +2482,18 @@
       border-radius: var(--radius-sm);
       cursor: pointer;
       text-align: left;
-      transition: background 0.15s ease, color 0.15s ease;
+      transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
       box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
     }
 
-    .sem-dropdown-item:hover {
-      background: rgba(249, 115, 22, 0.12);
-      color: var(--accent-primary);
+    .sem-dropdown-item:hover,
+    .sem-dropdown-item.drag-hover {
+      background: rgba(249, 115, 22, 0.22) !important;
+      color: var(--accent-primary) !important;
+      transform: translateX(-4px);
     }
 
     .sem-dropdown-item.active {
@@ -11951,6 +11956,7 @@ html[data-active-view="calc"] #calc-view-container,
           menu.appendChild(btn);
         });
         initYearDropdownDragAndHold();
+        initSemDropdownDragAndHold();
       }
 
       // Fallback for legacy year-tabs-container if present
@@ -12174,8 +12180,11 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
-      // Update semester dropdown label
+      // Update semester dropdown label, chevron, and title
       const semDropdownLabel = document.getElementById('sem-dropdown-label');
+      const semChevron = document.querySelector('.sem-dropdown-chevron');
+      const semSummary = document.getElementById('sem-dropdown-summary');
+      const semDropdown = document.getElementById('sem-dropdown');
       if (semDropdownLabel) {
         if (activeSheetYear === '4th Year' && activeSemester === 'summer') {
           semDropdownLabel.textContent = 'Summer';
@@ -12184,6 +12193,17 @@ html[data-active-view="calc"] #calc-view-container,
         } else {
           semDropdownLabel.textContent = 'First Semester';
         }
+      }
+      if (semChevron) {
+        semChevron.style.display = activeSheetYear === '4th Year' ? '' : 'none';
+      }
+      if (semSummary) {
+        semSummary.title = activeSheetYear === '4th Year'
+          ? 'Select Semester (Hold & drag or click)'
+          : 'Click to toggle semester (Shift + ← / →)';
+      }
+      if (semDropdown && activeSheetYear !== '4th Year') {
+        semDropdown.removeAttribute('open');
       }
 
       // Hide Add Subject buttons on 1st, 2nd, and 3rd year
@@ -12251,6 +12271,19 @@ html[data-active-view="calc"] #calc-view-container,
       btnSwitchSummer.addEventListener('click', (e) => {
         e.preventDefault();
         setSheetSemester('summer');
+      });
+    }
+
+    // Semester summary click toggle (for 1st, 2nd, and 3rd year)
+    const semSummary = document.getElementById('sem-dropdown-summary');
+    if (semSummary) {
+      semSummary.addEventListener('click', (e) => {
+        if (activeSheetYear !== '4th Year') {
+          e.preventDefault();
+          e.stopPropagation();
+          const nextSem = activeSemester === 'sem1' ? 'sem2' : 'sem1';
+          setSheetSemester(nextSem);
+        }
       });
     }
 
@@ -12405,6 +12438,147 @@ html[data-active-view="calc"] #calc-view-container,
     }
 
     initYearDropdownDragAndHold();
+
+    // Touch Drag-and-Hold Selection for Semester Dropdown (4th Year)
+    function initSemDropdownDragAndHold() {
+      const dropdown = document.getElementById('sem-dropdown');
+      const summary = document.getElementById('sem-dropdown-summary');
+      if (!dropdown || !summary || dropdown.dataset.dragHoldInitialized) return;
+      dropdown.dataset.dragHoldInitialized = 'true';
+
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0;
+      let startY = 0;
+      let lastHoveredItem = null;
+      let openedByTouch = false;
+
+      const clearHover = () => {
+        if (lastHoveredItem) {
+          lastHoveredItem.classList.remove('drag-hover');
+          lastHoveredItem = null;
+        }
+      };
+
+      const getSemItemFromPoint = (x, y) => {
+        const el = document.elementFromPoint(x, y);
+        if (el) {
+          const item = el.closest('.sem-dropdown-item');
+          if (item && item.style.display !== 'none') return item;
+        }
+        // Proximity buffer: check if touch is within vertical row boundaries of items
+        const menu = document.getElementById('sem-dropdown-menu');
+        if (menu && dropdown.hasAttribute('open')) {
+          const mRect = menu.getBoundingClientRect();
+          if (x >= mRect.left - 45 && x <= mRect.right + 45 && y >= mRect.top && y <= mRect.bottom) {
+            const items = menu.querySelectorAll('.sem-dropdown-item');
+            for (const it of items) {
+              if (it.style.display === 'none') continue;
+              const r = it.getBoundingClientRect();
+              if (y >= r.top && y <= r.bottom) {
+                return it;
+              }
+            }
+          }
+        }
+        return null;
+      };
+
+      dropdown.addEventListener('touchstart', (e) => {
+        if (activeSheetYear !== '4th Year') return; // Only drag-and-hold on 4th Year
+        if (e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        isDragging = true;
+        hasMoved = false;
+        clearHover();
+
+        const wasOpen = dropdown.hasAttribute('open');
+        openedByTouch = false;
+
+        // If touch starts on the summary and dropdown is closed, immediately open it
+        if (!wasOpen && summary.contains(e.target)) {
+          dropdown.setAttribute('open', '');
+          openedByTouch = true;
+        }
+
+        const item = getSemItemFromPoint(touch.clientX, touch.clientY);
+        if (item) {
+          lastHoveredItem = item;
+          item.classList.add('drag-hover');
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+
+        if (!hasMoved) {
+          if (Math.hypot(dx, dy) > 7) {
+            hasMoved = true;
+          }
+        }
+
+        if (hasMoved) {
+          if (e.cancelable) {
+            e.preventDefault();
+          }
+
+          const item = getSemItemFromPoint(touch.clientX, touch.clientY);
+          if (item !== lastHoveredItem) {
+            clearHover();
+            if (item && dropdown.contains(item)) {
+              lastHoveredItem = item;
+              item.classList.add('drag-hover');
+              if (navigator.vibrate) {
+                try { navigator.vibrate(10); } catch (_) {}
+              }
+            }
+          }
+        }
+      }, { passive: false });
+
+      const finishTouch = (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+
+        if (hasMoved) {
+          if (e.cancelable) e.preventDefault();
+          if (lastHoveredItem) {
+            const itemToClick = lastHoveredItem;
+            clearHover();
+            itemToClick.click();
+            dropdown.removeAttribute('open');
+          } else {
+            clearHover();
+            dropdown.removeAttribute('open');
+          }
+        } else {
+          clearHover();
+          if (openedByTouch) {
+            // Dropdown opened on touchstart. Prevent subsequent click on summary from closing it immediately
+            const preventToggle = (ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
+              summary.removeEventListener('click', preventToggle, true);
+            };
+            summary.addEventListener('click', preventToggle, { capture: true, once: true });
+          }
+        }
+      };
+
+      window.addEventListener('touchend', finishTouch, { passive: false });
+      window.addEventListener('touchcancel', () => {
+        isDragging = false;
+        hasMoved = false;
+        clearHover();
+      }, { passive: true });
+    }
+
+    initSemDropdownDragAndHold();
 
     function updateSheetCalculationsOnly() {
       if (!userSheetData || !userSheetData[activeSheetYear]) return;
