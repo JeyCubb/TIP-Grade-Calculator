@@ -4958,7 +4958,7 @@
         max-height: 100dvh !important;
         overflow: hidden !important;
         overscroll-behavior: none !important;
-        padding: 0.25rem 0.65rem calc(46px + max(0.35rem, env(safe-area-inset-bottom, 0px))) 0.65rem !important;
+        padding: 0.15rem 0.65rem calc(42px + max(0.2rem, env(safe-area-inset-bottom, 0px))) 0.65rem !important;
         box-sizing: border-box !important;
         transition: padding 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
       }
@@ -4981,7 +4981,7 @@
         flex-direction: column !important;
         justify-content: space-between !important;
         overflow: hidden !important;
-        gap: 0.35rem !important;
+        gap: 0.20rem !important;
         padding: 0 !important;
         margin: 0 !important;
       }
@@ -4995,13 +4995,13 @@
         flex-direction: column !important;
         justify-content: flex-start !important;
         overflow: hidden !important;
-        gap: 0.35rem !important;
+        gap: 0.20rem !important;
       }
 
       body.view-sheet .year-tabs-wrapper,
       html[data-active-view="sheet"] .year-tabs-wrapper {
         flex-shrink: 0 !important;
-        margin-bottom: 0.1rem !important;
+        margin-bottom: 0.05rem !important;
         max-height: 80px !important;
         display: flex !important;
         flex-direction: row !important;
@@ -5030,7 +5030,7 @@
         display: flex !important;
         flex-direction: column !important;
         overflow: hidden !important;
-        gap: 0.35rem !important;
+        gap: 0.20rem !important;
       }
 
       body.view-sheet .semester-card,
@@ -5040,7 +5040,7 @@
         flex-direction: column !important;
         overflow: hidden !important;
         margin: 0 auto !important;
-        padding: 0.22rem 0.65rem !important;
+        padding: 0.15rem 0.65rem 0.15rem 0.65rem !important;
         width: 100% !important;
         max-width: min(580px, 94vw) !important;
         border-radius: 12px !important;
@@ -5067,7 +5067,7 @@
         flex-direction: column !important;
         justify-content: flex-start !important;
         scrollbar-width: thin !important;
-        padding-bottom: 0 !important;
+        padding-bottom: 2px !important;
         box-sizing: border-box !important;
       }
 
@@ -5092,32 +5092,33 @@
 
       body.view-sheet .sheet-table thead,
       html[data-active-view="sheet"] .sheet-table thead {
-        height: 24px !important;
+        height: 22px !important;
         flex-shrink: 0 !important;
       }
 
       body.view-sheet .sheet-table tbody,
       html[data-active-view="sheet"] .sheet-table tbody {
         display: table-row-group !important;
-        height: calc(100% - 24px) !important;
+        height: calc(100% - 22px) !important;
       }
 
       body.view-sheet .sheet-table tbody tr,
       html[data-active-view="sheet"] .sheet-table tbody tr {
-        height: calc((100% - 24px) / var(--sheet-row-count, 9)) !important;
+        height: calc((100% - 36px) / var(--sheet-row-count, 9)) !important;
+        max-height: 42px !important;
       }
 
       body.view-sheet .sheet-table th,
       html[data-active-view="sheet"] .sheet-table th {
-        padding: 0.05rem 0.25rem !important;
-        font-size: clamp(0.78rem, 1.8vh, 0.95rem) !important;
+        padding: 0.04rem 0.25rem !important;
+        font-size: clamp(0.75rem, 1.6vh, 0.92rem) !important;
         vertical-align: middle !important;
         border-bottom: 1.5px solid var(--border-color) !important;
       }
 
       body.view-sheet .sheet-table td,
       html[data-active-view="sheet"] .sheet-table td {
-        padding: 0.02rem 0.2rem !important;
+        padding: 0.01rem 0.2rem !important;
         vertical-align: middle !important;
         border-bottom: 1px solid var(--border-color) !important;
         line-height: normal !important;
@@ -5125,7 +5126,7 @@
 
       body.view-sheet .sheet-table tbody tr:last-child td,
       html[data-active-view="sheet"] .sheet-table tbody tr:last-child td {
-        padding-bottom: 0.04rem !important;
+        padding-bottom: 0.02rem !important;
       }
 
       body.view-sheet .sheet-table input,
@@ -5191,10 +5192,10 @@
         min-width: 120px !important;
         text-align: left !important;
         height: 100% !important;
-        min-height: 18px !important;
-        max-height: 36px !important;
+        min-height: 16px !important;
+        max-height: 34px !important;
         line-height: 1.15 !important;
-        font-size: clamp(0.75rem, 1.8vh, 1.02rem) !important;
+        font-size: clamp(0.72rem, 1.6vh, 0.98rem) !important;
         font-weight: 700 !important;
         color: var(--text-primary) !important;
         padding: 0.02rem 0.4rem !important;
@@ -5223,12 +5224,12 @@
 
       body.view-sheet .sheet-table input.num-input,
       html[data-active-view="sheet"] .sheet-table input.num-input {
-        font-size: clamp(0.75rem, 1.8vh, 1.02rem) !important;
-        width: 72px !important;
-        min-width: 50px !important;
-        height: clamp(18px, 2.8vh, 30px) !important;
-        min-height: 18px !important;
-        max-height: 32px !important;
+        font-size: clamp(0.72rem, 1.6vh, 0.98rem) !important;
+        width: 70px !important;
+        min-width: 48px !important;
+        height: clamp(16px, 2.4vh, 28px) !important;
+        min-height: 16px !important;
+        max-height: 30px !important;
         padding: 0.02rem 0.15rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
@@ -5238,12 +5239,12 @@
 
       body.view-sheet .sheet-table input.units-input,
       html[data-active-view="sheet"] .sheet-table input.units-input {
-        font-size: clamp(0.75rem, 1.8vh, 1.02rem) !important;
-        width: 44px !important;
-        min-width: 32px !important;
-        height: clamp(18px, 2.8vh, 30px) !important;
-        min-height: 18px !important;
-        max-height: 32px !important;
+        font-size: clamp(0.72rem, 1.6vh, 0.98rem) !important;
+        width: 42px !important;
+        min-width: 30px !important;
+        height: clamp(16px, 2.4vh, 28px) !important;
+        min-height: 16px !important;
+        max-height: 30px !important;
         padding: 0.02rem 0.12rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
@@ -5253,11 +5254,11 @@
 
       body.view-sheet .sheet-grade-cell,
       html[data-active-view="sheet"] .sheet-grade-cell {
-        font-size: clamp(0.75rem, 1.8vh, 1.02rem) !important;
-        min-width: 44px !important;
-        height: clamp(18px, 2.8vh, 30px) !important;
-        min-height: 18px !important;
-        max-height: 32px !important;
+        font-size: clamp(0.72rem, 1.6vh, 0.98rem) !important;
+        min-width: 42px !important;
+        height: clamp(16px, 2.4vh, 28px) !important;
+        min-height: 16px !important;
+        max-height: 30px !important;
         line-height: normal !important;
         padding: 0 0.25rem !important;
         display: inline-flex !important;
@@ -5272,9 +5273,9 @@
       html[data-active-view="sheet"] .sheet-footer-row {
         flex-shrink: 0 !important;
         margin-top: auto !important;
-        padding-top: 0.15rem !important;
-        padding-bottom: 0.1rem !important;
-        gap: 0.5rem !important;
+        padding-top: 0.10rem !important;
+        padding-bottom: 0.05rem !important;
+        gap: 0.4rem !important;
       }
 
       body.view-sheet .sem-footer-summary-text,
