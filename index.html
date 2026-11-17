@@ -6140,7 +6140,7 @@
         flex: 1 1 0 !important;
         min-height: 0 !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         overflow: hidden !important;
         margin: 0 auto !important;
         padding: 0.35rem 0.55rem 0.45rem 0.55rem !important;
@@ -6163,13 +6163,14 @@
 
       html[data-active-view="sheet"] .sheet-table-wrapper,
       body.view-sheet .sheet-table-wrapper {
-        flex: 1 1 0 !important;
+        flex: 1 1 auto !important;
         min-height: 0 !important;
-        height: 100% !important;
-        overflow: hidden !important;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
         scrollbar-width: none !important;
         box-sizing: border-box !important;
       }
@@ -6177,8 +6178,8 @@
       html[data-active-view="sheet"] .sheet-table,
       body.view-sheet .sheet-table {
         width: 100% !important;
-        height: 100% !important;
-        flex: 1 1 auto !important;
+        height: auto !important;
+        flex: 0 0 auto !important;
         table-layout: fixed !important;
         border-collapse: collapse !important;
         border-spacing: 0 !important;
@@ -6193,18 +6194,18 @@
       html[data-active-view="sheet"] .sheet-table tbody,
       body.view-sheet .sheet-table tbody {
         display: table-row-group !important;
-        height: calc(100% - 26px) !important;
+        height: auto !important;
       }
 
       html[data-active-view="sheet"] .sheet-table tbody tr,
       body.view-sheet .sheet-table tbody tr {
-        height: calc((100% - 26px) / var(--sheet-row-count, 9)) !important;
+        height: auto !important;
       }
 
       html[data-active-view="sheet"] .sheet-table th,
       body.view-sheet .sheet-table th {
         vertical-align: middle !important;
-        padding: 0.12rem 0.04rem !important;
+        padding: 0.16rem 0.04rem !important;
         font-size: 0.60rem !important;
         letter-spacing: -0.01em !important;
         white-space: nowrap !important;
@@ -6214,7 +6215,7 @@
       html[data-active-view="sheet"] .sheet-table td,
       body.view-sheet .sheet-table td {
         vertical-align: middle !important;
-        padding: 0.08rem 0.1rem !important;
+        padding: 0.22rem 0.1rem !important;
         font-size: 0.62rem !important;
         border-bottom: 1px solid var(--border-color) !important;
         box-sizing: border-box !important;
@@ -6225,7 +6226,7 @@
       html[data-active-view="sheet"] .sheet-table td.col-subj,
       body.view-sheet .sheet-table th.col-subj,
       body.view-sheet .sheet-table td.col-subj {
-        width: 25% !important;
+        width: 30% !important;
         text-align: left !important;
         overflow: hidden !important;
         padding-left: 0.25rem !important;
@@ -6255,7 +6256,7 @@
       html[data-active-view="sheet"] .sheet-table td.col-final,
       body.view-sheet .sheet-table th.col-final,
       body.view-sheet .sheet-table td.col-final {
-        width: 16.5% !important;
+        width: 15% !important;
         text-align: center !important;
         padding: 0.08rem 0.04rem !important;
       }
@@ -6264,7 +6265,7 @@
       html[data-active-view="sheet"] .sheet-table td.col-midterm,
       body.view-sheet .sheet-table th.col-midterm,
       body.view-sheet .sheet-table td.col-midterm {
-        width: 17% !important;
+        width: 15% !important;
         text-align: center !important;
         padding: 0.08rem 0.04rem !important;
       }
@@ -6302,7 +6303,7 @@
       html[data-active-view="sheet"] .sheet-table td.col-units,
       body.view-sheet .sheet-table th.col-units,
       body.view-sheet .sheet-table td.col-units {
-        width: 11.5% !important;
+        width: 12% !important;
         text-align: center !important;
         padding: 0.08rem 0.04rem !important;
       }
@@ -6332,7 +6333,7 @@
       html[data-active-view="sheet"] .sheet-footer-row,
       body.view-sheet .sheet-footer-row {
         flex-shrink: 0 !important;
-        margin-top: 0.35rem !important;
+        margin-top: auto !important;
         padding-top: 0.35rem !important;
       }
 
