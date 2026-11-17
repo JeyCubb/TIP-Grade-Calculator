@@ -2012,13 +2012,28 @@
 
       .profile-modal-dialog {
         width: 100% !important;
-        max-width: 440px !important;
+        max-width: min(520px, 94vw) !important;
         max-height: calc(100vh - 1.25rem) !important;
         padding: 0.95rem 0.85rem !important;
         gap: 0.55rem !important;
         box-sizing: border-box !important;
         border-radius: var(--radius-md) !important;
         overflow-y: auto !important;
+      }
+
+      #profile-prompt-modal .profile-modal-dialog {
+        min-height: min(68vh, 680px) !important;
+        max-height: min(88vh, 820px) !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      #profile-prompt-modal .profile-modal-body {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.55rem !important;
       }
 
       .profile-modal-header {
@@ -2050,9 +2065,27 @@
         -webkit-overflow-scrolling: touch !important;
       }
 
+      #profile-prompt-modal .profile-modal-list {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        max-height: min(60vh, 540px) !important;
+        gap: 0.35rem !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+
       .profile-modal-add-section {
         margin-top: 0.25rem !important;
         padding-top: 0.35rem !important;
+      }
+
+      #profile-prompt-modal .profile-modal-add-section {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+      }
+
+      #profile-prompt-modal .profile-modal-footer {
+        flex-shrink: 0 !important;
       }
 
       .profile-modal-add-row input {
@@ -3559,14 +3592,27 @@
         width: 100% !important;
       }
 
-      /* Profile Prompt Modal (Desktop - Wider Laterally, Compact Vertically) */
+      /* Profile Prompt Modal (Desktop - Wider Laterally & Tall Vertical Span) */
       .profile-modal-dialog {
         max-width: 900px !important;
         width: min(900px, 94vw) !important;
-        max-height: min(90vh, 580px) !important;
+        max-height: min(90vh, 820px) !important;
         padding: 1.1rem 1.85rem !important;
         gap: 0.65rem !important;
         box-sizing: border-box !important;
+      }
+      #profile-prompt-modal .profile-modal-dialog {
+        min-height: min(68vh, 680px) !important;
+        max-height: min(90vh, 820px) !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      #profile-prompt-modal .profile-modal-body {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.65rem !important;
       }
       .profile-selector-btn {
         font-size: 1.05rem !important;
@@ -3591,6 +3637,21 @@
       .profile-modal-list {
         max-height: 270px !important;
         gap: 0.35rem !important;
+      }
+      #profile-prompt-modal .profile-modal-list {
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        max-height: min(60vh, 540px) !important;
+        gap: 0.35rem !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      #profile-prompt-modal .profile-modal-add-section {
+        flex-shrink: 0 !important;
+        margin-top: auto !important;
+      }
+      #profile-prompt-modal .profile-modal-footer {
+        flex-shrink: 0 !important;
       }
       .profile-name-val {
         font-size: 1.02rem !important;
@@ -3765,7 +3826,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      max-height: 260px;
+      max-height: 520px;
       overflow-y: auto;
       overscroll-behavior: contain;
       -webkit-overflow-scrolling: touch;
