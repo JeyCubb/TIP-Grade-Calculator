@@ -7628,13 +7628,22 @@ html[data-active-view="calc"] #calc-view-container,
       localStorage.removeItem('tip_gc_data_qs');
       localStorage.removeItem('tip_gc_sheet_qs');
 
-      // Replace 'Jacob' with 'JeyCub' in userProfiles list
+      // Replace legacy 'Jacob' with 'JeyCub' in userProfiles list
       userProfiles = userProfiles.map(u => u === 'Jacob' ? 'JeyCub' : u);
 
-      if (!userProfiles.includes('JeyCub')) {
-        userProfiles.push('JeyCub');
-        localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
+      // Clean up orphaned JeyCub if renamed to JeyCubsusuwiwofoowlwodgor
+      if (userProfiles.includes('JeyCubsusuwiwofoowlwodgor') && userProfiles.includes('JeyCub')) {
+        userProfiles = userProfiles.filter(u => u !== 'JeyCub');
+        localStorage.removeItem('tip_gc_data_JeyCub');
+        localStorage.removeItem('tip_gc_sheet_JeyCub');
       }
+
+      // Only seed 'JeyCub' if there are zero registered user profiles
+      const existingUserProfiles = userProfiles.filter(u => u && u !== 'No Profile');
+      if (existingUserProfiles.length === 0) {
+        userProfiles.push('JeyCub');
+      }
+      localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
 
       // Check URL query parameters for profile (?profile=JeyCub)
       const urlParams = new URLSearchParams(window.location.search);
@@ -8203,8 +8212,11 @@ html[data-active-view="calc"] #calc-view-container,
         } catch (e) {}
       }
 
-      // In-memory & stored userProfiles
-      userProfiles = userProfiles.map(u => (u === oldName ? cleanNewName : u));
+      // In-memory & stored userProfiles: ensure oldName is removed and cleanNewName is present
+      userProfiles = userProfiles.filter(u => u !== oldName);
+      if (!userProfiles.includes(cleanNewName)) {
+        userProfiles.push(cleanNewName);
+      }
       localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
 
       // Active user check
@@ -8218,51 +8230,72 @@ html[data-active-view="calc"] #calc-view-container,
         updateProfileUrl();
       }
 
-      // 2. Cloud Migration (Firebase)
+      // 2. Cloud Migration (Firebase) - Atomic Multi-Path Update
       if (firebaseDb) {
         try {
           const safeOld = oldName.replace(/[\.#\$\[\]]/g, '_');
           const safeNew = cleanNewName.replace(/[\.#\$\[\]]/g, '_');
-
-          // Copy data_* in Firebase
-          firebaseDb.ref(`tip_grade_calculator/data_${safeOld}`).once('value').then(snap => {
-            if (snap.exists()) {
-              firebaseDb.ref(`tip_grade_calculator/data_${safeNew}`).set(snap.val());
-              firebaseDb.ref(`tip_grade_calculator/data_${safeOld}`).remove();
-            }
-          }).catch(err => console.warn("Cloud data rename error:", err));
-
-          // Copy sheet_* in Firebase
-          firebaseDb.ref(`tip_grade_calculator/sheet_${safeOld}`).once('value').then(snap => {
-            if (snap.exists()) {
-              firebaseDb.ref(`tip_grade_calculator/sheet_${safeNew}`).set(snap.val());
-              firebaseDb.ref(`tip_grade_calculator/sheet_${safeOld}`).remove();
-            }
-          }).catch(err => console.warn("Cloud sheet rename error:", err));
-
-          // Copy password in Firebase
-          if (profilePasswords[cleanNewName]) {
-            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeNew}`).set(profilePasswords[cleanNewName]);
-            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeOld}`).remove();
+          const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== oldName);
+          if (!validProfiles.includes(cleanNewName)) {
+            validProfiles.push(cleanNewName);
           }
 
-          // Copy last_accessed in Firebase
-          firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeOld}`).once('value').then(snap => {
-            if (snap.exists()) {
-              const val = snap.val();
-              const newEntry = (val && typeof val === 'object')
+          // Read old keys to move them atomically in one multi-path update
+          Promise.all([
+            firebaseDb.ref(`tip_grade_calculator/data_${safeOld}`).once('value'),
+            firebaseDb.ref(`tip_grade_calculator/sheet_${safeOld}`).once('value'),
+            firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeOld}`).once('value'),
+            firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeOld}`).once('value')
+          ]).then(([dataSnap, sheetSnap, accessSnap, passSnap]) => {
+            const updates = {
+              _profiles: validProfiles,
+              _lastSender: clientId,
+              [`data_${safeOld}`]: null,
+              [`sheet_${safeOld}`]: null,
+              [`last_accessed__global/${safeOld}`]: null,
+              [`passwords__global/${safeOld}`]: null
+            };
+
+            // Set new data
+            if (dataSnap.exists()) {
+              updates[`data_${safeNew}`] = dataSnap.val();
+            } else if (oldData) {
+              try { updates[`data_${safeNew}`] = JSON.parse(oldData); } catch (e) {}
+            }
+
+            // Set new sheet
+            if (sheetSnap.exists()) {
+              updates[`sheet_${safeNew}`] = sheetSnap.val();
+            } else if (oldSheet) {
+              try { updates[`sheet_${safeNew}`] = JSON.parse(oldSheet); } catch (e) {}
+            }
+
+            // Set password
+            if (profilePasswords[cleanNewName]) {
+              updates[`passwords__global/${safeNew}`] = profilePasswords[cleanNewName];
+            } else if (passSnap.exists()) {
+              updates[`passwords__global/${safeNew}`] = passSnap.val();
+            }
+
+            // Set last accessed
+            if (accessSnap.exists()) {
+              const val = accessSnap.val();
+              updates[`last_accessed__global/${safeNew}`] = (val && typeof val === 'object')
                 ? { user: cleanNewName, timestamp: val.timestamp || Date.now() }
                 : { user: cleanNewName, timestamp: val };
-              firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeNew}`).set(newEntry);
-              firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeOld}`).remove();
+            } else {
+              updates[`last_accessed__global/${safeNew}`] = { user: cleanNewName, timestamp: Date.now() };
             }
-          }).catch(err => console.warn("Cloud access rename error:", err));
 
-          // Update _profiles in Firebase
-          const validProfiles = userProfiles.filter(u => u !== 'No Profile');
-          firebaseDb.ref('tip_grade_calculator').update({
-            _profiles: validProfiles,
-            _lastSender: clientId
+            return firebaseDb.ref('tip_grade_calculator').update(updates);
+          }).catch(err => {
+            console.warn("Cloud rename error:", err);
+            firebaseDb.ref('tip_grade_calculator').update({
+              _profiles: validProfiles,
+              _lastSender: clientId,
+              [`data_${safeOld}`]: null,
+              [`sheet_${safeOld}`]: null
+            });
           });
         } catch (err) {
           console.warn("Cloud rename error:", err);
@@ -8283,14 +8316,14 @@ html[data-active-view="calc"] #calc-view-container,
       if (!firebaseDb || !user || user === 'No Profile') return;
       try {
         const safeUser = user.replace(/[\.#\$\[\]]/g, '_');
-        firebaseDb.ref(`tip_grade_calculator/data_${safeUser}`).remove();
-        firebaseDb.ref(`tip_grade_calculator/sheet_${safeUser}`).remove();
-        firebaseDb.ref(`tip_grade_calculator/passwords__global/${safeUser}`).remove();
-        firebaseDb.ref(`tip_grade_calculator/last_accessed__global/${safeUser}`).remove();
         delete profilePasswords[user];
         localStorage.setItem(STORAGE_KEY_PASSWORDS, JSON.stringify(profilePasswords));
         const validProfiles = userProfiles.filter(u => u !== 'No Profile' && u !== user);
         const updates = {
+          [`data_${safeUser}`]: null,
+          [`sheet_${safeUser}`]: null,
+          [`passwords__global/${safeUser}`]: null,
+          [`last_accessed__global/${safeUser}`]: null,
           _profiles: validProfiles,
           _lastSender: clientId
         };
@@ -8726,22 +8759,33 @@ html[data-active-view="calc"] #calc-view-container,
               isCloudUpdating = true;
               let hasChanges = false;
 
-              // Sync profiles list from cloud: combine registered _profiles with any profiles discovered from data_* or sheet_*
+              // Sync profiles list from cloud: _profiles is authoritative when present
               const cloudList = Array.isArray(cloudData._profiles)
                 ? cloudData._profiles.filter(p => p && p !== 'No Profile' && p !== 'qs')
                 : [];
-              const discovered = [];
-              Object.keys(cloudData).forEach(key => {
-                if (key.startsWith('data_') || key.startsWith('sheet_')) {
-                  const u = key.replace(/^data_|^sheet_/, '');
-                  if (u && u !== 'No Profile' && u !== 'qs' && !discovered.includes(u)) {
-                    discovered.push(u);
+
+              let finalProfiles = [];
+              if (cloudList.length > 0) {
+                finalProfiles = cloudList;
+              } else {
+                const discovered = [];
+                Object.keys(cloudData).forEach(key => {
+                  if (key.startsWith('data_') || key.startsWith('sheet_')) {
+                    const u = key.replace(/^data_|^sheet_/, '');
+                    if (u && u !== 'No Profile' && u !== 'qs' && !discovered.includes(u)) {
+                      discovered.push(u);
+                    }
                   }
-                }
-              });
-              const uniqueSet = new Set([...cloudList, ...discovered]);
-              uniqueSet.add('JeyCub');
+                });
+                finalProfiles = discovered;
+              }
+
+              const uniqueSet = new Set(finalProfiles);
+              if (uniqueSet.size === 0) {
+                uniqueSet.add('JeyCub');
+              }
               userProfiles = ['No Profile', ...uniqueSet];
+              localStorage.setItem(STORAGE_KEY_PROFILES, JSON.stringify(userProfiles.filter(u => u !== 'No Profile')));
 
               // Clean up local storage only for genuinely deleted profiles (no longer in userProfiles or cloud)
               const deletedLocals = Object.keys(localStorage).filter(k => k.startsWith('tip_gc_data_') || k.startsWith('tip_gc_sheet_'));
