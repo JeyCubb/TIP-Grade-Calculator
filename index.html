@@ -767,6 +767,7 @@
     .profile-selector-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 0.35rem;
       background: transparent;
       border: none;
@@ -779,6 +780,22 @@
       border-radius: var(--radius-sm);
       transition: var(--transition);
       outline: none;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+
+    #active-profile-label {
+      display: inline-block;
+      max-width: 100%;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
     }
 
     .profile-selector-btn:hover {
@@ -5951,11 +5968,15 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        flex: 0 0 auto !important;
+        flex: 0 1 auto !important;
+        min-width: 0 !important;
+        max-width: clamp(90px, 32vw, 150px) !important;
         margin: 0 !important;
         white-space: nowrap !important;
         padding: 0.12rem 0.5rem !important;
         font-size: 0.75rem !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
       }
 
       .header-actions-group {
@@ -6660,6 +6681,8 @@
       align-items: center !important;
       gap: 0.45rem !important;
       flex: 0 0 auto !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
     }
 
     .exam-header-left .exam-inputs-wrapper,
@@ -6669,6 +6692,18 @@
       margin-left: 0 !important;
       justify-content: flex-start !important;
       flex: 0 0 auto !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .exam-input-row,
+    html[data-active-view="calc"] .exam-input-row,
+    body.view-calc .exam-input-row,
+    body:not(.view-sheet) .exam-input-row {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
     }
 
     .exam-input-row .user-profile-bar,
@@ -6676,10 +6711,43 @@
     body.view-calc .exam-input-row .user-profile-bar,
     body:not(.view-sheet) .exam-input-row .user-profile-bar {
       margin-left: auto !important;
-      flex: 0 0 auto !important;
+      flex: 0 1 auto !important;
+      min-width: 0 !important;
+      max-width: clamp(90px, 32vw, 150px) !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    .profile-selector-btn,
+    #btn-profile-selector,
+    html[data-active-view="calc"] #btn-profile-selector,
+    body.view-calc #btn-profile-selector,
+    body:not(.view-sheet) #btn-profile-selector {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+
+    #active-profile-label,
+    html[data-active-view="calc"] #active-profile-label,
+    body.view-calc #active-profile-label,
+    body:not(.view-sheet) #active-profile-label {
+      display: inline-block !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      vertical-align: middle !important;
     }
 
 </style>
@@ -7743,6 +7811,11 @@ html[data-active-view="calc"] #calc-view-container,
       const label = document.getElementById('active-profile-label');
       if (label) {
         label.textContent = activeUser || 'No Profile';
+        label.title = activeUser ? `Active Profile: ${activeUser}` : 'No Profile';
+      }
+      const btnProfileSelector = document.getElementById('btn-profile-selector');
+      if (btnProfileSelector) {
+        btnProfileSelector.title = activeUser ? `Active Profile: ${activeUser} (Click to Switch)` : 'Click to Select / Switch Profile';
       }
     }
 
