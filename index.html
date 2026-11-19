@@ -9633,7 +9633,7 @@ html[data-active-view="calc"] #calc-view-container,
           prelimNa = document.createElement('span');
           prelimNa.id = 'prev-prelim-na';
           prelimNa.className = 'prelim-na-badge';
-          prelimNa.textContent = 'Prelims (N/A)';
+          prelimNa.textContent = 'N/A';
           prelimNa.style.cssText = 'font-size: 0.85rem; font-weight: 700; color: var(--text-muted); cursor: pointer; user-select: none;';
           prelimNa.title = 'Click to switch Term Mode (Prelims / Midterms / Finals)';
           prelimNa.addEventListener('click', (e) => {
@@ -9646,6 +9646,7 @@ html[data-active-view="calc"] #calc-view-container,
           });
           prevGradeRowEl.appendChild(prelimNa);
         } else {
+          prelimNa.textContent = 'N/A';
           prelimNa.style.display = 'inline';
         }
         mixPrevEl.style.display = 'none';
