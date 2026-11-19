@@ -4754,8 +4754,8 @@
         font-size: 0.95rem !important;
         padding: 0.22rem 0.35rem !important;
         height: 32px !important;
-        width: 64px !important;
-        min-width: 58px !important;
+        width: 78px !important;
+        min-width: 76px !important;
         text-align: center !important;
         background: transparent !important;
         border: 1.5px solid transparent !important;
@@ -4768,8 +4768,8 @@
         font-size: 0.95rem !important;
         padding: 0.22rem 0.35rem !important;
         height: 32px !important;
-        width: 52px !important;
-        min-width: 44px !important;
+        width: 60px !important;
+        min-width: 52px !important;
         text-align: center !important;
         background: transparent !important;
         border: 1.5px solid transparent !important;
@@ -5662,9 +5662,9 @@
       body.view-calc #exam-score,
       body:not(.view-sheet) #exam-score {
         flex: 0 0 auto !important;
-        width: 64px !important;
-        min-width: 58px !important;
-        max-width: 76px !important;
+        width: 78px !important;
+        min-width: 76px !important;
+        max-width: 86px !important;
         text-align: center !important;
         padding: 0.15rem 0.25rem !important;
         box-sizing: border-box !important;
@@ -5674,9 +5674,9 @@
       body.view-calc #exam-total,
       body:not(.view-sheet) #exam-total {
         flex: 0 0 auto !important;
-        width: 50px !important;
-        min-width: 44px !important;
-        max-width: 60px !important;
+        width: 60px !important;
+        min-width: 52px !important;
+        max-width: 68px !important;
         text-align: center !important;
         padding: 0.15rem 0.25rem !important;
         box-sizing: border-box !important;
@@ -6525,9 +6525,9 @@
       html[data-active-view="calc"] #exam-score,
       body.view-calc #exam-score,
       body:not(.view-sheet) #exam-score {
-        width: 62px !important;
-        min-width: 58px !important;
-        max-width: 72px !important;
+        width: 66px !important;
+        min-width: 62px !important;
+        max-width: 76px !important;
         font-size: 0.82rem !important;
         padding: 0.15rem 0.2rem !important;
         text-align: center !important;
@@ -6537,9 +6537,9 @@
       html[data-active-view="calc"] #exam-total,
       body.view-calc #exam-total,
       body:not(.view-sheet) #exam-total {
-        width: 48px !important;
-        min-width: 42px !important;
-        max-width: 56px !important;
+        width: 50px !important;
+        min-width: 44px !important;
+        max-width: 60px !important;
         font-size: 0.82rem !important;
         padding: 0.15rem 0.2rem !important;
         text-align: center !important;
@@ -9894,8 +9894,8 @@ html[data-active-view="calc"] #calc-view-container,
       const isDesktop = window.innerWidth >= 768;
       const charW = isDesktop ? 14 : 9;
       const basePad = isDesktop ? 30 : 16;
-      const minW = isDesktop ? 58 : 32;
-      const maxW = isDesktop ? 120 : 65;
+      const minW = isDesktop ? (input.id === 'exam-score' ? 76 : 58) : (input.id === 'exam-score' ? 64 : 32);
+      const maxW = isDesktop ? 120 : 76;
       input.style.width = `${Math.min(maxW, Math.max(minW, len * charW + basePad))}px`;
     }
 
