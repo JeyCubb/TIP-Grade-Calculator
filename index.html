@@ -480,11 +480,15 @@
       }
     }
 
-    /* Zen Mode Auto-Hide for the Fixed Ribbon */
+    /* Zen Mode Auto-Hide and Pinch-to-Zen Mode for the Fixed Ribbon */
     body.sheet-idle-hide .bottom-panel,
     html.sheet-idle-hide .bottom-panel,
+    body.zen-mode .bottom-panel,
+    html.zen-mode .bottom-panel,
     body.sheet-idle-hide .app-header,
-    html.sheet-idle-hide .app-header {
+    html.sheet-idle-hide .app-header,
+    body.zen-mode .app-header,
+    html.zen-mode .app-header {
       transform: translateY(calc(100% + 25px)) !important;
       opacity: 0 !important;
       pointer-events: none !important;
@@ -492,7 +496,9 @@
 
     /* Zen Mode Auto-Hide for Top Year Tabs in GWA Sheet View */
     body.sheet-idle-hide .year-tabs-wrapper,
-    html.sheet-idle-hide .year-tabs-wrapper {
+    html.sheet-idle-hide .year-tabs-wrapper,
+    body.zen-mode .year-tabs-wrapper,
+    html.zen-mode .year-tabs-wrapper {
       transform: translateY(-140%) !important;
       opacity: 0 !important;
       pointer-events: none !important;
@@ -503,15 +509,81 @@
     }
 
     /* Seamless padding adjustment in Zen Mode */
-    body.sheet-idle-hide {
+    body.sheet-idle-hide,
+    body.zen-mode {
       padding-top: 0.35rem !important;
       padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 0px)) !important;
     }
 
     body.view-sheet.sheet-idle-hide,
-    html[data-active-view="sheet"].sheet-idle-hide body {
+    body.view-sheet.zen-mode,
+    html[data-active-view="sheet"].sheet-idle-hide body,
+    html[data-active-view="sheet"].zen-mode body {
       padding-top: 0.35rem !important;
       padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* Dynamic Island Zen Mode HUD Toast */
+    .zen-mode-hud {
+      position: fixed;
+      top: max(16px, env(safe-area-inset-top, 16px));
+      left: 50%;
+      transform: translateX(-50%) translateY(-25px) scale(0.92);
+      background: var(--bg-card);
+      border: 1.5px solid var(--accent-primary);
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.9rem 0.35rem 0.65rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55), 0 0 16px rgba(249, 115, 22, 0.25);
+      z-index: 100000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+    }
+
+    .zen-mode-hud.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    .zen-hud-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(249, 115, 22, 0.16);
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .zen-hud-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .zen-hud-title {
+      font-size: 0.80rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .zen-hud-sub {
+      font-size: 0.64rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
     }
 
     .brand-group {
@@ -9442,11 +9514,93 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }
 
-    // Auto-Hide Idle Chrome (Zen Mode: both Calc and Sheet views, desktop and mobile)
+    // Auto-Hide Idle Chrome & Manual Pinch Zen Mode (both Calc and Sheet views, desktop and mobile)
     let sheetIdleTimer = null;
     const SHEET_IDLE_DELAY = 2800;
+    let isManualZenMode = false;
+    let zenHudTimer = null;
+    let lastZenToggleTime = 0;
+
+    function isZenModeActive() {
+      return isManualZenMode || document.body.classList.contains('sheet-idle-hide') || document.body.classList.contains('zen-mode');
+    }
+
+    function showZenHud(title, subtitle) {
+      let hud = document.getElementById('zen-mode-hud');
+      if (!hud) {
+        hud = document.createElement('div');
+        hud.id = 'zen-mode-hud';
+        hud.className = 'zen-mode-hud';
+        hud.setAttribute('title', 'Click to toggle Zen Mode');
+        hud.innerHTML = `
+          <div class="zen-hud-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+            </svg>
+          </div>
+          <div class="zen-hud-text">
+            <span class="zen-hud-title"></span>
+            <span class="zen-hud-sub"></span>
+          </div>
+        `;
+        hud.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleZenMode(true);
+        });
+        document.body.appendChild(hud);
+      }
+      const titleEl = hud.querySelector('.zen-hud-title');
+      const subEl = hud.querySelector('.zen-hud-sub');
+      if (titleEl) titleEl.textContent = title;
+      if (subEl) subEl.textContent = subtitle;
+
+      hud.classList.add('active');
+      hud.style.pointerEvents = 'auto';
+      clearTimeout(zenHudTimer);
+      zenHudTimer = setTimeout(() => {
+        hud.classList.remove('active');
+        hud.style.pointerEvents = 'none';
+      }, 1900);
+    }
+
+    function enterZenMode(showToast = true) {
+      isManualZenMode = true;
+      clearTimeout(sheetIdleTimer);
+      document.body.classList.add('sheet-idle-hide', 'zen-mode');
+      document.documentElement.classList.add('sheet-idle-hide', 'zen-mode');
+      if (showToast) {
+        showZenHud('Zen Mode', 'Pinch to exit');
+      }
+    }
+
+    function exitZenMode(showToast = true) {
+      isManualZenMode = false;
+      document.body.classList.remove('sheet-idle-hide', 'zen-mode');
+      document.documentElement.classList.remove('sheet-idle-hide', 'zen-mode');
+      if (showToast) {
+        showZenHud('Zen Mode Off', 'Chrome restored');
+      }
+      clearTimeout(sheetIdleTimer);
+      sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
+    }
+
+    function toggleZenMode(showToast = true) {
+      const now = Date.now();
+      if (now - lastZenToggleTime < 450) return;
+      lastZenToggleTime = now;
+      if (isZenModeActive()) {
+        exitZenMode(showToast);
+      } else {
+        enterZenMode(showToast);
+      }
+    }
 
     function hideSheetChrome() {
+      if (isManualZenMode) return;
       const activeEl = document.activeElement;
       if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT')) return;
       if (document.querySelector('.profile-modal-overlay.open') || document.querySelector('#header-scheme-dropdown[open]') || document.querySelector('#sem-dropdown[open]') || document.querySelector('#year-dropdown[open]')) return;
@@ -9455,6 +9609,7 @@ html[data-active-view="calc"] #calc-view-container,
     }
 
     function showSheetChrome() {
+      if (isManualZenMode) return;
       document.body.classList.remove('sheet-idle-hide');
       document.documentElement.classList.remove('sheet-idle-hide');
     }
@@ -9467,7 +9622,24 @@ html[data-active-view="calc"] #calc-view-container,
 
     function resetSheetIdleTimer(e) {
       if (e) {
+        // Multi-touch gestures (e.g. pinch) should never trigger standard idle chrome reveal
+        if (e.touches && e.touches.length > 1) {
+          return;
+        }
+
         const type = e.type;
+
+        // If in manual Zen Mode:
+        if (isManualZenMode) {
+          // Touching near the top or bottom edge of the screen allows revealing / exiting Zen mode
+          if (type === 'click' || type === 'touchstart' || type === 'mousedown') {
+            const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
+            if (clientY !== null && (clientY <= 45 || clientY >= window.innerHeight - 55)) {
+              exitZenMode(true);
+            }
+          }
+          return;
+        }
 
         // If touching, clicking, or scrolling inside Class Standing (including Add Category, inputs, buttons, items)
         // NEVER show or trigger the bottom ribbon over user interactions!
@@ -9490,9 +9662,11 @@ html[data-active-view="calc"] #calc-view-container,
         }
       }
 
-      showSheetChrome();
-      clearTimeout(sheetIdleTimer);
-      sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
+      if (!isManualZenMode) {
+        showSheetChrome();
+        clearTimeout(sheetIdleTimer);
+        sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
+      }
     }
 
     let lastMouseClientX = null;
@@ -13298,10 +13472,36 @@ html[data-active-view="calc"] #calc-view-container,
       lastTapTime = currentTime;
     }, { passive: false });
 
-    // 3. Prevent iOS pinch-to-zoom gestures
-    document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
-    document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
-    document.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
+    // 3. iOS Safari Pinch-to-Zen Mode Gestures
+    let iosGestureTriggered = false;
+    document.addEventListener('gesturestart', (e) => {
+      e.preventDefault();
+      iosGestureTriggered = false;
+    }, { passive: false });
+
+    document.addEventListener('gesturechange', (e) => {
+      e.preventDefault();
+      if (iosGestureTriggered) return;
+      const now = Date.now();
+      if (now - lastZenToggleTime < 450) return;
+
+      if (e.scale < 0.82) {
+        // Pinch IN -> Enter Zen Mode
+        iosGestureTriggered = true;
+        toggleZenMode(true);
+      } else if (e.scale > 1.22) {
+        // Pinch OUT -> Exit Zen Mode
+        iosGestureTriggered = true;
+        if (isZenModeActive()) {
+          exitZenMode(true);
+        }
+      }
+    }, { passive: false });
+
+    document.addEventListener('gestureend', (e) => {
+      e.preventDefault();
+      iosGestureTriggered = false;
+    }, { passive: false });
 
     // 4. Reset viewport zoom if device restored a previously zoomed state
     function enforceInitialScale() {
@@ -13483,10 +13683,31 @@ html[data-active-view="calc"] #calc-view-container,
     });
 
     // Disable trackpad pinch-to-zoom and mouse scroll wheel altering input numbers
+    let trackpadPinchAccum = 0;
+    let trackpadPinchTimer = null;
+
     window.addEventListener('wheel', (e) => {
-      // 1. Disable trackpad pinch gestures (pinch-to-zoom sends Ctrl + Wheel)
+      // 1. Trackpad pinch gestures (pinch-to-zoom sends Ctrl + Wheel) -> Pinch to Zen Mode
       if (e.ctrlKey) {
         e.preventDefault();
+        trackpadPinchAccum += e.deltaY;
+        clearTimeout(trackpadPinchTimer);
+        trackpadPinchTimer = setTimeout(() => { trackpadPinchAccum = 0; }, 260);
+
+        const now = Date.now();
+        if (now - lastZenToggleTime > 450) {
+          if (trackpadPinchAccum > 25) {
+            // Trackpad pinch IN (deltaY > 0)
+            trackpadPinchAccum = 0;
+            toggleZenMode(true);
+          } else if (trackpadPinchAccum < -25) {
+            // Trackpad pinch OUT (deltaY < 0)
+            trackpadPinchAccum = 0;
+            if (isZenModeActive()) {
+              exitZenMode(true);
+            }
+          }
+        }
         return;
       }
 
@@ -13537,12 +13758,83 @@ html[data-active-view="calc"] #calc-view-container,
       }
     }, { passive: true });
 
-    // Safeguard: Prevent multi-touch pinch zooming
+    // Multi-touch Pinch to Zen Mode (iOS, Android, iPad, touchscreens)
+    let touchPinchStartDist = 0;
+    let touchPinchActive = false;
+    let touchPinchTriggered = false;
+
+    function getTouchDistance(touches) {
+      if (!touches || touches.length < 2) return 0;
+      return Math.hypot(
+        touches[0].clientX - touches[1].clientX,
+        touches[0].clientY - touches[1].clientY
+      );
+    }
+
+    document.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length === 2) {
+        touchPinchStartDist = getTouchDistance(e.touches);
+        touchPinchActive = true;
+        touchPinchTriggered = false;
+      } else if (e.touches && e.touches.length > 2) {
+        touchPinchActive = false;
+      }
+    }, { passive: true });
+
     document.addEventListener('touchmove', (e) => {
       if (e.touches && e.touches.length > 1) {
+        // Prevent default browser multi-touch zoom / scale
         e.preventDefault();
+
+        if (touchPinchActive && !touchPinchTriggered && e.touches.length === 2) {
+          const currentDist = getTouchDistance(e.touches);
+          if (touchPinchStartDist > 0) {
+            const diff = currentDist - touchPinchStartDist;
+            const ratio = currentDist / touchPinchStartDist;
+            const now = Date.now();
+
+            if (now - lastZenToggleTime > 450) {
+              // Pinch IN: fingers moving closer together
+              if (diff < -28 || ratio < 0.84) {
+                touchPinchTriggered = true;
+                toggleZenMode(true);
+              }
+              // Pinch OUT: fingers spreading apart
+              else if (diff > 28 || ratio > 1.20) {
+                touchPinchTriggered = true;
+                if (isZenModeActive()) {
+                  exitZenMode(true);
+                }
+              }
+            }
+          }
+        }
       }
     }, { passive: false });
+
+    ['touchend', 'touchcancel'].forEach((evt) => {
+      document.addEventListener(evt, (e) => {
+        if (!e.touches || e.touches.length < 2) {
+          touchPinchActive = false;
+          touchPinchStartDist = 0;
+          touchPinchTriggered = false;
+        }
+      }, { passive: true });
+    });
+
+    // Keyboard Shortcuts for Zen Mode ('Z' or 'Escape')
+    window.addEventListener('keydown', (e) => {
+      const activeTag = (document.activeElement && document.activeElement.tagName) || '';
+      if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') return;
+
+      if ((e.key === 'z' || e.key === 'Z') && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        toggleZenMode(true);
+      } else if (e.key === 'Escape' && isZenModeActive()) {
+        e.preventDefault();
+        exitZenMode(true);
+      }
+    });
   </script>
 
 
