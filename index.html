@@ -523,69 +523,6 @@
       padding-bottom: max(0.4rem, env(safe-area-inset-bottom, 0px)) !important;
     }
 
-    /* Dynamic Island Zen Mode HUD Toast */
-    .zen-mode-hud {
-      position: fixed;
-      top: max(16px, env(safe-area-inset-top, 16px));
-      left: 50%;
-      transform: translateX(-50%) translateY(-25px) scale(0.92);
-      background: var(--bg-card);
-      border: 1.5px solid var(--accent-primary);
-      border-radius: var(--radius-full);
-      padding: 0.35rem 0.9rem 0.35rem 0.65rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.55rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55), 0 0 16px rgba(249, 115, 22, 0.25);
-      z-index: 100000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      user-select: none;
-      -webkit-user-select: none;
-      cursor: pointer;
-    }
-
-    .zen-mode-hud.active {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
-    }
-
-    .zen-hud-icon {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(249, 115, 22, 0.16);
-      color: var(--accent-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .zen-hud-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.15;
-    }
-
-    .zen-hud-title {
-      font-size: 0.80rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-
-    .zen-hud-sub {
-      font-size: 0.64rem;
-      color: var(--text-muted);
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
     .brand-group {
       display: flex;
       align-items: center;
@@ -9518,84 +9455,35 @@ html[data-active-view="calc"] #calc-view-container,
     let sheetIdleTimer = null;
     const SHEET_IDLE_DELAY = 2800;
     let isManualZenMode = false;
-    let zenHudTimer = null;
     let lastZenToggleTime = 0;
 
     function isZenModeActive() {
       return isManualZenMode || document.body.classList.contains('sheet-idle-hide') || document.body.classList.contains('zen-mode');
     }
 
-    function showZenHud(title, subtitle) {
-      let hud = document.getElementById('zen-mode-hud');
-      if (!hud) {
-        hud = document.createElement('div');
-        hud.id = 'zen-mode-hud';
-        hud.className = 'zen-mode-hud';
-        hud.setAttribute('title', 'Click to toggle Zen Mode');
-        hud.innerHTML = `
-          <div class="zen-hud-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
-              <path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
-              <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
-              <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
-            </svg>
-          </div>
-          <div class="zen-hud-text">
-            <span class="zen-hud-title"></span>
-            <span class="zen-hud-sub"></span>
-          </div>
-        `;
-        hud.addEventListener('click', (e) => {
-          e.stopPropagation();
-          toggleZenMode(true);
-        });
-        document.body.appendChild(hud);
-      }
-      const titleEl = hud.querySelector('.zen-hud-title');
-      const subEl = hud.querySelector('.zen-hud-sub');
-      if (titleEl) titleEl.textContent = title;
-      if (subEl) subEl.textContent = subtitle;
-
-      hud.classList.add('active');
-      hud.style.pointerEvents = 'auto';
-      clearTimeout(zenHudTimer);
-      zenHudTimer = setTimeout(() => {
-        hud.classList.remove('active');
-        hud.style.pointerEvents = 'none';
-      }, 1900);
-    }
-
-    function enterZenMode(showToast = true) {
+    function enterZenMode() {
       isManualZenMode = true;
       clearTimeout(sheetIdleTimer);
       document.body.classList.add('sheet-idle-hide', 'zen-mode');
       document.documentElement.classList.add('sheet-idle-hide', 'zen-mode');
-      if (showToast) {
-        showZenHud('Zen Mode', 'Pinch to exit');
-      }
     }
 
-    function exitZenMode(showToast = true) {
+    function exitZenMode() {
       isManualZenMode = false;
       document.body.classList.remove('sheet-idle-hide', 'zen-mode');
       document.documentElement.classList.remove('sheet-idle-hide', 'zen-mode');
-      if (showToast) {
-        showZenHud('Zen Mode Off', 'Chrome restored');
-      }
       clearTimeout(sheetIdleTimer);
       sheetIdleTimer = setTimeout(hideSheetChrome, SHEET_IDLE_DELAY);
     }
 
-    function toggleZenMode(showToast = true) {
+    function toggleZenMode() {
       const now = Date.now();
       if (now - lastZenToggleTime < 450) return;
       lastZenToggleTime = now;
       if (isZenModeActive()) {
-        exitZenMode(showToast);
+        exitZenMode();
       } else {
-        enterZenMode(showToast);
+        enterZenMode();
       }
     }
 
@@ -9635,7 +9523,7 @@ html[data-active-view="calc"] #calc-view-container,
           if (type === 'click' || type === 'touchstart' || type === 'mousedown') {
             const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : null);
             if (clientY !== null && (clientY <= 45 || clientY >= window.innerHeight - 55)) {
-              exitZenMode(true);
+              exitZenMode();
             }
           }
           return;
@@ -13488,12 +13376,12 @@ html[data-active-view="calc"] #calc-view-container,
       if (e.scale < 0.82) {
         // Pinch IN -> Enter Zen Mode
         iosGestureTriggered = true;
-        toggleZenMode(true);
+        toggleZenMode();
       } else if (e.scale > 1.22) {
         // Pinch OUT -> Exit Zen Mode
         iosGestureTriggered = true;
         if (isZenModeActive()) {
-          exitZenMode(true);
+          exitZenMode();
         }
       }
     }, { passive: false });
@@ -13699,12 +13587,12 @@ html[data-active-view="calc"] #calc-view-container,
           if (trackpadPinchAccum > 25) {
             // Trackpad pinch IN (deltaY > 0)
             trackpadPinchAccum = 0;
-            toggleZenMode(true);
+            toggleZenMode();
           } else if (trackpadPinchAccum < -25) {
             // Trackpad pinch OUT (deltaY < 0)
             trackpadPinchAccum = 0;
             if (isZenModeActive()) {
-              exitZenMode(true);
+              exitZenMode();
             }
           }
         }
@@ -13797,13 +13685,13 @@ html[data-active-view="calc"] #calc-view-container,
               // Pinch IN: fingers moving closer together
               if (diff < -28 || ratio < 0.84) {
                 touchPinchTriggered = true;
-                toggleZenMode(true);
+                toggleZenMode();
               }
               // Pinch OUT: fingers spreading apart
               else if (diff > 28 || ratio > 1.20) {
                 touchPinchTriggered = true;
                 if (isZenModeActive()) {
-                  exitZenMode(true);
+                  exitZenMode();
                 }
               }
             }
@@ -13829,10 +13717,10 @@ html[data-active-view="calc"] #calc-view-container,
 
       if ((e.key === 'z' || e.key === 'Z') && !e.ctrlKey && !e.metaKey && !e.altKey) {
         e.preventDefault();
-        toggleZenMode(true);
+        toggleZenMode();
       } else if (e.key === 'Escape' && isZenModeActive()) {
         e.preventDefault();
-        exitZenMode(true);
+        exitZenMode();
       }
     });
   </script>
