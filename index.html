@@ -1496,7 +1496,7 @@
     .item-inputs {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.2rem;
       flex: 0 0 auto;
     }
 
@@ -1504,8 +1504,8 @@
     .item-score,
     .item-total {
       width: 44px;
-      min-width: 32px;
-      padding: 0.12rem 0.25rem;
+      min-width: 0 !important;
+      padding: 0.12rem 0.2rem;
       font-size: 0.775rem;
       font-weight: 700;
       text-align: center;
@@ -1916,7 +1916,7 @@
       .item-inputs input,
       .item-score,
       .item-total {
-        width: 40px;
+        min-width: 0 !important;
         padding: 0.15rem 0.2rem !important;
         font-size: 0.7rem !important;
         font-weight: 700 !important;
@@ -3246,20 +3246,26 @@
         font-size: 0.91rem !important;
       }
 
+      .item-inputs {
+        gap: 0.2rem !important;
+      }
+
       .item-inputs input,
       .item-score,
       .item-total {
         font-size: 1.15rem !important;
         font-weight: 700 !important;
-        padding: 0.2rem 0.4rem !important;
+        padding: 0.2rem 0.25rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         background: transparent !important;
         border: 1.5px solid transparent !important;
+        min-width: 0 !important;
       }
 
       .item-inputs span {
         font-size: 1.15rem !important;
+        user-select: none;
       }
 
       .item-50 {
@@ -9890,9 +9896,34 @@ html[data-active-view="calc"] #calc-view-container,
 
     function fitNumberInputWidth(input, defaultVal = '50') {
       if (!input) return;
+      const isDesktop = window.innerWidth >= 768;
+      const isItem = input.classList.contains('item-score') || input.classList.contains('item-total');
+      const hasValue = input.value !== null && input.value !== undefined && input.value.trim() !== '';
+
+      if (isItem) {
+        if (hasValue) {
+          // Numbers entered: snug and cozy to the slash
+          const len = Math.max(input.value.trim().length, 1);
+          const charW = isDesktop ? 12 : 8.5;
+          const pad = isDesktop ? 14 : 10;
+          const minW = isDesktop ? 24 : 18;
+          const maxW = isDesktop ? 80 : 54;
+          input.style.width = `${Math.min(maxW, Math.max(minW, Math.round(len * charW + pad)))}px`;
+        } else {
+          // Empty placeholder: keep Score and Total fully visible and comfortable, never broken
+          const placeholder = input.placeholder || defaultVal;
+          const len = Math.max(placeholder.length, 5);
+          const charW = isDesktop ? 14 : 9;
+          const pad = isDesktop ? 20 : 14;
+          const minW = isDesktop ? 76 : 56;
+          const maxW = isDesktop ? 96 : 68;
+          input.style.width = `${Math.min(maxW, Math.max(minW, Math.round(len * charW + pad)))}px`;
+        }
+        return;
+      }
+
       const val = input.value !== '' ? input.value : (input.placeholder || defaultVal);
       const len = Math.max(val.length, 1);
-      const isDesktop = window.innerWidth >= 768;
       const charW = isDesktop ? 14 : 9;
       const basePad = isDesktop ? 30 : 16;
       const minW = isDesktop ? (input.id === 'exam-score' ? 76 : 58) : (input.id === 'exam-score' ? 64 : 32);
