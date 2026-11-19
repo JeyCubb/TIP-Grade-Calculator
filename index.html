@@ -1505,7 +1505,7 @@
     .item-total {
       width: 44px;
       min-width: 0 !important;
-      padding: 0.12rem 0.2rem;
+      padding: 0.12rem 0.25rem;
       font-size: 0.775rem;
       font-weight: 700;
       text-align: center;
@@ -1917,7 +1917,7 @@
       .item-score,
       .item-total {
         min-width: 0 !important;
-        padding: 0.15rem 0.2rem !important;
+        padding: 0.15rem 0.25rem !important;
         font-size: 0.7rem !important;
         font-weight: 700 !important;
         text-align: center !important;
@@ -3255,7 +3255,7 @@
       .item-total {
         font-size: 1.15rem !important;
         font-weight: 700 !important;
-        padding: 0.2rem 0.25rem !important;
+        padding: 0.2rem 0.35rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         background: transparent !important;
@@ -9902,22 +9902,24 @@ html[data-active-view="calc"] #calc-view-container,
 
       if (isItem) {
         if (hasValue) {
-          // Numbers entered: snug and cozy to the slash
+          // Numbers entered: snug and cozy to the slash without clipping
           const len = Math.max(input.value.trim().length, 1);
-          const charW = isDesktop ? 12 : 8.5;
-          const pad = isDesktop ? 14 : 10;
-          const minW = isDesktop ? 24 : 18;
-          const maxW = isDesktop ? 80 : 54;
+          const charW = isDesktop ? 14 : 10.5;
+          const pad = isDesktop ? 22 : 18;
+          const minW = isDesktop ? 36 : 28;
+          const maxW = isDesktop ? 90 : 66;
           input.style.width = `${Math.min(maxW, Math.max(minW, Math.round(len * charW + pad)))}px`;
+          input.scrollLeft = 0;
         } else {
           // Empty placeholder: keep Score and Total fully visible and comfortable, never broken
           const placeholder = input.placeholder || defaultVal;
           const len = Math.max(placeholder.length, 5);
-          const charW = isDesktop ? 14 : 9;
-          const pad = isDesktop ? 20 : 14;
-          const minW = isDesktop ? 76 : 56;
-          const maxW = isDesktop ? 96 : 68;
+          const charW = isDesktop ? 14 : 9.5;
+          const pad = isDesktop ? 22 : 16;
+          const minW = isDesktop ? 80 : 60;
+          const maxW = isDesktop ? 100 : 75;
           input.style.width = `${Math.min(maxW, Math.max(minW, Math.round(len * charW + pad)))}px`;
+          input.scrollLeft = 0;
         }
         return;
       }
