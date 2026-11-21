@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
-  <!-- App Version: v=2.7.3 -->
+  <!-- App Version: v=2.7.4 -->
   <title>JeyCub Grade Calculator</title>
   <script>
     (function() {
@@ -6840,21 +6840,6 @@
       box-sizing: border-box !important;
     }
 
-    .exam-input-row .user-profile-bar,
-    html[data-active-view="calc"] .exam-input-row .user-profile-bar,
-    body.view-calc .exam-input-row .user-profile-bar,
-    body:not(.view-sheet) .exam-input-row .user-profile-bar {
-      margin-left: auto !important;
-      flex: 0 1 auto !important;
-      min-width: 0 !important;
-      max-width: clamp(90px, 32vw, 150px) !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      box-sizing: border-box !important;
-      overflow: hidden !important;
-    }
-
     .profile-selector-btn,
     #btn-profile-selector,
     html[data-active-view="calc"] #btn-profile-selector,
@@ -6971,14 +6956,6 @@ html[data-active-view="calc"] #calc-view-container,
               <span style="font-weight: 700; color: var(--text-muted); font-size: 0.75rem;">/</span>
               <input type="number" id="exam-total" placeholder="Total" value="50" min="0" title="Exam Total" />
             </div>
-          </div>
-
-          <!-- User Profile Selector (Top Right) -->
-          <div class="user-profile-bar" title="Active User Profile">
-            <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
-              <span id="active-profile-label">No Profile</span>
-            </button>
-            <select id="user-selector" title="Select User Profile" style="display: none;"></select>
           </div>
         </div>
 
@@ -7339,6 +7316,16 @@ html[data-active-view="calc"] #calc-view-container,
                 <a href="https://jeycubb.github.io/scheduler/?switch=1" target="_self" class="brand-nav-btn" id="btn-header-sched" title="Schedule Creator" aria-label="Schedule Creator">
                   <span class="brand-emoji">📅</span>
                 </a>
+              </div>
+
+              <!-- User Profile Selector (Left, next to App icon) -->
+              <div class="user-profile-bar" title="Active User Profile">
+                <button type="button" class="profile-selector-btn score-tag header-badge" id="btn-profile-selector" title="Click to Select / Switch Profile">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <span id="active-profile-label">No Profile</span>
+                  <svg class="profile-caret-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <select id="user-selector" title="Select User Profile" style="display: none;"></select>
               </div>
             </div>
 
