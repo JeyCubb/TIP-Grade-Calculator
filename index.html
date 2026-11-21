@@ -4881,9 +4881,10 @@
       html[data-active-view="calc"] #compute,
       body.view-calc #compute,
       body:not(.view-sheet) #compute {
-        font-size: 0.82rem !important;
-        padding: 0.28rem 0.75rem !important;
-        height: 32px !important;
+        font-size: clamp(0.70rem, 1.4vw, 0.82rem) !important;
+        padding: 0.22rem clamp(0.40rem, 1vw, 0.75rem) !important;
+        height: auto !important;
+        min-height: 28px !important;
         margin-top: 0.1rem !important;
         margin-left: auto !important;
         flex: 0 0 auto !important;
@@ -4969,8 +4970,8 @@
         flex-direction: row !important;
         align-items: center !important;
         justify-content: space-between !important;
-        padding: 0.38rem 0.75rem !important;
-        gap: 0.5rem !important;
+        padding: 0.35rem clamp(0.40rem, 1vw, 0.75rem) !important;
+        gap: clamp(0.30rem, 1vw, 0.5rem) !important;
         background: rgba(249, 115, 22, 0.08) !important;
         border: 1.5px solid var(--accent-primary) !important;
         border-radius: var(--radius-md) !important;
@@ -4984,13 +4985,14 @@
         display: inline-flex !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 0.55rem !important;
+        gap: clamp(0.25rem, 0.8vw, 0.55rem) !important;
+        min-width: 0 !important;
       }
 
       html[data-active-view="calc"] .final-grade-title-group span,
       body.view-calc .final-grade-title-group span,
       body:not(.view-sheet) .final-grade-title-group span {
-        font-size: 0.72rem !important;
+        font-size: clamp(0.60rem, 1vw, 0.72rem) !important;
         font-weight: 700 !important;
         text-transform: uppercase !important;
         color: var(--text-secondary) !important;
@@ -5002,7 +5004,7 @@
       html[data-active-view="calc"] .final-val,
       body.view-calc .final-val,
       body:not(.view-sheet) .final-val {
-        font-size: 1.45rem !important;
+        font-size: clamp(1.05rem, 2.2vw, 1.45rem) !important;
         font-weight: 800 !important;
         color: var(--accent-primary) !important;
         letter-spacing: -0.02em !important;
@@ -5015,13 +5017,14 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        font-size: 0.86rem !important;
+        font-size: clamp(0.68rem, 1.4vw, 0.86rem) !important;
         font-weight: 800 !important;
         letter-spacing: 0.02em !important;
-        padding: 0.22rem 0.72rem !important;
+        padding: 0.20rem clamp(0.40rem, 1vw, 0.72rem) !important;
         border-radius: var(--radius-full) !important;
         margin-top: 0 !important;
         white-space: nowrap !important;
+        flex-shrink: 0 !important;
         line-height: 1 !important;
         box-shadow: 0 2px 8px var(--accent-glow) !important;
       }
