@@ -1336,6 +1336,54 @@
       border-radius: var(--radius-sm) !important;
       box-shadow: 0 2px 8px var(--accent-glow) !important;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.15s ease;
+    }
+
+    .btn-compute-inline:active {
+      transform: scale(0.94) !important;
+    }
+
+    .btn-compute-inline.computing {
+      animation: computeSubtlePulse 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes computeSubtlePulse {
+      0% {
+        transform: scale(1);
+      }
+      40% {
+        transform: scale(1.07);
+        box-shadow: 0 0 16px var(--accent-glow), 0 3px 12px var(--accent-glow);
+        filter: brightness(1.15);
+      }
+      70% {
+        transform: scale(0.93);
+        box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.35), 0 1px 4px var(--accent-glow);
+        filter: brightness(0.98);
+      }
+      100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    #exam-score.score-computed-highlight {
+      animation: scoreSubtlePop 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes scoreSubtlePop {
+      0% {
+        transform: scale(1);
+      }
+      35% {
+        transform: scale(1.12);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35), 0 0 12px rgba(16, 185, 129, 0.4);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     .min-exam-banner {
@@ -3978,34 +4026,19 @@
       flex-shrink: 1;
     }
 
-    .profile-name-text:hover {
-      background: rgba(249, 115, 22, 0.14);
-    }
+    @media (hover: hover) and (pointer: fine) {
+      .profile-name-text:hover {
+        background: rgba(249, 115, 22, 0.14);
+      }
 
-    .profile-name-text:hover .profile-name-val {
-      color: var(--accent-primary);
-    }
+      .profile-name-text:hover .profile-name-val {
+        color: var(--accent-primary);
+      }
 
-    .profile-name-text.is-holding-name {
-      background: rgba(249, 115, 22, 0.32) !important;
-      transform: scale(0.96);
-      transition: transform 0.45s ease, background 0.45s ease;
-      box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
-    }
-
-    .profile-name-edit-icon {
-      opacity: 0;
-      transform: translateX(-3px) scale(0.85);
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      color: var(--accent-primary);
-      display: inline-flex;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .profile-name-text:hover .profile-name-edit-icon {
-      opacity: 1;
-      transform: translateX(0) scale(1);
+      .profile-name-text:hover .profile-name-edit-icon {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
     }
 
     .profile-name-val {
@@ -5725,8 +5758,8 @@
         flex: 0 0 auto !important;
         margin-left: auto !important;
         white-space: nowrap !important;
-        font-size: 0.80rem !important;
-        padding: 0.26rem 0.70rem !important;
+        font-size: clamp(0.68rem, 1.8vw, 0.80rem) !important;
+        padding: 0.22rem clamp(0.40rem, 1.2vw, 0.70rem) !important;
         margin-top: 0 !important;
       }
 
@@ -5740,6 +5773,31 @@
         justify-content: space-between !important;
         width: 100% !important;
         box-sizing: border-box !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .final-grade-title-group,
+      body.view-calc .final-grade-card .final-grade-title-group,
+      body:not(.view-sheet) .final-grade-card .final-grade-title-group {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: clamp(0.25rem, 1vw, 0.55rem) !important;
+        min-width: 0 !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .final-val,
+      body.view-calc .final-grade-card .final-val,
+      body:not(.view-sheet) .final-grade-card .final-val {
+        font-size: clamp(0.95rem, 2.5vw, 1.35rem) !important;
+        line-height: 1 !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .eq-badge,
+      body.view-calc .final-grade-card .eq-badge,
+      body:not(.view-sheet) .final-grade-card .eq-badge {
+        font-size: clamp(0.68rem, 1.8vw, 0.84rem) !important;
+        padding: 0.18rem clamp(0.40rem, 1.2vw, 0.70rem) !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
       }
 
       /* 2. Class Standing Card: Content-hugging height, scroll area flexes and scrolls when needed */
@@ -6303,9 +6361,9 @@
       html[data-active-view="sheet"] .sheet-table th,
       body.view-sheet .sheet-table th {
         vertical-align: middle !important;
-        padding: 0.16rem 0.04rem !important;
-        font-size: 0.60rem !important;
-        letter-spacing: -0.01em !important;
+        padding: 0.16rem 0.02rem !important;
+        font-size: 0.54rem !important;
+        letter-spacing: -0.02em !important;
         white-space: nowrap !important;
         box-sizing: border-box !important;
       }
@@ -6319,15 +6377,16 @@
         box-sizing: border-box !important;
       }
 
-      /* Pixel-perfect column distribution on mobile */
+      /* Optimized column distribution on mobile / split-screen: give Subject more width so titles don't clip */
       html[data-active-view="sheet"] .sheet-table th.col-subj,
       html[data-active-view="sheet"] .sheet-table td.col-subj,
       body.view-sheet .sheet-table th.col-subj,
       body.view-sheet .sheet-table td.col-subj {
-        width: 30% !important;
+        width: 36% !important;
         text-align: left !important;
         overflow: hidden !important;
-        padding-left: 0.25rem !important;
+        padding-left: 0.2rem !important;
+        padding-right: 0.1rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table input.subj-input,
@@ -6337,7 +6396,7 @@
         font-size: 0.65rem !important;
         font-weight: 700 !important;
         text-align: left !important;
-        padding: 0.08rem 0.15rem !important;
+        padding: 0.08rem 0.1rem !important;
         background: transparent !important;
         border: 1px solid transparent !important;
         color: var(--text-primary) !important;
@@ -6346,35 +6405,59 @@
         white-space: nowrap !important;
       }
 
+      /* Dynamic shrink-to-fit font sizes based on subject name length */
+      html[data-active-view="sheet"] .sheet-table input.subj-input[data-len="med"],
+      body.view-sheet .sheet-table input.subj-input[data-len="med"] {
+        font-size: 0.58rem !important;
+        letter-spacing: -0.015em !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table input.subj-input[data-len="long"],
+      body.view-sheet .sheet-table input.subj-input[data-len="long"] {
+        font-size: 0.52rem !important;
+        letter-spacing: -0.025em !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table input.subj-input[data-len="xlong"],
+      body.view-sheet .sheet-table input.subj-input[data-len="xlong"] {
+        font-size: 0.46rem !important;
+        letter-spacing: -0.035em !important;
+      }
+
       html[data-active-view="sheet"] .sheet-table th.col-prelim,
       html[data-active-view="sheet"] .sheet-table td.col-prelim,
       body.view-sheet .sheet-table th.col-prelim,
-      body.view-sheet .sheet-table td.col-prelim,
-      html[data-active-view="sheet"] .sheet-table th.col-final,
-      html[data-active-view="sheet"] .sheet-table td.col-final,
-      body.view-sheet .sheet-table th.col-final,
-      body.view-sheet .sheet-table td.col-final {
-        width: 15% !important;
+      body.view-sheet .sheet-table td.col-prelim {
+        width: 14% !important;
         text-align: center !important;
-        padding: 0.08rem 0.04rem !important;
+        padding: 0.08rem 0.02rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table th.col-midterm,
       html[data-active-view="sheet"] .sheet-table td.col-midterm,
       body.view-sheet .sheet-table th.col-midterm,
       body.view-sheet .sheet-table td.col-midterm {
-        width: 15% !important;
+        width: 14% !important;
         text-align: center !important;
-        padding: 0.08rem 0.04rem !important;
+        padding: 0.08rem 0.02rem !important;
+      }
+
+      html[data-active-view="sheet"] .sheet-table th.col-final,
+      html[data-active-view="sheet"] .sheet-table td.col-final,
+      body.view-sheet .sheet-table th.col-final,
+      body.view-sheet .sheet-table td.col-final {
+        width: 14% !important;
+        text-align: center !important;
+        padding: 0.08rem 0.02rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table input.num-input,
       body.view-sheet .sheet-table input.num-input {
         width: 100% !important;
-        max-width: 48px !important;
+        max-width: 44px !important;
         height: 22px !important;
         font-size: 0.62rem !important;
-        padding: 0.06rem 0.04rem !important;
+        padding: 0.06rem 0.02rem !important;
         text-align: center !important;
         box-sizing: border-box !important;
         margin: 0 auto !important;
@@ -6385,9 +6468,9 @@
       html[data-active-view="sheet"] .sheet-table td.col-grade,
       body.view-sheet .sheet-table th.col-grade,
       body.view-sheet .sheet-table td.col-grade {
-        width: 13% !important;
+        width: 12% !important;
         text-align: center !important;
-        padding: 0.08rem 0.04rem !important;
+        padding: 0.08rem 0.02rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table .grade-badge,
@@ -6401,9 +6484,9 @@
       html[data-active-view="sheet"] .sheet-table td.col-units,
       body.view-sheet .sheet-table th.col-units,
       body.view-sheet .sheet-table td.col-units {
-        width: 12% !important;
+        width: 10% !important;
         text-align: center !important;
-        padding: 0.08rem 0.04rem !important;
+        padding: 0.08rem 0.02rem !important;
       }
 
       html[data-active-view="sheet"] .sheet-table input.units-input,
@@ -6519,13 +6602,46 @@
         flex: 0 0 auto !important;
         margin-left: auto !important;
         white-space: nowrap !important;
-        font-size: 0.74rem !important;
-        padding: 0.22rem 0.52rem !important;
-        height: 28px !important;
+        font-size: clamp(0.66rem, 2vw, 0.76rem) !important;
+        padding: 0.20rem clamp(0.35rem, 1.2vw, 0.55rem) !important;
+        height: auto !important;
+        min-height: 26px !important;
         line-height: 1 !important;
         letter-spacing: -0.015em !important;
         margin-top: 0 !important;
         border-radius: var(--radius-sm) !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card,
+      body.view-calc .final-grade-card,
+      body:not(.view-sheet) .final-grade-card {
+        padding: 0.28rem 0.5rem !important;
+        gap: 0.35rem !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .final-grade-title-group,
+      body.view-calc .final-grade-card .final-grade-title-group,
+      body:not(.view-sheet) .final-grade-card .final-grade-title-group {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        min-width: 0 !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .final-val,
+      body.view-calc .final-grade-card .final-val,
+      body:not(.view-sheet) .final-grade-card .final-val {
+        font-size: clamp(0.92rem, 3.2vw, 1.25rem) !important;
+        line-height: 1 !important;
+      }
+
+      html[data-active-view="calc"] .final-grade-card .eq-badge,
+      body.view-calc .final-grade-card .eq-badge,
+      body:not(.view-sheet) .final-grade-card .eq-badge {
+        font-size: clamp(0.66rem, 2.2vw, 0.78rem) !important;
+        padding: 0.16rem clamp(0.35rem, 1.2vw, 0.60rem) !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
       }
 
       html[data-active-view="calc"] #exam-score,
@@ -9992,7 +10108,16 @@ html[data-active-view="calc"] #calc-view-container,
     }
 
     async function computeMinimumExamNeeded() {
+      const computeBtn = document.getElementById('compute');
+      if (computeBtn) {
+        computeBtn.classList.remove('computing');
+        void computeBtn.offsetWidth; // Trigger reflow to restart animation reliably
+        computeBtn.classList.add('computing');
+        setTimeout(() => computeBtn.classList.remove('computing'), 350);
+      }
+
       examScoreEl.classList.remove('green');
+      examScoreEl.classList.remove('score-computed-highlight');
       examTotalEl.classList.remove('error-input');
 
       // 1. Verify Category Weights sum to exactly 100%
@@ -10114,6 +10239,10 @@ html[data-active-view="calc"] #calc-view-container,
 
       examScoreEl.value = scoreVal.toFixed(2);
       examScoreEl.classList.add('green');
+      examScoreEl.classList.remove('score-computed-highlight');
+      void examScoreEl.offsetWidth; // Trigger reflow
+      examScoreEl.classList.add('score-computed-highlight');
+      setTimeout(() => examScoreEl.classList.remove('score-computed-highlight'), 550);
 
       recomputeAll();
       summaryEl.textContent = '';
@@ -12448,9 +12577,12 @@ html[data-active-view="calc"] #calc-view-container,
         }
 
         const deleteBtnHtml = '';
+        const subjName = r.name || '';
+        const nameLen = subjName.length;
+        const lenAttr = nameLen > 22 ? 'xlong' : (nameLen > 15 ? 'long' : (nameLen > 10 ? 'med' : 'normal'));
 
         tr.innerHTML = `
-          <td class="col-subj"><input type="text" class="subj-input" value="${r.name || ''}" placeholder="Subject Name" data-field="name" data-sem="${semKey}" data-idx="${idx}"></td>
+          <td class="col-subj"><input type="text" class="subj-input" value="${subjName}" placeholder="Subject Name" data-field="name" data-sem="${semKey}" data-idx="${idx}" data-len="${lenAttr}" title="${subjName}"></td>
           <td class="col-prelim" style="text-align: center;"><input type="number" min="0" max="100" step="0.01" inputmode="decimal" class="num-input" value="${r.prelim !== undefined ? r.prelim : ''}" placeholder="--" data-field="prelim" data-sem="${semKey}" data-idx="${idx}"></td>
           <td class="col-midterm" style="text-align: center;"><input type="number" min="0" max="100" step="0.01" inputmode="decimal" class="num-input" value="${r.midterm !== undefined ? r.midterm : ''}" placeholder="--" data-field="midterm" data-sem="${semKey}" data-idx="${idx}"></td>
           <td class="col-final" style="text-align: center;"><input type="number" min="0" max="100" step="0.01" inputmode="decimal" class="num-input" value="${r.final !== undefined ? r.final : ''}" placeholder="--" data-field="final" data-sem="${semKey}" data-idx="${idx}"></td>
@@ -13062,6 +13194,13 @@ html[data-active-view="calc"] #calc-view-container,
           if (target.value.includes('+') || target.value.includes('-')) {
             target.value = target.value.replace(/[\+\-]/g, '');
           }
+        }
+
+        // Dynamically update data-len on subject input for shrink-to-fit
+        if (field === 'name') {
+          const valLen = target.value.length;
+          target.dataset.len = valLen > 22 ? 'xlong' : (valLen > 15 ? 'long' : (valLen > 10 ? 'med' : 'normal'));
+          target.title = target.value;
         }
 
         if (userSheetData && userSheetData[activeSheetYear] && userSheetData[activeSheetYear][semKey]) {
