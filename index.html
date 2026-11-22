@@ -6882,6 +6882,7 @@
       text-overflow: ellipsis !important;
       white-space: nowrap !important;
       vertical-align: middle !important;
+      font-size: var(--profile-label-font-size, inherit) !important;
     }
 
 </style>
@@ -7935,6 +7936,25 @@ html[data-active-view="calc"] #calc-view-container,
       window.history.replaceState({}, '', currentUrl.toString());
     }
 
+    function autoFitProfileLabel() {
+      const label = document.getElementById('active-profile-label');
+      const btn = document.getElementById('btn-profile-selector');
+      if (!label || !btn) return;
+
+      label.style.removeProperty('--profile-label-font-size');
+      label.style.fontSize = '';
+
+      let currentFontSize = parseFloat(window.getComputedStyle(label).fontSize);
+      if (!currentFontSize || isNaN(currentFontSize)) currentFontSize = 16;
+      const minFontSize = 9.5;
+
+      let size = currentFontSize;
+      while (label.scrollWidth > label.clientWidth && size > minFontSize) {
+        size -= 0.5;
+        label.style.setProperty('--profile-label-font-size', `${size}px`);
+      }
+    }
+
     function renderUserProfileDropdown() {
       const select = document.getElementById('user-selector');
       if (select) {
@@ -7951,6 +7971,7 @@ html[data-active-view="calc"] #calc-view-container,
       if (label) {
         label.textContent = activeUser || 'No Profile';
         label.title = activeUser ? `Active Profile: ${activeUser}` : 'No Profile';
+        autoFitProfileLabel();
       }
       const btnProfileSelector = document.getElementById('btn-profile-selector');
       if (btnProfileSelector) {
@@ -10423,7 +10444,10 @@ html[data-active-view="calc"] #calc-view-container,
         saveUserData();
       }
     });
-    window.addEventListener('resize', recomputeAll);
+    window.addEventListener('resize', () => {
+      recomputeAll();
+      autoFitProfileLabel();
+    });
     targetEqEl.addEventListener('change', () => {
       updateTargetSelectUI(targetEqEl.value);
       saveUserData();
