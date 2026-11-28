@@ -5170,7 +5170,7 @@
         overflow: hidden !important;
         margin: 0 auto !important;
         padding: 0.15rem 0.65rem 0.15rem 0.65rem !important;
-        width: 100% !important;
+        width: fit-content !important;
         max-width: min(580px, 94vw) !important;
         border-radius: 12px !important;
         box-sizing: border-box !important;
@@ -5211,7 +5211,7 @@
 
       body.view-sheet .sheet-table,
       html[data-active-view="sheet"] .sheet-table {
-        width: 100% !important;
+        width: auto !important;
         height: 100% !important;
         flex: 1 1 auto !important;
         table-layout: auto !important;
@@ -5271,7 +5271,7 @@
       body.view-sheet .sheet-table td.col-subj,
       html[data-active-view="sheet"] .sheet-table th.col-subj,
       html[data-active-view="sheet"] .sheet-table td.col-subj {
-        width: 38% !important;
+        width: auto !important;
         min-width: 175px !important;
         max-width: none !important;
         text-align: left !important;
@@ -5291,7 +5291,8 @@
       body.view-sheet .sheet-table td.col-final,
       html[data-active-view="sheet"] .sheet-table th.col-final,
       html[data-active-view="sheet"] .sheet-table td.col-final {
-        width: 14% !important;
+        width: auto !important;
+        min-width: 68px !important;
         text-align: center !important;
         padding: 0.02rem 0.1rem !important;
       }
@@ -5300,7 +5301,8 @@
       body.view-sheet .sheet-table td.col-grade,
       html[data-active-view="sheet"] .sheet-table th.col-grade,
       html[data-active-view="sheet"] .sheet-table td.col-grade {
-        width: 10% !important;
+        width: auto !important;
+        min-width: 52px !important;
         text-align: center !important;
         padding: 0.02rem 0.1rem !important;
       }
@@ -5309,9 +5311,19 @@
       body.view-sheet .sheet-table td.col-units,
       html[data-active-view="sheet"] .sheet-table th.col-units,
       html[data-active-view="sheet"] .sheet-table td.col-units {
-        width: 10% !important;
+        width: auto !important;
+        min-width: 48px !important;
         text-align: center !important;
         padding: 0.02rem 0.1rem !important;
+      }
+
+      body.view-sheet .semester-card .sheet-table th:last-child,
+      body.view-sheet .semester-card .sheet-table td:last-child,
+      html[data-active-view="sheet"] .semester-card .sheet-table th:last-child,
+      html[data-active-view="sheet"] .semester-card .sheet-table td:last-child {
+        display: none !important;
+        width: 0 !important;
+        padding: 0 !important;
       }
 
       body.view-sheet .sheet-table input.subj-input,
@@ -5462,7 +5474,7 @@
 
 
 
-    /* Symmetrical Brand Navigation Buttons (Calculator 🖩, Reviewer 📖, Schedule 📅) */
+    /* Symmetrical Brand Navigation Buttons (Calculator 🖩, Reviewer 📖) */
     .brand-icon,
     .brand-nav-btn {
       width: 34px !important;
@@ -7334,11 +7346,6 @@ html[data-active-view="calc"] #calc-view-container,
                 <!-- 1. Terms Reviewer -->
                 <a href="https://jeycubb.github.io/JeyCub-terms-reviewer/" target="_self" class="brand-nav-btn" id="btn-header-reviewer" title="JeyCub Terms Reviewer" aria-label="JeyCub Terms Reviewer">
                   <span class="brand-emoji">📖</span>
-                </a>
-
-                <!-- 2. Schedule Creator -->
-                <a href="https://jeycubb.github.io/scheduler/?switch=1" target="_self" class="brand-nav-btn" id="btn-header-sched" title="Schedule Creator" aria-label="Schedule Creator">
-                  <span class="brand-emoji">📅</span>
                 </a>
               </div>
             </div>
@@ -13357,10 +13364,6 @@ html[data-active-view="calc"] #calc-view-container,
     let currentActiveView = document.documentElement.getAttribute('data-active-view') || 'calc';
 
     function switchView(viewName, animated = true) {
-      if (viewName === 'sched') {
-        window.location.href = 'https://jeycubb.github.io/scheduler/';
-        return;
-      }
       const prevView = currentActiveView;
       currentActiveView = viewName;
 
@@ -13601,13 +13604,9 @@ html[data-active-view="calc"] #calc-view-container,
     window.addEventListener('pageshow', enforceInitialScale);
     window.addEventListener('orientationchange', enforceInitialScale);
 
-    // Fast-path redirect if user opens or bookmarked #sched
-    const earlyView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc' || window.location.hash === '#sched'))
+    const earlyView = (window.location.hash && (window.location.hash === '#sheet' || window.location.hash === '#calc'))
       ? window.location.hash.replace('#', '')
       : (localStorage.getItem('tip_gc_active_view') || 'calc');
-    if (earlyView === 'sched') {
-      window.location.href = 'https://jeycubb.github.io/scheduler/';
-    }
 
     initUserProfilesAndSubjects();
     if (activeUser !== 'No Profile') {
@@ -13617,13 +13616,10 @@ html[data-active-view="calc"] #calc-view-container,
     setTimeout(() => { hasReceivedInitialCloudData = true; }, 3000);
 
     // Restore last viewed tab/page on refresh
-    if (earlyView !== 'sched') {
-      switchView(earlyView, false);
-    }
+    switchView(earlyView === 'sheet' ? 'sheet' : 'calc', false);
 
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#sheet') switchView('sheet');
-      else if (window.location.hash === '#sched') window.location.href = 'https://jeycubb.github.io/scheduler/';
       else if (window.location.hash === '#calc') switchView('calc');
     });
 
